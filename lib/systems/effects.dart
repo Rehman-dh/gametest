@@ -116,6 +116,56 @@ class Effects {
     _hitStop = math.max(_hitStop, 0.08);
   }
 
+  void enemyVolley(Vector2 target) {
+    audio.play(Sfx.warHorn, volume: 0.8);
+    game.world.add(
+      FloatingText(
+        'ENEMY VOLLEY',
+        at: target + Vector2(0, -3),
+        color: const Color(0xFFE08A6A),
+      ),
+    );
+  }
+
+  void arrowLoosed() => audio.play(Sfx.arrow, volume: 0.7);
+
+  void enemyCatapultLaunch() => audio.play(Sfx.launch, volume: 0.6);
+
+  void playerHit(Vector2 at, double damage) {
+    _burst(at, game.theme.impactParticles(damage / 20, _rng));
+    audio.play(Sfx.playerHit, volume: (damage / 20).clamp(0.4, 1));
+    addTrauma(math.min(0.5, damage / 40));
+    game.world.add(
+      FloatingText(
+        '-${damage.round()}',
+        at: at,
+        color: const Color(0xFFE0584A),
+        fontSize: 0.9,
+      ),
+    );
+  }
+
+  void repair(Vector2 at) {
+    audio.play(Sfx.hammer, volume: 0.6);
+    game.world.add(
+      FloatingText(
+        'REPAIRED',
+        at: at + Vector2(0, 1),
+        color: const Color(0xFFB8D08A),
+        fontSize: 0.6,
+      ),
+    );
+  }
+
+  void engineWrecked(Vector2 at) {
+    _burst(
+      at,
+      game.theme.breakParticles(BlockMaterial.wood, const Size(2.6, 1.4), _rng),
+    );
+    audio.play(Sfx.breakWood);
+    addTrauma(0.4);
+  }
+
   void weakPoint(Vector2 at) {
     audio.play(Sfx.weakPoint);
     game.world.add(FloatingText('WEAK POINT!', at: at));

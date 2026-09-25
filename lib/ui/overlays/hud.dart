@@ -31,6 +31,10 @@ class Hud extends StatelessWidget {
                 ],
               ),
             ),
+            if (game.level.hasCounterFire) ...[
+              const SizedBox(width: 10),
+              _EngineHealth(game: game),
+            ],
             if (game.level.wind != 0) ...[
               const SizedBox(width: 10),
               _WindIndicator(wind: game.level.wind),
@@ -246,6 +250,69 @@ class _IconAction extends StatelessWidget {
       child: IconButton(
         icon: Icon(icon, color: UiStyle.parchment),
         onPressed: onTap,
+      ),
+    );
+  }
+}
+
+/// Hit points of the player's siege engine, plus a warning while the
+/// enemy is taking its turn.
+class _EngineHealth extends StatelessWidget {
+  const _EngineHealth({required this.game});
+
+  final SiegeGame game;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 150,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: UiStyle.panelDecoration,
+      child: ValueListenableBuilder<double>(
+        valueListenable: game.playerHp,
+        builder: (_, hp, _) {
+          final fraction = (hp / game.level.playerHp).clamp(0.0, 1.0);
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ValueListenableBuilder<SiegePhase>(
+                valueListenable: game.phase,
+                builder: (_, phase, _) => Text(
+                  phase == SiegePhase.enemyTurn
+                      ? 'ENEMY VOLLEY!'
+                      : 'YOUR ENGINE',
+                  style: UiStyle.body.copyWith(
+                    fontSize: 11,
+                    letterSpacing: 1.5,
+                    color: phase == SiegePhase.enemyTurn
+                        ? const Color(0xFFE08A6A)
+                        : UiStyle.parchment,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 6),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(3),
+                child: LinearProgressIndicator(
+                  value: fraction,
+                  minHeight: 8,
+                  backgroundColor: const Color(0x33E8D9B8),
+                  color: Color.lerp(
+                    UiStyle.blood,
+                    const Color(0xFF8FA858),
+                    fraction,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                '${hp.round()} / ${game.level.playerHp.round()}',
+                style: UiStyle.body.copyWith(fontSize: 11),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

@@ -12,6 +12,9 @@ import '../components/env/ground_detail.dart';
 import '../components/fx/aim_guide.dart';
 import '../components/fx/vignette.dart';
 import '../components/damageable.dart';
+import '../components/enemy/enemy_catapult.dart';
+import '../components/enemy/enemy_projectile.dart';
+import '../components/enemy/player_target.dart';
 import '../components/projectiles/projectile.dart';
 import '../components/structure/castle_block.dart';
 import '../components/structure/debris_shard.dart';
@@ -23,25 +26,30 @@ import '../core/scoring.dart';
 import '../core/weapons.dart';
 import '../levels/level_data.dart';
 import '../systems/effects.dart';
+import '../systems/enemy_commander.dart';
 import '../theme/art_theme.dart';
 import '../theme/stylized_theme.dart';
 
-enum SiegePhase { menu, aiming, flying, settling, won, lost }
+enum SiegePhase { menu, aiming, flying, settling, enemyTurn, won, lost }
+
+enum DefeatReason { outOfAmmo, engineDestroyed }
 
 class LevelResult {
   const LevelResult({
     required this.won,
     required this.stars,
     required this.destruction,
+    this.defeat,
   });
 
   final bool won;
   final int stars;
   final double destruction;
+  final DefeatReason? defeat;
 }
 
 class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
-  SiegeGame({List<ArtTheme>? themes, this.audioEnabled = true})
+  SiegeGame({List<ArtTheme>? themes, this.audioEnabled = true, this.random})
     : themes = themes ?? [StylizedTheme()],
       super(gravity: Vector2(0, 12));
 
@@ -53,6 +61,9 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     'assets/levels/egypt_05.json',
     'assets/levels/egypt_06.json',
     'assets/levels/egypt_07.json',
+    'assets/levels/egypt_08.json',
+    'assets/levels/egypt_09.json',
+    'assets/levels/egypt_10.json',
   ];
 
   /// Drag distances in world meters.
@@ -84,10 +95,17 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
       themeIndex.value = (themeIndex.value + 1) % themes.length;
   late final Effects effects = Effects(this);
 
+  /// Seeds enemy aim, for reproducible tests.
+  final math.Random? random;
+  late final EnemyCommander enemy = EnemyCommander(this, random: random);
+
   /// Unscaled seconds since start, for ambient animation.
   double realTime = 0;
 
   final ValueNotifier<SiegePhase> phase = ValueNotifier(SiegePhase.menu);
+
+  /// Hit points left on the player's siege engine.
+  final ValueNotifier<double> playerHp = ValueNotifier(0);
 
   /// Rounds left per ammo type, and the one loaded for the next shot.
   final ValueNotifier<Map<AmmoType, int>> ammo = ValueNotifier(const {});
@@ -98,6 +116,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   late LevelData level;
   int levelIndex = 0;
   late SiegeEngine siegeEngine;
+  late PlayerTarget playerTarget;
 
   bool get hasNextLevel => levelIndex + 1 < levelFiles.length;
   double get minWorldX => level.catapultX - 30;
@@ -148,6 +167,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     _pendingExplosions.clear();
     _pendingIgnitions.clear();
     effects.reset();
+    enemy.reset();
     _shotsUsed = 0;
     _destroyedBlockHp = 0;
     _totalBlockHp = 0;
@@ -161,14 +181,22 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
       _totalBlockHp += b.maxHp;
     }
     siegeEngine = SiegeEngine(type: level.weapon, x: level.catapultX);
+    playerTarget = PlayerTarget(x: level.catapultX);
+    playerHp.value = level.playerHp;
     await world.addAll([
       Background(),
       Ground(left: minWorldX, right: maxWorldX),
       GroundDetail(),
       siegeEngine,
+      playerTarget,
       AimGuide(),
       ...blocks,
-      for (final p in level.props) PowderBarrel(p),
+      for (final b in level.defenses) CastleBlock(b, isDefense: true),
+      for (final p in level.props)
+        switch (p.kind) {
+          PropKind.powderBarrel => PowderBarrel(p),
+          PropKind.enemyCatapult => EnemyCatapult(p),
+        },
       for (final u in level.units) Unit(u),
     ]);
 
@@ -352,16 +380,34 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   }
 
   void onBlockDestroyed(CastleBlock block) {
-    _destroyedBlockHp += block.maxHp;
+    if (!block.isDefense) _destroyedBlockHp += block.maxHp;
     effects.blockBroken(block);
   }
 
   void onUnitKilled(Unit unit) {
     effects.unitKilled(unit);
+    _announceIfObjectiveComplete();
+  }
+
+  void onEnemyEngineDestroyed(EnemyCatapult engine) {
+    effects.engineWrecked(engine.body.position);
+    _announceIfObjectiveComplete();
+  }
+
+  void _announceIfObjectiveComplete() {
     if (!_objectiveAnnounced && _objectiveComplete) {
       _objectiveAnnounced = true;
       effects.objectiveComplete();
     }
+  }
+
+  void onEnemyProjectileFinished(EnemyProjectile projectile) =>
+      enemy.onFinished(projectile);
+
+  void damagePlayer(double amount, Vector2 at) {
+    if (phase.value == SiegePhase.won || phase.value == SiegePhase.lost) return;
+    playerHp.value = math.max(0, playerHp.value - amount);
+    effects.playerHit(at, amount);
   }
 
   void _processQueues() {
@@ -418,6 +464,8 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
       if (_settleTime > 0.6 && (_worldAtRest() || _settleTime > 4)) {
         _resolveShot();
       }
+    } else if (phase.value == SiegePhase.enemyTurn) {
+      if (enemy.tick(simDt)) _endEnemyTurn();
     } else if (phase.value == SiegePhase.aiming && _objectiveComplete) {
       // Fire finished the job between shots.
       _finish(won: true);
@@ -440,24 +488,45 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   bool get _objectiveComplete => switch (level.objective) {
     Objective.killAll => _aliveUnits.isEmpty,
     Objective.killKing => !_aliveUnits.any((u) => u.kind == UnitKind.king),
+    Objective.destroyEngines => !world.children.whereType<EnemyCatapult>().any(
+      (e) => !e.isDestroyed,
+    ),
   };
 
   void _resolveShot() {
     if (_objectiveComplete) {
       _finish(won: true);
+    } else if (playerHp.value <= 0) {
+      _finish(won: false, defeat: DefeatReason.engineDestroyed);
     } else if (shotsLeft == 0) {
       // Out of ammo: give any fires the chance to win the siege.
       if (_anyBurning && _settleTime < _maxFireWait) return;
-      _finish(won: false);
+      _finish(won: false, defeat: DefeatReason.outOfAmmo);
+    } else if (level.hasCounterFire &&
+        enemy.hasShooters &&
+        _shotsUsed % level.enemyFireEvery == 0) {
+      phase.value = SiegePhase.enemyTurn;
+      enemy.startVolley();
     } else {
       phase.value = SiegePhase.aiming;
     }
   }
 
-  void _finish({required bool won}) {
+  void _endEnemyTurn() {
+    if (_objectiveComplete) {
+      _finish(won: true);
+    } else if (playerHp.value <= 0) {
+      _finish(won: false, defeat: DefeatReason.engineDestroyed);
+    } else {
+      phase.value = SiegePhase.aiming;
+    }
+  }
+
+  void _finish({required bool won, DefeatReason? defeat}) {
     lastResult = LevelResult(
       won: won,
       destruction: destruction,
+      defeat: defeat,
       stars: starsFor(
         won: won,
         shotsUsed: _shotsUsed,

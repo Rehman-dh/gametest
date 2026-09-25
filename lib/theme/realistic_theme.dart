@@ -545,10 +545,12 @@ class RealisticTheme extends StylizedTheme {
       ..save()
       ..translate(0, radius - r * 0.95);
     final isKing = kind == UnitKind.king;
-    final cloth = isKing ? const Color(0xFF2F4C8E) : const Color(0xFF8C2A20);
-    final clothDark = isKing
-        ? const Color(0xFF1C2E57)
-        : const Color(0xFF561812);
+    final (cloth, clothDark) = switch (kind) {
+      UnitKind.king => (const Color(0xFF2F4C8E), const Color(0xFF1C2E57)),
+      UnitKind.soldier => (const Color(0xFF8C2A20), const Color(0xFF561812)),
+      UnitKind.archer => (const Color(0xFF55643A), const Color(0xFF2F3A1C)),
+      UnitKind.engineer => (const Color(0xFF7A5634), const Color(0xFF4A3220)),
+    };
     const skin = Color(0xFFD1A27E);
     const steel = Color(0xFF8E9296);
 
@@ -562,7 +564,9 @@ class RealisticTheme extends StylizedTheme {
       _fill..color = const Color(0x40000000),
     );
 
-    if (!isKing) {
+    if (kind == UnitKind.archer) _bowAndQuiver(canvas, r);
+    if (kind == UnitKind.engineer) _hammer(canvas, r);
+    if (kind == UnitKind.soldier) {
       // Spear held upright behind the body.
       canvas
         ..drawLine(
@@ -658,6 +662,30 @@ class RealisticTheme extends StylizedTheme {
             ),
         )
         ..drawPath(crown, _edge);
+    } else if (kind == UnitKind.archer) {
+      // Hood pulled forward.
+      final hood = Path()
+        ..addArc(
+          Rect.fromCircle(center: head, radius: r * 0.34),
+          math.pi * 0.85,
+          math.pi * 1.3,
+        )
+        ..close();
+      canvas
+        ..drawPath(hood, _fill..color = clothDark)
+        ..drawPath(hood, _edge);
+    } else if (kind == UnitKind.engineer) {
+      // Leather cap.
+      final cap = Path()
+        ..addArc(
+          Rect.fromCircle(center: head - Offset(0, r * 0.04), radius: r * 0.28),
+          math.pi,
+          math.pi,
+        )
+        ..close();
+      canvas
+        ..drawPath(cap, _fill..color = const Color(0xFF5A3E26))
+        ..drawPath(cap, _edge);
     } else {
       // Kettle helmet with a brim.
       final helmet = Path()
@@ -697,6 +725,66 @@ class RealisticTheme extends StylizedTheme {
       );
     }
     canvas.restore();
+  }
+
+  /// A longbow held out toward the player, and a quiver on the back.
+  void _bowAndQuiver(Canvas canvas, double r) {
+    final quiver = Rect.fromLTRB(r * 0.25, -r * 0.55, r * 0.5, r * 0.35);
+    canvas
+      ..drawRect(quiver, _fill..color = const Color(0xFF5A3E26))
+      ..drawRect(quiver, _edge);
+    final fletch = Paint()
+      ..color = const Color(0xFFD9CBA8)
+      ..strokeWidth = r * 0.06;
+    for (final dx in [0.3, 0.38, 0.46]) {
+      canvas.drawLine(
+        Offset(r * dx, -r * 0.55),
+        Offset(r * dx, -r * 0.75),
+        fletch,
+      );
+    }
+    final bow = Path()
+      ..moveTo(-r * 0.55, -r * 1.2)
+      ..quadraticBezierTo(-r * 1.15, -r * 0.3, -r * 0.55, r * 0.6);
+    canvas
+      ..drawPath(
+        bow,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = r * 0.1
+          ..color = const Color(0xFF6B4A2A),
+      )
+      ..drawLine(
+        Offset(-r * 0.55, -r * 1.2),
+        Offset(-r * 0.55, r * 0.6),
+        Paint()
+          ..color = const Color(0xFFD9CBA8)
+          ..strokeWidth = r * 0.03,
+      );
+  }
+
+  /// A mason's hammer over the shoulder.
+  void _hammer(Canvas canvas, double r) {
+    canvas.drawLine(
+      Offset(r * 0.45, r * 0.4),
+      Offset(r * 0.65, -r * 0.95),
+      Paint()
+        ..color = const Color(0xFF5A3E26)
+        ..strokeWidth = r * 0.1,
+    );
+    canvas
+      ..save()
+      ..translate(r * 0.66, -r * 1.0)
+      ..rotate(0.14);
+    final head = Rect.fromCenter(
+      center: Offset.zero,
+      width: r * 0.55,
+      height: r * 0.24,
+    );
+    canvas
+      ..drawRect(head, _fill..color = const Color(0xFF6E7276))
+      ..drawRect(head, _edge)
+      ..restore();
   }
 
   @override

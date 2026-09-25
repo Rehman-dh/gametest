@@ -49,17 +49,21 @@ void main() {
             for (var i = 0; i < 90; i++) {
               game.update(1 / 60);
             }
+            await game.ready();
             final a = angle * math.pi / 180;
             game.debugFire(type, Vector2(math.cos(a), -math.sin(a)) * power);
-            // Tap-activated ammo triggers near the castle's front.
+            // Clusters are split just before the castle's front; kegs are
+            // left to burst on impact.
             // Fire needs longer to do its work.
             final seconds = type.spec.ignites ? 16 : 7;
             final alive = game.debugAliveUnits;
             var tapped = false;
             for (var i = 0; i < 60 * seconds; i++) {
               game.update(1 / 60);
+              // Let projectiles fired or split this frame finish loading.
+              await game.ready();
               if (!tapped &&
-                  (type.spec.splitsOnTap || type.spec.explodes) &&
+                  type.spec.splitsOnTap &&
                   game.debugLeadProjectileX >= game.debugCastleFrontX - 6) {
                 tapped = true;
                 game.debugTap();

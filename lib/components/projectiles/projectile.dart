@@ -112,7 +112,7 @@ class Projectile extends BodyComponent<SiegeGame> with ContactCallbacks {
 
   void _detonate() {
     _armed = false;
-    game.queueExplosion(body.position.clone(), radius: 3.8, power: 60);
+    game.queueExplosion(body.position.clone(), radius: 4, power: 70);
     _finish();
   }
 

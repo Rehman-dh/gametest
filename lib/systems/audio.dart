@@ -19,7 +19,11 @@ enum Sfx {
   fireCrackle('sfx/fire_crackle.wav'),
   split('sfx/split.wav'),
   ballista('sfx/ballista.wav'),
-  weakPoint('sfx/weak_point.wav');
+  weakPoint('sfx/weak_point.wav'),
+  arrow('sfx/arrow.wav'),
+  hammer('sfx/hammer.wav'),
+  playerHit('sfx/player_hit.wav'),
+  warHorn('sfx/war_horn.wav');
 
   const Sfx(this.file);
   final String file;

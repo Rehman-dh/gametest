@@ -8,6 +8,7 @@ class FloatingText extends Component {
     this.text, {
     required this.at,
     this.color = const Color(0xFFF2DCA8),
+    this.fontSize = 1.2,
   }) : super(priority: 50);
 
   static const _life = 1.6;
@@ -16,6 +17,7 @@ class FloatingText extends Component {
   final String text;
   final Vector2 at;
   final Color color;
+  final double fontSize;
   double _age = 0;
 
   @override
@@ -32,7 +34,7 @@ class FloatingText extends Component {
       text: TextSpan(
         text: text,
         style: TextStyle(
-          fontSize: 1.2,
+          fontSize: fontSize,
           fontWeight: FontWeight.w800,
           letterSpacing: 0.12,
           color: color.withValues(alpha: alpha),

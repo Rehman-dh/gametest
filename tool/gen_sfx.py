@@ -212,6 +212,35 @@ def main():
     ring = envelope(tone(330, 1.2, sweep=0.5), 0.05, 2.5)
     write('sfx/weak_point.wav', mix(sting, ring, 0.08, 0.35), peak=0.8)
 
+    # Arrow loosed: short bow thrum and a thin whistle.
+    thrum = envelope(tone(140, 0.25, sweep=-0.1), 0.001, 20)
+    whistle = lowpass(highpass(noise(0.35, rng), 2500), 6000)
+    whistle = [x * math.sin(math.pi * i / len(whistle)) for i, x in enumerate(whistle)]
+    write('sfx/arrow.wav', mix(thrum, whistle, 0.03, 0.5), peak=0.7)
+
+    # Engineer's hammer: three metallic knocks.
+    hammer = silence(0.8)
+    for k in range(3):
+        knock = silence(0.25)
+        for f, g in ((1180, 1), (2650, 0.5), (3900, 0.3)):
+            mix(knock, envelope(tone(f, 0.25), 0.0005, 35), gain=g)
+        mix(hammer, mix(knock, thud(160, 0.1, 40, 0.5, rng)), 0.22 * k)
+    write('sfx/hammer.wav', hammer, peak=0.6)
+
+    # Player's engine struck: splintering wood crunch.
+    crunch = thud(80, 0.5, 9, 1.2, rng, 1200)
+    for _ in range(6):
+        mix(crunch, envelope(highpass(noise(0.04, rng), 1000), 0.0005, 70),
+            rng.uniform(0, 0.15), rng.uniform(0.4, 0.9))
+    write('sfx/player_hit.wav', crunch)
+
+    # Enemy war horn: a low, slightly bending blast.
+    horn = lowpass(tone(98, 1.3, 'saw', sweep=0.04), 700)
+    horn = [x * min(1, i / (0.15 * RATE)) * min(1, (len(horn) - i) / (0.4 * RATE))
+            for i, x in enumerate(horn)]
+    write('sfx/war_horn.wav', mix(horn, lowpass(tone(147, 1.3, 'saw'), 600), gain=0.4),
+          peak=0.7)
+
     write('music/siege_ambient.wav', ambient(rng), peak=0.6)
 
 

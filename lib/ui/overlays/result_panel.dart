@@ -40,6 +40,14 @@ class ResultPanel extends StatelessWidget {
                     ),
                 ],
               ),
+              if (result.defeat != null) ...[
+                const SizedBox(height: 4),
+                Text(switch (result.defeat!) {
+                  DefeatReason.outOfAmmo => 'Your ammunition ran out.',
+                  DefeatReason.engineDestroyed =>
+                    'Your siege engine was destroyed.',
+                }, style: UiStyle.body.copyWith(color: UiStyle.bronze)),
+              ],
               const SizedBox(height: 8),
               Text(
                 'Castle destroyed: ${(result.destruction * 100).round()}%',

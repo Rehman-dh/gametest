@@ -1,0 +1,97 @@
+{
+  "id": "egypt_08",
+  "name": "Archers on the Ramparts",
+  "worldWidth": 48,
+  "ammo": [
+    "stone",
+    "stone",
+    "stone",
+    "stone",
+    "stone"
+  ],
+  "par": 3,
+  "objective": "killAll",
+  "playerHp": 80,
+  "defenses": [
+    {
+      "m": "wood",
+      "x": 5,
+      "y": 0,
+      "w": 0.9,
+      "h": 2.4
+    },
+    {
+      "m": "wood",
+      "x": 6.1,
+      "y": 0,
+      "w": 0.9,
+      "h": 2.0
+    }
+  ],
+  "blocks": [
+    {
+      "m": "stone",
+      "x": 28,
+      "y": 0,
+      "w": 1,
+      "h": 4
+    },
+    {
+      "m": "wood",
+      "x": 31,
+      "y": 0,
+      "w": 0.5,
+      "h": 4
+    },
+    {
+      "m": "wood",
+      "x": 29.5,
+      "y": 4,
+      "w": 4,
+      "h": 0.4
+    },
+    {
+      "m": "stone",
+      "x": 35,
+      "y": 0,
+      "w": 0.8,
+      "h": 3.5
+    },
+    {
+      "m": "stone",
+      "x": 39,
+      "y": 0,
+      "w": 0.8,
+      "h": 3.5
+    },
+    {
+      "m": "stone",
+      "x": 37,
+      "y": 3.5,
+      "w": 5,
+      "h": 0.5
+    }
+  ],
+  "units": [
+    {
+      "kind": "archer",
+      "x": 28.5,
+      "y": 4.4
+    },
+    {
+      "kind": "archer",
+      "x": 30.5,
+      "y": 4.4
+    },
+    {
+      "kind": "soldier",
+      "x": 37,
+      "y": 0
+    },
+    {
+      "kind": "archer",
+      "x": 37,
+      "y": 4.0
+    }
+  ]
+}

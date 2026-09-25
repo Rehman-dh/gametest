@@ -14,9 +14,12 @@ import 'powder_barrel.dart';
 
 class CastleBlock extends BodyComponent<SiegeGame>
     with ContactCallbacks, Damageable {
-  CastleBlock(this.data) : super(renderBody: false);
+  CastleBlock(this.data, {this.isDefense = false}) : super(renderBody: false);
 
   final BlockData data;
+
+  /// Part of the player's barricade rather than the enemy castle.
+  final bool isDefense;
   late final int _crackSeed = Object.hash(data.x, data.y, data.width);
 
   static const _spreadInterval = 1.2;
@@ -37,6 +40,14 @@ class CastleBlock extends BodyComponent<SiegeGame>
 
   @override
   double get maxHp => material.spec.maxHp * (data.weak ? weakPointHpFactor : 1);
+
+  /// Restores hit points, as enemy engineers patch damaged masonry.
+  void heal(double amount) {
+    if (isDestroyed) return;
+    hp = math.min(maxHp, hp + amount);
+  }
+
+  bool get isDamaged => !isDestroyed && hp < maxHp - 0.5;
 
   void ignite() {
     if (burning || isDestroyed || !material.spec.flammable) return;
@@ -103,7 +114,10 @@ class CastleBlock extends BodyComponent<SiegeGame>
         density: spec.density,
         friction: spec.friction,
         restitution: spec.restitution,
-        filter: Filter()..categoryBits = CollisionCategory.structure,
+        filter: Filter()
+          ..categoryBits = isDefense
+              ? CollisionCategory.playerStructure
+              : CollisionCategory.structure,
       ),
     );
     return body;

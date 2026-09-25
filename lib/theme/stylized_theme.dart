@@ -403,7 +403,12 @@ class StylizedTheme implements ArtTheme {
     final isKing = kind == UnitKind.king;
     final body = hurt
         ? const Color(0xFFA33A2E)
-        : (isKing ? const Color(0xFF4B2A55) : const Color(0xFF7B6A4A));
+        : switch (kind) {
+            UnitKind.king => const Color(0xFF4B2A55),
+            UnitKind.soldier => const Color(0xFF7B6A4A),
+            UnitKind.archer => const Color(0xFF55603A),
+            UnitKind.engineer => const Color(0xFF6B4A2E),
+          };
 
     canvas.drawCircle(Offset.zero, radius, _fill..color = body);
     // Cloak/armor band.
@@ -440,6 +445,35 @@ class StylizedTheme implements ArtTheme {
       canvas
         ..drawPath(crown, _fill..color = const Color(0xFFD4A437))
         ..drawPath(crown, _line);
+    } else if (kind == UnitKind.archer) {
+      // Bow held out toward the player.
+      canvas.drawArc(
+        Rect.fromCenter(
+          center: Offset(-radius * 0.9, 0),
+          width: radius * 0.9,
+          height: radius * 2.4,
+        ),
+        math.pi / 2,
+        math.pi,
+        false,
+        _line,
+      );
+    } else if (kind == UnitKind.engineer) {
+      // Hammer over the shoulder.
+      canvas
+        ..drawLine(
+          Offset(radius * 0.6, radius * 0.3),
+          Offset(radius * 0.9, -radius * 1.2),
+          _line,
+        )
+        ..drawRect(
+          Rect.fromCenter(
+            center: Offset(radius * 0.92, -radius * 1.25),
+            width: radius * 0.6,
+            height: radius * 0.28,
+          ),
+          _fill..color = const Color(0xFF55595E),
+        );
     } else {
       // Spear tip over the shoulder.
       canvas.drawLine(

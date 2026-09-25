@@ -8,11 +8,27 @@ import '../core/weapons.dart';
 /// (y = distance of an object's *bottom* above the ground), which is
 /// intuitive to author. Components convert to Forge2D's y-down space.
 
-enum Objective { killAll, killKing }
+enum Objective {
+  killAll,
+  killKing,
 
-enum UnitKind { soldier, king }
+  /// Defense missions: wreck every enemy siege engine before they wreck
+  /// yours.
+  destroyEngines,
+}
 
-enum PropKind { powderBarrel }
+enum UnitKind {
+  soldier,
+  king,
+
+  /// Shoots arrows at the player's siege engine on the enemy's turn.
+  archer,
+
+  /// Repairs damaged castle blocks nearby while alive.
+  engineer,
+}
+
+enum PropKind { powderBarrel, enemyCatapult }
 
 class BlockData {
   const BlockData({
@@ -83,6 +99,9 @@ class LevelData {
     this.props = const [],
     this.weapon = WeaponType.catapult,
     this.wind = 0,
+    this.defenses = const [],
+    this.playerHp = 100,
+    this.enemyFireEvery = 1,
   });
 
   factory LevelData.fromJson(Map<String, dynamic> json) {
@@ -110,10 +129,22 @@ class LevelData {
       ],
       weapon: WeaponType.values.byName(json['weapon'] as String? ?? 'catapult'),
       wind: (json['wind'] as num? ?? 0).toDouble(),
+      defenses: [
+        for (final b in json['defenses'] as List? ?? const [])
+          BlockData.fromJson(b as Map<String, dynamic>),
+      ],
+      playerHp: (json['playerHp'] as num? ?? 100).toDouble(),
+      enemyFireEvery: json['enemyFireEvery'] as int? ?? 1,
     );
     if (level.objective == Objective.killKing &&
         !level.units.any((u) => u.kind == UnitKind.king)) {
       throw FormatException('Level ${level.id} needs a king to kill');
+    }
+    if (level.objective == Objective.destroyEngines &&
+        !level.props.any((p) => p.kind == PropKind.enemyCatapult)) {
+      throw FormatException(
+        'Level ${level.id} has no enemy engines to destroy',
+      );
     }
     final unusable = level.ammo.where(
       (a) => !level.weapon.spec.ammo.contains(a),
@@ -157,6 +188,20 @@ class LevelData {
   /// Horizontal acceleration on projectiles (m/s²); positive blows toward
   /// the castle.
   final double wind;
+
+  /// The player's own barricade, in front of the siege engine.
+  final List<BlockData> defenses;
+
+  /// Hit points of the player's siege engine.
+  final double playerHp;
+
+  /// The enemy returns fire after every this many player shots.
+  final int enemyFireEvery;
+
+  /// Whether anything in this level shoots back.
+  bool get hasCounterFire =>
+      units.any((u) => u.kind == UnitKind.archer) ||
+      props.any((p) => p.kind == PropKind.enemyCatapult);
 
   bool get hasWeakPoints =>
       blocks.any((b) => b.weak) ||
