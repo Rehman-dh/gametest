@@ -41,6 +41,7 @@ class CastleBlock extends BodyComponent<SiegeGame>
   @override
   double get maxHp =>
       material.spec.maxHp *
+      data.toughness *
       (data.weak ? weakPointHpFactor : 1) *
       (isDefense ? game.modifiers.barricadeHpMultiplier : 1);
 
@@ -136,6 +137,7 @@ class CastleBlock extends BodyComponent<SiegeGame>
       seed: _crackSeed,
       weak: data.weak,
       char: char,
+      look: data.look,
     );
     if (data.weak && game.revealWeakPoints) {
       game.theme.drawWeakPointMarker(

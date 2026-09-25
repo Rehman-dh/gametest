@@ -38,7 +38,6 @@ dependencies:
   flame_forge2d: ^0.19.3+7
   flame_audio: ^2.12.2
   shared_preferences: ^2.5.5
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -62,6 +61,7 @@ flutter:
     - assets/audio/sfx/
     - assets/audio/music/
     - assets/images/textures/
+    - assets/images/cartoon/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

@@ -1,7 +1,7 @@
 {
   "id": "egypt_03",
   "name": "The Pharaoh's Gate",
-  "worldWidth": 50,
+  "worldWidth": 58,
   "catapultX": 0,
   "shots": 5,
   "par": 2,
@@ -9,166 +9,104 @@
   "blocks": [
     {
       "m": "stone",
-      "x": 26.75,
-      "y": 0,
-      "w": 0.5,
-      "h": 4
-    },
-    {
-      "m": "stone",
-      "x": 29.25,
-      "y": 0,
-      "w": 0.5,
-      "h": 4
-    },
-    {
-      "m": "stone",
-      "x": 28,
-      "y": 4,
-      "w": 3.5,
-      "h": 0.5
-    },
-    {
-      "m": "wood",
-      "x": 27,
-      "y": 4.5,
-      "w": 0.4,
-      "h": 2.5
-    },
-    {
-      "m": "wood",
-      "x": 29,
-      "y": 4.5,
-      "w": 0.4,
-      "h": 2.5
-    },
-    {
-      "m": "wood",
-      "x": 28,
-      "y": 7,
-      "w": 3,
-      "h": 0.4
-    },
-    {
-      "m": "stone",
-      "x": 32.5,
-      "y": 0,
-      "w": 0.8,
-      "h": 5
-    },
-    {
-      "m": "stone",
-      "x": 37.5,
-      "y": 0,
-      "w": 0.8,
-      "h": 5
-    },
-    {
-      "m": "glass",
-      "x": 34,
-      "y": 0,
-      "w": 0.4,
-      "h": 2.2
-    },
-    {
-      "m": "glass",
-      "x": 36,
-      "y": 0,
-      "w": 0.4,
-      "h": 2.2
-    },
-    {
-      "m": "stone",
-      "x": 35,
-      "y": 5,
-      "w": 6,
-      "h": 0.6
-    },
-    {
-      "m": "wood",
       "x": 33,
-      "y": 5.6,
-      "w": 0.4,
-      "h": 2
-    },
-    {
-      "m": "wood",
-      "x": 37,
-      "y": 5.6,
-      "w": 0.4,
-      "h": 2
-    },
-    {
-      "m": "wood",
-      "x": 35,
-      "y": 7.6,
-      "w": 5,
-      "h": 0.4
-    },
-    {
-      "m": "wood",
-      "x": 40.8,
       "y": 0,
-      "w": 0.5,
-      "h": 3.5
+      "w": 3.4,
+      "h": 9,
+      "look": "tower",
+      "hp": 1.0
     },
     {
-      "m": "wood",
-      "x": 43.2,
+      "m": "stone",
+      "x": 36.9,
       "y": 0,
-      "w": 0.5,
-      "h": 3.5
+      "w": 4.4,
+      "h": 6,
+      "look": "wall",
+      "hp": 0.8
     },
     {
-      "m": "wood",
-      "x": 42,
-      "y": 3.5,
-      "w": 3,
-      "h": 0.5
+      "m": "stone",
+      "x": 40.3,
+      "y": 0,
+      "w": 2.2,
+      "h": 5.5,
+      "look": "tower",
+      "hp": 0.35,
+      "weak": true
     },
     {
-      "m": "glass",
-      "x": 42,
-      "y": 4,
-      "w": 1,
-      "h": 1
+      "m": "stone",
+      "x": 45.7,
+      "y": 0,
+      "w": 2.2,
+      "h": 5.5,
+      "look": "tower",
+      "hp": 0.35
+    },
+    {
+      "m": "stone",
+      "x": 43,
+      "y": 5.5,
+      "w": 7.6,
+      "h": 1.8,
+      "look": "wall",
+      "hp": 2.0
+    },
+    {
+      "m": "stone",
+      "x": 49,
+      "y": 0,
+      "w": 4.4,
+      "h": 5,
+      "look": "wall",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 53.2,
+      "y": 0,
+      "w": 3.6,
+      "h": 10,
+      "look": "tower",
+      "hp": 1.0
     }
   ],
   "units": [
     {
       "kind": "soldier",
-      "x": 28,
-      "y": 0
+      "x": 33,
+      "y": 9
     },
     {
       "kind": "soldier",
-      "x": 28,
-      "y": 4.5
+      "x": 36.9,
+      "y": 6
     },
     {
       "kind": "king",
-      "x": 35,
+      "x": 43,
       "y": 0
     },
     {
       "kind": "soldier",
-      "x": 35,
-      "y": 5.6
+      "x": 41.5,
+      "y": 7.3
     },
     {
       "kind": "soldier",
-      "x": 35,
-      "y": 8
+      "x": 44.5,
+      "y": 7.3
     },
     {
       "kind": "soldier",
-      "x": 42,
-      "y": 0
-    },
-    {
-      "kind": "soldier",
-      "x": 42,
+      "x": 49,
       "y": 5
+    },
+    {
+      "kind": "soldier",
+      "x": 53.2,
+      "y": 10
     }
   ],
   "unlocksCrew": "bashir",
@@ -177,7 +115,7 @@
     {
       "trigger": "start",
       "speaker": "arslan",
-      "text": "Sethmose's gate. The king cowers inside it. Collapse the keep on him."
+      "text": "Sethmose hides beneath his gatehouse. Bring the arch down on him."
     }
   ]
 }

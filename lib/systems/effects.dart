@@ -265,6 +265,10 @@ class Effects {
               Vector2(0, -1.5 * _rng.nextDouble()),
           spin: (_rng.nextDouble() - 0.5) * 6,
           lifetime: 2.5 + _rng.nextDouble() * 1.5,
+          spriteOffset: shard.center,
+          look: block.data.look,
+          crackStage: 2,
+          blockSize: Size(block.data.width, block.data.height),
         ),
       );
     }

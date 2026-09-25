@@ -26,8 +26,9 @@ List<ShardShape> fractureRect(
   final alongX = width >= height;
   final long = math.max(width, height);
   final short = math.min(width, height);
-  final pieces = (long / 0.9).round().clamp(2, 4);
-  final across = short > 0.9 ? 2 : 1;
+  // Massive masonry breaks into more, but still hefty, chunks.
+  final pieces = (long / 0.9).round().clamp(2, long > 5 ? 7 : 4);
+  final across = short > 2.5 ? 3 : (short > 0.9 ? 2 : 1);
   final nx = alongX ? pieces : across;
   final ny = alongX ? across : pieces;
   final cw = width / nx;

@@ -20,7 +20,14 @@ import '../story/characters.dart';
 abstract class ArtTheme {
   /// Sky and parallax background layers covering [visible] (world rect).
   /// [time] is real seconds, for ambient motion (clouds, drifting dust).
-  void drawBackground(Canvas canvas, Rect visible, double time);
+  /// With an [atmosphere] colour only the landscape layers are drawn, over
+  /// a sky the caller has already painted, and they fade into that colour.
+  void drawBackground(
+    Canvas canvas,
+    Rect visible,
+    double time, {
+    Color? atmosphere,
+  });
 
   /// Ground-level detail drawn in front of the battlefield (tufts, stones).
   void drawGroundDetail(Canvas canvas, Rect visible);
@@ -31,6 +38,8 @@ abstract class ArtTheme {
   /// Ground slab; [rect] top edge is the ground surface.
   void drawGround(Canvas canvas, Rect rect);
 
+  /// A castle block of [size]; [look] names a fortress piece (`tower`,
+  /// `wall`, `gate`) that themes may draw with dedicated art.
   void drawBlock(
     Canvas canvas,
     Size size,
@@ -39,6 +48,7 @@ abstract class ArtTheme {
     required int seed,
     bool weak = false,
     double char = 0,
+    String? look,
   });
 
   /// Flames licking a burning block of [size]; [time] animates flicker.
@@ -51,7 +61,18 @@ abstract class ArtTheme {
   void drawBarrel(Canvas canvas, Size size, {required int crackStage});
 
   /// A fractured piece of a block; [polygon] is centered on the origin.
-  void drawShard(Canvas canvas, List<Offset> polygon, BlockMaterial material);
+  /// Pieces of a fortress piece ([look]) carry where they sat in the block
+  /// ([offset] from its centre, in a block of [blockSize]) so the theme can
+  /// cut them from the block's own art.
+  void drawShard(
+    Canvas canvas,
+    List<Offset> polygon,
+    BlockMaterial material, {
+    String? look,
+    int crackStage = 0,
+    Offset offset = Offset.zero,
+    Size? blockSize,
+  });
 
   void drawUnit(
     Canvas canvas,

@@ -45,6 +45,8 @@ class BlockData {
     required this.height,
     this.angle = 0,
     this.weak = false,
+    this.look,
+    this.toughness = 1,
   });
 
   factory BlockData.fromJson(Map<String, dynamic> json) => BlockData(
@@ -55,6 +57,8 @@ class BlockData {
     height: (json['h'] as num).toDouble(),
     angle: (json['a'] as num? ?? 0).toDouble(),
     weak: json['weak'] as bool? ?? false,
+    look: json['look'] as String?,
+    toughness: (json['hp'] as num? ?? 1).toDouble(),
   );
 
   final BlockMaterial material;
@@ -63,6 +67,13 @@ class BlockData {
   /// A hidden structural flaw (rotten beam, cracked keystone): much weaker,
   /// and breaking it earns the level's hidden-objective star.
   final bool weak;
+
+  /// A fortress piece the 3D renderer draws with a real model: `tower`,
+  /// `wall` or `gate`. Null draws a plain block.
+  final String? look;
+
+  /// Multiplies the material's hit points, for massive masonry.
+  final double toughness;
 
   BlockData shifted(double dx) => copyWith(x: x + dx);
 
@@ -74,6 +85,8 @@ class BlockData {
     height: height,
     angle: angle,
     weak: weak ?? this.weak,
+    look: look,
+    toughness: toughness,
   );
 }
 

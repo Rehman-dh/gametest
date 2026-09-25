@@ -19,6 +19,16 @@ class Hud extends StatelessWidget {
     return Stack(
       children: [
         _topBar(),
+        if (game.endless == null)
+          Align(
+            alignment: Alignment.topCenter,
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: _Score(score: game.score),
+              ),
+            ),
+          ),
         // The sky is empty; the castle's base is not.
         Align(
           alignment: Alignment.topCenter,
@@ -427,6 +437,55 @@ class _SpeechBanner extends StatelessWidget {
                   ),
                 ),
               ),
+      ),
+    );
+  }
+}
+
+/// The siege score, big and bold at the top of the screen; it bumps up
+/// each time points land.
+class _Score extends StatelessWidget {
+  const _Score({required this.score});
+
+  final ValueNotifier<int> score;
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<int>(
+      valueListenable: score,
+      builder: (context, value, _) => TweenAnimationBuilder<double>(
+        key: ValueKey(value),
+        tween: Tween(begin: value == 0 ? 1 : 1.18, end: 1),
+        duration: const Duration(milliseconds: 260),
+        curve: Curves.easeOut,
+        builder: (context, scale, child) =>
+            Transform.scale(scale: scale, child: child),
+        child: Stack(
+          children: [
+            Text(
+              'SCORE  $value',
+              style: TextStyle(
+                fontSize: 26,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 1.5,
+                foreground: Paint()
+                  ..style = PaintingStyle.stroke
+                  ..strokeWidth = 5
+                  ..strokeJoin = StrokeJoin.round
+                  ..color = const Color(0xFF2B1A0E),
+              ),
+            ),
+            Text(
+              'SCORE  $value',
+              style: const TextStyle(
+                fontSize: 26,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 1.5,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

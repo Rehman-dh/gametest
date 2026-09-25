@@ -146,7 +146,71 @@ class RealisticTheme extends ProceduralTheme {
     ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1.2);
 
   @override
-  void drawBackground(Canvas canvas, Rect visible, double time) {
+  void drawBackground(
+    Canvas canvas,
+    Rect visible,
+    double time, {
+    Color? atmosphere,
+  }) {
+    if (atmosphere == null) _sky(canvas, visible, time);
+    // Under a photographed sky the hills take their colour from its haze:
+    // the farther the ridge, the more of the haze it wears.
+    final air = atmosphere;
+    Color hill(Color painted, Color base, double distance) =>
+        air == null ? painted : Color.lerp(base, air, distance)!;
+    _hazeColor = air ?? const Color(0xFFE6E1D0);
+
+    // Hills recede into mist: farther layers are paler and scroll less.
+    _hills(
+      canvas,
+      visible,
+      0.92,
+      -5,
+      4,
+      0.05,
+      hill(const Color(0xFFB4B8AE), const Color(0xFF6E7C50), 0.72),
+      3,
+      0,
+    );
+    _haze(canvas, visible, -2.5, 0x40);
+    _hills(
+      canvas,
+      visible,
+      0.8,
+      -3,
+      2.6,
+      0.08,
+      hill(const Color(0xFF97A08F), const Color(0xFF5F7042), 0.5),
+      11,
+      0.35,
+    );
+    _haze(canvas, visible, -1.5, 0x38);
+    _hills(
+      canvas,
+      visible,
+      0.6,
+      -1.6,
+      1.4,
+      0.12,
+      hill(const Color(0xFF6F7C64), const Color(0xFF4F6135), 0.3),
+      29,
+      0.7,
+    );
+    _haze(canvas, visible, -0.6, 0x28);
+    _hills(
+      canvas,
+      visible,
+      0.35,
+      -0.5,
+      0.6,
+      0.2,
+      hill(const Color(0xFF55633F), const Color(0xFF435429), 0.12),
+      41,
+      0,
+    );
+  }
+
+  void _sky(Canvas canvas, Rect visible, double time) {
     canvas.drawRect(
       visible,
       Paint()
@@ -171,49 +235,10 @@ class RealisticTheme extends ProceduralTheme {
     );
 
     _overcast(canvas, visible, time);
-
-    // Hills recede into mist: farther layers are paler and scroll less.
-    _hills(canvas, visible, 0.08, -5, 4, 0.05, const Color(0xFFB4B8AE), 3, 0);
-    _haze(canvas, visible, -2.5, 0x40);
-    _hills(
-      canvas,
-      visible,
-      0.2,
-      -3,
-      2.6,
-      0.08,
-      const Color(0xFF97A08F),
-      11,
-      0.35,
-    );
-    _haze(canvas, visible, -1.5, 0x38);
-    _hills(
-      canvas,
-      visible,
-      0.4,
-      -1.6,
-      1.4,
-      0.12,
-      const Color(0xFF6F7C64),
-      29,
-      0.7,
-    );
-    _haze(canvas, visible, -0.6, 0x28);
-    _hills(
-      canvas,
-      visible,
-      0.65,
-      -0.5,
-      0.6,
-      0.2,
-      const Color(0xFF55633F),
-      41,
-      0,
-    );
   }
 
   void _overcast(Canvas canvas, Rect visible, double time) {
-    const parallax = 0.06, drift = 0.25, wrap = 160.0;
+    const parallax = 0.94, drift = 0.25, wrap = 160.0;
     final shift = visible.center.dx * parallax + time * drift;
     final rng = math.Random(8);
     for (var i = 0; i < 7; i++) {
@@ -274,14 +299,16 @@ class RealisticTheme extends ProceduralTheme {
     canvas.drawPath(path, _fill..color = color);
   }
 
+  Color _hazeColor = const Color(0xFFE6E1D0);
+
   void _haze(Canvas canvas, Rect visible, double y, int alpha) {
     final band = Rect.fromLTRB(visible.left, y - 4, visible.right, y + 1.5);
     canvas.drawRect(
       band,
       Paint()
         ..shader = Gradient.linear(band.topCenter, band.bottomCenter, [
-          const Color(0x00E6E1D0),
-          Color.fromARGB(alpha, 0xE6, 0xE1, 0xD0),
+          _hazeColor.withAlpha(0),
+          _hazeColor.withAlpha(alpha),
         ]),
     );
   }
@@ -425,6 +452,7 @@ class RealisticTheme extends ProceduralTheme {
     required int seed,
     bool weak = false,
     double char = 0,
+    String? look,
   }) {
     final rect = Rect.fromCenter(
       center: Offset.zero,
@@ -511,7 +539,15 @@ class RealisticTheme extends ProceduralTheme {
   }
 
   @override
-  void drawShard(Canvas canvas, List<Offset> polygon, BlockMaterial material) {
+  void drawShard(
+    Canvas canvas,
+    List<Offset> polygon,
+    BlockMaterial material, {
+    String? look,
+    int crackStage = 0,
+    Offset offset = Offset.zero,
+    Size? blockSize,
+  }) {
     final path = Path()..addPolygon(polygon, true);
     canvas.drawPath(path, _materialPaint(material));
     final bounds = path.getBounds();

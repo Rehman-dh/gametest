@@ -6,6 +6,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
+import '../components/fx/score_popup.dart';
 import '../components/env/background.dart';
 import '../components/env/ground.dart';
 import '../components/env/ground_detail.dart';
@@ -21,6 +22,7 @@ import '../components/structure/debris_shard.dart';
 import '../components/structure/powder_barrel.dart';
 import '../components/units/unit.dart';
 import '../components/weapons/siege_engine.dart';
+import '../core/materials.dart';
 import '../core/ammo.dart';
 import '../core/ballistics.dart';
 import '../core/scoring.dart';
@@ -339,6 +341,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
         ? Modifiers.none
         : Modifiers.from(campaign!.progress.value, this.loadout);
     usedAbilities.value = const {};
+    score.value = 0;
     banner.value = null;
     revealWeakPoints = false;
     _nextShotIgnites = false;
@@ -718,11 +721,37 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   }
 
   void onBlockDestroyed(CastleBlock block) {
-    if (!block.isDefense) _destroyedBlockHp += block.maxHp;
+    if (!block.isDefense) {
+      _destroyedBlockHp += block.maxHp;
+      // Sturdier pieces are worth more, in round fifties.
+      _award(
+        (block.maxHp * 5 / 50).round() * 50,
+        block.body.position,
+        switch (block.material) {
+          BlockMaterial.wood => const Color(0xFFFFC266),
+          BlockMaterial.stone => const Color(0xFFE8ECF0),
+          BlockMaterial.glass => const Color(0xFFA8EEFF),
+        },
+      );
+    }
     effects.blockBroken(block);
   }
 
+  /// Points for this siege, shown in the HUD.
+  final ValueNotifier<int> score = ValueNotifier(0);
+
+  void _award(int points, Vector2 at, Color color) {
+    if (attract || points <= 0) return;
+    score.value += points;
+    world.add(ScorePopup(points: points, at: at.clone(), color: color));
+  }
+
   void onUnitKilled(Unit unit) {
+    _award(
+      unit.kind.isRoyal ? 10000 : 5000,
+      unit.body.position - Vector2(0, 1.5),
+      const Color(0xFF9BE15D),
+    );
     effects.unitKilled(unit);
     _announceIfObjectiveComplete();
   }

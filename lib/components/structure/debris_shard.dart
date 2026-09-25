@@ -17,6 +17,10 @@ class DebrisShard extends BodyComponent<SiegeGame> {
     required this.velocity,
     required this.spin,
     required this.lifetime,
+    this.spriteOffset = Offset.zero,
+    this.look,
+    this.crackStage = 0,
+    this.blockSize,
   }) : super(renderBody: false, priority: 1);
 
   static const _shrinkTime = 0.5;
@@ -30,7 +34,19 @@ class DebrisShard extends BodyComponent<SiegeGame> {
   final double spin;
   final double lifetime;
 
+  /// Where this shard sat in the block, relative to the block's centre.
+  final Offset spriteOffset;
+
+  /// The broken block's fortress look, damage and size, for themes that
+  /// cut its pieces from the block's own art.
+  final String? look;
+  final int crackStage;
+  final Size? blockSize;
+
   double _age = 0;
+
+  /// How far the shard has shrunk away, 0–1.
+  double get shrink => ((_age - lifetime) / _shrinkTime).clamp(0.0, 1.0);
 
   @override
   Body createBody() {
@@ -69,13 +85,20 @@ class DebrisShard extends BodyComponent<SiegeGame> {
 
   @override
   void render(Canvas canvas) {
-    final shrink = ((_age - lifetime) / _shrinkTime).clamp(0.0, 1.0);
     if (shrink > 0) {
       canvas
         ..save()
         ..scale(1 - shrink);
     }
-    game.theme.drawShard(canvas, polygon, material);
+    game.theme.drawShard(
+      canvas,
+      polygon,
+      material,
+      look: look,
+      crackStage: crackStage,
+      offset: spriteOffset,
+      blockSize: blockSize,
+    );
     if (shrink > 0) canvas.restore();
   }
 }

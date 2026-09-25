@@ -8,7 +8,9 @@ import '../../game/siege_game.dart';
 import '../../levels/level_data.dart';
 import '../../story/characters.dart';
 import '../damageable.dart';
+import '../../theme/figure_painter.dart';
 import '../structure/castle_block.dart';
+import 'fallen_figure.dart';
 
 /// An enemy soldier, king, archer or engineer. Round bodies so they roll
 /// and tumble.
@@ -69,6 +71,7 @@ class Unit extends BodyComponent<SiegeGame> with ContactCallbacks, Damageable {
     // Knocked off the map counts as a kill.
     if (!isDestroyed && body.position.y > 25) destroy();
     if (kind == UnitKind.engineer && !isDestroyed) _tickRepairs(dt);
+    _tickMood(dt);
   }
 
   /// Engineers patch the most damaged block within reach every few
@@ -111,9 +114,52 @@ class Unit extends BodyComponent<SiegeGame> with ContactCallbacks, Damageable {
       canvas.restore();
       return;
     }
-    game.theme.drawUnit(canvas, radius, kind, hurt: hurtFlash > 0);
+    // Stand upright whatever the round body is doing, unless thrown hard
+    // enough to tumble; face the catapult, leaning with the motion.
+    final speed = body.linearVelocity.length;
+    final tumble = ((speed - 4) / 4).clamp(0.0, 1.0);
+    canvas
+      ..save()
+      ..rotate(-body.angle * (1 - tumble))
+      ..translate(0, radius)
+      ..rotate((body.linearVelocity.x * 0.04).clamp(-0.3, 0.3))
+      ..scale(-1, 1);
+    FigurePainter.paint(
+      canvas,
+      kind,
+      FigurePose(
+        time: game.realTime,
+        seed: data.x.round(),
+        alert: _alert,
+        panic: _panic,
+      ),
+    );
+    canvas.restore();
+  }
+
+  double _alert = 0;
+  double _panic = 0;
+
+  /// Eases the figure's alarm toward what is happening around him.
+  void _tickMood(double dt) {
+    final incoming = game.phase.value == SiegePhase.flying;
+    final shaken = hurtFlash > 0 || body.linearVelocity.length > 2.5;
+    final k = 1 - math.exp(-6 * dt);
+    _alert += ((incoming ? 1.0 : 0.0) - _alert) * k;
+    _panic +=
+        ((shaken ? 1.0 : 0.0) - _panic) * (shaken ? 1 - math.exp(-20 * dt) : k);
   }
 
   @override
-  void onDestroyed() => game.onUnitKilled(this);
+  void onDestroyed() {
+    game.world.add(
+      FallenFigure(
+        kind: kind,
+        feet: body.position + Vector2(0, radius),
+        velocity: body.linearVelocity * 0.5 + Vector2(1.5, -3),
+        seed: data.x.round(),
+      ),
+    );
+    game.onUnitKilled(this);
+  }
 }

@@ -11,6 +11,7 @@ class Vignette extends Component with HasGameReference<SiegeGame> {
 
   @override
   void render(Canvas canvas) {
-    game.theme.drawVignette(canvas, game.size.toSize());
+    final size = game.size.toSize();
+    game.theme.drawVignette(canvas, size);
   }
 }

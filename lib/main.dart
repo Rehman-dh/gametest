@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'game/siege_game.dart';
 import 'meta/campaign.dart';
 import 'meta/save_repository.dart';
-import 'theme/realistic_theme.dart';
+import 'theme/cartoon_theme.dart';
 import 'ui/overlays/cutscene_overlay.dart';
 import 'ui/overlays/hud.dart';
 import 'ui/overlays/main_menu.dart';
@@ -21,7 +21,7 @@ Future<void> main() async {
     DeviceOrientation.landscapeRight,
   ]);
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-  final realistic = await RealisticTheme.load();
+  final theme = await CartoonTheme.load();
   final campaign = Campaign(
     levelFiles: SiegeGame.levelFiles,
     repository: SaveRepository(),
@@ -29,11 +29,7 @@ Future<void> main() async {
   await campaign.load();
   runApp(
     SiegeApp(
-      game: SiegeGame(
-        theme: realistic,
-        campaign: campaign,
-        attractOnLaunch: true,
-      ),
+      game: SiegeGame(theme: theme, campaign: campaign, attractOnLaunch: true),
     ),
   );
 }

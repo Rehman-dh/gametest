@@ -29,7 +29,12 @@ class ProceduralTheme implements ArtTheme {
   // ---------------------------------------------------------------- scenery
 
   @override
-  void drawBackground(Canvas canvas, Rect visible, double time) {
+  void drawBackground(
+    Canvas canvas,
+    Rect visible,
+    double time, {
+    Color? atmosphere,
+  }) {
     final sky = Paint()
       ..shader = Gradient.linear(
         Offset(0, visible.top),
@@ -284,6 +289,7 @@ class ProceduralTheme implements ArtTheme {
     required int seed,
     bool weak = false,
     double char = 0,
+    String? look,
   }) {
     final rect = Rect.fromCenter(
       center: Offset.zero,
@@ -381,7 +387,15 @@ class ProceduralTheme implements ArtTheme {
   }
 
   @override
-  void drawShard(Canvas canvas, List<Offset> polygon, BlockMaterial material) {
+  void drawShard(
+    Canvas canvas,
+    List<Offset> polygon,
+    BlockMaterial material, {
+    String? look,
+    int crackStage = 0,
+    Offset offset = Offset.zero,
+    Size? blockSize,
+  }) {
     final path = Path()..addPolygon(polygon, true);
     canvas
       ..drawPath(path, _fill..color = _materialColor(material))
