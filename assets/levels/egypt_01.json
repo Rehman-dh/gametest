@@ -1,0 +1,77 @@
+{
+  "id": "egypt_01",
+  "name": "The Mudbrick Outpost",
+  "worldWidth": 48,
+  "catapultX": 0,
+  "shots": 3,
+  "par": 1,
+  "objective": "killAll",
+  "blocks": [
+    {
+      "m": "wood",
+      "x": 28,
+      "y": 0,
+      "w": 0.5,
+      "h": 3
+    },
+    {
+      "m": "wood",
+      "x": 32,
+      "y": 0,
+      "w": 0.5,
+      "h": 3
+    },
+    {
+      "m": "wood",
+      "x": 30,
+      "y": 3,
+      "w": 5.5,
+      "h": 0.5
+    },
+    {
+      "m": "glass",
+      "x": 30,
+      "y": 3.5,
+      "w": 1,
+      "h": 1
+    },
+    {
+      "m": "wood",
+      "x": 36,
+      "y": 0,
+      "w": 0.5,
+      "h": 2.5
+    },
+    {
+      "m": "wood",
+      "x": 39,
+      "y": 0,
+      "w": 0.5,
+      "h": 2.5
+    },
+    {
+      "m": "wood",
+      "x": 37.5,
+      "y": 2.5,
+      "w": 4,
+      "h": 0.5
+    }
+  ],
+  "units": [
+    {
+      "kind": "soldier",
+      "x": 30,
+      "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 37.5,
+      "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 37.5,
+      "y": 3
+    }
+  ]
+}
