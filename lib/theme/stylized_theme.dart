@@ -1,6 +1,9 @@
 import 'dart:math' as math;
 import 'dart:ui';
 
+import 'package:flame/components.dart';
+import 'package:flame/particles.dart';
+
 import '../core/materials.dart';
 import '../levels/level_data.dart';
 import 'art_theme.dart';
@@ -21,33 +24,137 @@ class StylizedTheme implements ArtTheme {
   // ---------------------------------------------------------------- scenery
 
   @override
-  void drawBackground(Canvas canvas, Rect visible) {
+  void drawBackground(Canvas canvas, Rect visible, double time) {
     final sky = Paint()
       ..shader = Gradient.linear(
         Offset(0, visible.top),
         Offset(0, 2),
-        const [Color(0xFF16202C), Color(0xFF4A3B45), Color(0xFFB8704A)],
-        const [0, 0.6, 1],
+        const [Color(0xFF111A26), Color(0xFF473845), Color(0xFFB8704A)],
+        const [0, 0.62, 1],
       );
     canvas.drawRect(visible, sky);
 
+    _stars(canvas, visible);
+
     // Low setting sun behind the castle.
-    final sunCenter = Offset(visible.center.dx + 14, -7);
+    final sunCenter = Offset(visible.center.dx * 0.9 + 18, -7);
     canvas.drawCircle(
       sunCenter,
-      9,
+      11,
       Paint()
-        ..shader = Gradient.radial(sunCenter, 9, const [
-          Color(0x66F2B279),
+        ..shader = Gradient.radial(sunCenter, 11, const [
+          Color(0x70F2B279),
           Color(0x00F2B279),
         ]),
     );
-    canvas.drawCircle(sunCenter, 2.2, Paint()..color = const Color(0xFFE8A06A));
+    canvas.drawCircle(sunCenter, 2.2, _fill..color = const Color(0xFFE8A06A));
 
-    // Parallax silhouettes: the farther the layer, the less it scrolls.
-    _ridge(canvas, visible, 0.15, -9, 5, 0.07, const Color(0xFF3A3A48), 11);
-    _ridge(canvas, visible, 0.35, -5, 3.5, 0.13, const Color(0xFF2C2C34), 23);
-    _ridge(canvas, visible, 0.6, -2, 2, 0.21, const Color(0xFF201F22), 37);
+    _clouds(canvas, visible, time);
+
+    // Parallax layers, far to near: the farther, the less it scrolls.
+    _pyramids(canvas, visible, 0.1);
+    _ridge(canvas, visible, 0.15, -6, 3, 0.07, const Color(0xFF3A3645), 11);
+    _ridge(canvas, visible, 0.35, -3.5, 2.2, 0.13, const Color(0xFF2B2830), 23);
+    _ridge(canvas, visible, 0.6, -1.2, 1.2, 0.21, const Color(0xFF1F1C1E), 37);
+    _dustMotes(canvas, visible, time);
+  }
+
+  void _stars(Canvas canvas, Rect visible) {
+    final rng = math.Random(99);
+    final paint = Paint();
+    for (var i = 0; i < 40; i++) {
+      final x = visible.left + rng.nextDouble() * visible.width;
+      final y = visible.top + rng.nextDouble() * visible.height * 0.35;
+      paint.color = Color.fromRGBO(
+        230,
+        220,
+        200,
+        0.15 + rng.nextDouble() * 0.35,
+      );
+      canvas.drawCircle(Offset(x, y), 0.04 + rng.nextDouble() * 0.05, paint);
+    }
+  }
+
+  final Paint _cloudBody = Paint()
+    ..color = const Color(0x4A2A2433)
+    ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 0.5);
+  final Paint _cloudLit = Paint()
+    ..color = const Color(0x2EC98A64)
+    ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 0.5);
+
+  void _clouds(Canvas canvas, Rect visible, double time) {
+    const parallax = 0.08, drift = 0.35, wrap = 150.0;
+    final shift = visible.center.dx * parallax + time * drift;
+    final rng = math.Random(5);
+    for (var i = 0; i < 6; i++) {
+      final baseX = rng.nextDouble() * wrap;
+      final y = visible.top + 3 + rng.nextDouble() * visible.height * 0.28;
+      final w = 9 + rng.nextDouble() * 10;
+      // Wrap clouds around so they drift forever.
+      final x = visible.left - 30 + ((baseX + shift) % wrap);
+      // One merged path per cloud so overlapping lobes don't stack alpha.
+      final path = Path();
+      for (var k = 0; k < 5; k++) {
+        final lobeW = w * (0.3 + rng.nextDouble() * 0.25);
+        final lobeH = 0.9 + rng.nextDouble() * 1.1;
+        path.addOval(
+          Rect.fromCenter(
+            center: Offset(x + (k / 4 - 0.5) * w * 0.7, y - lobeH * 0.3),
+            width: lobeW,
+            height: lobeH,
+          ),
+        );
+      }
+      canvas
+        ..drawPath(path.shift(const Offset(0, 0.35)), _cloudLit)
+        ..drawPath(path, _cloudBody);
+    }
+  }
+
+  void _pyramids(Canvas canvas, Rect visible, double parallax) {
+    final shift = visible.center.dx * parallax;
+    final paint = Paint()..color = const Color(0xFF4A3F4A);
+    final shade = Paint()..color = const Color(0xFF3D3440);
+    for (final (x, h) in const [
+      (8.0, 9.0),
+      (19.0, 6.0),
+      (27.0, 4.0),
+      (70.0, 7.0),
+    ]) {
+      final cx = x + shift;
+      const base = -3.0;
+      final path = Path()
+        ..moveTo(cx - h * 1.1, base)
+        ..lineTo(cx, base - h)
+        ..lineTo(cx + h * 1.1, base)
+        ..close();
+      final shadowSide = Path()
+        ..moveTo(cx, base - h)
+        ..lineTo(cx + h * 1.1, base)
+        ..lineTo(cx + h * 0.2, base)
+        ..close();
+      canvas
+        ..drawPath(path, paint)
+        ..drawPath(shadowSide, shade);
+    }
+  }
+
+  void _dustMotes(Canvas canvas, Rect visible, double time) {
+    final rng = math.Random(17);
+    final paint = Paint();
+    for (var i = 0; i < 36; i++) {
+      final speed = 0.3 + rng.nextDouble() * 0.6;
+      final x =
+          visible.left +
+          ((rng.nextDouble() * visible.width + time * speed) % visible.width);
+      final y =
+          visible.bottom -
+          2 -
+          rng.nextDouble() * visible.height * 0.7 +
+          math.sin(time * 0.8 + i) * 0.4;
+      paint.color = Color.fromRGBO(235, 190, 140, 0.1 + rng.nextDouble() * 0.2);
+      canvas.drawCircle(Offset(x, y), 0.05 + rng.nextDouble() * 0.06, paint);
+    }
   }
 
   void _ridge(
@@ -86,6 +193,79 @@ class StylizedTheme implements ArtTheme {
       _fill..color = const Color(0xFF6E5A3E),
     );
     canvas.drawLine(rect.topLeft, rect.topRight, _line);
+  }
+
+  @override
+  void drawGroundDetail(Canvas canvas, Rect visible) {
+    // World-fixed pebbles and tufts sitting on the surface.
+    final rng = math.Random(3);
+    final pebble = Paint()..color = const Color(0xFF524230);
+    final tuft = Paint()
+      ..color = const Color(0xFF5E5236)
+      ..strokeWidth = 0.06
+      ..strokeCap = StrokeCap.round;
+    for (
+      var x = visible.left.floorToDouble() - 1;
+      x < visible.right + 1;
+      x += 1
+    ) {
+      // Deterministic per-meter scatter so details don't swim on scroll.
+      final cell = math.Random(x.toInt() * 7919 + 13);
+      if (cell.nextDouble() < 0.5) {
+        final px = x + cell.nextDouble();
+        canvas.drawOval(
+          Rect.fromCenter(
+            center: Offset(px, 0.05),
+            width: 0.2 + cell.nextDouble() * 0.3,
+            height: 0.12 + cell.nextDouble() * 0.1,
+          ),
+          pebble,
+        );
+      }
+      if (cell.nextDouble() < 0.35) {
+        final px = x + cell.nextDouble();
+        for (var k = -1; k <= 1; k++) {
+          canvas.drawLine(
+            Offset(px, 0.02),
+            Offset(px + k * 0.12, -0.18 - cell.nextDouble() * 0.12),
+            tuft,
+          );
+        }
+      }
+    }
+    // Faster-scrolling strata inside the ground slab for depth.
+    final strata = Paint()..color = const Color(0x332A1F16);
+    final shift = visible.center.dx * -0.12;
+    for (var i = 0; i < 12; i++) {
+      final x =
+          visible.left +
+          ((rng.nextDouble() * 90 + shift) % (visible.width + 20)) -
+          10;
+      final y = 1.2 + rng.nextDouble() * 3;
+      canvas.drawOval(
+        Rect.fromCenter(
+          center: Offset(x, y),
+          width: 3 + rng.nextDouble() * 5,
+          height: 0.35,
+        ),
+        strata,
+      );
+    }
+  }
+
+  @override
+  void drawVignette(Canvas canvas, Size size) {
+    final rect = Offset.zero & size;
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = Gradient.radial(
+          rect.center,
+          size.longestSide * 0.62,
+          const [Color(0x00000000), Color(0x00000000), Color(0x8C05030A)],
+          const [0, 0.55, 1],
+        ),
+    );
   }
 
   // ---------------------------------------------------------------- blocks
@@ -190,6 +370,20 @@ class StylizedTheme implements ArtTheme {
       canvas.drawPath(path, crack);
     }
   }
+
+  @override
+  void drawShard(Canvas canvas, List<Offset> polygon, BlockMaterial material) {
+    final path = Path()..addPolygon(polygon, true);
+    canvas
+      ..drawPath(path, _fill..color = _materialColor(material))
+      ..drawPath(path, _line);
+  }
+
+  static Color _materialColor(BlockMaterial material) => switch (material) {
+    BlockMaterial.wood => const Color(0xFF7A4E2D),
+    BlockMaterial.stone => const Color(0xFF7D7A72),
+    BlockMaterial.glass => const Color(0x8C8FC3CF),
+  };
 
   // ----------------------------------------------------------------- units
 
@@ -349,6 +543,167 @@ class StylizedTheme implements ArtTheme {
         )!
         ..strokeWidth = 0.12
         ..strokeCap = StrokeCap.round,
+    );
+  }
+
+  // ------------------------------------------------------------- particles
+
+  static const _dust = Color(0xFF8C7A64);
+  final Paint _particlePaint = Paint();
+
+  @override
+  Particle breakParticles(BlockMaterial material, Size size, math.Random rng) {
+    final area = size.width * size.height;
+    final chipColor = switch (material) {
+      BlockMaterial.wood => const Color(0xFF5E3A20),
+      BlockMaterial.stone => const Color(0xFF6E6B64),
+      BlockMaterial.glass => const Color(0xDDCBEFF5),
+    };
+    final puffs = (4 + area * 2).clamp(4, 12).round();
+    final chips = (8 + area * 6).clamp(8, 26).round();
+    return ComposedParticle(
+      children: [
+        for (var i = 0; i < puffs; i++)
+          _puff(
+            rng,
+            spread: size,
+            color: material == BlockMaterial.glass
+                ? const Color(0xFFB9C7C9)
+                : _dust,
+          ),
+        for (var i = 0; i < chips; i++) _chip(rng, chipColor, spread: size),
+      ],
+    );
+  }
+
+  @override
+  Particle impactParticles(double strength, math.Random rng) {
+    final s = strength.clamp(0.3, 1.5);
+    return ComposedParticle(
+      children: [
+        for (var i = 0; i < (3 + 4 * s).round(); i++)
+          _puff(rng, spread: const Size(0.6, 0.6), scale: s),
+        for (var i = 0; i < (3 + 5 * s).round(); i++)
+          _chip(
+            rng,
+            const Color(0xFF4A3B2B),
+            spread: const Size(0.4, 0.4),
+            speed: 5 * s,
+          ),
+      ],
+    );
+  }
+
+  @override
+  Particle unitDeathParticles(UnitKind kind, math.Random rng) {
+    final cloth = kind == UnitKind.king
+        ? const Color(0xFF4B2A55)
+        : const Color(0xFF4F4636);
+    return ComposedParticle(
+      children: [
+        for (var i = 0; i < 6; i++)
+          _puff(
+            rng,
+            spread: const Size(0.8, 0.8),
+            color: const Color(0xFF3A332C),
+          ),
+        for (var i = 0; i < 8; i++)
+          _chip(rng, cloth, spread: const Size(0.6, 0.6)),
+        if (kind == UnitKind.king)
+          for (var i = 0; i < 6; i++)
+            _chip(
+              rng,
+              const Color(0xFFD4A437),
+              spread: const Size(0.5, 0.5),
+              speed: 7,
+            ),
+      ],
+    );
+  }
+
+  @override
+  Particle trailParticle(math.Random rng) => _puff(
+    rng,
+    spread: const Size(0.2, 0.2),
+    scale: 0.45,
+    color: const Color(0xFFB8A68E),
+    life: 0.45,
+    drift: false,
+  );
+
+  Particle _puff(
+    math.Random rng, {
+    required Size spread,
+    double scale = 1,
+    Color color = _dust,
+    double? life,
+    bool drift = true,
+  }) {
+    final lifespan = life ?? 0.9 + rng.nextDouble() * 0.7;
+    final r0 = (0.25 + rng.nextDouble() * 0.3) * scale;
+    return AcceleratedParticle(
+      lifespan: lifespan,
+      position: Vector2(
+        (rng.nextDouble() - 0.5) * spread.width,
+        (rng.nextDouble() - 0.5) * spread.height,
+      ),
+      speed: drift
+          ? Vector2((rng.nextDouble() - 0.5) * 3, -rng.nextDouble() * 2) * scale
+          : Vector2.zero(),
+      acceleration: Vector2(0, -0.6),
+      child: ComputedParticle(
+        lifespan: lifespan,
+        renderer: (canvas, p) {
+          final t = p.progress;
+          canvas.drawCircle(
+            Offset.zero,
+            r0 * (1 + 1.8 * t),
+            _particlePaint..color = color.withValues(alpha: 0.45 * (1 - t)),
+          );
+        },
+      ),
+    );
+  }
+
+  Particle _chip(
+    math.Random rng,
+    Color color, {
+    required Size spread,
+    double speed = 6,
+  }) {
+    final lifespan = 0.7 + rng.nextDouble() * 0.6;
+    final size = 0.08 + rng.nextDouble() * 0.16;
+    final spin = (rng.nextDouble() - 0.5) * 20;
+    final angle0 = rng.nextDouble() * math.pi;
+    final dir = Vector2(rng.nextDouble() - 0.5, -rng.nextDouble() * 0.9 - 0.1)
+      ..normalize();
+    return AcceleratedParticle(
+      lifespan: lifespan,
+      position: Vector2(
+        (rng.nextDouble() - 0.5) * spread.width,
+        (rng.nextDouble() - 0.5) * spread.height,
+      ),
+      speed: dir * (speed * (0.5 + rng.nextDouble())),
+      acceleration: Vector2(0, 12),
+      child: ComputedParticle(
+        lifespan: lifespan,
+        renderer: (canvas, p) {
+          final t = p.progress;
+          final fade = t > 0.7 ? (1 - t) / 0.3 : 1.0;
+          canvas
+            ..save()
+            ..rotate(angle0 + spin * t * lifespan)
+            ..drawRect(
+              Rect.fromCenter(
+                center: Offset.zero,
+                width: size,
+                height: size * 0.6,
+              ),
+              _particlePaint..color = color.withValues(alpha: color.a * fade),
+            )
+            ..restore();
+        },
+      ),
     );
   }
 }

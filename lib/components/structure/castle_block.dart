@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flame_forge2d/flame_forge2d.dart';
 
+import '../../core/collision.dart';
 import '../../core/damage.dart';
 import '../../core/materials.dart';
 import '../../game/siege_game.dart';
@@ -40,6 +41,7 @@ class CastleBlock extends BodyComponent<SiegeGame>
         density: spec.density,
         friction: spec.friction,
         restitution: spec.restitution,
+        filter: Filter()..categoryBits = CollisionCategory.structure,
       ),
     );
     return body;
@@ -55,6 +57,9 @@ class CastleBlock extends BodyComponent<SiegeGame>
       seed: _crackSeed,
     );
   }
+
+  @override
+  void onHit(double damage) => game.effects.blockHit(this, damage);
 
   @override
   void onDestroyed() => game.onBlockDestroyed(this);

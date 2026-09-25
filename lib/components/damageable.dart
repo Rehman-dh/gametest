@@ -5,6 +5,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import '../core/damage.dart';
 import '../game/siege_game.dart';
 import 'projectiles/stone_projectile.dart';
+import 'structure/debris_shard.dart';
 
 /// Gives a physics body hit points that drain from contact impulses.
 mixin Damageable on BodyComponent<SiegeGame>, ContactCallbacks {
@@ -19,10 +20,13 @@ mixin Damageable on BodyComponent<SiegeGame>, ContactCallbacks {
   /// Called once when hp reaches zero, before removal.
   void onDestroyed();
 
+  /// Called for every damaging hit, including the fatal one.
+  void onHit(double damage) {}
+
   @override
   void postSolve(Object other, Contact contact, ContactImpulse impulse) {
     super.postSolve(other, contact, impulse);
-    if (isDestroyed || !game.damageEnabled) return;
+    if (isDestroyed || !game.damageEnabled || other is DebrisShard) return;
     var peak = 0.0;
     for (var i = 0; i < impulse.count; i++) {
       peak = math.max(peak, impulse.normalImpulses[i]);
@@ -38,6 +42,7 @@ mixin Damageable on BodyComponent<SiegeGame>, ContactCallbacks {
     if (isDestroyed) return;
     hp -= amount;
     hurtFlash = 0.15;
+    onHit(amount);
     if (hp <= 0) destroy();
   }
 

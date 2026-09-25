@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flame_forge2d/flame_forge2d.dart';
 
+import '../../core/collision.dart';
 import '../../game/siege_game.dart';
 import '../../levels/level_data.dart';
 import '../damageable.dart';
@@ -34,6 +35,7 @@ class Unit extends BodyComponent<SiegeGame> with ContactCallbacks, Damageable {
         density: 1,
         friction: 0.8,
         restitution: 0.1,
+        filter: Filter()..categoryBits = CollisionCategory.unit,
       ),
     );
     return body;

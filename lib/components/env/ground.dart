@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flame_forge2d/flame_forge2d.dart';
 
+import '../../core/collision.dart';
 import '../../game/siege_game.dart';
 
 /// Static ground slab whose top surface is y = 0.
@@ -25,6 +26,7 @@ class Ground extends BodyComponent<SiegeGame> {
       FixtureDef(
         PolygonShape()..setAsBoxXY(_width / 2, depth / 2),
         friction: 0.9,
+        filter: Filter()..categoryBits = CollisionCategory.ground,
       ),
     );
     return body;

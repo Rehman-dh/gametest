@@ -8,13 +8,17 @@ import 'package:flutter/services.dart';
 
 import '../components/env/background.dart';
 import '../components/env/ground.dart';
+import '../components/env/ground_detail.dart';
 import '../components/fx/aim_guide.dart';
+import '../components/fx/vignette.dart';
 import '../components/projectiles/stone_projectile.dart';
 import '../components/structure/castle_block.dart';
+import '../components/structure/debris_shard.dart';
 import '../components/units/unit.dart';
 import '../components/weapons/catapult.dart';
 import '../core/scoring.dart';
 import '../levels/level_data.dart';
+import '../systems/effects.dart';
 import '../theme/art_theme.dart';
 import '../theme/stylized_theme.dart';
 
@@ -59,6 +63,10 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
   static const _marginBehindCatapult = 9.0;
 
   final ArtTheme theme;
+  late final Effects effects = Effects(this);
+
+  /// Unscaled seconds since start, for ambient animation.
+  double realTime = 0;
 
   final ValueNotifier<SiegePhase> phase = ValueNotifier(SiegePhase.menu);
   final ValueNotifier<int> shotsLeft = ValueNotifier(0);
@@ -74,6 +82,8 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
   bool get damageEnabled => _levelTime > _damageGracePeriod;
 
   bool _levelLoaded = false;
+  bool _objectiveAnnounced = false;
+  double _cameraBaseX = 0;
   double _levelTime = 0;
   double _settleTime = 0;
   int _shotsUsed = 0;
@@ -92,6 +102,13 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
   @override
   Color backgroundColor() => const Color(0xFF16202C);
 
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    camera.viewport.add(Vignette());
+    await effects.audio.load();
+  }
+
   // ------------------------------------------------------------ level flow
 
   Future<void> startLevel(int index) async {
@@ -100,6 +117,8 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
 
     world.removeAll(world.children.toList());
     _levelTime = 0;
+    _objectiveAnnounced = false;
+    effects.reset();
     _shotsUsed = 0;
     _destroyedBlockHp = 0;
     _totalBlockHp = 0;
@@ -116,6 +135,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
     await world.addAll([
       Background(),
       Ground(left: minWorldX, right: maxWorldX),
+      GroundDetail(),
       catapult,
       AimGuide(),
       ...blocks,
@@ -124,7 +144,9 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
 
     _levelLoaded = true;
     _fitCamera();
-    camera.viewfinder.position = Vector2(_cameraHomeX, _cameraY);
+    _cameraBaseX = _cameraHomeX;
+    camera.viewfinder.position = Vector2(_cameraBaseX, _cameraY);
+    effects.audio.startMusic();
     shotsLeft.value = level.shots;
     overlays
       ..removeAll(['menu', 'result'])
@@ -184,6 +206,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
     shotsLeft.value--;
     _shotsUsed++;
     catapult.release();
+    effects.launch();
     _projectile = StoneProjectile(
       start: catapult.launchOrigin,
       velocity: launchVelocity(pull),
@@ -201,21 +224,33 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
     phase.value = SiegePhase.settling;
   }
 
-  void onBlockDestroyed(CastleBlock block) => _destroyedBlockHp += block.maxHp;
+  void onBlockDestroyed(CastleBlock block) {
+    _destroyedBlockHp += block.maxHp;
+    effects.blockBroken(block);
+  }
 
-  void onUnitKilled(Unit unit) {}
+  void onUnitKilled(Unit unit) {
+    effects.unitKilled(unit);
+    if (!_objectiveAnnounced && _objectiveComplete) {
+      _objectiveAnnounced = true;
+      effects.objectiveComplete();
+    }
+  }
 
   // ---------------------------------------------------------------- update
 
   @override
   void update(double dt) {
-    super.update(dt);
+    realTime += dt;
+    effects.tick(dt);
+    final simDt = dt * effects.timeScale;
+    super.update(simDt);
     if (phase.value == SiegePhase.menu) return;
-    _levelTime += dt;
+    _levelTime += simDt;
     _updateCamera(dt);
 
     if (phase.value == SiegePhase.settling) {
-      _settleTime += dt;
+      _settleTime += simDt;
       if (_settleTime > 0.6 && (_worldAtRest() || _settleTime > 4)) {
         _resolveShot();
       }
@@ -224,6 +259,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
 
   bool _worldAtRest() => world.children.whereType<BodyComponent>().every(
     (c) =>
+        c is DebrisShard ||
         c.body.bodyType != BodyType.dynamic ||
         c.body.linearVelocity.length2 < 0.04,
   );
@@ -258,6 +294,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
       ),
     );
     phase.value = won ? SiegePhase.won : SiegePhase.lost;
+    effects.levelFinished(won: won);
     overlays.add('result');
   }
 
@@ -291,11 +328,9 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
     final minX = _cameraHomeX;
     final maxX = math.max(minX, level.worldWidth + 4 - _halfViewWidth);
     final target = (_projectile?.body.position.x ?? minX).clamp(minX, maxX);
-    final vf = camera.viewfinder;
-    final t = 1 - math.exp(-4 * dt);
-    vf.position = Vector2(
-      vf.position.x + (target - vf.position.x) * t,
-      _cameraY,
-    );
+    _cameraBaseX += (target - _cameraBaseX) * (1 - math.exp(-4 * dt));
+    camera.viewfinder
+      ..position = Vector2(_cameraBaseX, _cameraY) + effects.shakeOffset
+      ..angle = effects.shakeAngle;
   }
 }

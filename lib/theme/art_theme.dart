@@ -1,4 +1,7 @@
+import 'dart:math' as math;
 import 'dart:ui';
+
+import 'package:flame/particles.dart';
 
 import '../core/materials.dart';
 import '../levels/level_data.dart';
@@ -13,7 +16,14 @@ import '../levels/level_data.dart';
 /// (y-down, origin at the body's center unless stated otherwise).
 abstract class ArtTheme {
   /// Sky and parallax background layers covering [visible] (world rect).
-  void drawBackground(Canvas canvas, Rect visible);
+  /// [time] is real seconds, for ambient motion (clouds, drifting dust).
+  void drawBackground(Canvas canvas, Rect visible, double time);
+
+  /// Ground-level detail drawn in front of the battlefield (tufts, stones).
+  void drawGroundDetail(Canvas canvas, Rect visible);
+
+  /// Screen-space darkening of the edges; [size] is the viewport size.
+  void drawVignette(Canvas canvas, Size size);
 
   /// Ground slab; [rect] top edge is the ground surface.
   void drawGround(Canvas canvas, Rect rect);
@@ -25,6 +35,9 @@ abstract class ArtTheme {
     required int crackStage,
     required int seed,
   });
+
+  /// A fractured piece of a block; [polygon] is centered on the origin.
+  void drawShard(Canvas canvas, List<Offset> polygon, BlockMaterial material);
 
   void drawUnit(
     Canvas canvas,
@@ -43,4 +56,14 @@ abstract class ArtTheme {
 
   /// Pull-back line from the launch origin to the drag point.
   void drawAimBand(Canvas canvas, Offset from, Offset to, double power);
+
+  // Particle effects, positioned relative to the spawn point (meters).
+
+  Particle breakParticles(BlockMaterial material, Size size, math.Random rng);
+
+  Particle impactParticles(double strength, math.Random rng);
+
+  Particle unitDeathParticles(UnitKind kind, math.Random rng);
+
+  Particle trailParticle(math.Random rng);
 }

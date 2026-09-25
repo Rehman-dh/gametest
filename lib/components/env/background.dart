@@ -10,6 +10,10 @@ class Background extends Component with HasGameReference<SiegeGame> {
 
   @override
   void render(Canvas canvas) {
-    game.theme.drawBackground(canvas, game.camera.visibleWorldRect);
+    game.theme.drawBackground(
+      canvas,
+      game.camera.visibleWorldRect,
+      game.realTime,
+    );
   }
 }
