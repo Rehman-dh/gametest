@@ -45,7 +45,13 @@ class Hud extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(game.level.name, style: UiStyle.body),
+                  Text(
+                    game.endless == null
+                        ? game.level.name
+                        : 'Endless · ${game.level.name} · '
+                              '${game.endless!.score} pts',
+                    style: UiStyle.body,
+                  ),
                   const SizedBox(height: 6),
                   _AmmoPicker(game: game),
                 ],
@@ -61,12 +67,15 @@ class Hud extends StatelessWidget {
             ],
             const Spacer(),
             _CrewAbilities(game: game),
-            _IconAction(
-              icon: Icons.replay,
-              onTap: () =>
-                  game.startLevel(game.levelIndex, loadout: game.loadout),
-            ),
-            const SizedBox(width: 8),
+            // No do-overs in endless mode.
+            if (game.endless == null) ...[
+              _IconAction(
+                icon: Icons.replay,
+                onTap: () =>
+                    game.startLevel(game.levelIndex, loadout: game.loadout),
+              ),
+              const SizedBox(width: 8),
+            ],
             _IconAction(icon: Icons.map_outlined, onTap: game.showMap),
           ],
         ),

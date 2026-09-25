@@ -36,8 +36,37 @@ class MainMenu extends StatelessWidget {
                   icon: Icons.fort,
                   onPressed: game.showCamp,
                 ),
+                if (game.campaign?.endlessUnlocked ?? false)
+                  SiegeButton(
+                    label: 'Endless',
+                    icon: Icons.all_inclusive,
+                    onPressed: game.startEndless,
+                  ),
               ],
             ),
+            if (!(game.campaign?.endlessUnlocked ?? false))
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(
+                  'Endless mode opens after The Oasis Garrison',
+                  style: UiStyle.body.copyWith(
+                    fontSize: 12,
+                    color: UiStyle.bronze,
+                  ),
+                ),
+              )
+            else if ((game.campaign?.progress.value.endlessBest ?? 0) > 0)
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(
+                  'Endless best: ${game.campaign!.progress.value.endlessBest} points'
+                  ' · ${game.campaign!.progress.value.endlessBestDepth} castles',
+                  style: UiStyle.body.copyWith(
+                    fontSize: 12,
+                    color: UiStyle.bronze,
+                  ),
+                ),
+              ),
             const SizedBox(height: 16),
             ValueListenableBuilder<int>(
               valueListenable: game.themeIndex,

@@ -12,6 +12,8 @@ class Progress {
     this.crewXp = const {},
     this.relics = const {},
     this.seenCutscenes = const {},
+    this.endlessBest = 0,
+    this.endlessBestDepth = 0,
   });
 
   factory Progress.fromJson(Map<String, dynamic> json) => Progress(
@@ -35,6 +37,8 @@ class Progress {
     seenCutscenes: {
       for (final c in json['seenCutscenes'] as List? ?? const []) c as String,
     },
+    endlessBest: json['endlessBest'] as int? ?? 0,
+    endlessBestDepth: json['endlessBestDepth'] as int? ?? 0,
   );
 
   factory Progress.decode(String source) =>
@@ -53,6 +57,10 @@ class Progress {
   /// Story scenes already shown, so each plays once.
   final Set<String> seenCutscenes;
 
+  /// Best endless-mode score, and the most castles taken in one run.
+  final int endlessBest;
+  final int endlessBestDepth;
+
   int building(BuildingId id) => buildings[id] ?? 0;
   bool hasCrew(CrewId id) => crewXp.containsKey(id);
   int crewLevel(CrewId id) => crewLevelFor(crewXp[id] ?? 0);
@@ -65,6 +73,8 @@ class Progress {
     Map<CrewId, int>? crewXp,
     Set<RelicId>? relics,
     Set<String>? seenCutscenes,
+    int? endlessBest,
+    int? endlessBestDepth,
   }) => Progress(
     gold: gold ?? this.gold,
     stars: stars ?? this.stars,
@@ -72,6 +82,8 @@ class Progress {
     crewXp: crewXp ?? this.crewXp,
     relics: relics ?? this.relics,
     seenCutscenes: seenCutscenes ?? this.seenCutscenes,
+    endlessBest: endlessBest ?? this.endlessBest,
+    endlessBestDepth: endlessBestDepth ?? this.endlessBestDepth,
   );
 
   Map<String, dynamic> toJson() => {
@@ -81,6 +93,8 @@ class Progress {
     'crewXp': {for (final e in crewXp.entries) e.key.name: e.value},
     'relics': [for (final r in relics) r.name],
     'seenCutscenes': seenCutscenes.toList(),
+    'endlessBest': endlessBest,
+    'endlessBestDepth': endlessBestDepth,
   };
 
   String encode() => jsonEncode(toJson());

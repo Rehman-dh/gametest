@@ -12,6 +12,7 @@ class ResultPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final result = game.lastResult!;
+    if (result.endless != null) return _endless(result, result.endless!);
     return ColoredBox(
       color: const Color(0x88000000),
       child: Center(
@@ -100,5 +101,77 @@ class ResultPanel extends StatelessWidget {
       for (final line in lines)
         Text(line, style: UiStyle.body.copyWith(color: UiStyle.bronze)),
     ];
+  }
+
+  Widget _endless(LevelResult result, EndlessOutcome outcome) {
+    final title = outcome.runOver
+        ? 'THE RUN ENDS'
+        : '${game.level.name.toUpperCase()} TAKEN';
+    final lines = outcome.runOver
+        ? [
+            'Castles taken: ${outcome.castles}',
+            'Final score: ${outcome.score}',
+            if (outcome.newBest) 'A new best!',
+            if (outcome.gold > 0) '+${outcome.gold} gold for the war chest',
+          ]
+        : [
+            '+${outcome.points} points',
+            'Score: ${outcome.score}',
+            'Your ammunition and damage carry on.',
+          ];
+    return ColoredBox(
+      color: const Color(0x88000000),
+      child: Center(
+        child: Container(
+          width: 420,
+          padding: const EdgeInsets.all(24),
+          decoration: UiStyle.panelDecoration,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title,
+                style: UiStyle.heading.copyWith(
+                  color: outcome.runOver ? UiStyle.blood : UiStyle.parchment,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 12),
+              for (final line in lines)
+                Text(line, style: UiStyle.body.copyWith(color: UiStyle.bronze)),
+              const SizedBox(height: 20),
+              Wrap(
+                spacing: 10,
+                children: outcome.runOver
+                    ? [
+                        SiegeButton(
+                          label: 'Map',
+                          icon: Icons.map_outlined,
+                          onPressed: game.showMap,
+                        ),
+                        SiegeButton(
+                          label: 'New run',
+                          icon: Icons.replay,
+                          onPressed: game.startEndless,
+                        ),
+                      ]
+                    : [
+                        SiegeButton(
+                          label: 'End run',
+                          icon: Icons.flag_outlined,
+                          onPressed: game.endEndlessRun,
+                        ),
+                        SiegeButton(
+                          label: 'Next castle',
+                          icon: Icons.arrow_forward,
+                          onPressed: game.continueEndless,
+                        ),
+                      ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

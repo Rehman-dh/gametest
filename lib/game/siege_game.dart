@@ -30,6 +30,7 @@ import '../story/characters.dart';
 import '../levels/level_data.dart';
 import '../meta/campaign.dart';
 import '../meta/catalog.dart';
+import '../meta/endless.dart';
 import '../meta/loadout.dart';
 import '../meta/rewards.dart';
 import '../systems/effects.dart';
@@ -57,6 +58,7 @@ class LevelResult {
     required this.destruction,
     this.defeat,
     this.reward = const Reward(),
+    this.endless,
   });
 
   final bool won;
@@ -64,6 +66,29 @@ class LevelResult {
   final double destruction;
   final DefeatReason? defeat;
   final Reward reward;
+
+  /// Set for endless-mode castles.
+  final EndlessOutcome? endless;
+}
+
+/// How an endless castle went: points for a taken castle, or the final
+/// tally when the run ends.
+class EndlessOutcome {
+  const EndlessOutcome({
+    required this.points,
+    required this.score,
+    required this.castles,
+    this.runOver = false,
+    this.newBest = false,
+    this.gold = 0,
+  });
+
+  final int points;
+  final int score;
+  final int castles;
+  final bool runOver;
+  final bool newBest;
+  final int gold;
 }
 
 class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
@@ -200,7 +225,21 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
 
   Future<void> startLevel(int index, {Loadout? loadout}) async {
     levelIndex = index;
-    level = LevelData.parse(await rootBundle.loadString(levelFiles[index]));
+    endless = null;
+    await startCustomLevel(
+      LevelData.parse(await rootBundle.loadString(levelFiles[index])),
+      loadout: loadout,
+    );
+  }
+
+  /// Starts a siege from level data not in [levelFiles], such as an
+  /// endless-mode castle. [engineHp] carries damage over between castles.
+  Future<void> startCustomLevel(
+    LevelData data, {
+    Loadout? loadout,
+    double? engineHp,
+  }) async {
+    level = data;
     this.loadout = loadout ?? Loadout.levelDefault(level);
     modifiers = campaign == null
         ? Modifiers.none
@@ -233,7 +272,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     }
     siegeEngine = SiegeEngine(type: weapon, x: level.catapultX);
     playerTarget = PlayerTarget(x: level.catapultX);
-    playerHp.value = playerMaxHp;
+    playerHp.value = math.min(engineHp ?? playerMaxHp, playerMaxHp);
     await world.addAll([
       Background(),
       Ground(left: minWorldX, right: maxWorldX),
@@ -346,6 +385,40 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
       );
       _bannerTime = 0;
     }
+  }
+
+  /// The endless run in progress, if any.
+  EndlessRun? endless;
+
+  /// Starts a new endless run with a fresh random seed.
+  Future<void> startEndless() {
+    endless = EndlessRun(seed: (random ?? math.Random()).nextInt(1 << 30));
+    return _startEndlessCastle();
+  }
+
+  Future<void> _startEndlessCastle() async {
+    final run = endless!;
+    final armory = campaign?.armory;
+    await startCustomLevel(
+      run.castle,
+      loadout: Loadout(
+        weapon: WeaponType.catapult,
+        ammo: run.rounds,
+        crew: [...?armory?.availableCrew().take(armory.crewSlots())],
+      ),
+      engineHp: run.engineHp,
+    );
+    effects.stageBegins(level.name);
+  }
+
+  void continueEndless() => _startEndlessCastle();
+
+  /// Ends the run by choice (from a won castle's result).
+  void endEndlessRun() {
+    final run = endless;
+    if (run != null) campaign?.recordEndless(run);
+    endless = null;
+    showMap();
   }
 
   /// Level index the Siege Prep screen is preparing.
@@ -755,23 +828,53 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
       destruction: destruction,
       weakPointHit: level.hasWeakPoints ? _weakPointHit : null,
     );
+    final run = endless;
     lastResult = LevelResult(
       won: won,
       destruction: destruction,
       defeat: defeat,
       stars: stars,
-      reward:
-          campaign?.recordResult(
-            level: level,
-            won: won,
-            stars: stars,
-            loadout: loadout,
-          ) ??
-          const Reward(),
+      reward: run != null
+          ? const Reward()
+          : campaign?.recordResult(
+                  level: level,
+                  won: won,
+                  stars: stars,
+                  loadout: loadout,
+                ) ??
+                const Reward(),
+      endless: run == null ? null : _endlessOutcome(run, won: won),
     );
     phase.value = won ? SiegePhase.won : SiegePhase.lost;
     effects.levelFinished(won: won);
     overlays.add('result');
+  }
+
+  EndlessOutcome _endlessOutcome(EndlessRun run, {required bool won}) {
+    if (won) {
+      final points = run.recordVictory(
+        ammoLeft: ammo.value,
+        engineHpLeft: playerHp.value,
+        engineMaxHp: playerMaxHp,
+        shotsUsed: _shotsUsed,
+        destruction: destruction,
+      );
+      return EndlessOutcome(
+        points: points,
+        score: run.score,
+        castles: run.castlesTaken,
+      );
+    }
+    final newBest = campaign?.recordEndless(run) ?? false;
+    endless = null;
+    return EndlessOutcome(
+      points: 0,
+      score: run.score,
+      castles: run.castlesTaken,
+      runOver: true,
+      newBest: newBest,
+      gold: run.goldEarned,
+    );
   }
 
   // ---------------------------------------------------------------- camera

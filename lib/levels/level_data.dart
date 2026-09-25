@@ -63,6 +63,18 @@ class BlockData {
   /// A hidden structural flaw (rotten beam, cracked keystone): much weaker,
   /// and breaking it earns the level's hidden-objective star.
   final bool weak;
+
+  BlockData shifted(double dx) => copyWith(x: x + dx);
+
+  BlockData copyWith({double? x, bool? weak}) => BlockData(
+    material: material,
+    x: x ?? this.x,
+    y: y,
+    width: width,
+    height: height,
+    angle: angle,
+    weak: weak ?? this.weak,
+  );
 }
 
 class UnitData {
@@ -76,6 +88,8 @@ class UnitData {
 
   final UnitKind kind;
   final double x, y;
+
+  UnitData shifted(double dx) => UnitData(kind: kind, x: x + dx, y: y);
 }
 
 class PropData {
@@ -89,6 +103,8 @@ class PropData {
 
   final PropKind kind;
   final double x, y;
+
+  PropData shifted(double dx) => PropData(kind: kind, x: x + dx, y: y);
 }
 
 /// A line spoken during a siege, shown briefly over the HUD.

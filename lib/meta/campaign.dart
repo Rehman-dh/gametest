@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 
 import '../levels/level_data.dart';
 import 'catalog.dart';
+import 'endless.dart';
 import 'loadout.dart';
 import 'progress.dart';
 import 'rewards.dart';
@@ -66,6 +67,27 @@ class Campaign {
         seenCutscenes: {...progress.value.seenCutscenes, cutscene},
       ),
     );
+  }
+
+  /// Endless mode opens once the Oasis Garrison has fallen.
+  static const endlessUnlockLevel = 'egypt_10';
+
+  bool get endlessUnlocked => progress.value.isWon(endlessUnlockLevel);
+
+  /// Banks a finished endless run; returns whether it set a new best.
+  bool recordEndless(EndlessRun run) {
+    final p = progress.value;
+    final best = run.score > p.endlessBest;
+    _commit(
+      p.copyWith(
+        gold: p.gold + run.goldEarned,
+        endlessBest: best ? run.score : p.endlessBest,
+        endlessBestDepth: run.castlesTaken > p.endlessBestDepth
+            ? run.castlesTaken
+            : p.endlessBestDepth,
+      ),
+    );
+    return best;
   }
 
   bool upgrade(BuildingId building) {
