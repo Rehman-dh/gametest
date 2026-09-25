@@ -37,8 +37,8 @@ class LevelResult {
 }
 
 class SiegeGame extends Forge2DGame with DragCallbacks {
-  SiegeGame({ArtTheme? theme})
-    : theme = theme ?? StylizedTheme(),
+  SiegeGame({List<ArtTheme>? themes})
+    : themes = themes ?? [StylizedTheme()],
       super(gravity: Vector2(0, 12));
 
   static const levelFiles = [
@@ -62,7 +62,13 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
   /// Empty ground shown behind the catapult, in meters.
   static const _marginBehindCatapult = 9.0;
 
-  final ArtTheme theme;
+  /// Available art styles; the first is active by default.
+  final List<ArtTheme> themes;
+  late final ValueNotifier<int> themeIndex = ValueNotifier(0);
+  ArtTheme get theme => themes[themeIndex.value];
+
+  void cycleArtStyle() =>
+      themeIndex.value = (themeIndex.value + 1) % themes.length;
   late final Effects effects = Effects(this);
 
   /// Unscaled seconds since start, for ambient animation.

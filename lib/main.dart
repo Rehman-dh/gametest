@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'game/siege_game.dart';
+import 'theme/realistic_theme.dart';
+import 'theme/stylized_theme.dart';
 import 'ui/overlays/hud.dart';
 import 'ui/overlays/main_menu.dart';
 import 'ui/overlays/result_panel.dart';
@@ -14,18 +16,14 @@ Future<void> main() async {
     DeviceOrientation.landscapeRight,
   ]);
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-  runApp(const SiegeApp());
+  final realistic = await RealisticTheme.load();
+  runApp(SiegeApp(game: SiegeGame(themes: [realistic, StylizedTheme()])));
 }
 
-class SiegeApp extends StatefulWidget {
-  const SiegeApp({super.key});
+class SiegeApp extends StatelessWidget {
+  const SiegeApp({super.key, required this.game});
 
-  @override
-  State<SiegeApp> createState() => _SiegeAppState();
-}
-
-class _SiegeAppState extends State<SiegeApp> {
-  final _game = SiegeGame();
+  final SiegeGame game;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +33,7 @@ class _SiegeAppState extends State<SiegeApp> {
       theme: ThemeData.dark(),
       home: Scaffold(
         body: GameWidget<SiegeGame>(
-          game: _game,
+          game: game,
           initialActiveOverlays: const ['menu'],
           overlayBuilderMap: {
             'menu': (_, game) => MainMenu(game: game),

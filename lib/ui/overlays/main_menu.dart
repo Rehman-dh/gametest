@@ -33,6 +33,18 @@ class MainMenu extends StatelessWidget {
                   ),
               ],
             ),
+            const SizedBox(height: 16),
+            ValueListenableBuilder<int>(
+              valueListenable: game.themeIndex,
+              builder: (_, index, _) => TextButton.icon(
+                onPressed: game.cycleArtStyle,
+                icon: const Icon(Icons.palette_outlined, color: UiStyle.bronze),
+                label: Text(
+                  'Art style: ${index == 0 ? 'Painted realistic' : 'Stylized'}',
+                  style: UiStyle.body.copyWith(color: UiStyle.bronze),
+                ),
+              ),
+            ),
           ],
         ),
       ),

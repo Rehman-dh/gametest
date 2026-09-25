@@ -14,6 +14,9 @@ class Catapult extends PositionComponent with HasGameReference<SiegeGame> {
   static const _pivot = (x: 0.0, y: -2.8);
   static const _armLength = 3.3;
 
+  /// Visual and launch-point size of the siege engine.
+  static const _scale = 1.35;
+
   double _armAngle = _cockedAngle;
   double _releaseTime = double.infinity;
 
@@ -21,9 +24,10 @@ class Catapult extends PositionComponent with HasGameReference<SiegeGame> {
   Vector2 get launchOrigin =>
       position +
       Vector2(
-        _pivot.x + _armLength * math.sin(_cockedAngle),
-        _pivot.y - _armLength * math.cos(_cockedAngle),
-      );
+            _pivot.x + _armLength * math.sin(_cockedAngle),
+            _pivot.y - _armLength * math.cos(_cockedAngle),
+          ) *
+          _scale;
 
   void release() => _releaseTime = 0;
 
@@ -48,7 +52,11 @@ class Catapult extends PositionComponent with HasGameReference<SiegeGame> {
 
   @override
   void render(Canvas canvas) {
+    canvas
+      ..save()
+      ..scale(_scale);
     game.theme.drawCatapult(canvas, armAngle: _armAngle);
+    canvas.restore();
     if (game.phase.value == SiegePhase.aiming && _releaseTime.isInfinite) {
       // Show the next stone sitting in the bucket.
       final o = launchOrigin - position;
