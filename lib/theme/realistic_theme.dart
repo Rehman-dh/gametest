@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import '../core/materials.dart';
 import '../core/weapons.dart';
 import '../levels/level_data.dart';
-import 'stylized_theme.dart';
+import 'procedural_theme.dart';
 
 enum _Tex {
   wood('rough_wood.jpg'),
@@ -21,11 +21,11 @@ enum _Tex {
   final String file;
 }
 
-/// Painted-realistic look: photo textures (CC0, Poly Haven) on every
-/// block and beam, soft top-down lighting, an overcast sky and misty
-/// layered hills. Particles and aiming visuals are inherited from
-/// [StylizedTheme].
-class RealisticTheme extends StylizedTheme {
+/// The game's look: photo textures (CC0, Poly Haven) on every block and
+/// beam, soft top-down lighting, an overcast sky and misty layered hills.
+/// Anything without a texture yet (particles, characters) comes from
+/// [ProceduralTheme].
+class RealisticTheme extends ProceduralTheme {
   RealisticTheme._(this._images);
 
   static Future<RealisticTheme> load() async {

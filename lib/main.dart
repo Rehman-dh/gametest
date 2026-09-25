@@ -6,7 +6,6 @@ import 'game/siege_game.dart';
 import 'meta/campaign.dart';
 import 'meta/save_repository.dart';
 import 'theme/realistic_theme.dart';
-import 'theme/stylized_theme.dart';
 import 'ui/overlays/cutscene_overlay.dart';
 import 'ui/overlays/hud.dart';
 import 'ui/overlays/main_menu.dart';
@@ -30,7 +29,7 @@ Future<void> main() async {
   await campaign.load();
   runApp(
     SiegeApp(
-      game: SiegeGame(themes: [realistic, StylizedTheme()], campaign: campaign),
+      game: SiegeGame(theme: realistic, campaign: campaign),
     ),
   );
 }

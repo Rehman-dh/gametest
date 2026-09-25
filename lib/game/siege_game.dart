@@ -36,7 +36,7 @@ import '../meta/rewards.dart';
 import '../systems/effects.dart';
 import '../systems/enemy_commander.dart';
 import '../theme/art_theme.dart';
-import '../theme/stylized_theme.dart';
+import '../theme/procedural_theme.dart';
 
 enum SiegePhase {
   menu,
@@ -93,11 +93,11 @@ class EndlessOutcome {
 
 class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   SiegeGame({
-    List<ArtTheme>? themes,
+    ArtTheme? theme,
     this.audioEnabled = true,
     this.random,
     this.campaign,
-  }) : themes = themes ?? [StylizedTheme()],
+  }) : theme = theme ?? ProceduralTheme(),
        super(gravity: Vector2(0, 12));
 
   static const levelFiles = [
@@ -141,13 +141,8 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   /// False in headless tests, where no audio device exists.
   final bool audioEnabled;
 
-  /// Available art styles; the first is active by default.
-  final List<ArtTheme> themes;
-  late final ValueNotifier<int> themeIndex = ValueNotifier(0);
-  ArtTheme get theme => themes[themeIndex.value];
-
-  void cycleArtStyle() =>
-      themeIndex.value = (themeIndex.value + 1) % themes.length;
+  /// Draws everything in the game.
+  final ArtTheme theme;
   late final Effects effects = Effects(this);
 
   /// Seeds enemy aim, for reproducible tests.

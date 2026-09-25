@@ -11,9 +11,11 @@ import '../levels/level_data.dart';
 import '../story/characters.dart';
 import 'art_theme.dart';
 
-/// Procedurally drawn stylized look with a serious dusk mood:
-/// muted palette, strong silhouettes, dark outlines. No image assets yet.
-class StylizedTheme implements ArtTheme {
+/// Everything drawn in code: the foundation the realistic theme builds on
+/// (particles, fire, characters, siege engines and anything without a
+/// texture yet), and a light theme for headless tests that need no image
+/// assets. It is not offered to players as a style of its own.
+class ProceduralTheme implements ArtTheme {
   static const _outline = Color(0xFF1A140F);
   static const _stroke = 0.07;
 
@@ -717,7 +719,7 @@ class StylizedTheme implements ArtTheme {
         hoop,
       );
     }
-    // Painted warning mark.
+    // Stencilled warning mark.
     canvas.drawCircle(
       Offset.zero,
       size.width * 0.18,
