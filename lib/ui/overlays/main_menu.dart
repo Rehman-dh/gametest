@@ -1,15 +1,14 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 import '../../game/siege_game.dart';
 import '../../meta/campaign.dart';
 import '../../meta/progress.dart';
 import '../ui_style.dart';
 
-/// Title screen over a live demo siege: a dark panel on the left with the
-/// title and choices, embers drifting across everything.
+/// Title screen over a live demo siege: a bouncing title, one big play
+/// button, and the camp and endless mode beside it.
 class MainMenu extends StatefulWidget {
   const MainMenu({super.key, required this.game});
 
@@ -19,45 +18,18 @@ class MainMenu extends StatefulWidget {
   State<MainMenu> createState() => _MainMenuState();
 }
 
-class _MainMenuState extends State<MainMenu> with TickerProviderStateMixin {
-  late final AnimationController _intro = AnimationController(
+class _MainMenuState extends State<MainMenu>
+    with SingleTickerProviderStateMixin {
+  /// Drives the title's gentle float.
+  late final AnimationController _float = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 1600),
-  )..forward();
-
-  late final AnimationController _glow = AnimationController(
-    vsync: this,
-    duration: const Duration(seconds: 4),
-  )..repeat(reverse: true);
+    duration: const Duration(seconds: 3),
+  )..repeat();
 
   @override
   void dispose() {
-    _intro.dispose();
-    _glow.dispose();
+    _float.dispose();
     super.dispose();
-  }
-
-  /// Fades and slides a child in, starting at [start] of the intro (0–1).
-  Widget _enter(double start, Widget child) {
-    final curve = CurvedAnimation(
-      parent: _intro,
-      curve: Interval(
-        start,
-        math.min(1, start + 0.45),
-        curve: Curves.easeOutCubic,
-      ),
-    );
-    return AnimatedBuilder(
-      animation: curve,
-      builder: (_, child) => Opacity(
-        opacity: curve.value,
-        child: Transform.translate(
-          offset: Offset(-40 * (1 - curve.value), 0),
-          child: child,
-        ),
-      ),
-      child: child,
-    );
   }
 
   @override
@@ -67,92 +39,120 @@ class _MainMenuState extends State<MainMenu> with TickerProviderStateMixin {
     return Stack(
       fit: StackFit.expand,
       children: [
-        // Darken the left for the menu, leave the siege visible on the right.
+        // A soft wash at the top so the title reads over any sky.
         const IgnorePointer(
           child: DecoratedBox(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [
-                  Color(0xF00B0806),
-                  Color(0xB00B0806),
-                  Color(0x000B0806),
-                ],
-                stops: [0, 0.38, 0.62],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Color(0x552B1A0E), Color(0x002B1A0E)],
+                stops: [0, 0.45],
               ),
             ),
           ),
         ),
-        const IgnorePointer(child: _Embers()),
         SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(28, 12, 16, 10),
-            child: ValueListenableBuilder<Progress?>(
-              valueListenable:
-                  campaign?.progress ?? ValueNotifier<Progress?>(null),
-              builder: (context, progress, _) {
-                final started = progress?.stars.isNotEmpty ?? false;
-                final endlessOpen = campaign?.endlessUnlocked ?? false;
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _enter(0, _Title(glow: _glow)),
-                    const SizedBox(height: 4),
-                    _enter(
-                      0.1,
-                      Text(
-                        'Every wall has a flaw.',
-                        style: UiStyle.body.copyWith(
-                          fontStyle: FontStyle.italic,
-                          color: UiStyle.parchment.withValues(alpha: 0.7),
+          child: ValueListenableBuilder<Progress?>(
+            valueListenable:
+                campaign?.progress ?? ValueNotifier<Progress?>(null),
+            builder: (context, progress, _) {
+              final started = progress?.stars.isNotEmpty ?? false;
+              final endlessOpen = campaign?.endlessUnlocked ?? false;
+              return Stack(
+                children: [
+                  if (progress != null)
+                    Positioned(
+                      top: 10,
+                      right: 16,
+                      child: PopIn(
+                        delay: const Duration(milliseconds: 700),
+                        from: const Offset(0.4, 0),
+                        child: _Stats(progress: progress, campaign: campaign!),
+                      ),
+                    ),
+                  Align(
+                    alignment: const Alignment(0, -0.2),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        PopIn(
+                          from: const Offset(0, -0.6),
+                          child: AnimatedBuilder(
+                            animation: _float,
+                            builder: (_, child) => Transform.translate(
+                              offset: Offset(
+                                0,
+                                math.sin(_float.value * 2 * math.pi) * 4,
+                              ),
+                              child: child,
+                            ),
+                            child: const _Title(),
+                          ),
                         ),
-                      ),
+                        const SizedBox(height: 6),
+                        const PopIn(
+                          delay: Duration(milliseconds: 200),
+                          child: RibbonTitle(
+                            'Every wall has a flaw',
+                            color: Color(0xFFC98A2E),
+                          ),
+                        ),
+                        const SizedBox(height: 22),
+                        PopIn(
+                          delay: const Duration(milliseconds: 380),
+                          child: _PulsingPlay(
+                            label: started ? 'Continue' : 'Play',
+                            onTap: game.showMap,
+                          ),
+                        ),
+                        const SizedBox(height: 14),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            PopIn(
+                              delay: const Duration(milliseconds: 520),
+                              child: CartoonButton(
+                                label: 'Siege Camp',
+                                icon: Icons.fort,
+                                tone: ButtonTone.orange,
+                                onPressed: game.showCamp,
+                              ),
+                            ),
+                            const SizedBox(width: 14),
+                            PopIn(
+                              delay: const Duration(milliseconds: 620),
+                              child: CartoonButton(
+                                label: endlessOpen
+                                    ? 'Endless'
+                                    : 'Endless · locked',
+                                icon: endlessOpen
+                                    ? Icons.all_inclusive
+                                    : Icons.lock,
+                                tone: ButtonTone.blue,
+                                onPressed: endlessOpen
+                                    ? game.startEndless
+                                    : null,
+                              ),
+                            ),
+                          ],
+                        ),
+                        if (endlessOpen && (progress?.endlessBest ?? 0) > 0)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: OutlinedText(
+                              'Endless best ${progress!.endlessBest} · '
+                              '${progress.endlessBestDepth} castles',
+                              size: 13,
+                              stroke: 3,
+                            ),
+                          ),
+                      ],
                     ),
-                    const Spacer(),
-                    _enter(
-                      0.25,
-                      _MenuButton(
-                        icon: Icons.local_fire_department,
-                        label: started ? 'Continue campaign' : 'Begin campaign',
-                        detail: 'Era I · Egypt',
-                        primary: true,
-                        onTap: game.showMap,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    _enter(
-                      0.35,
-                      _MenuButton(
-                        icon: Icons.fort,
-                        label: 'Siege Camp',
-                        detail: 'Buildings, crew and relics',
-                        onTap: game.showCamp,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    _enter(
-                      0.45,
-                      _MenuButton(
-                        icon: Icons.all_inclusive,
-                        label: 'Endless',
-                        detail: endlessOpen
-                            ? (progress!.endlessBest > 0
-                                  ? 'Best ${progress.endlessBest} · ${progress.endlessBestDepth} castles'
-                                  : 'Castle after castle, until you fall')
-                            : 'Opens after The Oasis Garrison',
-                        locked: !endlessOpen,
-                        onTap: game.startEndless,
-                      ),
-                    ),
-                    const Spacer(),
-                    if (progress != null)
-                      _enter(
-                        0.6,
-                        _Stats(progress: progress, campaign: campaign!),
-                      ),
-                  ],
-                );
-              },
-            ),
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ],
@@ -161,161 +161,84 @@ class _MainMenuState extends State<MainMenu> with TickerProviderStateMixin {
 }
 
 class _Title extends StatelessWidget {
-  const _Title({required this.glow});
-
-  final Animation<double> glow;
+  const _Title();
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: glow,
-      builder: (_, _) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'ERA I · EGYPT',
-            style: UiStyle.body.copyWith(
-              fontSize: 12,
-              letterSpacing: 5,
-              color: UiStyle.bronze,
+    return Stack(
+      children: [
+        Text(
+          'THE LAST SIEGE',
+          style: TextStyle(
+            fontSize: 58,
+            fontWeight: FontWeight.w900,
+            letterSpacing: 3,
+            foreground: Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 10
+              ..strokeJoin = StrokeJoin.round
+              ..color = UiStyle.ink,
+          ),
+        ),
+        ShaderMask(
+          shaderCallback: (bounds) => const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFFFFF4B0), Color(0xFFFFC933), Color(0xFFE88A1C)],
+            stops: [0, 0.5, 1],
+          ).createShader(bounds),
+          child: const Text(
+            'THE LAST SIEGE',
+            style: TextStyle(
+              fontSize: 58,
+              fontWeight: FontWeight.w900,
+              letterSpacing: 3,
+              color: Colors.white,
             ),
           ),
-          ShaderMask(
-            shaderCallback: (bounds) => const LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Color(0xFFF6E6B8), Color(0xFFD2A55A), Color(0xFF8A6230)],
-            ).createShader(bounds),
-            child: Text(
-              'THE LAST\nSIEGE',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 44,
-                height: 0.95,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 6,
-                shadows: [
-                  Shadow(
-                    color: const Color(0xFFE08A3A)
-                        .withValues(alpha: 0.25 + 0.3 * glow.value),
-                    blurRadius: 18 + 10 * glow.value,
-                  ),
-                  const Shadow(
-                    color: Color(0xCC000000),
-                    offset: Offset(2, 3),
-                    blurRadius: 4,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
 
-class _MenuButton extends StatefulWidget {
-  const _MenuButton({
-    required this.icon,
-    required this.label,
-    required this.detail,
-    required this.onTap,
-    this.primary = false,
-    this.locked = false,
-  });
+/// The main call to action, breathing gently so the eye finds it.
+class _PulsingPlay extends StatefulWidget {
+  const _PulsingPlay({required this.label, required this.onTap});
 
-  final IconData icon;
   final String label;
-  final String detail;
   final VoidCallback onTap;
-  final bool primary;
-  final bool locked;
 
   @override
-  State<_MenuButton> createState() => _MenuButtonState();
+  State<_PulsingPlay> createState() => _PulsingPlayState();
 }
 
-class _MenuButtonState extends State<_MenuButton> {
-  bool _pressed = false;
+class _PulsingPlayState extends State<_PulsingPlay>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _pulse = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1300),
+  )..repeat(reverse: true);
+
+  @override
+  void dispose() {
+    _pulse.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final enabled = !widget.locked;
-    return GestureDetector(
-      onTapDown: enabled ? (_) => setState(() => _pressed = true) : null,
-      onTapCancel: () => setState(() => _pressed = false),
-      onTapUp: enabled
-          ? (_) {
-              setState(() => _pressed = false);
-              widget.onTap();
-            }
-          : null,
-      child: AnimatedScale(
-        scale: _pressed ? 0.97 : 1,
-        duration: const Duration(milliseconds: 90),
-        child: Opacity(
-          opacity: enabled ? 1 : 0.5,
-          child: Container(
-            width: 300,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: widget.primary
-                    ? const [Color(0xFF8E2A20), Color(0xFF5A1A14)]
-                    : const [Color(0xEE2A1F16), Color(0xEE17110C)],
-              ),
-              border: Border.all(
-                color: widget.primary
-                    ? const Color(0xFFD9A860)
-                    : UiStyle.bronze,
-                width: widget.primary ? 1.6 : 1,
-              ),
-              borderRadius: BorderRadius.circular(6),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0x88000000),
-                  blurRadius: 10,
-                  offset: Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  widget.locked ? Icons.lock_outline : widget.icon,
-                  color: UiStyle.parchment,
-                  size: 22,
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        widget.label.toUpperCase(),
-                        style: UiStyle.body.copyWith(
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 1.6,
-                          fontSize: 15,
-                        ),
-                      ),
-                      Text(
-                        widget.detail,
-                        style: UiStyle.body.copyWith(
-                          fontSize: 11,
-                          color: UiStyle.parchment.withValues(alpha: 0.65),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Icon(Icons.chevron_right, color: UiStyle.bronze),
-              ],
-            ),
-          ),
-        ),
+    return ScaleTransition(
+      scale: Tween(
+        begin: 1.0,
+        end: 1.06,
+      ).animate(CurvedAnimation(parent: _pulse, curve: Curves.easeInOut)),
+      child: CartoonButton(
+        label: widget.label,
+        icon: Icons.play_arrow_rounded,
+        size: 1.5,
+        width: 260,
+        onPressed: widget.onTap,
       ),
     );
   }
@@ -331,100 +254,33 @@ class _Stats extends StatelessWidget {
   Widget build(BuildContext context) {
     final stars = progress.stars.values.fold(0, (a, b) => a + b);
     final maxStars = campaign.levels.length * 3;
-    TextStyle style() => UiStyle.body.copyWith(fontSize: 13);
+    Widget pill(IconData icon, Color color, String text) => Container(
+      padding: const EdgeInsets.fromLTRB(8, 4, 14, 4),
+      decoration: BoxDecoration(
+        color: UiStyle.panel,
+        border: Border.all(color: UiStyle.ink, width: 3),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            color: color,
+            size: 22,
+            shadows: const [Shadow(color: UiStyle.ink, offset: Offset(0, 1.5))],
+          ),
+          const SizedBox(width: 6),
+          Text(text, style: UiStyle.body.copyWith(fontWeight: FontWeight.w900)),
+        ],
+      ),
+    );
     return Row(
       children: [
-        const Icon(Icons.paid, color: Color(0xFFD4A437), size: 18),
-        const SizedBox(width: 4),
-        Text('${progress.gold}', style: style()),
-        const SizedBox(width: 18),
-        const Icon(Icons.star, color: UiStyle.bronze, size: 18),
-        const SizedBox(width: 4),
-        Text('$stars / $maxStars', style: style()),
+        pill(Icons.monetization_on, UiStyle.gold, '${progress.gold}'),
+        const SizedBox(width: 10),
+        pill(Icons.star_rounded, UiStyle.gold, '$stars / $maxStars'),
       ],
     );
   }
-}
-
-/// Glowing embers rising and swaying across the screen.
-class _Embers extends StatefulWidget {
-  const _Embers();
-
-  @override
-  State<_Embers> createState() => _EmbersState();
-}
-
-class _EmbersState extends State<_Embers> with SingleTickerProviderStateMixin {
-  late final Ticker _ticker;
-  final ValueNotifier<double> _time = ValueNotifier(0);
-
-  @override
-  void initState() {
-    super.initState();
-    _ticker = createTicker(
-      (elapsed) => _time.value = elapsed.inMicroseconds / 1e6,
-    )..start();
-  }
-
-  @override
-  void dispose() {
-    _ticker.dispose();
-    _time.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) => CustomPaint(
-    painter: _EmberPainter(_time),
-    child: const SizedBox.expand(),
-  );
-}
-
-class _EmberPainter extends CustomPainter {
-  _EmberPainter(this.time) : super(repaint: time);
-
-  final ValueNotifier<double> time;
-  static const _count = 46;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final t = time.value;
-    final rng = math.Random(11);
-    final glow = Paint()
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3);
-    final core = Paint();
-    for (var i = 0; i < _count; i++) {
-      final speed = 18 + rng.nextDouble() * 34;
-      final period = (size.height + 60) / speed;
-      final phase = rng.nextDouble() * period;
-      final life = ((t + phase) % period) / period;
-      final x0 = rng.nextDouble() * size.width;
-      final sway = 14 + rng.nextDouble() * 22;
-      final x = x0 + math.sin(t * (0.6 + rng.nextDouble()) + i) * sway;
-      final y = size.height + 30 - life * (size.height + 60);
-      final r = 1.0 + rng.nextDouble() * 2.2;
-      // Brighten in, fade out near the top.
-      final alpha =
-          math.sin(life * math.pi) * (0.5 + 0.5 * math.sin(t * 6 + i));
-      final color = Color.lerp(
-        const Color(0xFFFFD27A),
-        const Color(0xFFE0561E),
-        rng.nextDouble(),
-      )!;
-      canvas
-        ..drawCircle(
-          Offset(x, y),
-          r * 3,
-          glow..color = color.withValues(alpha: 0.35 * alpha),
-        )
-        ..drawCircle(
-          Offset(x, y),
-          r,
-          core..color = color.withValues(alpha: 0.9 * alpha),
-        );
-    }
-  }
-
-  @override
-  bool shouldRepaint(_EmberPainter old) => false;
 }

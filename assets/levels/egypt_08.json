@@ -1,7 +1,7 @@
 {
   "id": "egypt_08",
   "name": "Archers on the Ramparts",
-  "worldWidth": 48,
+  "worldWidth": 50,
   "ammo": [
     "stone",
     "stone",
@@ -70,6 +70,24 @@
       "y": 3.5,
       "w": 5,
       "h": 0.5
+    },
+    {
+      "m": "stone",
+      "x": 41.9,
+      "y": 0,
+      "w": 3.6,
+      "h": 4.5,
+      "look": "wall",
+      "hp": 1.5
+    },
+    {
+      "m": "stone",
+      "x": 45.15,
+      "y": 0,
+      "w": 2.8,
+      "h": 9,
+      "look": "spire",
+      "hp": 2
     }
   ],
   "units": [

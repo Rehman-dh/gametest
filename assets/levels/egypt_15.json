@@ -1,7 +1,7 @@
 {
   "id": "egypt_15",
   "name": "The Sphinx Fortress",
-  "worldWidth": 60,
+  "worldWidth": 65,
   "introCutscene": "sphinx_approach",
   "outroCutscene": "egypt_finale",
   "relic": "eyeOfHorus",
@@ -67,6 +67,24 @@
       "y": 3,
       "w": 2.8,
       "h": 0.4
+    },
+    {
+      "m": "stone",
+      "x": 57.8,
+      "y": 0,
+      "w": 3.6,
+      "h": 4.5,
+      "look": "wall",
+      "hp": 1.5
+    },
+    {
+      "m": "stone",
+      "x": 61.05,
+      "y": 0,
+      "w": 2.8,
+      "h": 9,
+      "look": "spire",
+      "hp": 2
     }
   ],
   "props": [

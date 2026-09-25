@@ -1,7 +1,7 @@
 {
   "id": "egypt_02",
   "name": "The Sandstone Watchtower",
-  "worldWidth": 48,
+  "worldWidth": 50,
   "catapultX": 0,
   "shots": 4,
   "par": 2,
@@ -62,6 +62,24 @@
       "y": 2.5,
       "w": 0.6,
       "h": 1.2
+    },
+    {
+      "m": "stone",
+      "x": 42.1,
+      "y": 0,
+      "w": 3.6,
+      "h": 4.5,
+      "look": "wall",
+      "hp": 1.5
+    },
+    {
+      "m": "stone",
+      "x": 45.35,
+      "y": 0,
+      "w": 2.8,
+      "h": 9,
+      "look": "spire",
+      "hp": 2
     }
   ],
   "units": [

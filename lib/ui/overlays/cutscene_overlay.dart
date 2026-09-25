@@ -52,23 +52,29 @@ class CutsceneOverlay extends StatelessWidget {
                 builder: (_, title, _) => title == null
                     ? const SizedBox.shrink()
                     : Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              title.$1,
-                              style: UiStyle.title,
-                              textAlign: TextAlign.center,
-                            ),
-                            if (title.$2.isNotEmpty)
-                              Text(
-                                title.$2,
-                                style: UiStyle.heading.copyWith(
-                                  color: UiStyle.bronze,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                        child: PopIn(
+                          key: ValueKey(title),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              OutlinedText(
+                                title.$1,
+                                size: 44,
+                                stroke: 8,
+                                letterSpacing: 3,
+                                textAlign: TextAlign.center,
                               ),
-                          ],
+                              if (title.$2.isNotEmpty) ...[
+                                const SizedBox(height: 6),
+                                OutlinedText(
+                                  title.$2,
+                                  size: 22,
+                                  color: UiStyle.gold,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ],
+                          ),
                         ),
                       ),
               ),
@@ -99,16 +105,17 @@ class CutsceneOverlay extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: 52,
+                top: 54,
                 right: 60,
-                child: TextButton(
-                  onPressed: player.skip,
-                  child: Text(
-                    'SKIP ›',
-                    style: UiStyle.body.copyWith(
-                      color: UiStyle.bronze,
-                      letterSpacing: 2,
-                    ),
+                child: PopIn(
+                  delay: const Duration(milliseconds: 400),
+                  from: const Offset(0.3, 0),
+                  child: CartoonButton(
+                    label: 'Skip',
+                    icon: Icons.fast_forward_rounded,
+                    tone: ButtonTone.plain,
+                    size: 0.7,
+                    onPressed: player.skip,
                   ),
                 ),
               ),
@@ -171,46 +178,65 @@ class _DialogueBoxState extends State<_DialogueBox> {
           setState(() => _shown = text.length);
         }
       },
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        decoration: UiStyle.panelDecoration,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Portrait(
-              look: widget.line.look,
-              theme: widget.game.theme,
-              size: 68,
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    widget.line.look.name.toUpperCase(),
-                    style: UiStyle.body.copyWith(
-                      color: UiStyle.bronze,
-                      fontSize: 12,
-                      letterSpacing: 2,
+      child: PopIn(
+        from: const Offset(0, 0.3),
+        scale: false,
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(12, 12, 16, 12),
+          decoration: UiStyle.panelDecoration,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Portrait(
+                look: widget.line.look,
+                theme: widget.game.theme,
+                size: 72,
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // The speaker's name on a tag in their own colours.
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: widget.line.look.cloth,
+                        border: Border.all(color: UiStyle.ink, width: 2.5),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: OutlinedText(
+                        widget.line.look.name.toUpperCase(),
+                        size: 13,
+                        stroke: 3.5,
+                        letterSpacing: 1.5,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    text.substring(0, _shown.clamp(0, text.length)),
-                    style: UiStyle.body.copyWith(fontSize: 16, height: 1.35),
-                  ),
-                ],
+                    const SizedBox(height: 6),
+                    Text(
+                      text.substring(0, _shown.clamp(0, text.length)),
+                      style: UiStyle.body.copyWith(fontSize: 16, height: 1.35),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            if (_complete)
-              const Icon(
-                Icons.keyboard_double_arrow_right,
-                color: UiStyle.bronze,
-              ),
-          ],
+              if (_complete)
+                const Padding(
+                  padding: EdgeInsets.only(left: 6),
+                  child: Icon(
+                    Icons.play_arrow_rounded,
+                    color: UiStyle.blood,
+                    size: 28,
+                    shadows: [Shadow(color: UiStyle.ink, offset: Offset(0, 2))],
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );

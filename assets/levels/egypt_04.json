@@ -1,7 +1,7 @@
 {
   "id": "egypt_04",
   "name": "The Timber Stockade",
-  "worldWidth": 50,
+  "worldWidth": 57,
   "ammo": [
     "fireball",
     "fireball",
@@ -86,6 +86,24 @@
       "y": 0,
       "w": 0.5,
       "h": 3.5
+    },
+    {
+      "m": "stone",
+      "x": 49.1,
+      "y": 0,
+      "w": 3.6,
+      "h": 4.5,
+      "look": "wall",
+      "hp": 1.5
+    },
+    {
+      "m": "stone",
+      "x": 52.35,
+      "y": 0,
+      "w": 2.8,
+      "h": 9,
+      "look": "spire",
+      "hp": 2
     }
   ],
   "units": [

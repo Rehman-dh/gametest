@@ -44,49 +44,80 @@ class Hud extends StatelessWidget {
   Widget _topBar() {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(10),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-              decoration: UiStyle.panelDecoration,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    game.endless == null
-                        ? game.level.name
-                        : 'Endless · ${game.level.name} · '
-                              '${game.endless!.score} pts',
-                    style: UiStyle.body,
-                  ),
-                  const SizedBox(height: 6),
-                  _AmmoPicker(game: game),
-                ],
+            PopIn(
+              from: const Offset(-0.3, 0),
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(10, 6, 10, 8),
+                decoration: UiStyle.panelDecoration,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      game.endless == null
+                          ? game.level.name
+                          : 'Endless · ${game.level.name} · '
+                                '${game.endless!.score} pts',
+                      style: UiStyle.body.copyWith(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    _AmmoPicker(game: game),
+                  ],
+                ),
               ),
             ),
             if (game.level.hasCounterFire) ...[
-              const SizedBox(width: 10),
-              _EngineHealth(game: game),
+              const SizedBox(width: 8),
+              PopIn(
+                delay: const Duration(milliseconds: 80),
+                from: const Offset(0, -0.4),
+                child: _EngineHealth(game: game),
+              ),
             ],
             if (game.level.wind != 0) ...[
-              const SizedBox(width: 10),
-              _WindIndicator(wind: game.level.wind),
+              const SizedBox(width: 8),
+              PopIn(
+                delay: const Duration(milliseconds: 140),
+                from: const Offset(0, -0.4),
+                child: _WindIndicator(wind: game.level.wind),
+              ),
             ],
             const Spacer(),
-            _CrewAbilities(game: game),
+            PopIn(
+              delay: const Duration(milliseconds: 100),
+              from: const Offset(0, -0.4),
+              child: _CrewAbilities(game: game),
+            ),
             // No do-overs in endless mode.
             if (game.endless == null) ...[
-              _IconAction(
-                icon: Icons.replay,
-                onTap: () =>
-                    game.startLevel(game.levelIndex, loadout: game.loadout),
+              PopIn(
+                delay: const Duration(milliseconds: 160),
+                from: const Offset(0, -0.4),
+                child: _IconAction(
+                  icon: Icons.replay,
+                  tone: ButtonTone.orange,
+                  onTap: () =>
+                      game.startLevel(game.levelIndex, loadout: game.loadout),
+                ),
               ),
               const SizedBox(width: 8),
             ],
-            _IconAction(icon: Icons.map_outlined, onTap: game.showMap),
+            PopIn(
+              delay: const Duration(milliseconds: 220),
+              from: const Offset(0, -0.4),
+              child: _IconAction(
+                icon: Icons.map_outlined,
+                tone: ButtonTone.blue,
+                onTap: game.showMap,
+              ),
+            ),
           ],
         ),
       ),
@@ -126,12 +157,13 @@ class _AmmoPicker extends StatelessWidget {
             ),
             if (selected != null && _hint(selected) != null)
               Padding(
-                padding: const EdgeInsets.only(top: 4),
+                padding: const EdgeInsets.only(top: 5),
                 child: Text(
                   _hint(selected)!,
                   style: UiStyle.body.copyWith(
-                    fontSize: 12,
-                    color: UiStyle.bronze,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w800,
+                    color: UiStyle.ink.withValues(alpha: 0.7),
                   ),
                 ),
               ),
@@ -150,6 +182,8 @@ class _AmmoPicker extends StatelessWidget {
   }
 }
 
+/// A chunky ammo slot: the round on a rounded tile, a count badge in the
+/// corner, and a gold ring with a little bump when selected.
 class _AmmoChip extends StatelessWidget {
   const _AmmoChip({
     required this.type,
@@ -169,37 +203,68 @@ class _AmmoChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final empty = count == 0;
     return Padding(
-      padding: const EdgeInsets.only(right: 6),
+      padding: const EdgeInsets.only(right: 8, top: 4),
       child: Tooltip(
         message: type.spec.label,
         child: GestureDetector(
           onTap: empty ? null : onTap,
-          child: Opacity(
-            opacity: empty ? 0.3 : 1,
-            child: Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: selected ? const Color(0x55B0874A) : Colors.transparent,
-                border: Border.all(
-                  color: selected ? UiStyle.parchment : UiStyle.bronze,
-                  width: selected ? 2 : 1,
-                ),
-                borderRadius: BorderRadius.circular(6),
-              ),
+          child: AnimatedScale(
+            scale: selected ? 1.1 : 1,
+            duration: const Duration(milliseconds: 260),
+            curve: Curves.easeOutBack,
+            child: Opacity(
+              opacity: empty ? 0.4 : 1,
               child: Stack(
+                clipBehavior: Clip.none,
                 children: [
-                  Center(
-                    child: AmmoIcon(type: type, theme: theme, size: 36),
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 180),
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: selected
+                            ? const [Color(0xFFFFF6C8), Color(0xFFFFD86A)]
+                            : const [Colors.white, UiStyle.panelDeep],
+                      ),
+                      border: Border.all(color: UiStyle.ink, width: 2.5),
+                      borderRadius: BorderRadius.circular(14),
+                      boxShadow: [
+                        if (selected)
+                          const BoxShadow(color: UiStyle.gold, spreadRadius: 3),
+                        const BoxShadow(
+                          color: Color(0x44000000),
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: AmmoIcon(type: type, theme: theme, size: 32),
+                    ),
                   ),
                   Positioned(
-                    right: 3,
-                    bottom: 1,
-                    child: Text(
-                      '$count',
-                      style: UiStyle.body.copyWith(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w800,
+                    right: -7,
+                    top: -7,
+                    child: Container(
+                      constraints: const BoxConstraints(minWidth: 20),
+                      height: 20,
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      decoration: BoxDecoration(
+                        color: empty ? UiStyle.ink : UiStyle.blood,
+                        border: Border.all(color: UiStyle.ink, width: 2),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        '$count',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w900,
+                          height: 1,
+                        ),
                       ),
                     ),
                   ),
@@ -222,23 +287,32 @@ class _WindIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     final towardCastle = wind > 0;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.fromLTRB(10, 6, 10, 4),
       decoration: UiStyle.panelDecoration,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             'WIND',
-            style: UiStyle.body.copyWith(fontSize: 11, letterSpacing: 2),
+            style: UiStyle.body.copyWith(
+              fontSize: 11,
+              fontWeight: FontWeight.w900,
+              letterSpacing: 2,
+            ),
           ),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               for (var i = 0; i < wind.abs().ceil().clamp(1, 4); i++)
                 Icon(
-                  towardCastle ? Icons.chevron_right : Icons.chevron_left,
-                  color: UiStyle.parchment,
+                  towardCastle
+                      ? Icons.chevron_right_rounded
+                      : Icons.chevron_left_rounded,
+                  color: UiStyle.sky,
                   size: 18,
+                  shadows: const [
+                    Shadow(color: UiStyle.ink, offset: Offset(0, 1.5)),
+                  ],
                 ),
             ],
           ),
@@ -248,23 +322,21 @@ class _WindIndicator extends StatelessWidget {
   }
 }
 
+/// A round, icon-only cartoon button for the top-right corner.
 class _IconAction extends StatelessWidget {
-  const _IconAction({required this.icon, required this.onTap});
+  const _IconAction({
+    required this.icon,
+    required this.onTap,
+    this.tone = ButtonTone.plain,
+  });
 
   final IconData icon;
   final VoidCallback onTap;
+  final ButtonTone tone;
 
   @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: UiStyle.panel,
-      shape: const CircleBorder(side: BorderSide(color: UiStyle.bronze)),
-      child: IconButton(
-        icon: Icon(icon, color: UiStyle.parchment),
-        onPressed: onTap,
-      ),
-    );
-  }
+  Widget build(BuildContext context) =>
+      CartoonButton(icon: icon, onPressed: onTap, tone: tone, size: 0.9);
 }
 
 /// Hit points of the player's siege engine, plus a warning while the
@@ -278,12 +350,13 @@ class _EngineHealth extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 150,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.fromLTRB(10, 6, 10, 8),
       decoration: UiStyle.panelDecoration,
       child: ValueListenableBuilder<double>(
         valueListenable: game.playerHp,
         builder: (_, hp, _) {
           final fraction = (hp / game.playerMaxHp).clamp(0.0, 1.0);
+          final fill = Color.lerp(UiStyle.blood, UiStyle.leaf, fraction)!;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -296,31 +369,54 @@ class _EngineHealth extends StatelessWidget {
                       : 'YOUR ENGINE',
                   style: UiStyle.body.copyWith(
                     fontSize: 11,
+                    fontWeight: FontWeight.w900,
                     letterSpacing: 1.5,
                     color: phase == SiegePhase.enemyTurn
-                        ? const Color(0xFFE08A6A)
-                        : UiStyle.parchment,
+                        ? UiStyle.blood
+                        : UiStyle.ink,
                   ),
                 ),
               ),
-              const SizedBox(height: 6),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(3),
-                child: LinearProgressIndicator(
-                  value: fraction,
-                  minHeight: 8,
-                  backgroundColor: const Color(0x33E8D9B8),
-                  color: Color.lerp(
-                    UiStyle.blood,
-                    const Color(0xFF8FA858),
-                    fraction,
+              const SizedBox(height: 5),
+              // A chunky outlined bar with the hit points printed inside.
+              Container(
+                height: 20,
+                decoration: BoxDecoration(
+                  color: UiStyle.ink.withValues(alpha: 0.25),
+                  border: Border.all(color: UiStyle.ink, width: 2.5),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(7.5),
+                  child: Stack(
+                    children: [
+                      FractionallySizedBox(
+                        widthFactor: fraction,
+                        heightFactor: 1,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color.lerp(fill, Colors.white, 0.35)!,
+                                fill,
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: OutlinedText(
+                          '${hp.round()} / ${game.playerMaxHp.round()}',
+                          size: 11,
+                          stroke: 3,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '${hp.round()} / ${game.playerMaxHp.round()}',
-                style: UiStyle.body.copyWith(fontSize: 11),
               ),
             ],
           );
@@ -344,39 +440,31 @@ class _CrewAbilities extends StatelessWidget {
       valueListenable: game.usedAbilities,
       builder: (_, used, _) => Row(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           for (final id in game.loadout.crew)
             Padding(
               padding: const EdgeInsets.only(right: 8),
-              child: OutlinedButton(
-                onPressed: used.contains(id)
-                    ? null
-                    : () => game.useCrewAbility(id),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: UiStyle.parchment,
-                  backgroundColor: UiStyle.panel,
-                  side: const BorderSide(color: UiStyle.bronze),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 8,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CartoonButton(
+                    label: crewSpecs[id]!.abilityName,
+                    icon: Icons.bolt,
+                    tone: ButtonTone.blue,
+                    size: 0.7,
+                    onPressed: used.contains(id)
+                        ? null
+                        : () => game.useCrewAbility(id),
                   ),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      crewSpecs[id]!.abilityName.toUpperCase(),
-                      style: const TextStyle(fontSize: 11, letterSpacing: 1),
-                    ),
-                    Text(
-                      crewSpecs[id]!.name,
-                      style: const TextStyle(
-                        fontSize: 10,
-                        color: UiStyle.bronze,
-                      ),
-                    ),
-                  ],
-                ),
+                  const SizedBox(height: 2),
+                  OutlinedText(
+                    crewSpecs[id]!.name,
+                    size: 11,
+                    stroke: 3,
+                    letterSpacing: 0.5,
+                  ),
+                ],
               ),
             ),
         ],
@@ -401,42 +489,72 @@ class _SpeechBanner extends StatelessWidget {
             ? const SizedBox.shrink()
             : SafeArea(
                 key: ValueKey(line),
-                child: GestureDetector(
-                  onTap: () => game.banner.value = null,
-                  child: Container(
-                    constraints: const BoxConstraints(maxWidth: 500),
-                    padding: const EdgeInsets.all(8),
-                    decoration: UiStyle.panelDecoration,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Portrait(look: line.look, theme: game.theme, size: 44),
-                        const SizedBox(width: 10),
-                        Flexible(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                line.look.name.toUpperCase(),
-                                style: UiStyle.body.copyWith(
-                                  fontSize: 10,
-                                  letterSpacing: 2,
-                                  color: UiStyle.bronze,
-                                ),
-                              ),
-                              Text(
-                                line.text,
-                                style: UiStyle.body.copyWith(fontSize: 14),
-                              ),
-                            ],
+                child: PopIn(
+                  from: const Offset(0, -0.3),
+                  child: GestureDetector(
+                    onTap: () => game.banner.value = null,
+                    child: Container(
+                      constraints: const BoxConstraints(maxWidth: 500),
+                      padding: const EdgeInsets.fromLTRB(8, 8, 14, 8),
+                      decoration: UiStyle.panelDecoration,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Portrait(
+                            look: line.look,
+                            theme: game.theme,
+                            size: 46,
                           ),
-                        ),
-                      ],
+                          const SizedBox(width: 10),
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                _NameTag(
+                                  name: line.look.name,
+                                  color: line.look.cloth,
+                                ),
+                                const SizedBox(height: 3),
+                                Text(
+                                  line.text,
+                                  style: UiStyle.body.copyWith(fontSize: 14),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
+      ),
+    );
+  }
+}
+
+/// A small coloured tag with the speaker's name.
+class _NameTag extends StatelessWidget {
+  const _NameTag({required this.name, required this.color});
+
+  final String name;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      decoration: BoxDecoration(
+        color: color,
+        border: Border.all(color: UiStyle.ink, width: 2),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: OutlinedText(
+        name.toUpperCase(),
+        size: 10,
+        stroke: 3,
+        letterSpacing: 1.5,
       ),
     );
   }

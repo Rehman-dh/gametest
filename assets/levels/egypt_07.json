@@ -1,7 +1,7 @@
 {
   "id": "egypt_07",
   "name": "The Long Siege",
-  "worldWidth": 62,
+  "worldWidth": 68,
   "weapon": "trebuchet",
   "ammo": [
     "stone",
@@ -98,6 +98,24 @@
       "y": 9.1,
       "w": 5,
       "h": 0.4
+    },
+    {
+      "m": "stone",
+      "x": 59.9,
+      "y": 0,
+      "w": 3.6,
+      "h": 4.5,
+      "look": "wall",
+      "hp": 1.5
+    },
+    {
+      "m": "stone",
+      "x": 63.15,
+      "y": 0,
+      "w": 2.8,
+      "h": 9,
+      "look": "spire",
+      "hp": 2
     }
   ],
   "props": [

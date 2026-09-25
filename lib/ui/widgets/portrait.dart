@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../story/characters.dart';
 import '../../theme/art_theme.dart';
+import '../ui_style.dart';
 
 /// Head-and-shoulders portrait of a story character, drawn by the theme.
 class Portrait extends StatelessWidget {
@@ -17,13 +18,25 @@ class Portrait extends StatelessWidget {
   final double size;
 
   @override
-  Widget build(BuildContext context) => ClipRRect(
-    borderRadius: BorderRadius.circular(6),
-    child: SizedBox.square(
+  Widget build(BuildContext context) {
+    final radius = size * 0.2;
+    // The ink frame is painted over the picture, so the portrait keeps its
+    // stated size.
+    return SizedBox.square(
       dimension: size,
-      child: CustomPaint(painter: _PortraitPainter(look, theme)),
-    ),
-  );
+      child: DecoratedBox(
+        position: DecorationPosition.foreground,
+        decoration: BoxDecoration(
+          border: Border.all(color: UiStyle.ink, width: size >= 56 ? 3 : 2.5),
+          borderRadius: BorderRadius.circular(radius),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(radius),
+          child: CustomPaint(painter: _PortraitPainter(look, theme)),
+        ),
+      ),
+    );
+  }
 }
 
 class _PortraitPainter extends CustomPainter {
@@ -38,7 +51,9 @@ class _PortraitPainter extends CustomPainter {
       Offset.zero & size,
       Paint()
         ..shader = const RadialGradient(
-          colors: [Color(0xFF4A3B2C), Color(0xFF1A140F)],
+          center: Alignment(0, -0.3),
+          radius: 0.9,
+          colors: [Color(0xFFD9F1FC), Color(0xFF7FC6EC)],
         ).createShader(Offset.zero & size),
     );
     // Frame head and shoulders: about 0.6 m of the figure fills the square,

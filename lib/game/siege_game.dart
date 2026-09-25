@@ -388,9 +388,11 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     ]);
 
     _levelLoaded = true;
+    _zoomScale = 1;
     _fitCamera();
     _cameraBaseX = _cameraHomeX;
     camera.viewfinder.position = Vector2(_cameraBaseX, _cameraY);
+    _startIntro();
     effects.audio.startMusic();
     final rounds = this.loadout.ammo;
     ammo.value = {
@@ -569,6 +571,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   void onDragStart(DragStartEvent event) {
     super.onDragStart(event);
     if (phase.value != SiegePhase.aiming || attract) return;
+    _skipIntro();
     _dragStart = camera.globalToLocal(event.canvasPosition);
     _pull = Vector2.zero();
   }
@@ -1021,26 +1024,92 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     if (_levelLoaded) _fitCamera();
   }
 
-  /// Zooms so the whole battlefield fits on any screen aspect ratio,
-  /// with the ground line near the bottom.
+  /// Zoom that fits the whole battlefield on any screen aspect ratio.
+  double _baseZoom = 1;
+
+  /// How far the camera is pushed in beyond [_baseZoom] right now.
+  double _zoomScale = 1;
+
+  /// Seconds into the opening flyover; it ends at [_introLength].
+  double _introTime = double.infinity;
+  static const _introLength = 2.6;
+  double _castleCenterX = 0;
+
   void _fitCamera() {
     final span = level.worldWidth - (level.catapultX - _marginBehindCatapult);
-    final zoom = math.min(size.x / span, size.y / _minViewHeight);
+    _baseZoom = math.min(size.x / span, size.y / _minViewHeight);
+    _applyZoom(_zoomScale);
+  }
+
+  /// Zooms to [scale] times the fitted zoom, keeping the ground line
+  /// 82% of the way down the screen.
+  void _applyZoom(double scale) {
+    _zoomScale = scale;
+    final zoom = _baseZoom * scale;
     camera.viewfinder.zoom = zoom;
-    final viewHeight = size.y / zoom;
     _halfViewWidth = size.x / zoom / 2;
-    // Ground (y = 0) sits 82% of the way down the screen.
-    _cameraY = -viewHeight * 0.32;
+    _cameraY = -size.y / zoom * 0.32;
   }
 
   double get _cameraHomeX =>
       level.catapultX - _marginBehindCatapult + _halfViewWidth;
 
+  /// Opens a siege the way the classics do: a close look at the castle,
+  /// then a sweep back to the engine.
+  void _startIntro() {
+    final blocks = level.blocks;
+    _castleCenterX =
+        (blocks.map((b) => b.x - b.width / 2).reduce(math.min) +
+            blocks.map((b) => b.x + b.width / 2).reduce(math.max)) /
+        2;
+    _introTime = attract || endless != null ? double.infinity : 0;
+  }
+
+  void _skipIntro() {
+    if (_introTime >= _introLength) return;
+    _introTime = double.infinity;
+    _applyZoom(1);
+    _cameraBaseX = _cameraHomeX;
+    camera.viewfinder.position = Vector2(_cameraBaseX, _cameraY);
+  }
+
   void _updateCamera(double dt) {
+    double targetX;
+    double targetScale;
+    var rate = 4.0;
+    final lead = _leadProjectileX;
+    if (_introTime < _introLength) {
+      _introTime += dt;
+      final t = _introTime / _introLength;
+      if (t < 0.45) {
+        targetScale = 1.35;
+        targetX = _castleCenterX;
+        rate = 12;
+      } else {
+        targetScale = 1;
+        targetX = double.negativeInfinity;
+        rate = 3;
+      }
+    } else if (lead != null) {
+      // Follow the shot, leaning in as it reaches the castle.
+      final near = lead > _castleCenterX - 14;
+      targetScale = near ? 1.3 : 1.05;
+      targetX = lead;
+    } else if (phase.value == SiegePhase.settling) {
+      // Hold on the damage while it settles.
+      targetScale = _zoomScale;
+      targetX = _cameraBaseX;
+    } else {
+      targetScale = 1;
+      targetX = double.negativeInfinity;
+    }
+    _applyZoom(
+      _zoomScale + (targetScale - _zoomScale) * (1 - math.exp(-2.5 * dt)),
+    );
     final minX = _cameraHomeX;
     final maxX = math.max(minX, level.worldWidth + 4 - _halfViewWidth);
-    final target = (_leadProjectileX ?? minX).clamp(minX, maxX);
-    _cameraBaseX += (target - _cameraBaseX) * (1 - math.exp(-4 * dt));
+    final target = targetX.clamp(minX, maxX);
+    _cameraBaseX += (target - _cameraBaseX) * (1 - math.exp(-rate * dt));
     camera.viewfinder
       ..position = Vector2(_cameraBaseX, _cameraY) + effects.shakeOffset
       ..angle = effects.shakeAngle;

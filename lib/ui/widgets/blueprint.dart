@@ -2,28 +2,32 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../../core/materials.dart';
 import '../../levels/level_data.dart';
 
-/// A scout's sketch of the enemy position: blocks as ink outlines on
-/// blueprint paper, defenders as marks, weak points circled when known.
+/// A scout's sketch of the enemy position: blocks as coloured ink outlines
+/// on cream paper, defenders as bright dots, weak points circled when known.
 class BlueprintPainter extends CustomPainter {
   BlueprintPainter({required this.level, required this.showWeakPoints});
 
   final LevelData level;
   final bool showWeakPoints;
 
-  static const _paper = Color(0xFF1C2B3A);
-  static const _grid = Color(0x223E6A8F);
-  static const _ink = Color(0xFFD6E4EE);
-  static const _weak = Color(0xFFFFC75A);
+  static const _paper = Color(0xFFFFF8E6);
+  static const _grid = Color(0x1F2B1A0E);
+  static const _ink = Color(0xFF2B1A0E);
+  static const _weak = Color(0xFFD83B2E);
 
   @override
   void paint(Canvas canvas, Size size) {
-    final bg = Offset.zero & size;
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(bg, const Radius.circular(6)),
-      Paint()..color = _paper,
+    final bg = RRect.fromRectAndRadius(
+      Offset.zero & size,
+      const Radius.circular(14),
     );
+    canvas
+      ..save()
+      ..clipRRect(bg)
+      ..drawRRect(bg, Paint()..color = _paper);
     final grid = Paint()
       ..color = _grid
       ..strokeWidth = 1;
@@ -33,7 +37,19 @@ class BlueprintPainter extends CustomPainter {
     for (var y = 0.0; y < size.height; y += 16) {
       canvas.drawLine(Offset(0, y), Offset(size.width, y), grid);
     }
+    _drawCastle(canvas, size);
+    canvas
+      ..restore()
+      ..drawRRect(
+        bg.deflate(1.5),
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 3
+          ..color = _ink,
+      );
+  }
 
+  void _drawCastle(Canvas canvas, Size size) {
     // Fit the castle (not the empty field before it) into the sheet.
     final xs = [
       for (final b in level.blocks) ...[b.x - b.width / 2, b.x + b.width / 2],
@@ -59,26 +75,29 @@ class BlueprintPainter extends CustomPainter {
 
     final ink = Paint()
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.4
+      ..strokeWidth = 1.8
+      ..strokeJoin = StrokeJoin.round
       ..color = _ink;
-    canvas.drawLine(
-      Offset(pad * 0.5, groundY),
-      Offset(size.width - pad * 0.5, groundY),
-      ink,
-    );
+    // A strip of grass for the castle to stand on.
+    canvas
+      ..drawRect(
+        Rect.fromLTRB(0, groundY, size.width, size.height),
+        Paint()..color = const Color(0xFFA6DB7E),
+      )
+      ..drawLine(Offset(0, groundY), Offset(size.width, groundY), ink);
 
     for (final b in level.blocks) {
       final rect = Rect.fromPoints(
         toCanvas(b.x - b.width / 2, b.y),
         toCanvas(b.x + b.width / 2, b.y + b.height),
       );
-      final hatch = switch (b.material.name) {
-        'stone' => 0x33,
-        'wood' => 0x1A,
-        _ => 0x0A,
+      final fill = switch (b.material) {
+        BlockMaterial.stone => const Color(0xFFC9CED6),
+        BlockMaterial.wood => const Color(0xFFF0C27E),
+        BlockMaterial.glass => const Color(0xFFBDE8F7),
       };
       canvas
-        ..drawRect(rect, Paint()..color = _ink.withAlpha(hatch))
+        ..drawRect(rect, Paint()..color = fill)
         ..drawRect(rect, ink);
       if (b.weak && showWeakPoints) _markWeak(canvas, rect.center, scale);
     }
@@ -87,7 +106,13 @@ class BlueprintPainter extends CustomPainter {
       final at = toCanvas(p.x, p.y + 0.5);
       switch (p.kind) {
         case PropKind.powderBarrel:
-          canvas.drawCircle(at, scale * 0.45, ink);
+          canvas
+            ..drawCircle(
+              at,
+              scale * 0.45,
+              Paint()..color = const Color(0xFF8A5A2B),
+            )
+            ..drawCircle(at, scale * 0.45, ink);
           if (showWeakPoints) _markWeak(canvas, at, scale);
         case PropKind.enemyCatapult:
           final r = Rect.fromCenter(
@@ -106,16 +131,22 @@ class BlueprintPainter extends CustomPainter {
       final radius = u.kind.isRoyal ? 0.6 : 0.45;
       final at = toCanvas(u.x, u.y + radius);
       final color = switch (u.kind) {
-        UnitKind.king || UnitKind.pharaoh => const Color(0xFFFFD36B),
-        UnitKind.soldier => const Color(0xFFE07A6A),
-        UnitKind.archer => const Color(0xFF9FD08A),
-        UnitKind.engineer => const Color(0xFFD9A86A),
+        UnitKind.king || UnitKind.pharaoh => const Color(0xFFFFC933),
+        UnitKind.soldier => const Color(0xFFD83B2E),
+        UnitKind.archer => const Color(0xFF5DBB3A),
+        UnitKind.engineer => const Color(0xFFE0782A),
       };
-      canvas.drawCircle(
-        at,
-        math.max(3, radius * scale),
-        Paint()..color = color,
-      );
+      final r = math.max(4.0, radius * scale);
+      canvas
+        ..drawCircle(at, r, Paint()..color = color)
+        ..drawCircle(
+          at,
+          r,
+          Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.8
+            ..color = _ink,
+        );
     }
   }
 
@@ -125,7 +156,7 @@ class BlueprintPainter extends CustomPainter {
       math.max(8, scale * 0.9),
       Paint()
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 2
+        ..strokeWidth = 2.5
         ..color = _weak,
     );
   }

@@ -1,7 +1,7 @@
 {
   "id": "egypt_01",
   "name": "The Mudbrick Outpost",
-  "worldWidth": 48,
+  "worldWidth": 50,
   "catapultX": 0,
   "shots": 4,
   "par": 2,
@@ -55,6 +55,24 @@
       "y": 2.5,
       "w": 4,
       "h": 0.5
+    },
+    {
+      "m": "stone",
+      "x": 41.9,
+      "y": 0,
+      "w": 3.6,
+      "h": 4.5,
+      "look": "wall",
+      "hp": 1.5
+    },
+    {
+      "m": "stone",
+      "x": 45.15,
+      "y": 0,
+      "w": 2.8,
+      "h": 9,
+      "look": "spire",
+      "hp": 2
     }
   ],
   "units": [

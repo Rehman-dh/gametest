@@ -171,47 +171,65 @@ class CartoonTheme extends ProceduralTheme {
   /// Puffy clouds drifting slowly across, a little behind the camera.
   void _clouds(Canvas canvas, Rect visible, double time) {
     const wrap = 180.0;
-    final rng = math.Random(21);
     final shift = visible.center.dx * 0.9 + time * 0.6;
-    for (var i = 0; i < 7; i++) {
-      final base = rng.nextDouble() * wrap;
-      final y = visible.top + 1.5 + rng.nextDouble() * visible.height * 0.3;
-      final w = 3.5 + rng.nextDouble() * 3.5;
-      final x = visible.left - 20 + ((base + shift) % wrap);
-      if (x - w > visible.right) continue;
-      final puff = Path();
-      final lobes = 4 + rng.nextInt(3);
-      for (var k = 0; k < lobes; k++) {
-        final r = w * (0.16 + rng.nextDouble() * 0.12);
-        final cx = x + (k / (lobes - 1) - 0.5) * w * 0.8;
-        puff.addOval(
-          Rect.fromCircle(
-            center: Offset(cx, y - r * 0.5 * rng.nextDouble()),
-            radius: r,
-          ),
-        );
-      }
-      puff.addRRect(
-        RRect.fromRectAndRadius(
-          Rect.fromCenter(
-            center: Offset(x, y + w * 0.08),
-            width: w,
-            height: w * 0.22,
-          ),
-          Radius.circular(w * 0.11),
-        ),
-      );
-      final b = puff.getBounds();
-      canvas.drawPath(
-        puff,
-        Paint()
-          ..shader = Gradient.linear(b.topCenter, b.bottomCenter, const [
-            Color(0xFFFFFFFF),
-            Color(0xFFDDEFF6),
-          ]),
-      );
+    for (final cloud in _cloudShapes) {
+      final x = visible.left - 20 + ((cloud.base + shift) % wrap);
+      if (x - cloud.width > visible.right) continue;
+      final y = visible.top + 1.5 + cloud.height * visible.height * 0.3;
+      canvas
+        ..save()
+        ..translate(x, y)
+        ..drawPath(cloud.path, cloud.paint)
+        ..restore();
     }
   }
+
+  /// Cloud outlines and fills, built once around their own origin.
+  late final List<_Cloud> _cloudShapes = () {
+    final rng = math.Random(21);
+    return [
+      for (var i = 0; i < 7; i++)
+        () {
+          final base = rng.nextDouble() * 180;
+          final height = rng.nextDouble();
+          final w = 3.5 + rng.nextDouble() * 3.5;
+          final puff = Path();
+          final lobes = 4 + rng.nextInt(3);
+          for (var k = 0; k < lobes; k++) {
+            final r = w * (0.16 + rng.nextDouble() * 0.12);
+            final cx = (k / (lobes - 1) - 0.5) * w * 0.8;
+            puff.addOval(
+              Rect.fromCircle(
+                center: Offset(cx, -r * 0.5 * rng.nextDouble()),
+                radius: r,
+              ),
+            );
+          }
+          puff.addRRect(
+            RRect.fromRectAndRadius(
+              Rect.fromCenter(
+                center: Offset(0, w * 0.08),
+                width: w,
+                height: w * 0.22,
+              ),
+              Radius.circular(w * 0.11),
+            ),
+          );
+          final b = puff.getBounds();
+          return _Cloud(
+            puff,
+            Paint()
+              ..shader = Gradient.linear(b.topCenter, b.bottomCenter, const [
+                Color(0xFFFFFFFF),
+                Color(0xFFDDEFF6),
+              ]),
+            base,
+            height,
+            w,
+          );
+        }(),
+    ];
+  }();
 
   @override
   void drawVignette(Canvas canvas, Size size) {
@@ -304,12 +322,21 @@ class CartoonTheme extends ProceduralTheme {
     final s = stage.clamp(0, 2);
     return switch (look) {
       'tower' => _img['tower_$s'],
+      'spire' => _img['tower_tall_$s'],
       'gate' => _img['wall_brick_$s'],
       // Long low pieces (lintels) use the brick-banded wall.
       _ =>
         size.width > size.height * 2 ? _img['wall_brick_$s'] : _img['wall_$s'],
     };
   }
+
+  /// Light and dark fill for a plain block, matched to the painted
+  /// fortress: warm sandstone and orange timber.
+  static (Color, Color) _shades(BlockMaterial m) => switch (m) {
+    BlockMaterial.wood => (const Color(0xFFE39447), const Color(0xFFB0622A)),
+    BlockMaterial.stone => (const Color(0xFFF0DCAA), const Color(0xFFCDAA6A)),
+    BlockMaterial.glass => (const Color(0xCCBDEFFF), const Color(0xAA7FCDEB)),
+  };
 
   /// Draws fortress art over a block of [size], tiling wide pieces so their
   /// battlements keep their shape.
@@ -363,6 +390,43 @@ class CartoonTheme extends ProceduralTheme {
       }
       return;
     }
+    // Plain blocks are recorded once per look and replayed every frame.
+    final key = Object.hash(
+      material,
+      size.width,
+      size.height,
+      crackStage,
+      seed,
+      (char * 10).round(),
+    );
+    var picture = _blockPictures[key];
+    if (picture == null) {
+      final recorder = ui.PictureRecorder();
+      _paintBlock(
+        Canvas(recorder),
+        size,
+        material,
+        crackStage: crackStage,
+        seed: seed,
+        char: (char * 10).round() / 10,
+      );
+      picture = recorder.endRecording();
+      if (_blockPictures.length > 400) _blockPictures.clear();
+      _blockPictures[key] = picture;
+    }
+    canvas.drawPicture(picture);
+  }
+
+  final Map<int, ui.Picture> _blockPictures = {};
+
+  void _paintBlock(
+    Canvas canvas,
+    Size size,
+    BlockMaterial material, {
+    required int crackStage,
+    required int seed,
+    required double char,
+  }) {
     final rect = Rect.fromCenter(
       center: Offset.zero,
       width: size.width,
@@ -372,11 +436,7 @@ class CartoonTheme extends ProceduralTheme {
       rect,
       Radius.circular(math.min(0.12, size.shortestSide * 0.2)),
     );
-    final (light, dark) = switch (material) {
-      BlockMaterial.wood => (const Color(0xFFE9A24E), const Color(0xFFB8702C)),
-      BlockMaterial.stone => (const Color(0xFFB9BDC2), const Color(0xFF858A91)),
-      BlockMaterial.glass => (const Color(0xCCBDEFFF), const Color(0xAA7FCDEB)),
-    };
+    final (light, dark) = _shades(material);
     canvas.drawRRect(
       shape,
       _fill
@@ -418,10 +478,30 @@ class CartoonTheme extends ProceduralTheme {
           }
         }
       case BlockMaterial.stone:
-        // Masonry joints.
+        // Sandstone courses like the castle walls, with the painted
+        // tool marks of the fortress art.
         final joint = Paint()
-          ..color = const Color(0x66505560)
+          ..color = const Color(0x77806030)
           ..strokeWidth = 0.035;
+        final mark = Paint()
+          ..color = const Color(0xCC2B1A0E)
+          ..strokeWidth = 0.035
+          ..strokeCap = StrokeCap.round;
+        for (var k = 0; k < (rect.width * rect.height * 1.2).ceil(); k++) {
+          final m = Offset(
+            rect.left + 0.15 + rng.nextDouble() * math.max(0, rect.width - 0.3),
+            rect.top +
+                0.12 +
+                rng.nextDouble() * math.max(0, rect.height - 0.24),
+          );
+          canvas
+            ..drawLine(m, m + const Offset(0.14, -0.02), mark)
+            ..drawLine(
+              m + const Offset(0.02, 0.07),
+              m + const Offset(0.16, 0.05),
+              mark,
+            );
+        }
         const course = 0.5;
         for (var y = rect.top + course; y < rect.bottom; y += course) {
           canvas.drawLine(Offset(rect.left, y), Offset(rect.right, y), joint);
@@ -518,20 +598,7 @@ class CartoonTheme extends ProceduralTheme {
       _drawFort(canvas, art, size!);
       canvas.restore();
     } else {
-      final (light, dark) = switch (material) {
-        BlockMaterial.wood => (
-          const Color(0xFFE9A24E),
-          const Color(0xFFB8702C),
-        ),
-        BlockMaterial.stone => (
-          const Color(0xFFB9BDC2),
-          const Color(0xFF858A91),
-        ),
-        BlockMaterial.glass => (
-          const Color(0xCCBDEFFF),
-          const Color(0xAA7FCDEB),
-        ),
-      };
+      final (light, dark) = _shades(material);
       final b = path.getBounds();
       canvas.drawPath(
         path,
@@ -809,7 +876,7 @@ class CartoonTheme extends ProceduralTheme {
 
   static Color _materialColor(BlockMaterial m) => switch (m) {
     BlockMaterial.wood => const Color(0xFFD98A3E),
-    BlockMaterial.stone => const Color(0xFFB4B8BE),
+    BlockMaterial.stone => const Color(0xFFE6CE96),
     BlockMaterial.glass => const Color(0xDDBDEFFF),
   };
 
@@ -878,4 +945,11 @@ class CartoonTheme extends ProceduralTheme {
     color: const Color(0xFFFFFFFF),
     life: 0.5,
   );
+}
+
+class _Cloud {
+  _Cloud(this.path, this.paint, this.base, this.height, this.width);
+  final Path path;
+  final Paint paint;
+  final double base, height, width;
 }

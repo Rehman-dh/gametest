@@ -1,7 +1,7 @@
 {
   "id": "egypt_06",
   "name": "The Archers' Perch",
-  "worldWidth": 48,
+  "worldWidth": 54,
   "weapon": "ballista",
   "shots": 6,
   "par": 4,
@@ -83,6 +83,24 @@
       "y": 2,
       "w": 3.8,
       "h": 0.5
+    },
+    {
+      "m": "stone",
+      "x": 46.3,
+      "y": 0,
+      "w": 3.6,
+      "h": 4.5,
+      "look": "wall",
+      "hp": 1.5
+    },
+    {
+      "m": "stone",
+      "x": 49.55,
+      "y": 0,
+      "w": 2.8,
+      "h": 9,
+      "look": "spire",
+      "hp": 2
     }
   ],
   "units": [

@@ -38,6 +38,17 @@ class _AmmoIconPainter extends CustomPainter {
     // Bolts are long and thin; everything else is round.
     final extent = type == AmmoType.bolt ? radius * 10 : radius * 2.6;
     final scale = size.shortestSide / extent;
+    // A soft cartoon shadow under round shot, so it sits on its tile.
+    if (type != AmmoType.bolt) {
+      canvas.drawOval(
+        Rect.fromCenter(
+          center: Offset(size.width / 2, size.height / 2 + radius * scale),
+          width: radius * scale * 1.6,
+          height: radius * scale * 0.45,
+        ),
+        Paint()..color = const Color(0x332B1A0E),
+      );
+    }
     canvas
       ..save()
       ..translate(size.width / 2, size.height / 2)

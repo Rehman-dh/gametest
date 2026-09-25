@@ -1,7 +1,7 @@
 {
   "id": "egypt_10",
   "name": "The Oasis Garrison",
-  "worldWidth": 50,
+  "worldWidth": 57,
   "wind": 1,
   "ammo": [
     "stone",
@@ -99,6 +99,24 @@
       "y": 2.2,
       "w": 3,
       "h": 0.4
+    },
+    {
+      "m": "stone",
+      "x": 49.65,
+      "y": 0,
+      "w": 3.6,
+      "h": 4.5,
+      "look": "wall",
+      "hp": 1.5
+    },
+    {
+      "m": "stone",
+      "x": 52.9,
+      "y": 0,
+      "w": 2.8,
+      "h": 9,
+      "look": "spire",
+      "hp": 2
     }
   ],
   "units": [

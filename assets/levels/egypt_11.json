@@ -1,7 +1,7 @@
 {
   "id": "egypt_11",
   "name": "The Keystone",
-  "worldWidth": 48,
+  "worldWidth": 50,
   "budget": 30,
   "ammo": [
     "stone"
@@ -44,6 +44,24 @@
       "y": 5.6,
       "w": 2,
       "h": 1.5
+    },
+    {
+      "m": "stone",
+      "x": 41.9,
+      "y": 0,
+      "w": 3.6,
+      "h": 4.5,
+      "look": "wall",
+      "hp": 1.5
+    },
+    {
+      "m": "stone",
+      "x": 45.15,
+      "y": 0,
+      "w": 2.8,
+      "h": 9,
+      "look": "spire",
+      "hp": 2
     }
   ],
   "units": [
