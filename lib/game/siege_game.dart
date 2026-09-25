@@ -11,12 +11,16 @@ import '../components/env/ground.dart';
 import '../components/env/ground_detail.dart';
 import '../components/fx/aim_guide.dart';
 import '../components/fx/vignette.dart';
-import '../components/projectiles/stone_projectile.dart';
+import '../components/damageable.dart';
+import '../components/projectiles/projectile.dart';
 import '../components/structure/castle_block.dart';
 import '../components/structure/debris_shard.dart';
+import '../components/structure/powder_barrel.dart';
 import '../components/units/unit.dart';
-import '../components/weapons/catapult.dart';
+import '../components/weapons/siege_engine.dart';
+import '../core/ammo.dart';
 import '../core/scoring.dart';
+import '../core/weapons.dart';
 import '../levels/level_data.dart';
 import '../systems/effects.dart';
 import '../theme/art_theme.dart';
@@ -36,7 +40,7 @@ class LevelResult {
   final double destruction;
 }
 
-class SiegeGame extends Forge2DGame with DragCallbacks {
+class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   SiegeGame({List<ArtTheme>? themes})
     : themes = themes ?? [StylizedTheme()],
       super(gravity: Vector2(0, 12));
@@ -45,12 +49,18 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
     'assets/levels/egypt_01.json',
     'assets/levels/egypt_02.json',
     'assets/levels/egypt_03.json',
+    'assets/levels/egypt_04.json',
+    'assets/levels/egypt_05.json',
+    'assets/levels/egypt_06.json',
+    'assets/levels/egypt_07.json',
   ];
 
   /// Drag distances in world meters.
   static const minPull = 1.0;
   static const maxPull = 7.0;
-  static const _launchSpeedPerMeter = 4.3;
+
+  /// How long to let fires finish off a castle after the last shot.
+  static const _maxFireWait = 15.0;
 
   /// Physics settles for this long after spawning before damage counts,
   /// so a castle doesn't hurt itself while blocks find their rest.
@@ -75,12 +85,16 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
   double realTime = 0;
 
   final ValueNotifier<SiegePhase> phase = ValueNotifier(SiegePhase.menu);
-  final ValueNotifier<int> shotsLeft = ValueNotifier(0);
+
+  /// Rounds left per ammo type, and the one loaded for the next shot.
+  final ValueNotifier<Map<AmmoType, int>> ammo = ValueNotifier(const {});
+  final ValueNotifier<AmmoType?> selectedAmmo = ValueNotifier(null);
+  int get shotsLeft => ammo.value.values.fold(0, (a, b) => a + b);
   LevelResult? lastResult;
 
   late LevelData level;
   int levelIndex = 0;
-  late Catapult catapult;
+  late SiegeEngine siegeEngine;
 
   bool get hasNextLevel => levelIndex + 1 < levelFiles.length;
   double get minWorldX => level.catapultX - 30;
@@ -89,13 +103,16 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
 
   bool _levelLoaded = false;
   bool _objectiveAnnounced = false;
+  bool _weakPointHit = false;
   double _cameraBaseX = 0;
   double _levelTime = 0;
   double _settleTime = 0;
   int _shotsUsed = 0;
   double _totalBlockHp = 0;
   double _destroyedBlockHp = 0;
-  StoneProjectile? _projectile;
+  final Set<Projectile> _projectiles = {};
+  final List<(Vector2, double, double)> _pendingExplosions = [];
+  final List<(Vector2, double)> _pendingIgnitions = [];
   Vector2? _dragStart;
   Vector2? _pull;
 
@@ -124,11 +141,14 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
     world.removeAll(world.children.toList());
     _levelTime = 0;
     _objectiveAnnounced = false;
+    _weakPointHit = false;
+    _pendingExplosions.clear();
+    _pendingIgnitions.clear();
     effects.reset();
     _shotsUsed = 0;
     _destroyedBlockHp = 0;
     _totalBlockHp = 0;
-    _projectile = null;
+    _projectiles.clear();
     _dragStart = null;
     _pull = null;
     lastResult = null;
@@ -137,14 +157,15 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
     for (final b in blocks) {
       _totalBlockHp += b.maxHp;
     }
-    catapult = Catapult(x: level.catapultX);
+    siegeEngine = SiegeEngine(type: level.weapon, x: level.catapultX);
     await world.addAll([
       Background(),
       Ground(left: minWorldX, right: maxWorldX),
       GroundDetail(),
-      catapult,
+      siegeEngine,
       AimGuide(),
       ...blocks,
+      for (final p in level.props) PowderBarrel(p),
       for (final u in level.units) Unit(u),
     ]);
 
@@ -153,7 +174,11 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
     _cameraBaseX = _cameraHomeX;
     camera.viewfinder.position = Vector2(_cameraBaseX, _cameraY);
     effects.audio.startMusic();
-    shotsLeft.value = level.shots;
+    ammo.value = {
+      for (final type in level.ammo.toSet())
+        type: level.ammo.where((a) => a == type).length,
+    };
+    selectedAmmo.value = level.ammo.first;
     overlays
       ..removeAll(['menu', 'result'])
       ..add('hud');
@@ -206,28 +231,79 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
     _pull = null;
   }
 
-  Vector2 launchVelocity(Vector2 pull) => pull * _launchSpeedPerMeter;
+  @override
+  void onTapDown(TapDownEvent event) {
+    super.onTapDown(event);
+    if (phase.value != SiegePhase.flying) return;
+    for (final p in _projectiles.toList()) {
+      p.onPlayerTap();
+    }
+  }
+
+  Vector2 launchVelocity(Vector2 pull) =>
+      pull * level.weapon.spec.speedPerMeter;
+
+  void selectAmmo(AmmoType type) {
+    if (phase.value != SiegePhase.aiming || (ammo.value[type] ?? 0) == 0) {
+      return;
+    }
+    selectedAmmo.value = type;
+  }
 
   void _fire(Vector2 pull) {
-    shotsLeft.value--;
+    final type = selectedAmmo.value;
+    if (type == null) return;
+    final left = {...ammo.value, type: ammo.value[type]! - 1};
+    ammo.value = left;
+    if (left[type] == 0) {
+      selectedAmmo.value = level.ammo
+          .where((a) => (left[a] ?? 0) > 0)
+          .firstOrNull;
+    }
     _shotsUsed++;
-    catapult.release();
-    effects.launch();
-    _projectile = StoneProjectile(
-      start: catapult.launchOrigin,
-      velocity: launchVelocity(pull),
+    siegeEngine.release();
+    effects.launch(ballista: level.weapon == WeaponType.ballista);
+    addProjectile(
+      Projectile(
+        type: type,
+        start: siegeEngine.launchOriginFor(pull),
+        velocity: launchVelocity(pull),
+        gravityScale: level.weapon.spec.gravityScale,
+      ),
     );
-    world.add(_projectile!);
     phase.value = SiegePhase.flying;
+  }
+
+  void addProjectile(Projectile projectile) {
+    _projectiles.add(projectile);
+    world.add(projectile);
   }
 
   // ------------------------------------------------------- world callbacks
 
-  void onProjectileFinished(StoneProjectile projectile) {
-    if (projectile != _projectile) return;
-    _projectile = null;
-    _settleTime = 0;
-    phase.value = SiegePhase.settling;
+  void onProjectileFinished(Projectile projectile) {
+    _projectiles.remove(projectile);
+    if (_projectiles.isEmpty && phase.value == SiegePhase.flying) {
+      _settleTime = 0;
+      phase.value = SiegePhase.settling;
+    }
+  }
+
+  /// Explosions and ignitions requested from physics callbacks run on the
+  /// next update, outside the physics step.
+  void queueExplosion(
+    Vector2 at, {
+    required double radius,
+    required double power,
+  }) => _pendingExplosions.add((at, radius, power));
+
+  void queueIgnition(Vector2 at, double radius) =>
+      _pendingIgnitions.add((at, radius));
+
+  void onWeakPointBroken(Vector2 at) {
+    if (_weakPointHit) return;
+    _weakPointHit = true;
+    effects.weakPoint(at);
   }
 
   void onBlockDestroyed(CastleBlock block) {
@@ -243,6 +319,42 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
     }
   }
 
+  void _processQueues() {
+    for (final (at, radius) in _pendingIgnitions) {
+      for (final block in world.children.whereType<CastleBlock>()) {
+        final reach =
+            radius + math.max(block.data.width, block.data.height) / 2;
+        if (block.body.position.distanceTo(at) <= reach) block.ignite();
+      }
+    }
+    _pendingIgnitions.clear();
+
+    // Chain reactions queue more explosions while these resolve.
+    final explosions = List.of(_pendingExplosions);
+    _pendingExplosions.clear();
+    for (final (at, radius, power) in explosions) {
+      _explode(at, radius, power);
+    }
+  }
+
+  void _explode(Vector2 at, double radius, double power) {
+    effects.explosion(at, radius);
+    for (final c in world.children.whereType<BodyComponent>().toList()) {
+      final body = c.body;
+      if (body.bodyType != BodyType.dynamic) continue;
+      final offset = body.worldCenter - at;
+      final distance = offset.length;
+      final falloff = explosionFalloff(distance, radius);
+      if (falloff <= 0) continue;
+      final dir = distance < 0.01 ? Vector2(0, -1) : offset / distance;
+      // Heavier bodies are shoved less.
+      final deltaV = power * 0.25 * falloff / (1 + body.mass * 0.05);
+      body.applyLinearImpulse(dir * (deltaV * body.mass));
+      if (c is Damageable) c.takeDamage(power * 1.6 * falloff);
+      if (c is CastleBlock && falloff > 0.25) c.ignite();
+    }
+  }
+
   // ---------------------------------------------------------------- update
 
   @override
@@ -252,6 +364,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
     final simDt = dt * effects.timeScale;
     super.update(simDt);
     if (phase.value == SiegePhase.menu) return;
+    _processQueues();
     _levelTime += simDt;
     _updateCamera(dt);
 
@@ -260,8 +373,14 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
       if (_settleTime > 0.6 && (_worldAtRest() || _settleTime > 4)) {
         _resolveShot();
       }
+    } else if (phase.value == SiegePhase.aiming && _objectiveComplete) {
+      // Fire finished the job between shots.
+      _finish(won: true);
     }
   }
+
+  bool get _anyBurning =>
+      world.children.whereType<CastleBlock>().any((b) => b.burning);
 
   bool _worldAtRest() => world.children.whereType<BodyComponent>().every(
     (c) =>
@@ -281,7 +400,9 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
   void _resolveShot() {
     if (_objectiveComplete) {
       _finish(won: true);
-    } else if (shotsLeft.value == 0) {
+    } else if (shotsLeft == 0) {
+      // Out of ammo: give any fires the chance to win the siege.
+      if (_anyBurning && _settleTime < _maxFireWait) return;
       _finish(won: false);
     } else {
       phase.value = SiegePhase.aiming;
@@ -297,6 +418,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
         shotsUsed: _shotsUsed,
         par: level.par,
         destruction: destruction,
+        weakPointHit: level.hasWeakPoints ? _weakPointHit : null,
       ),
     );
     phase.value = won ? SiegePhase.won : SiegePhase.lost;
@@ -333,7 +455,10 @@ class SiegeGame extends Forge2DGame with DragCallbacks {
   void _updateCamera(double dt) {
     final minX = _cameraHomeX;
     final maxX = math.max(minX, level.worldWidth + 4 - _halfViewWidth);
-    final target = (_projectile?.body.position.x ?? minX).clamp(minX, maxX);
+    final lead = _projectiles.isEmpty
+        ? minX
+        : _projectiles.map((p) => p.body.position.x).reduce(math.max);
+    final target = lead.clamp(minX, maxX);
     _cameraBaseX += (target - _cameraBaseX) * (1 - math.exp(-4 * dt));
     camera.viewfinder
       ..position = Vector2(_cameraBaseX, _cameraY) + effects.shakeOffset

@@ -23,15 +23,20 @@ class MainMenu extends StatelessWidget {
               style: UiStyle.body.copyWith(color: UiStyle.bronze),
             ),
             const SizedBox(height: 28),
-            Wrap(
-              spacing: 12,
-              children: [
-                for (var i = 0; i < SiegeGame.levelFiles.length; i++)
-                  SiegeButton(
-                    label: 'Siege ${i + 1}',
-                    onPressed: () => game.startLevel(i),
-                  ),
-              ],
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 620),
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 12,
+                runSpacing: 12,
+                children: [
+                  for (var i = 0; i < SiegeGame.levelFiles.length; i++)
+                    SiegeButton(
+                      label: 'Siege ${i + 1}',
+                      onPressed: () => game.startLevel(i),
+                    ),
+                ],
+              ),
             ),
             const SizedBox(height: 16),
             ValueListenableBuilder<int>(

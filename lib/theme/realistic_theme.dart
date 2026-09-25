@@ -6,6 +6,7 @@ import 'dart:ui';
 import 'package:flutter/services.dart';
 
 import '../core/materials.dart';
+import '../core/weapons.dart';
 import '../levels/level_data.dart';
 import 'stylized_theme.dart';
 
@@ -422,6 +423,8 @@ class RealisticTheme extends StylizedTheme {
     BlockMaterial material, {
     required int crackStage,
     required int seed,
+    bool weak = false,
+    double char = 0,
   }) {
     final rect = Rect.fromCenter(
       center: Offset.zero,
@@ -443,6 +446,8 @@ class RealisticTheme extends StylizedTheme {
       );
       _shade(canvas, rrect);
     }
+    if (weak) drawRot(canvas, rrect, seed);
+    if (char > 0) drawChar(canvas, rrect, char);
     if (crackStage > 0) _cracks(canvas, rect, crackStage, seed);
   }
 
@@ -757,7 +762,58 @@ class RealisticTheme extends StylizedTheme {
   }
 
   @override
+  void drawSiegeEngine(
+    Canvas canvas,
+    WeaponType type, {
+    required double armAngle,
+    required double aimAngle,
+  }) {
+    switch (type) {
+      case WeaponType.catapult:
+        drawCatapult(canvas, armAngle: armAngle);
+      case WeaponType.trebuchet:
+        drawTrebuchet(canvas, armAngle: armAngle);
+      case WeaponType.ballista:
+        drawBallista(canvas, aimAngle: aimAngle, beam: _beam);
+    }
+  }
+
+  /// Wheeled mangonel: a single arm with a bucket, stopped by a crossbar.
+  @override
   void drawCatapult(Canvas canvas, {required double armAngle}) {
+    const pivot = Offset(0, -2.8);
+    _beam(canvas, const Offset(-2.4, -0.9), const Offset(2.4, -0.9), 0.4);
+    _beam(canvas, const Offset(-1.3, -0.9), const Offset(-0.1, -3.0), 0.3);
+    _beam(canvas, const Offset(1.3, -0.9), const Offset(0.1, -3.0), 0.3);
+    // Stop bar the arm slams into on release.
+    _beam(canvas, const Offset(0.1, -3.0), const Offset(1.3, -3.9), 0.22);
+    for (final x in [-1.6, 1.6]) {
+      final c = Offset(x, -0.5);
+      canvas
+        ..drawCircle(c, 0.5, _texture(_Tex.planks, metersPerImage: 1.2))
+        ..drawCircle(c, 0.5, _edge)
+        ..drawCircle(c, 0.12, _fill..color = const Color(0xFF3A3A3C));
+    }
+    final dir = Offset(math.sin(armAngle), -math.cos(armAngle));
+    final tip = pivot + dir * 3.3;
+    _beam(canvas, pivot - dir * 0.3, tip, 0.22);
+    final cup = Path()
+      ..addArc(Rect.fromCircle(center: tip, radius: 0.45), 0, math.pi)
+      ..close();
+    canvas
+      ..save()
+      ..translate(tip.dx, tip.dy)
+      ..rotate(armAngle)
+      ..translate(-tip.dx, -tip.dy)
+      ..drawPath(cup, _texture(_Tex.wood, metersPerImage: 1.2))
+      ..drawPath(cup, _edge)
+      ..restore();
+    canvas
+      ..drawCircle(pivot, 0.16, _fill..color = const Color(0xFF3A3A3C))
+      ..drawCircle(pivot, 0.07, _fill..color = const Color(0xFF8A8A8E));
+  }
+
+  void drawTrebuchet(Canvas canvas, {required double armAngle}) {
     const pivot = Offset(0, -2.8);
 
     // Ground skids and frame.
@@ -802,6 +858,49 @@ class RealisticTheme extends StylizedTheme {
     canvas
       ..drawCircle(pivot, 0.16, _fill..color = const Color(0xFF3A3A3C))
       ..drawCircle(pivot, 0.07, _fill..color = const Color(0xFF8A8A8E));
+  }
+
+  @override
+  void drawBarrel(Canvas canvas, Size size, {required int crackStage}) {
+    final rect = Rect.fromCenter(
+      center: Offset.zero,
+      width: size.width,
+      height: size.height,
+    );
+    final body = RRect.fromRectAndRadius(
+      rect,
+      Radius.elliptical(size.width * 0.35, size.height * 0.2),
+    );
+    canvas
+      ..drawRRect(body, _texture(_Tex.planks, metersPerImage: 1.4))
+      ..drawRRect(
+        body,
+        Paint()
+          ..shader = Gradient.linear(
+            rect.centerLeft,
+            rect.centerRight,
+            const [Color(0x66000000), Color(0x10FFFFFF), Color(0x77000000)],
+            const [0, 0.45, 1],
+          ),
+      );
+    final hoop = Paint()
+      ..color = const Color(0xFF34302C)
+      ..strokeWidth = size.height * 0.07;
+    for (final y in [-0.33, 0.33]) {
+      canvas.drawLine(
+        Offset(rect.left + 0.03, y * size.height),
+        Offset(rect.right - 0.03, y * size.height),
+        hoop,
+      );
+    }
+    // Stencilled powder mark.
+    canvas.drawCircle(
+      Offset.zero,
+      size.width * 0.16,
+      _fill..color = const Color(0xCC7A1A14),
+    );
+    if (crackStage > 0) _cracks(canvas, rect, crackStage, 5);
+    canvas.drawRRect(body, _edge);
   }
 
   @override

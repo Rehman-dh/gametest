@@ -13,7 +13,13 @@ enum Sfx {
   breakGlass('sfx/break_glass.wav'),
   unitDown('sfx/unit_down.wav'),
   victory('sfx/victory.wav'),
-  defeat('sfx/defeat.wav');
+  defeat('sfx/defeat.wav'),
+  explosion('sfx/explosion.wav'),
+  ignite('sfx/ignite.wav'),
+  fireCrackle('sfx/fire_crackle.wav'),
+  split('sfx/split.wav'),
+  ballista('sfx/ballista.wav'),
+  weakPoint('sfx/weak_point.wav');
 
   const Sfx(this.file);
   final String file;

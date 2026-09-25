@@ -3,7 +3,9 @@ import 'dart:ui';
 
 import 'package:flame/particles.dart';
 
+import '../core/ammo.dart';
 import '../core/materials.dart';
+import '../core/weapons.dart';
 import '../levels/level_data.dart';
 
 /// Every visual in the game is drawn through this interface.
@@ -34,7 +36,15 @@ abstract class ArtTheme {
     BlockMaterial material, {
     required int crackStage,
     required int seed,
+    bool weak = false,
+    double char = 0,
   });
+
+  /// Flames licking a burning block of [size]; [time] animates flicker.
+  void drawFire(Canvas canvas, Size size, double time);
+
+  /// Powder barrel prop, centered on the origin.
+  void drawBarrel(Canvas canvas, Size size, {required int crackStage});
 
   /// A fractured piece of a block; [polygon] is centered on the origin.
   void drawShard(Canvas canvas, List<Offset> polygon, BlockMaterial material);
@@ -46,11 +56,18 @@ abstract class ArtTheme {
     required bool hurt,
   });
 
-  void drawStone(Canvas canvas, double radius);
+  /// A projectile of [type]; bolts point along +x.
+  void drawProjectile(Canvas canvas, AmmoType type, double radius, double time);
 
-  /// Origin is the catapult's base center on the ground surface.
-  /// [armAngle] 0 = arm pointing straight up, negative = cocked back.
-  void drawCatapult(Canvas canvas, {required double armAngle});
+  /// Origin is the engine's base center on the ground surface.
+  /// [armAngle] 0 = arm straight up, negative = cocked back (throwers).
+  /// [aimAngle] is the launch direction in radians (ballista).
+  void drawSiegeEngine(
+    Canvas canvas,
+    WeaponType type, {
+    required double armAngle,
+    required double aimAngle,
+  });
 
   void drawTrajectoryDot(Canvas canvas, Offset center, double opacity);
 
@@ -66,4 +83,8 @@ abstract class ArtTheme {
   Particle unitDeathParticles(UnitKind kind, math.Random rng);
 
   Particle trailParticle(math.Random rng);
+
+  Particle fireParticles(Size size, math.Random rng);
+
+  Particle explosionParticles(double radius, math.Random rng);
 }

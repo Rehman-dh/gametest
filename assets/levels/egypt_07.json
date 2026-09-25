@@ -1,0 +1,35 @@
+{
+  "id": "egypt_07",
+  "name": "The Long Siege",
+  "worldWidth": 62,
+  "weapon": "trebuchet",
+  "ammo": ["stone", "stone", "fireball", "cluster", "powderKeg"],
+  "par": 3,
+  "objective": "killKing",
+  "wind": 1.5,
+  "blocks": [
+    { "m": "stone", "x": 44, "y": 0, "w": 1, "h": 5 },
+    { "m": "stone", "x": 48, "y": 0, "w": 1, "h": 5 },
+    { "m": "stone", "x": 46, "y": 5, "w": 5, "h": 0.6, "weak": true },
+    { "m": "wood", "x": 44.5, "y": 5.6, "w": 0.4, "h": 2 },
+    { "m": "wood", "x": 47.5, "y": 5.6, "w": 0.4, "h": 2 },
+    { "m": "wood", "x": 46, "y": 7.6, "w": 4, "h": 0.4 },
+
+    { "m": "stone", "x": 51, "y": 0, "w": 1, "h": 6 },
+    { "m": "stone", "x": 57, "y": 0, "w": 1, "h": 6 },
+    { "m": "stone", "x": 54, "y": 6, "w": 7, "h": 0.6 },
+    { "m": "wood", "x": 52, "y": 6.6, "w": 0.4, "h": 2.5 },
+    { "m": "wood", "x": 56, "y": 6.6, "w": 0.4, "h": 2.5 },
+    { "m": "wood", "x": 54, "y": 9.1, "w": 5, "h": 0.4 }
+  ],
+  "props": [
+    { "kind": "powderBarrel", "x": 52.5, "y": 0 }
+  ],
+  "units": [
+    { "kind": "soldier", "x": 46, "y": 0 },
+    { "kind": "soldier", "x": 46, "y": 5.6 },
+    { "kind": "king", "x": 54, "y": 0 },
+    { "kind": "soldier", "x": 55.7, "y": 0 },
+    { "kind": "soldier", "x": 54, "y": 6.6 }
+  ]
+}

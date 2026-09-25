@@ -5,6 +5,12 @@ const double impulseDamageThreshold = 2.5;
 /// Projectiles hit harder than falling rubble of the same impulse.
 const double projectileDamageMultiplier = 1.2;
 
+/// Weak-point blocks keep this fraction of their material's hit points.
+const double weakPointHpFactor = 0.3;
+
+/// Fire damage per second to a burning block.
+const double burnDamagePerSecond = 3;
+
 /// Number of visible crack stages before a block breaks.
 const int crackStages = 3;
 

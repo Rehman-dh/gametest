@@ -4,7 +4,9 @@ import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:flame/particles.dart';
 
+import '../core/ammo.dart';
 import '../core/materials.dart';
+import '../core/weapons.dart';
 import '../levels/level_data.dart';
 import 'art_theme.dart';
 
@@ -277,6 +279,8 @@ class StylizedTheme implements ArtTheme {
     BlockMaterial material, {
     required int crackStage,
     required int seed,
+    bool weak = false,
+    double char = 0,
   }) {
     final rect = Rect.fromCenter(
       center: Offset.zero,
@@ -343,6 +347,8 @@ class StylizedTheme implements ArtTheme {
         );
     }
 
+    if (weak) drawRot(canvas, rrect, seed);
+    if (char > 0) drawChar(canvas, rrect, char);
     if (crackStage > 0) _drawCracks(canvas, rect, crackStage, seed);
     canvas.drawRRect(rrect, _line);
   }
@@ -444,7 +450,6 @@ class StylizedTheme implements ArtTheme {
     }
   }
 
-  @override
   void drawStone(Canvas canvas, double radius) {
     final path = Path();
     const sides = 9;
@@ -467,7 +472,6 @@ class StylizedTheme implements ArtTheme {
 
   // -------------------------------------------------------------- catapult
 
-  @override
   void drawCatapult(Canvas canvas, {required double armAngle}) {
     final wood = _fill..color = const Color(0xFF5E3D24);
     const beam = Color(0xFF4A2F1B);
@@ -543,6 +547,416 @@ class StylizedTheme implements ArtTheme {
         )!
         ..strokeWidth = 0.12
         ..strokeCap = StrokeCap.round,
+    );
+  }
+
+  // ---------------------------------------------------- phase 3 visuals
+
+  /// Rotten patches marking a weak point: subtle, so sharp eyes spot it.
+  void drawRot(Canvas canvas, RRect rrect, int seed) {
+    final rng = math.Random(seed * 31 + 7);
+    final r = rrect.outerRect;
+    final rot = Paint()
+      ..color = const Color(0x5A2E3A1A)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 0.12);
+    canvas
+      ..save()
+      ..clipRRect(rrect);
+    for (var i = 0; i < 4; i++) {
+      canvas.drawOval(
+        Rect.fromCenter(
+          center: Offset(
+            r.left + rng.nextDouble() * r.width,
+            r.top + rng.nextDouble() * r.height,
+          ),
+          width: 0.3 + rng.nextDouble() * 0.5,
+          height: 0.2 + rng.nextDouble() * 0.4,
+        ),
+        rot,
+      );
+    }
+    canvas.restore();
+  }
+
+  /// Scorching from fire; [amount] 0–1.
+  void drawChar(Canvas canvas, RRect rrect, double amount) {
+    canvas.drawRRect(
+      rrect,
+      Paint()..color = Color.fromRGBO(20, 12, 8, 0.75 * amount.clamp(0, 1)),
+    );
+  }
+
+  @override
+  void drawFire(Canvas canvas, Size size, double time) {
+    final w = size.width, h = size.height;
+    final glowR = math.max(w, h) * 0.9 + 0.6;
+    canvas.drawCircle(
+      Offset.zero,
+      glowR,
+      Paint()
+        ..blendMode = BlendMode.plus
+        ..shader = Gradient.radial(Offset.zero, glowR, const [
+          Color(0x55FF8A2A),
+          Color(0x00FF8A2A),
+        ]),
+    );
+    // Tongues of flame along the block, flickering out of phase.
+    final tongues = math.max(2, (w / 0.45).round());
+    for (var i = 0; i < tongues; i++) {
+      final x = -w / 2 + (i + 0.5) * w / tongues;
+      final phase = time * 9 + i * 1.7;
+      final height =
+          (0.5 + 0.3 * math.sin(phase) + 0.15 * math.sin(phase * 2.3)) *
+          (0.6 + 0.4 * math.min(1.0, h));
+      final base = h / 2 * 0.2;
+      final sway = 0.08 * math.sin(phase * 0.7);
+      final flame = Path()
+        ..moveTo(x - 0.2, base)
+        ..quadraticBezierTo(
+          x - 0.22,
+          base - height * 0.6,
+          x + sway,
+          base - height,
+        )
+        ..quadraticBezierTo(x + 0.22, base - height * 0.6, x + 0.2, base)
+        ..close();
+      canvas.drawPath(
+        flame,
+        Paint()
+          ..shader = Gradient.linear(
+            Offset(x, base),
+            Offset(x, base - height),
+            const [Color(0xEEFFD36B), Color(0xCCFF7A1F), Color(0x00C0301A)],
+            const [0, 0.5, 1],
+          ),
+      );
+    }
+  }
+
+  @override
+  void drawBarrel(Canvas canvas, Size size, {required int crackStage}) {
+    final rect = Rect.fromCenter(
+      center: Offset.zero,
+      width: size.width,
+      height: size.height,
+    );
+    final body = RRect.fromRectAndRadius(
+      rect,
+      Radius.circular(size.width * 0.3),
+    );
+    canvas.drawRRect(body, _fill..color = const Color(0xFF6B4527));
+    final hoop = Paint()
+      ..color = const Color(0xFF2E2A26)
+      ..strokeWidth = 0.08;
+    for (final y in [-0.32, 0.32]) {
+      canvas.drawLine(
+        Offset(rect.left + 0.05, y * size.height),
+        Offset(rect.right - 0.05, y * size.height),
+        hoop,
+      );
+    }
+    // Painted warning mark.
+    canvas.drawCircle(
+      Offset.zero,
+      size.width * 0.18,
+      _fill..color = const Color(0xFF8E1F18),
+    );
+    if (crackStage > 0) _drawCracks(canvas, rect, crackStage, 5);
+    canvas.drawRRect(body, _line);
+  }
+
+  @override
+  void drawProjectile(
+    Canvas canvas,
+    AmmoType type,
+    double radius,
+    double time,
+  ) {
+    switch (type) {
+      case AmmoType.stone:
+        drawStone(canvas, radius);
+      case AmmoType.fireball:
+        _drawFireball(canvas, radius, time);
+      case AmmoType.cluster:
+        for (final (dx, dy) in const [
+          (-0.35, -0.2),
+          (0.35, -0.2),
+          (0.0, 0.35),
+        ]) {
+          canvas
+            ..save()
+            ..translate(dx * radius, dy * radius);
+          drawStone(canvas, radius * 0.55);
+          canvas.restore();
+        }
+        canvas.drawCircle(
+          Offset.zero,
+          radius * 0.75,
+          Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 0.05
+            ..color = const Color(0xFF8A7250),
+        );
+      case AmmoType.powderKeg:
+        drawBarrel(canvas, Size(radius * 1.8, radius * 2), crackStage: 0);
+        _drawFuse(canvas, Offset(0, -radius * 1.05), time);
+      case AmmoType.bolt:
+        _drawBolt(canvas, radius);
+    }
+  }
+
+  void _drawFireball(Canvas canvas, double radius, double time) {
+    canvas.drawCircle(
+      Offset.zero,
+      radius * 2.2,
+      Paint()
+        ..blendMode = BlendMode.plus
+        ..shader = Gradient.radial(Offset.zero, radius * 2.2, const [
+          Color(0x88FF9A3A),
+          Color(0x00FF9A3A),
+        ]),
+    );
+    drawStone(canvas, radius);
+    final flicker = 0.85 + 0.15 * math.sin(time * 30);
+    canvas.drawCircle(
+      Offset.zero,
+      radius * flicker,
+      Paint()
+        ..shader = Gradient.radial(
+          Offset.zero,
+          radius,
+          const [Color(0xCCFFE08A), Color(0x99FF6A1A), Color(0x00FF6A1A)],
+          const [0, 0.6, 1],
+        ),
+    );
+  }
+
+  void _drawFuse(Canvas canvas, Offset tip, double time) {
+    canvas.drawCircle(
+      tip,
+      0.12 + 0.05 * math.sin(time * 40),
+      Paint()
+        ..blendMode = BlendMode.plus
+        ..color = const Color(0xFFFFD26B),
+    );
+  }
+
+  void _drawBolt(Canvas canvas, double radius) {
+    final len = radius * 8;
+    final shaft = Rect.fromLTWH(-len / 2, -0.05, len, 0.1);
+    canvas
+      ..drawRect(shaft, _fill..color = const Color(0xFF6E4A2C))
+      ..drawPath(
+        Path()
+          ..moveTo(len / 2, -0.14)
+          ..lineTo(len / 2 + 0.35, 0)
+          ..lineTo(len / 2, 0.14)
+          ..close(),
+        _fill..color = const Color(0xFF55595E),
+      );
+    for (final s in [-1.0, 1.0]) {
+      canvas.drawPath(
+        Path()
+          ..moveTo(-len / 2, 0)
+          ..lineTo(-len / 2 + 0.35, 0)
+          ..lineTo(-len / 2 - 0.05, s * 0.2)
+          ..close(),
+        _fill..color = const Color(0xFF8C8272),
+      );
+    }
+  }
+
+  @override
+  void drawSiegeEngine(
+    Canvas canvas,
+    WeaponType type, {
+    required double armAngle,
+    required double aimAngle,
+  }) {
+    switch (type) {
+      case WeaponType.catapult:
+      case WeaponType.trebuchet:
+        drawCatapult(canvas, armAngle: armAngle);
+      case WeaponType.ballista:
+        drawBallista(canvas, aimAngle: aimAngle, beam: _plainBeam);
+    }
+  }
+
+  void _plainBeam(Canvas canvas, Offset a, Offset b, double width) {
+    canvas.drawLine(
+      a,
+      b,
+      Paint()
+        ..color = const Color(0xFF5E3D24)
+        ..strokeWidth = width
+        ..strokeCap = StrokeCap.round,
+    );
+  }
+
+  /// Shared ballista geometry; [beam] draws one timber in the theme's look.
+  /// The pivot sits at (0, -1.6) and the stock points along [aimAngle].
+  void drawBallista(
+    Canvas canvas, {
+    required double aimAngle,
+    required void Function(Canvas, Offset, Offset, double) beam,
+  }) {
+    const pivot = Offset(0, -1.6);
+    beam(canvas, const Offset(-1.3, 0), pivot, 0.22);
+    beam(canvas, const Offset(1.1, 0), pivot, 0.22);
+    beam(canvas, const Offset(0, 0), pivot, 0.26);
+
+    canvas
+      ..save()
+      ..translate(pivot.dx, pivot.dy)
+      ..rotate(aimAngle);
+    beam(canvas, const Offset(-1.3, 0), const Offset(1.9, 0), 0.3);
+    // Bow arms and string.
+    const front = Offset(1.3, 0);
+    final tipA = front + const Offset(-0.45, -1.1);
+    final tipB = front + const Offset(-0.45, 1.1);
+    beam(canvas, front, tipA, 0.14);
+    beam(canvas, front, tipB, 0.14);
+    final string = Paint()
+      ..color = const Color(0xFFD9CBA8)
+      ..strokeWidth = 0.04;
+    canvas
+      ..drawLine(tipA, const Offset(-0.6, 0), string)
+      ..drawLine(tipB, const Offset(-0.6, 0), string)
+      ..restore();
+    canvas.drawCircle(pivot, 0.14, _fill..color = const Color(0xFF2E2E30));
+  }
+
+  @override
+  Particle fireParticles(Size size, math.Random rng) {
+    return ComposedParticle(
+      children: [
+        for (var i = 0; i < 2; i++) _ember(rng, size),
+        _smoke(rng, size),
+      ],
+    );
+  }
+
+  Particle _ember(math.Random rng, Size size) {
+    final life = 0.6 + rng.nextDouble() * 0.6;
+    return AcceleratedParticle(
+      lifespan: life,
+      position: Vector2(
+        (rng.nextDouble() - 0.5) * size.width,
+        -size.height / 2 * rng.nextDouble(),
+      ),
+      speed: Vector2(
+        (rng.nextDouble() - 0.5) * 0.8,
+        -1.5 - rng.nextDouble() * 1.5,
+      ),
+      acceleration: Vector2(0, -0.8),
+      child: ComputedParticle(
+        lifespan: life,
+        renderer: (canvas, p) {
+          final t = p.progress;
+          canvas.drawCircle(
+            Offset.zero,
+            0.06 * (1 - t) + 0.02,
+            _particlePaint
+              ..color = Color.lerp(
+                const Color(0xFFFFE08A),
+                const Color(0x00C0301A),
+                t,
+              )!,
+          );
+        },
+      ),
+    );
+  }
+
+  Particle _smoke(math.Random rng, Size size, {double scale = 1}) {
+    final life = 1.4 + rng.nextDouble() * 0.8;
+    final r0 = (0.25 + rng.nextDouble() * 0.2) * scale;
+    return AcceleratedParticle(
+      lifespan: life,
+      position: Vector2(
+        (rng.nextDouble() - 0.5) * size.width,
+        -size.height / 2,
+      ),
+      speed: Vector2((rng.nextDouble() - 0.3) * 0.6, -1.2 - rng.nextDouble()),
+      acceleration: Vector2(0.3, -0.2),
+      child: ComputedParticle(
+        lifespan: life,
+        renderer: (canvas, p) {
+          final t = p.progress;
+          canvas.drawCircle(
+            Offset.zero,
+            r0 * (1 + 2.5 * t),
+            _particlePaint
+              ..color = Color.fromRGBO(
+                40,
+                36,
+                34,
+                0.35 * (1 - t) * math.min(1, t * 6),
+              ),
+          );
+        },
+      ),
+    );
+  }
+
+  @override
+  Particle explosionParticles(double radius, math.Random rng) {
+    return ComposedParticle(
+      children: [
+        // Flash.
+        ComputedParticle(
+          lifespan: 0.25,
+          renderer: (canvas, p) {
+            final t = p.progress;
+            canvas.drawCircle(
+              Offset.zero,
+              radius * (0.3 + 0.7 * t),
+              _particlePaint
+                ..blendMode = BlendMode.plus
+                ..color = Color.fromRGBO(255, 230, 170, 0.9 * (1 - t)),
+            );
+            _particlePaint.blendMode = BlendMode.srcOver;
+          },
+        ),
+        for (var i = 0; i < 14; i++) _fireball(rng, radius),
+        for (var i = 0; i < 10; i++)
+          _smoke(rng, Size(radius, radius * 0.5), scale: 2),
+        for (var i = 0; i < 18; i++)
+          _chip(
+            rng,
+            const Color(0xFF3A2A1C),
+            spread: const Size(1, 1),
+            speed: 12,
+          ),
+      ],
+    );
+  }
+
+  Particle _fireball(math.Random rng, double radius) {
+    final life = 0.4 + rng.nextDouble() * 0.4;
+    final dir = Vector2(rng.nextDouble() - 0.5, rng.nextDouble() - 0.7)
+      ..normalize();
+    final r0 = 0.3 + rng.nextDouble() * 0.4;
+    return AcceleratedParticle(
+      lifespan: life,
+      speed: dir * (radius * (1.5 + rng.nextDouble() * 2)),
+      acceleration: Vector2(0, -2),
+      child: ComputedParticle(
+        lifespan: life,
+        renderer: (canvas, p) {
+          final t = p.progress;
+          canvas.drawCircle(
+            Offset.zero,
+            r0 * (1 + t),
+            _particlePaint
+              ..color = Color.lerp(
+                const Color(0xEEFFC56B),
+                const Color(0x00401A0A),
+                t,
+              )!,
+          );
+        },
+      ),
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gametest/core/ammo.dart';
 import 'package:gametest/core/damage.dart';
 import 'package:gametest/core/scoring.dart';
 
@@ -44,6 +45,43 @@ void main() {
     test('par with low destruction gives two, high gives three', () {
       expect(starsFor(won: true, shotsUsed: 2, par: 2, destruction: 0.3), 2);
       expect(starsFor(won: true, shotsUsed: 2, par: 2, destruction: 0.8), 3);
+    });
+  });
+
+  group('starsFor with weak points', () {
+    test('third star needs the weak point, not destruction', () {
+      expect(
+        starsFor(
+          won: true,
+          shotsUsed: 1,
+          par: 2,
+          destruction: 1,
+          weakPointHit: false,
+        ),
+        2,
+      );
+      expect(
+        starsFor(
+          won: true,
+          shotsUsed: 1,
+          par: 2,
+          destruction: 0,
+          weakPointHit: true,
+        ),
+        3,
+      );
+    });
+  });
+
+  group('explosionFalloff', () {
+    test('full at center, zero at and beyond the radius', () {
+      expect(explosionFalloff(0, 4), 1);
+      expect(explosionFalloff(4, 4), 0);
+      expect(explosionFalloff(9, 4), 0);
+    });
+
+    test('decreases with distance', () {
+      expect(explosionFalloff(1, 4), greaterThan(explosionFalloff(2, 4)));
     });
   });
 }

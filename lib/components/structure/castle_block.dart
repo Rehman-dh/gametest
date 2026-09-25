@@ -9,6 +9,8 @@ import '../../core/materials.dart';
 import '../../game/siege_game.dart';
 import '../../levels/level_data.dart';
 import '../damageable.dart';
+import '../units/unit.dart';
+import 'powder_barrel.dart';
 
 class CastleBlock extends BodyComponent<SiegeGame>
     with ContactCallbacks, Damageable {
@@ -17,10 +19,70 @@ class CastleBlock extends BodyComponent<SiegeGame>
   final BlockData data;
   late final int _crackSeed = Object.hash(data.x, data.y, data.width);
 
+  static const _spreadInterval = 1.2;
+  static const _spreadChance = 0.6;
+  static const _fireFxInterval = 0.14;
+  static const _fireContactDamage = 4.0;
+
+  final math.Random _rng = math.Random();
+  bool burning = false;
+  double _burnTime = 0;
+  double _spreadTimer = 0;
+  double _fxTimer = 0;
+
   BlockMaterial get material => data.material;
 
+  /// How scorched the block looks, 0–1.
+  double get char => (_burnTime / 5).clamp(0, 1);
+
   @override
-  double get maxHp => material.spec.maxHp;
+  double get maxHp => material.spec.maxHp * (data.weak ? weakPointHpFactor : 1);
+
+  void ignite() {
+    if (burning || isDestroyed || !material.spec.flammable) return;
+    burning = true;
+    game.effects.ignite(body.position);
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    if (!burning || isDestroyed) return;
+    _burnTime += dt;
+    hp -= burnDamagePerSecond * dt;
+    if (hp <= 0) {
+      destroy();
+      return;
+    }
+    _fxTimer += dt;
+    if (_fxTimer > _fireFxInterval) {
+      _fxTimer = 0;
+      game.effects.fireTick(this);
+    }
+    _spreadTimer += dt;
+    if (_spreadTimer > _spreadInterval) {
+      _spreadTimer = 0;
+      _spreadFire();
+    }
+  }
+
+  /// Fire creeps into touching wood and scorches anyone standing on it.
+  void _spreadFire() {
+    for (final contact in body.contacts) {
+      if (!contact.isTouching()) continue;
+      final other = identical(contact.fixtureA.body, body)
+          ? contact.fixtureB.body
+          : contact.fixtureA.body;
+      switch (other.userData) {
+        case final CastleBlock block when _rng.nextDouble() < _spreadChance:
+          block.ignite();
+        case final Unit unit:
+          unit.takeDamage(_fireContactDamage);
+        case final PowderBarrel barrel:
+          barrel.takeDamage(_fireContactDamage);
+      }
+    }
+  }
 
   @override
   Body createBody() {
@@ -55,12 +117,24 @@ class CastleBlock extends BodyComponent<SiegeGame>
       material,
       crackStage: crackStageFor(hp, maxHp),
       seed: _crackSeed,
+      weak: data.weak,
+      char: char,
     );
+    if (burning) {
+      game.theme.drawFire(
+        canvas,
+        Size(data.width, data.height),
+        game.realTime + _crackSeed % 97,
+      );
+    }
   }
 
   @override
   void onHit(double damage) => game.effects.blockHit(this, damage);
 
   @override
-  void onDestroyed() => game.onBlockDestroyed(this);
+  void onDestroyed() {
+    game.onBlockDestroyed(this);
+    if (data.weak) game.onWeakPointBroken(body.position.clone());
+  }
 }

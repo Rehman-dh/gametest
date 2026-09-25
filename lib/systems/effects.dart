@@ -5,6 +5,7 @@ import 'package:flame/components.dart';
 import 'package:flame/particles.dart';
 import 'package:flame_forge2d/flame_forge2d.dart' hide Particle;
 
+import '../components/fx/floating_text.dart';
 import '../components/structure/castle_block.dart';
 import '../components/structure/debris_shard.dart';
 import '../components/units/unit.dart';
@@ -85,9 +86,39 @@ class Effects {
 
   // ------------------------------------------------------------- events
 
-  void launch() {
-    audio.play(Sfx.launch);
-    addTrauma(0.2);
+  void launch({required bool ballista}) {
+    audio.play(ballista ? Sfx.ballista : Sfx.launch);
+    addTrauma(ballista ? 0.1 : 0.2);
+  }
+
+  void fireTrail(Vector2 at) =>
+      _burst(at, game.theme.fireParticles(const Size(0.4, 0.4), _rng));
+
+  void clusterSplit(Vector2 at) {
+    audio.play(Sfx.split);
+    _burst(at, game.theme.impactParticles(0.4, _rng));
+  }
+
+  void ignite(Vector2 at) => audio.play(Sfx.ignite, volume: 0.7);
+
+  void fireTick(CastleBlock block) {
+    _burst(
+      block.body.position,
+      game.theme.fireParticles(Size(block.data.width, block.data.height), _rng),
+    );
+    audio.play(Sfx.fireCrackle, volume: 0.25);
+  }
+
+  void explosion(Vector2 at, double radius) {
+    _burst(at, game.theme.explosionParticles(radius, _rng));
+    audio.play(Sfx.explosion);
+    addTrauma(0.8);
+    _hitStop = math.max(_hitStop, 0.08);
+  }
+
+  void weakPoint(Vector2 at) {
+    audio.play(Sfx.weakPoint);
+    game.world.add(FloatingText('WEAK POINT!', at: at));
   }
 
   void projectileTrail(Vector2 at) =>

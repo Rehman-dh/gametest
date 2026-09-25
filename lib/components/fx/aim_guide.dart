@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flame/components.dart';
 
+import '../../core/weapons.dart';
 import '../../game/siege_game.dart';
 
 /// Pull-back band and dotted ballistic arc shown while aiming.
@@ -16,7 +17,7 @@ class AimGuide extends Component with HasGameReference<SiegeGame> {
     final pull = game.currentPull;
     if (pull == null || pull.length < SiegeGame.minPull) return;
 
-    final origin = game.catapult.launchOrigin;
+    final origin = game.siegeEngine.launchOriginFor(pull);
     final power = pull.length / SiegeGame.maxPull;
     game.theme.drawAimBand(
       canvas,
@@ -26,7 +27,7 @@ class AimGuide extends Component with HasGameReference<SiegeGame> {
     );
 
     final v = game.launchVelocity(pull);
-    final g = game.world.gravity;
+    final g = game.world.gravity * game.level.weapon.spec.gravityScale;
     for (var i = 1; i <= _dots; i++) {
       final t = i * _dotInterval;
       final p = origin + v * t + g * (0.5 * t * t);

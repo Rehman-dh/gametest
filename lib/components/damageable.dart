@@ -4,7 +4,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 
 import '../core/damage.dart';
 import '../game/siege_game.dart';
-import 'projectiles/stone_projectile.dart';
+import 'projectiles/projectile.dart';
 import 'structure/debris_shard.dart';
 
 /// Gives a physics body hit points that drain from contact impulses.
@@ -33,7 +33,7 @@ mixin Damageable on BodyComponent<SiegeGame>, ContactCallbacks {
     }
     final damage = damageFromImpulse(
       peak,
-      multiplier: other is StoneProjectile ? projectileDamageMultiplier : 1,
+      multiplier: other is Projectile ? projectileDamageMultiplier : 1,
     );
     if (damage > 0) takeDamage(damage);
   }

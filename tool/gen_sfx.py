@@ -174,6 +174,44 @@ def main():
         mix(drone, thud(50, 0.9, 5, 0.8, rng, 400), t, 1.4)
     write('sfx/defeat.wav', drone, peak=0.8)
 
+    # Powder explosion: sharp crack, deep boom, rolling rumble.
+    boom = mix(thud(40, 1.6, 3, 1.5, rng, 500),
+               envelope(highpass(noise(0.08, rng), 1500), 0.0005, 40), gain=0.8)
+    mix(boom, envelope(lowpass(noise(1.8, rng), 180), 0.02, 2.2), 0.05, 1.2)
+    write('sfx/explosion.wav', boom)
+
+    # Ignition: a breathy whoomph of flame.
+    whoomph = lowpass(noise(0.7, rng), 900)
+    whoomph = [x * math.sin(math.pi * min(1, i / (0.12 * RATE))) ** 2 *
+               math.exp(-3 * i / RATE) for i, x in enumerate(whoomph)]
+    write('sfx/ignite.wav', mix(whoomph, thud(70, 0.3, 10, 0.4, rng), gain=0.6))
+
+    # Fire crackle: sparse pops over a soft roar.
+    crackle = mix(silence(0.6), lowpass(noise(0.6, rng), 400), gain=0.15)
+    for _ in range(14):
+        pop = envelope(highpass(noise(0.015, rng), 1200), 0.0003, 200)
+        mix(crackle, pop, rng.uniform(0, 0.55), rng.uniform(0.3, 1))
+    write('sfx/fire_crackle.wav', crackle, peak=0.6)
+
+    # Cluster split: rope snap plus a scatter of small whooshes.
+    snap = envelope(highpass(noise(0.03, rng), 2000), 0.0003, 120)
+    for k in range(4):
+        w = lowpass(highpass(noise(0.25, rng), 600), 2500)
+        w = [x * math.sin(math.pi * i / len(w)) for i, x in enumerate(w)]
+        mix(snap, w, 0.02 + k * 0.03, 0.4)
+    write('sfx/split.wav', snap)
+
+    # Ballista: taut string twang and a thud of the stock.
+    twang = silence(0.6)
+    for f, g in ((180, 1), (362, 0.5), (545, 0.3)):
+        mix(twang, envelope(tone(f, 0.6, sweep=-0.08), 0.001, 7), gain=g)
+    write('sfx/ballista.wav', mix(twang, thud(110, 0.25, 18, 0.6, rng)))
+
+    # Weak point sting: low drum and a rising metallic ring.
+    sting = thud(55, 1.0, 4, 0.7, rng, 350)
+    ring = envelope(tone(330, 1.2, sweep=0.5), 0.05, 2.5)
+    write('sfx/weak_point.wav', mix(sting, ring, 0.08, 0.35), peak=0.8)
+
     write('music/siege_ambient.wav', ambient(rng), peak=0.6)
 
 
