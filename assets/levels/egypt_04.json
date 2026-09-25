@@ -3,7 +3,7 @@
   "name": "The Timber Stockade",
   "worldWidth": 50,
   "ammo": ["fireball", "fireball", "stone"],
-  "par": 1,
+  "par": 2,
   "objective": "killAll",
   "blocks": [
     { "m": "wood", "x": 28, "y": 0, "w": 0.5, "h": 4 },

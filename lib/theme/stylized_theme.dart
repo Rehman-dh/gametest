@@ -801,27 +801,49 @@ class StylizedTheme implements ArtTheme {
     required void Function(Canvas, Offset, Offset, double) beam,
   }) {
     const pivot = Offset(0, -1.6);
-    beam(canvas, const Offset(-1.3, 0), pivot, 0.22);
-    beam(canvas, const Offset(1.1, 0), pivot, 0.22);
-    beam(canvas, const Offset(0, 0), pivot, 0.26);
+    // Trestle: skid, splayed legs and a centre post.
+    beam(canvas, const Offset(-1.7, -0.12), const Offset(1.5, -0.12), 0.24);
+    beam(canvas, const Offset(-1.3, -0.1), pivot, 0.2);
+    beam(canvas, const Offset(1.1, -0.1), pivot, 0.2);
+    beam(canvas, const Offset(0, -0.1), pivot, 0.26);
 
     canvas
       ..save()
       ..translate(pivot.dx, pivot.dy)
       ..rotate(aimAngle);
-    beam(canvas, const Offset(-1.3, 0), const Offset(1.9, 0), 0.3);
-    // Bow arms and string.
-    const front = Offset(1.3, 0);
-    final tipA = front + const Offset(-0.45, -1.1);
-    final tipB = front + const Offset(-0.45, 1.1);
-    beam(canvas, front, tipA, 0.14);
-    beam(canvas, front, tipB, 0.14);
+    // Stock with a slider rail on top.
+    beam(canvas, const Offset(-1.7, 0.05), const Offset(1.9, 0.05), 0.34);
+    beam(canvas, const Offset(-1.3, -0.2), const Offset(1.7, -0.2), 0.1);
+    // Torsion frame holding the bow arms.
+    final frame = Rect.fromCenter(
+      center: const Offset(1.2, 0),
+      width: 0.45,
+      height: 1.0,
+    );
+    canvas
+      ..drawRect(frame, _fill..color = const Color(0xFF4A2F1B))
+      ..drawRect(frame, _line);
+    // Arms sweep back in two segments to suggest their curve.
+    for (final s in const [-1.0, 1.0]) {
+      final root = Offset(1.2, 0.45 * s);
+      final elbow = Offset(0.95, 0.95 * s);
+      final tip = Offset(0.5, 1.35 * s);
+      beam(canvas, root, elbow, 0.14);
+      beam(canvas, elbow, tip, 0.11);
+    }
+    // Drawn string, and the winch that spans it.
     final string = Paint()
       ..color = const Color(0xFFD9CBA8)
-      ..strokeWidth = 0.04;
+      ..strokeWidth = 0.045;
     canvas
-      ..drawLine(tipA, const Offset(-0.6, 0), string)
-      ..drawLine(tipB, const Offset(-0.6, 0), string)
+      ..drawLine(const Offset(0.5, -1.35), const Offset(-1.0, -0.2), string)
+      ..drawLine(const Offset(0.5, 1.35), const Offset(-1.0, -0.2), string)
+      ..drawCircle(
+        const Offset(-1.45, 0.3),
+        0.22,
+        _fill..color = const Color(0xFF4A2F1B),
+      )
+      ..drawCircle(const Offset(-1.45, 0.3), 0.22, _line)
       ..restore();
     canvas.drawCircle(pivot, 0.14, _fill..color = const Color(0xFF2E2E30));
   }
@@ -883,15 +905,22 @@ class StylizedTheme implements ArtTheme {
         lifespan: life,
         renderer: (canvas, p) {
           final t = p.progress;
+          final r = r0 * (1 + 2.5 * t);
+          final alpha = 0.4 * (1 - t) * math.min(1, t * 6);
+          // Soft-edged puff: dense centre fading to nothing.
           canvas.drawCircle(
             Offset.zero,
-            r0 * (1 + 2.5 * t),
-            _particlePaint
-              ..color = Color.fromRGBO(
-                40,
-                36,
-                34,
-                0.35 * (1 - t) * math.min(1, t * 6),
+            r,
+            Paint()
+              ..shader = Gradient.radial(
+                Offset.zero,
+                r,
+                [
+                  Color.fromRGBO(46, 42, 40, alpha),
+                  Color.fromRGBO(46, 42, 40, alpha * 0.5),
+                  const Color(0x002E2A28),
+                ],
+                const [0, 0.55, 1],
               ),
           );
         },

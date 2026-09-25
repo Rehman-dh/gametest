@@ -4,7 +4,7 @@
   "worldWidth": 50,
   "catapultX": 0,
   "shots": 5,
-  "par": 3,
+  "par": 2,
   "objective": "killKing",
   "blocks": [
     {

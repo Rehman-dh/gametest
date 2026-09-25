@@ -1,0 +1,3 @@
+tags:
+  balance:
+    skip: "Slow balancing report. Run: flutter test --tags balance --run-skipped"

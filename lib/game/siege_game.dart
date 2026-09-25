@@ -41,7 +41,7 @@ class LevelResult {
 }
 
 class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
-  SiegeGame({List<ArtTheme>? themes})
+  SiegeGame({List<ArtTheme>? themes, this.audioEnabled = true})
     : themes = themes ?? [StylizedTheme()],
       super(gravity: Vector2(0, 12));
 
@@ -71,6 +71,9 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
 
   /// Empty ground shown behind the catapult, in meters.
   static const _marginBehindCatapult = 9.0;
+
+  /// False in headless tests, where no audio device exists.
+  final bool audioEnabled;
 
   /// Available art styles; the first is active by default.
   final List<ArtTheme> themes;
@@ -129,7 +132,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   Future<void> onLoad() async {
     await super.onLoad();
     camera.viewport.add(Vignette());
-    await effects.audio.load();
+    if (audioEnabled) await effects.audio.load();
   }
 
   // ------------------------------------------------------------ level flow
@@ -248,6 +251,48 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
       return;
     }
     selectedAmmo.value = type;
+  }
+
+  /// Fires [type] with [pull] as if the player dragged, for automated
+  /// balancing runs.
+  @visibleForTesting
+  void debugFire(AmmoType type, Vector2 pull) {
+    ammo.value = {...ammo.value, type: (ammo.value[type] ?? 0) + 1};
+    selectedAmmo.value = type;
+    _fire(pull);
+  }
+
+  @visibleForTesting
+  bool get debugObjectiveComplete => _objectiveComplete;
+
+  @visibleForTesting
+  bool get debugWeakPointHit => _weakPointHit;
+
+  @visibleForTesting
+  int get debugAliveUnits => _aliveUnits.length;
+
+  @visibleForTesting
+  double get debugLeadProjectileX =>
+      _leadProjectileX ?? double.negativeInfinity;
+
+  /// Furthest x reached by a projectile already in the physics world.
+  /// Projectiles are tracked from the moment they are fired, a frame before
+  /// their body exists.
+  double? get _leadProjectileX {
+    final flying = _projectiles.where((p) => p.isMounted);
+    return flying.isEmpty
+        ? null
+        : flying.map((p) => p.body.position.x).reduce(math.max);
+  }
+
+  @visibleForTesting
+  double get debugCastleFrontX => level.blocks.map((b) => b.x).reduce(math.min);
+
+  @visibleForTesting
+  void debugTap() {
+    for (final p in _projectiles.toList()) {
+      p.onPlayerTap();
+    }
   }
 
   void _fire(Vector2 pull) {
@@ -455,10 +500,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   void _updateCamera(double dt) {
     final minX = _cameraHomeX;
     final maxX = math.max(minX, level.worldWidth + 4 - _halfViewWidth);
-    final lead = _projectiles.isEmpty
-        ? minX
-        : _projectiles.map((p) => p.body.position.x).reduce(math.max);
-    final target = lead.clamp(minX, maxX);
+    final target = (_leadProjectileX ?? minX).clamp(minX, maxX);
     _cameraBaseX += (target - _cameraBaseX) * (1 - math.exp(-4 * dt));
     camera.viewfinder
       ..position = Vector2(_cameraBaseX, _cameraY) + effects.shakeOffset

@@ -60,7 +60,7 @@ class GameAudio {
   }
 
   void startMusic() {
-    if (_musicStarted) return;
+    if (_musicStarted || _pools.isEmpty) return;
     _musicStarted = true;
     unawaited(FlameAudio.bgm.play(_music, volume: 0.35));
   }

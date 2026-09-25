@@ -3,8 +3,8 @@
   "name": "The Mudbrick Outpost",
   "worldWidth": 48,
   "catapultX": 0,
-  "shots": 3,
-  "par": 1,
+  "shots": 4,
+  "par": 2,
   "objective": "killAll",
   "blocks": [
     {

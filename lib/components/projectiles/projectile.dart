@@ -79,7 +79,8 @@ class Projectile extends BodyComponent<SiegeGame> with ContactCallbacks {
 
   /// The player tapped the screen while this was in flight.
   void onPlayerTap() {
-    if (!_armed || _finished) return;
+    // A projectile fired this frame has no body yet.
+    if (!_armed || _finished || !isMounted) return;
     if (spec.splitsOnTap) {
       _split();
     } else if (spec.explodes) {
@@ -111,7 +112,7 @@ class Projectile extends BodyComponent<SiegeGame> with ContactCallbacks {
 
   void _detonate() {
     _armed = false;
-    game.queueExplosion(body.position.clone(), radius: 4.5, power: 70);
+    game.queueExplosion(body.position.clone(), radius: 3.8, power: 60);
     _finish();
   }
 
