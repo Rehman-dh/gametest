@@ -25,6 +25,10 @@ import '../core/ammo.dart';
 import '../core/scoring.dart';
 import '../core/weapons.dart';
 import '../levels/level_data.dart';
+import '../meta/campaign.dart';
+import '../meta/catalog.dart';
+import '../meta/loadout.dart';
+import '../meta/rewards.dart';
 import '../systems/effects.dart';
 import '../systems/enemy_commander.dart';
 import '../theme/art_theme.dart';
@@ -40,18 +44,24 @@ class LevelResult {
     required this.stars,
     required this.destruction,
     this.defeat,
+    this.reward = const Reward(),
   });
 
   final bool won;
   final int stars;
   final double destruction;
   final DefeatReason? defeat;
+  final Reward reward;
 }
 
 class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
-  SiegeGame({List<ArtTheme>? themes, this.audioEnabled = true, this.random})
-    : themes = themes ?? [StylizedTheme()],
-      super(gravity: Vector2(0, 12));
+  SiegeGame({
+    List<ArtTheme>? themes,
+    this.audioEnabled = true,
+    this.random,
+    this.campaign,
+  }) : themes = themes ?? [StylizedTheme()],
+       super(gravity: Vector2(0, 12));
 
   static const levelFiles = [
     'assets/levels/egypt_01.json',
@@ -65,6 +75,9 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     'assets/levels/egypt_09.json',
     'assets/levels/egypt_10.json',
   ];
+
+  /// Progress and rewards; absent in headless tests.
+  final Campaign? campaign;
 
   /// Drag distances in world meters.
   static const minPull = 1.0;
@@ -116,6 +129,18 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   late LevelData level;
   int levelIndex = 0;
   late SiegeEngine siegeEngine;
+  late Loadout loadout;
+  Modifiers modifiers = Modifiers.none;
+
+  /// Crew abilities already spent this siege.
+  final ValueNotifier<Set<CrewId>> usedAbilities = ValueNotifier(const {});
+
+  /// Li Wei's Spotter: weak points glow for the rest of the siege.
+  bool revealWeakPoints = false;
+  bool _nextShotIgnites = false;
+
+  WeaponType get weapon => loadout.weapon;
+  double get playerMaxHp => level.playerHp + modifiers.engineHpBonus;
   late PlayerTarget playerTarget;
 
   bool get hasNextLevel => levelIndex + 1 < levelFiles.length;
@@ -156,9 +181,16 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
 
   // ------------------------------------------------------------ level flow
 
-  Future<void> startLevel(int index) async {
+  Future<void> startLevel(int index, {Loadout? loadout}) async {
     levelIndex = index;
     level = LevelData.parse(await rootBundle.loadString(levelFiles[index]));
+    this.loadout = loadout ?? Loadout.levelDefault(level);
+    modifiers = campaign == null
+        ? Modifiers.none
+        : Modifiers.from(campaign!.progress.value, this.loadout);
+    usedAbilities.value = const {};
+    revealWeakPoints = false;
+    _nextShotIgnites = false;
 
     world.removeAll(world.children.toList());
     _levelTime = 0;
@@ -180,9 +212,9 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     for (final b in blocks) {
       _totalBlockHp += b.maxHp;
     }
-    siegeEngine = SiegeEngine(type: level.weapon, x: level.catapultX);
+    siegeEngine = SiegeEngine(type: weapon, x: level.catapultX);
     playerTarget = PlayerTarget(x: level.catapultX);
-    playerHp.value = level.playerHp;
+    playerHp.value = playerMaxHp;
     await world.addAll([
       Background(),
       Ground(left: minWorldX, right: maxWorldX),
@@ -205,22 +237,60 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     _cameraBaseX = _cameraHomeX;
     camera.viewfinder.position = Vector2(_cameraBaseX, _cameraY);
     effects.audio.startMusic();
+    final rounds = this.loadout.ammo;
     ammo.value = {
-      for (final type in level.ammo.toSet())
-        type: level.ammo.where((a) => a == type).length,
+      for (final type in rounds.toSet())
+        type: rounds.where((a) => a == type).length,
     };
-    selectedAmmo.value = level.ammo.first;
+    selectedAmmo.value = rounds.firstOrNull;
     overlays
-      ..removeAll(['menu', 'result'])
+      ..removeAll(_screens)
       ..add('hud');
     phase.value = SiegePhase.aiming;
   }
 
-  void showMenu() {
+  static const _screens = ['menu', 'map', 'prep', 'camp', 'hud', 'result'];
+
+  /// Level index the Siege Prep screen is preparing.
+  int prepIndex = 0;
+
+  void _showScreen(String name) {
     overlays
-      ..removeAll(['hud', 'result'])
-      ..add('menu');
+      ..removeAll(_screens)
+      ..add(name);
     phase.value = SiegePhase.menu;
+  }
+
+  void showMenu() => _showScreen('menu');
+  void showMap() => _showScreen('map');
+  void showCamp() => _showScreen('camp');
+
+  void showPrep(int index) {
+    prepIndex = index;
+    _showScreen('prep');
+  }
+
+  /// Spends a crew member's once-per-siege ability.
+  void useCrewAbility(CrewId id) {
+    if (phase.value != SiegePhase.aiming ||
+        !loadout.has(id) ||
+        usedAbilities.value.contains(id)) {
+      return;
+    }
+    switch (id) {
+      case CrewId.bashir:
+        playerHp.value = math.min(
+          playerMaxHp,
+          playerHp.value + modifiers.repairAmount,
+        );
+        effects.repair(siegeEngine.position + Vector2(0, -3));
+      case CrewId.liWei:
+        revealWeakPoints = true;
+      case CrewId.roxana:
+        _nextShotIgnites = true;
+    }
+    effects.crewAbility(crewSpecs[id]!.abilityName);
+    usedAbilities.value = {...usedAbilities.value, id};
   }
 
   // ----------------------------------------------------------------- input
@@ -271,8 +341,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     }
   }
 
-  Vector2 launchVelocity(Vector2 pull) =>
-      pull * level.weapon.spec.speedPerMeter;
+  Vector2 launchVelocity(Vector2 pull) => pull * weapon.spec.speedPerMeter;
 
   void selectAmmo(AmmoType type) {
     if (phase.value != SiegePhase.aiming || (ammo.value[type] ?? 0) == 0) {
@@ -329,21 +398,23 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     final left = {...ammo.value, type: ammo.value[type]! - 1};
     ammo.value = left;
     if (left[type] == 0) {
-      selectedAmmo.value = level.ammo
+      selectedAmmo.value = loadout.ammo
           .where((a) => (left[a] ?? 0) > 0)
           .firstOrNull;
     }
     _shotsUsed++;
     siegeEngine.release();
-    effects.launch(ballista: level.weapon == WeaponType.ballista);
+    effects.launch(ballista: weapon == WeaponType.ballista);
     addProjectile(
       Projectile(
         type: type,
         start: siegeEngine.launchOriginFor(pull),
         velocity: launchVelocity(pull),
-        gravityScale: level.weapon.spec.gravityScale,
+        gravityScale: weapon.spec.gravityScale,
+        forceIgnite: _nextShotIgnites,
       ),
     );
+    _nextShotIgnites = false;
     phase.value = SiegePhase.flying;
   }
 
@@ -523,17 +594,26 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   }
 
   void _finish({required bool won, DefeatReason? defeat}) {
+    final stars = starsFor(
+      won: won,
+      shotsUsed: _shotsUsed,
+      par: level.par,
+      destruction: destruction,
+      weakPointHit: level.hasWeakPoints ? _weakPointHit : null,
+    );
     lastResult = LevelResult(
       won: won,
       destruction: destruction,
       defeat: defeat,
-      stars: starsFor(
-        won: won,
-        shotsUsed: _shotsUsed,
-        par: level.par,
-        destruction: destruction,
-        weakPointHit: level.hasWeakPoints ? _weakPointHit : null,
-      ),
+      stars: stars,
+      reward:
+          campaign?.recordResult(
+            level: level,
+            won: won,
+            stars: stars,
+            loadout: loadout,
+          ) ??
+          const Reward(),
     );
     phase.value = won ? SiegePhase.won : SiegePhase.lost;
     effects.levelFinished(won: won);

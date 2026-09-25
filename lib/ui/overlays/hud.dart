@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../core/ammo.dart';
 import '../../game/siege_game.dart';
+import '../../meta/catalog.dart';
 import '../../theme/art_theme.dart';
 import '../ui_style.dart';
+import '../widgets/ammo_icon.dart';
 
 class Hud extends StatelessWidget {
   const Hud({super.key, required this.game});
@@ -40,12 +42,14 @@ class Hud extends StatelessWidget {
               _WindIndicator(wind: game.level.wind),
             ],
             const Spacer(),
+            _CrewAbilities(game: game),
             _IconAction(
               icon: Icons.replay,
-              onTap: () => game.startLevel(game.levelIndex),
+              onTap: () =>
+                  game.startLevel(game.levelIndex, loadout: game.loadout),
             ),
             const SizedBox(width: 8),
-            _IconAction(icon: Icons.menu, onTap: game.showMenu),
+            _IconAction(icon: Icons.map_outlined, onTap: game.showMap),
           ],
         ),
       ),
@@ -61,7 +65,7 @@ class _AmmoPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // A Set keeps the level's order, so the loadout reads left to right.
-    final types = game.level.ammo.toSet();
+    final types = game.loadout.ammo.toSet();
     return ValueListenableBuilder<Map<AmmoType, int>>(
       valueListenable: game.ammo,
       builder: (_, counts, _) => ValueListenableBuilder<AmmoType?>(
@@ -148,10 +152,8 @@ class _AmmoChip extends StatelessWidget {
               ),
               child: Stack(
                 children: [
-                  Positioned.fill(
-                    child: CustomPaint(
-                      painter: _AmmoIconPainter(theme: theme, type: type),
-                    ),
+                  Center(
+                    child: AmmoIcon(type: type, theme: theme, size: 36),
                   ),
                   Positioned(
                     right: 3,
@@ -172,33 +174,6 @@ class _AmmoChip extends StatelessWidget {
       ),
     );
   }
-}
-
-/// Draws the ammo with the active art theme, so icons match the world.
-class _AmmoIconPainter extends CustomPainter {
-  _AmmoIconPainter({required this.theme, required this.type});
-
-  final ArtTheme theme;
-  final AmmoType type;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final radius = type.spec.radius;
-    // Bolts are long and thin; everything else is round.
-    final extent = type == AmmoType.bolt ? radius * 10 : radius * 2.6;
-    final scale = size.shortestSide / extent;
-    canvas
-      ..save()
-      ..translate(size.width / 2 - 2, size.height / 2 - 3)
-      ..scale(scale);
-    if (type == AmmoType.bolt) canvas.rotate(-0.6);
-    theme.drawProjectile(canvas, type, radius, 0);
-    canvas.restore();
-  }
-
-  @override
-  bool shouldRepaint(_AmmoIconPainter old) =>
-      old.theme != theme || old.type != type;
 }
 
 class _WindIndicator extends StatelessWidget {
@@ -271,7 +246,7 @@ class _EngineHealth extends StatelessWidget {
       child: ValueListenableBuilder<double>(
         valueListenable: game.playerHp,
         builder: (_, hp, _) {
-          final fraction = (hp / game.level.playerHp).clamp(0.0, 1.0);
+          final fraction = (hp / game.playerMaxHp).clamp(0.0, 1.0);
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -307,12 +282,67 @@ class _EngineHealth extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                '${hp.round()} / ${game.level.playerHp.round()}',
+                '${hp.round()} / ${game.playerMaxHp.round()}',
                 style: UiStyle.body.copyWith(fontSize: 11),
               ),
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+/// One button per crew member brought to this siege; each ability can be
+/// used once, while aiming.
+class _CrewAbilities extends StatelessWidget {
+  const _CrewAbilities({required this.game});
+
+  final SiegeGame game;
+
+  @override
+  Widget build(BuildContext context) {
+    if (game.loadout.crew.isEmpty) return const SizedBox.shrink();
+    return ValueListenableBuilder<Set<CrewId>>(
+      valueListenable: game.usedAbilities,
+      builder: (_, used, _) => Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (final id in game.loadout.crew)
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: OutlinedButton(
+                onPressed: used.contains(id)
+                    ? null
+                    : () => game.useCrewAbility(id),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: UiStyle.parchment,
+                  backgroundColor: UiStyle.panel,
+                  side: const BorderSide(color: UiStyle.bronze),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 8,
+                  ),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      crewSpecs[id]!.abilityName.toUpperCase(),
+                      style: const TextStyle(fontSize: 11, letterSpacing: 1),
+                    ),
+                    Text(
+                      crewSpecs[id]!.name,
+                      style: const TextStyle(
+                        fontSize: 10,
+                        color: UiStyle.bronze,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }

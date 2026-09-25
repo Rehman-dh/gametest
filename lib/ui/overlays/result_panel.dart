@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../game/siege_game.dart';
+import '../../meta/catalog.dart';
 import '../ui_style.dart';
 
 class ResultPanel extends StatelessWidget {
@@ -53,25 +54,26 @@ class ResultPanel extends StatelessWidget {
                 'Castle destroyed: ${(result.destruction * 100).round()}%',
                 style: UiStyle.body,
               ),
+              ..._rewardLines(result),
               const SizedBox(height: 20),
               Wrap(
                 spacing: 10,
                 children: [
                   SiegeButton(
-                    label: 'Menu',
-                    icon: Icons.menu,
-                    onPressed: game.showMenu,
+                    label: 'Map',
+                    icon: Icons.map_outlined,
+                    onPressed: game.showMap,
                   ),
                   SiegeButton(
                     label: 'Retry',
                     icon: Icons.replay,
-                    onPressed: () => game.startLevel(game.levelIndex),
+                    onPressed: () => game.showPrep(game.levelIndex),
                   ),
                   if (result.won && game.hasNextLevel)
                     SiegeButton(
                       label: 'Next',
                       icon: Icons.arrow_forward,
-                      onPressed: () => game.startLevel(game.levelIndex + 1),
+                      onPressed: () => game.showPrep(game.levelIndex + 1),
                     ),
                 ],
               ),
@@ -80,5 +82,23 @@ class ResultPanel extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<Widget> _rewardLines(LevelResult result) {
+    final reward = result.reward;
+    final lines = [
+      if (reward.gold > 0) '+${reward.gold} gold',
+      if (reward.relic != null)
+        'Relic found: ${relicSpecs[reward.relic]!.name}',
+      if (reward.crew != null)
+        '${crewSpecs[reward.crew]!.name} the ${crewSpecs[reward.crew]!.role} joins you',
+      for (final id in reward.crewLevelUps)
+        '${crewSpecs[id]!.name} grows stronger',
+    ];
+    return [
+      if (lines.isNotEmpty) const SizedBox(height: 10),
+      for (final line in lines)
+        Text(line, style: UiStyle.body.copyWith(color: UiStyle.bronze)),
+    ];
   }
 }

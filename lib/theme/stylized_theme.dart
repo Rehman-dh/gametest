@@ -668,6 +668,33 @@ class StylizedTheme implements ArtTheme {
   }
 
   @override
+  void drawWeakPointMarker(Canvas canvas, Size size, double time) {
+    final pulse = 0.5 + 0.5 * math.sin(time * 5);
+    final rect = Rect.fromCenter(
+      center: Offset.zero,
+      width: size.width + 0.3,
+      height: size.height + 0.3,
+    );
+    final rrect = RRect.fromRectAndRadius(rect, const Radius.circular(0.15));
+    canvas
+      ..drawRRect(
+        rrect,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 0.35
+          ..color = Color.fromRGBO(255, 200, 90, 0.25 + 0.25 * pulse)
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 0.2),
+      )
+      ..drawRRect(
+        rrect,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 0.07
+          ..color = Color.fromRGBO(255, 220, 130, 0.6 + 0.4 * pulse),
+      );
+  }
+
+  @override
   void drawBarrel(Canvas canvas, Size size, {required int crackStage}) {
     final rect = Rect.fromCenter(
       center: Offset.zero,

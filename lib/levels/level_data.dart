@@ -3,6 +3,7 @@ import 'dart:convert';
 import '../core/ammo.dart';
 import '../core/materials.dart';
 import '../core/weapons.dart';
+import '../meta/catalog.dart';
 
 /// Level files use a y-up coordinate system measured from the ground
 /// (y = distance of an object's *bottom* above the ground), which is
@@ -102,6 +103,10 @@ class LevelData {
     this.defenses = const [],
     this.playerHp = 100,
     this.enemyFireEvery = 1,
+    this.weaponLocked = false,
+    this.budget,
+    this.relic,
+    this.unlocksCrew,
   });
 
   factory LevelData.fromJson(Map<String, dynamic> json) {
@@ -135,6 +140,16 @@ class LevelData {
       ],
       playerHp: (json['playerHp'] as num? ?? 100).toDouble(),
       enemyFireEvery: json['enemyFireEvery'] as int? ?? 1,
+      weaponLocked: json.containsKey('weapon'),
+      budget: json['budget'] as int?,
+      relic: switch (json['relic']) {
+        final String name => RelicId.values.byName(name),
+        _ => null,
+      },
+      unlocksCrew: switch (json['unlocksCrew']) {
+        final String name => CrewId.values.byName(name),
+        _ => null,
+      },
     );
     if (level.objective == Objective.killKing &&
         !level.units.any((u) => u.kind == UnitKind.king)) {
@@ -197,6 +212,17 @@ class LevelData {
 
   /// The enemy returns fire after every this many player shots.
   final int enemyFireEvery;
+
+  /// Levels that name their weapon (ballista galleries, trebuchet ranges)
+  /// don't let the player swap it in Siege Prep.
+  final bool weaponLocked;
+
+  /// Siege Prep budget; defaults to the cost of [ammo].
+  final int? budget;
+
+  /// Awarded on the first win.
+  final RelicId? relic;
+  final CrewId? unlocksCrew;
 
   /// Whether anything in this level shoots back.
   bool get hasCounterFire =>

@@ -166,6 +166,19 @@ class Effects {
     addTrauma(0.4);
   }
 
+  /// Announces a crew ability over the player's engine.
+  void crewAbility(String name) {
+    audio.play(Sfx.weakPoint, volume: 0.6);
+    game.world.add(
+      FloatingText(
+        name.toUpperCase(),
+        at: game.siegeEngine.position + Vector2(0, -5),
+        color: const Color(0xFFB8D08A),
+        fontSize: 0.9,
+      ),
+    );
+  }
+
   void weakPoint(Vector2 at) {
     audio.play(Sfx.weakPoint);
     game.world.add(FloatingText('WEAK POINT!', at: at));

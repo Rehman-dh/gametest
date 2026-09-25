@@ -16,6 +16,7 @@ class Projectile extends BodyComponent<SiegeGame> with ContactCallbacks {
     required this.start,
     required this.velocity,
     this.gravityScale = 1,
+    this.forceIgnite = false,
     double? radius,
   }) : radius = radius ?? type.spec.radius,
        super(renderBody: false, priority: 8);
@@ -25,6 +26,9 @@ class Projectile extends BodyComponent<SiegeGame> with ContactCallbacks {
   final Vector2 velocity;
   final double gravityScale;
   final double radius;
+
+  /// Roxana's Greek Fire: this round ignites whatever it hits.
+  final bool forceIgnite;
 
   static const _minImpactSpeed = 7.0;
   static const _trailInterval = 0.035;
@@ -112,7 +116,11 @@ class Projectile extends BodyComponent<SiegeGame> with ContactCallbacks {
 
   void _detonate() {
     _armed = false;
-    game.queueExplosion(body.position.clone(), radius: 4, power: 70);
+    game.queueExplosion(
+      body.position.clone(),
+      radius: 4,
+      power: 70 * game.modifiers.blastMultiplier,
+    );
     _finish();
   }
 
@@ -169,7 +177,7 @@ class Projectile extends BodyComponent<SiegeGame> with ContactCallbacks {
     final speed = body.linearVelocity.length;
     _hasHit = true;
 
-    if (spec.ignites && _armed) {
+    if ((spec.ignites || forceIgnite) && _armed) {
       _armed = false;
       if (other is CastleBlock) other.ignite();
       // Contact callbacks run mid-step; the game ignites on its next update.

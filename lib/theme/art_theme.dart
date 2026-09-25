@@ -43,6 +43,9 @@ abstract class ArtTheme {
   /// Flames licking a burning block of [size]; [time] animates flicker.
   void drawFire(Canvas canvas, Size size, double time);
 
+  /// Pulsing outline marking a revealed weak point of [size].
+  void drawWeakPointMarker(Canvas canvas, Size size, double time);
+
   /// Powder barrel prop, centered on the origin.
   void drawBarrel(Canvas canvas, Size size, {required int crackStage});
 

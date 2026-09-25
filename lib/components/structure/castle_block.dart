@@ -39,7 +39,10 @@ class CastleBlock extends BodyComponent<SiegeGame>
   double get char => (_burnTime / 5).clamp(0, 1);
 
   @override
-  double get maxHp => material.spec.maxHp * (data.weak ? weakPointHpFactor : 1);
+  double get maxHp =>
+      material.spec.maxHp *
+      (data.weak ? weakPointHpFactor : 1) *
+      (isDefense ? game.modifiers.barricadeHpMultiplier : 1);
 
   /// Restores hit points, as enemy engineers patch damaged masonry.
   void heal(double amount) {
@@ -60,7 +63,7 @@ class CastleBlock extends BodyComponent<SiegeGame>
     super.update(dt);
     if (!burning || isDestroyed) return;
     _burnTime += dt;
-    hp -= burnDamagePerSecond * dt;
+    hp -= burnDamagePerSecond * game.modifiers.fireMultiplier * dt;
     if (hp <= 0) {
       destroy();
       return;
@@ -134,6 +137,13 @@ class CastleBlock extends BodyComponent<SiegeGame>
       weak: data.weak,
       char: char,
     );
+    if (data.weak && game.revealWeakPoints) {
+      game.theme.drawWeakPointMarker(
+        canvas,
+        Size(data.width, data.height),
+        game.realTime,
+      );
+    }
     if (burning) {
       game.theme.drawFire(
         canvas,

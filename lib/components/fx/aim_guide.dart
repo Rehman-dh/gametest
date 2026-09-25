@@ -9,7 +9,7 @@ import '../../game/siege_game.dart';
 class AimGuide extends Component with HasGameReference<SiegeGame> {
   AimGuide() : super(priority: 10);
 
-  static const _dots = 24;
+  static const _baseDots = 24;
   static const _dotInterval = 0.07;
 
   @override
@@ -27,12 +27,13 @@ class AimGuide extends Component with HasGameReference<SiegeGame> {
     );
 
     final v = game.launchVelocity(pull);
-    final g = game.world.gravity * game.level.weapon.spec.gravityScale;
-    for (var i = 1; i <= _dots; i++) {
+    final g = game.world.gravity * game.weapon.spec.gravityScale;
+    final dots = (_baseDots * game.modifiers.trajectoryMultiplier).round();
+    for (var i = 1; i <= dots; i++) {
       final t = i * _dotInterval;
       final p = origin + v * t + g * (0.5 * t * t);
       if (p.y > 0) break;
-      game.theme.drawTrajectoryDot(canvas, p.toOffset(), 1 - i / (_dots + 4));
+      game.theme.drawTrajectoryDot(canvas, p.toOffset(), 1 - i / (dots + 4));
     }
   }
 }

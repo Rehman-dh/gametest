@@ -44,6 +44,9 @@ class PowderBarrel extends BodyComponent<SiegeGame>
   @override
   void render(Canvas canvas) {
     game.theme.drawBarrel(canvas, size, crackStage: crackStageFor(hp, maxHp));
+    if (game.revealWeakPoints) {
+      game.theme.drawWeakPointMarker(canvas, size, game.realTime);
+    }
   }
 
   @override
