@@ -6,6 +6,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import '../../core/collision.dart';
 import '../../game/siege_game.dart';
 import '../../levels/level_data.dart';
+import '../../story/characters.dart';
 import '../damageable.dart';
 import '../structure/castle_block.dart';
 
@@ -23,10 +24,15 @@ class Unit extends BodyComponent<SiegeGame> with ContactCallbacks, Damageable {
   double _repairTimer = 0;
 
   UnitKind get kind => data.kind;
-  double get radius => kind == UnitKind.king ? 0.6 : 0.45;
+  double get radius => switch (kind) {
+    UnitKind.pharaoh => 0.7,
+    UnitKind.king => 0.6,
+    _ => 0.45,
+  };
 
   @override
   double get maxHp => switch (kind) {
+    UnitKind.pharaoh => 40,
     UnitKind.king => 20,
     UnitKind.engineer => 10,
     _ => 12,
@@ -90,6 +96,21 @@ class Unit extends BodyComponent<SiegeGame> with ContactCallbacks, Damageable {
 
   @override
   void render(Canvas canvas) {
+    if (kind == UnitKind.pharaoh) {
+      // The boss is drawn as his story self, standing on the body's base.
+      canvas
+        ..save()
+        ..translate(0, radius)
+        ..scale(0.8);
+      game.theme.drawCharacter(
+        canvas,
+        characterLooks[CharacterId.sethmose]!,
+        pose: hurtFlash > 0 ? Pose.point : Pose.stand,
+        time: game.realTime,
+      );
+      canvas.restore();
+      return;
+    }
     game.theme.drawUnit(canvas, radius, kind, hurt: hurtFlash > 0);
   }
 

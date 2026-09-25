@@ -8,6 +8,7 @@ import '../core/ammo.dart';
 import '../core/materials.dart';
 import '../core/weapons.dart';
 import '../levels/level_data.dart';
+import '../story/characters.dart';
 import 'art_theme.dart';
 
 /// Procedurally drawn stylized look with a serious dusk mood:
@@ -404,7 +405,7 @@ class StylizedTheme implements ArtTheme {
     final body = hurt
         ? const Color(0xFFA33A2E)
         : switch (kind) {
-            UnitKind.king => const Color(0xFF4B2A55),
+            UnitKind.king || UnitKind.pharaoh => const Color(0xFF4B2A55),
             UnitKind.soldier => const Color(0xFF7B6A4A),
             UnitKind.archer => const Color(0xFF55603A),
             UnitKind.engineer => const Color(0xFF6B4A2E),
@@ -1048,6 +1049,407 @@ class StylizedTheme implements ArtTheme {
         },
       ),
     );
+  }
+
+  // ---------------------------------------------------------- characters
+
+  @override
+  void drawCharacter(
+    Canvas canvas,
+    CharacterLook look, {
+    required Pose pose,
+    required double time,
+  }) {
+    final s = look.height / 1.8;
+    canvas
+      ..save()
+      ..scale(s);
+    if (pose == Pose.fallen) {
+      // Lying on the ground, head toward -x.
+      canvas
+        ..translate(-0.9, -0.16)
+        ..rotate(-math.pi / 2);
+    }
+    final kneel = pose == Pose.kneel;
+    final lift = kneel ? 0.42 : 0.0;
+    final stride = pose == Pose.walk ? math.sin(time * 8) * 0.35 : 0.0;
+    final edge = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 0.025
+      ..color = const Color(0xCC15100C);
+
+    // Cloak falls behind the body.
+    if (look.cloak != null) {
+      final sway = pose == Pose.walk ? math.sin(time * 4) * 0.05 : 0.0;
+      final cloak = Path()
+        ..moveTo(0.12, -1.44 + lift)
+        ..quadraticBezierTo(
+          -0.35 + sway,
+          -0.9 + lift,
+          -0.3 + sway,
+          -0.25 + lift,
+        )
+        ..lineTo(0.02, -0.3 + lift)
+        ..lineTo(0.05, -1.44 + lift)
+        ..close();
+      canvas.drawPath(
+        cloak,
+        Paint()
+          ..shader = Gradient.linear(
+            Offset(0, -1.44 + lift),
+            Offset(0, -0.25 + lift),
+            [
+              look.cloak!,
+              Color.lerp(look.cloak!, const Color(0xFF000000), 0.45)!,
+            ],
+          ),
+      );
+    }
+
+    // Legs.
+    final leg = Paint()
+      ..color = look.clothDark
+      ..strokeWidth = 0.13
+      ..strokeCap = StrokeCap.round;
+    if (kneel) {
+      canvas
+        ..drawLine(const Offset(0, -0.4), const Offset(0.28, -0.4), leg)
+        ..drawLine(const Offset(0.28, -0.4), const Offset(0.28, -0.05), leg)
+        ..drawLine(const Offset(-0.02, -0.4), const Offset(-0.25, -0.05), leg)
+        ..drawLine(const Offset(-0.25, -0.05), const Offset(0.1, -0.03), leg);
+    } else {
+      for (final phase in [1.0, -1.0]) {
+        final a = stride * phase;
+        final foot = Offset(math.sin(a) * 0.85, -0.85 + math.cos(a) * 0.85);
+        canvas.drawLine(const Offset(0, -0.85), foot, leg);
+      }
+    }
+
+    // Tunic.
+    final torso = RRect.fromRectAndCorners(
+      Rect.fromLTRB(-0.2, -1.46 + lift, 0.22, -0.72 + lift),
+      topLeft: const Radius.circular(0.08),
+      topRight: const Radius.circular(0.08),
+      bottomLeft: const Radius.circular(0.03),
+      bottomRight: const Radius.circular(0.03),
+    );
+    canvas
+      ..drawRRect(
+        torso,
+        Paint()
+          ..shader = Gradient.linear(Offset(0.22, 0), const Offset(-0.2, 0), [
+            look.cloth,
+            look.clothDark,
+          ]),
+      )
+      ..drawRect(
+        Rect.fromLTRB(-0.2, -0.98 + lift, 0.22, -0.92 + lift),
+        _fill..color = const Color(0xFF2A1E14),
+      )
+      ..drawRRect(torso, edge);
+
+    // Carried item in the front hand.
+    final shoulder = Offset(0.05, -1.36 + lift);
+    final Offset hand;
+    if (pose == Pose.point) {
+      hand = shoulder + const Offset(0.55, -0.2);
+    } else if (pose == Pose.talk) {
+      hand = shoulder + Offset(0.32, 0.28 - 0.08 * math.sin(time * 5));
+    } else if (pose == Pose.fallen) {
+      hand = shoulder + const Offset(0.3, 0.45);
+    } else {
+      hand = shoulder + Offset(0.12 - stride * 0.4, 0.55);
+    }
+    final wood = Paint()
+      ..color = const Color(0xFF5A3E26)
+      ..strokeWidth = 0.05
+      ..strokeCap = StrokeCap.round;
+    switch (look.carried) {
+      case Carried.sword:
+        // Sheathed at the hip unless pointing.
+        if (pose == Pose.point) {
+          canvas.drawLine(
+            hand,
+            hand + const Offset(0.7, -0.25),
+            Paint()
+              ..color = const Color(0xFFB8BCC0)
+              ..strokeWidth = 0.04,
+          );
+        } else {
+          canvas.drawLine(
+            Offset(-0.05, -0.92 + lift),
+            Offset(-0.32, -0.3 + lift),
+            Paint()
+              ..color = const Color(0xFF3A2A1C)
+              ..strokeWidth = 0.06,
+          );
+        }
+      case Carried.staff:
+        canvas.drawLine(
+          hand + const Offset(0, -0.9),
+          hand + const Offset(0, 0.55),
+          wood,
+        );
+      case Carried.spear:
+        canvas
+          ..drawLine(
+            hand + const Offset(0, -1.0),
+            hand + const Offset(0, 0.5),
+            wood,
+          )
+          ..drawPath(
+            Path()
+              ..moveTo(hand.dx - 0.05, hand.dy - 1.0)
+              ..lineTo(hand.dx, hand.dy - 1.22)
+              ..lineTo(hand.dx + 0.05, hand.dy - 1.0)
+              ..close(),
+            _fill..color = const Color(0xFF8E9296),
+          );
+      case Carried.hammer:
+        canvas
+          ..drawLine(hand, hand + const Offset(0.1, -0.5), wood)
+          ..drawRect(
+            Rect.fromCenter(
+              center: hand + const Offset(0.11, -0.52),
+              width: 0.22,
+              height: 0.09,
+            ),
+            _fill..color = const Color(0xFF6E7276),
+          );
+      case Carried.none:
+        break;
+    }
+    // Arm over the item.
+    canvas.drawLine(
+      shoulder,
+      hand,
+      Paint()
+        ..color = look.cloth
+        ..strokeWidth = 0.1
+        ..strokeCap = StrokeCap.round,
+    );
+    canvas.drawCircle(hand, 0.05, _fill..color = look.skin);
+
+    // Head.
+    final head = Offset(0.03, -1.62 + lift);
+    canvas.drawCircle(head, 0.14, _fill..color = look.skin);
+    if (look.headgear == Headgear.none || look.headgear == Headgear.crown) {
+      canvas.drawPath(
+        Path()
+          ..addArc(
+            Rect.fromCircle(center: head, radius: 0.145),
+            math.pi * 0.9,
+            math.pi * 1.25,
+          )
+          ..close(),
+        _fill..color = look.hair,
+      );
+    }
+    if (look.beard != null) {
+      canvas.drawPath(
+        Path()
+          ..moveTo(head.dx - 0.08, head.dy + 0.03)
+          ..quadraticBezierTo(
+            head.dx + 0.02,
+            head.dy + 0.26,
+            head.dx + 0.13,
+            head.dy + 0.04,
+          )
+          ..close(),
+        _fill..color = look.beard!,
+      );
+    }
+    // A shadowed brow and eye line: stern, no cartoon eyes.
+    canvas.drawLine(
+      head + const Offset(0.06, -0.03),
+      head + const Offset(0.12, -0.02),
+      Paint()
+        ..color = const Color(0xCC1A120C)
+        ..strokeWidth = 0.022,
+    );
+    switch (look.headgear) {
+      case Headgear.hood:
+        canvas.drawPath(
+          Path()
+            ..addArc(
+              Rect.fromCircle(center: head, radius: 0.19),
+              math.pi * 0.72,
+              math.pi * 1.45,
+            )
+            ..lineTo(head.dx - 0.2, head.dy + 0.22)
+            ..close(),
+          _fill..color = look.clothDark,
+        );
+      case Headgear.helmet:
+        canvas.drawPath(
+          Path()
+            ..addArc(
+              Rect.fromCircle(center: head, radius: 0.16),
+              math.pi,
+              math.pi,
+            )
+            ..close(),
+          _fill..color = const Color(0xFF8E9296),
+        );
+      case Headgear.cap:
+        canvas.drawPath(
+          Path()
+            ..addArc(
+              Rect.fromCircle(
+                center: head - const Offset(0, 0.02),
+                radius: 0.15,
+              ),
+              math.pi,
+              math.pi,
+            )
+            ..close(),
+          _fill..color = const Color(0xFF5A3E26),
+        );
+      case Headgear.nemes:
+        final nemes = Path()
+          ..moveTo(head.dx - 0.2, head.dy + 0.34)
+          ..lineTo(head.dx - 0.16, head.dy - 0.08)
+          ..quadraticBezierTo(
+            head.dx,
+            head.dy - 0.26,
+            head.dx + 0.16,
+            head.dy - 0.08,
+          )
+          ..lineTo(head.dx + 0.1, head.dy + 0.06)
+          ..lineTo(head.dx - 0.04, head.dy + 0.06)
+          ..lineTo(head.dx - 0.06, head.dy + 0.34)
+          ..close();
+        canvas.drawPath(nemes, _fill..color = const Color(0xFFC9A13E));
+        final stripe = Paint()
+          ..color = const Color(0xFF1F3F7A)
+          ..strokeWidth = 0.025;
+        for (var i = 0; i < 4; i++) {
+          final y = head.dy - 0.1 + i * 0.1;
+          canvas.drawLine(
+            Offset(head.dx - 0.18, y),
+            Offset(head.dx - 0.07, y),
+            stripe,
+          );
+        }
+        // Uraeus.
+        canvas.drawCircle(
+          head + const Offset(0.1, -0.16),
+          0.03,
+          _fill..color = const Color(0xFFE8C45A),
+        );
+      case Headgear.crown:
+        canvas.drawPath(
+          Path()
+            ..moveTo(head.dx - 0.13, head.dy - 0.1)
+            ..lineTo(head.dx - 0.13, head.dy - 0.26)
+            ..lineTo(head.dx - 0.05, head.dy - 0.18)
+            ..lineTo(head.dx + 0.03, head.dy - 0.3)
+            ..lineTo(head.dx + 0.1, head.dy - 0.18)
+            ..lineTo(head.dx + 0.16, head.dy - 0.26)
+            ..lineTo(head.dx + 0.16, head.dy - 0.1)
+            ..close(),
+          _fill..color = const Color(0xFFD4A437),
+        );
+      case Headgear.none:
+        break;
+    }
+    canvas
+      ..drawCircle(head, 0.14, edge)
+      ..restore();
+  }
+
+  @override
+  void drawSceneProp(Canvas canvas, SceneProp prop, double time) {
+    switch (prop) {
+      case SceneProp.tent:
+        final tent = Path()
+          ..moveTo(-1.8, 0)
+          ..lineTo(0, -2.4)
+          ..lineTo(1.8, 0)
+          ..close();
+        canvas
+          ..drawPath(
+            tent,
+            Paint()
+              ..shader = Gradient.linear(
+                const Offset(-1.8, 0),
+                const Offset(1.8, 0),
+                const [Color(0xFF8C7A5A), Color(0xFF5E4E36)],
+              ),
+          )
+          ..drawPath(
+            Path()
+              ..moveTo(-0.45, 0)
+              ..lineTo(0, -1.3)
+              ..lineTo(0.45, 0)
+              ..close(),
+            _fill..color = const Color(0xFF1E1812),
+          )
+          ..drawPath(tent, _line);
+      case SceneProp.campfire:
+        final log = Paint()
+          ..color = const Color(0xFF3E2A1A)
+          ..strokeWidth = 0.14
+          ..strokeCap = StrokeCap.round;
+        canvas
+          ..drawLine(const Offset(-0.45, -0.05), const Offset(0.4, -0.2), log)
+          ..drawLine(const Offset(-0.4, -0.2), const Offset(0.45, -0.05), log);
+        canvas
+          ..save()
+          ..translate(0, -0.3);
+        drawFire(canvas, const Size(0.9, 0.5), time);
+        canvas
+          ..restore()
+          ..drawCircle(
+            const Offset(0, -0.4),
+            4,
+            Paint()
+              ..blendMode = BlendMode.plus
+              ..shader = Gradient.radial(const Offset(0, -0.4), 4, [
+                Color.fromRGBO(255, 150, 60, 0.18 + 0.04 * math.sin(time * 13)),
+                const Color(0x00FF9640),
+              ]),
+          );
+      case SceneProp.shard:
+        final pulse = 0.5 + 0.5 * math.sin(time * 3);
+        canvas.drawCircle(
+          const Offset(0, -0.3),
+          0.6,
+          Paint()
+            ..blendMode = BlendMode.plus
+            ..shader = Gradient.radial(const Offset(0, -0.3), 0.6, [
+              Color.fromRGBO(150, 190, 230, 0.3 + 0.2 * pulse),
+              const Color(0x0096BEE6),
+            ]),
+        );
+        final shard = Path()
+          ..moveTo(0, -0.62)
+          ..lineTo(0.12, -0.3)
+          ..lineTo(0.04, 0)
+          ..lineTo(-0.1, -0.22)
+          ..close();
+        canvas
+          ..drawPath(shard, _fill..color = const Color(0xFF3C4148))
+          ..drawPath(shard, _line);
+      case SceneProp.banner:
+        canvas.drawLine(
+          Offset.zero,
+          const Offset(0, -3.2),
+          Paint()
+            ..color = const Color(0xFF4A2F1B)
+            ..strokeWidth = 0.08,
+        );
+        final wave = 0.1 * math.sin(time * 2);
+        canvas.drawPath(
+          Path()
+            ..moveTo(0, -3.1)
+            ..quadraticBezierTo(0.5, -3.1 + wave, 1.0, -3.0)
+            ..lineTo(1.0, -2.1)
+            ..quadraticBezierTo(0.5, -2.2 - wave, 0, -2.2)
+            ..close(),
+          _fill..color = const Color(0xFF7A1E1A),
+        );
+    }
   }
 
   // ------------------------------------------------------------- particles

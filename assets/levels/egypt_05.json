@@ -117,5 +117,12 @@
       "y": 0
     }
   ],
-  "relic": "scarabAmulet"
+  "relic": "scarabAmulet",
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "bashir",
+      "text": "I stored powder in that cellar myself. One good hit and the keep goes up with it."
+    }
+  ]
 }

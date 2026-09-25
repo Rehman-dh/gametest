@@ -103,10 +103,10 @@ class BlueprintPainter extends CustomPainter {
     }
 
     for (final u in level.units) {
-      final radius = u.kind == UnitKind.king ? 0.6 : 0.45;
+      final radius = u.kind.isRoyal ? 0.6 : 0.45;
       final at = toCanvas(u.x, u.y + radius);
       final color = switch (u.kind) {
-        UnitKind.king => const Color(0xFFFFD36B),
+        UnitKind.king || UnitKind.pharaoh => const Color(0xFFFFD36B),
         UnitKind.soldier => const Color(0xFFE07A6A),
         UnitKind.archer => const Color(0xFF9FD08A),
         UnitKind.engineer => const Color(0xFFD9A86A),

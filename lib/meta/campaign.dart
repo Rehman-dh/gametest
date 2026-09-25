@@ -56,6 +56,18 @@ class Campaign {
     return reward;
   }
 
+  bool hasSeen(String cutscene) =>
+      progress.value.seenCutscenes.contains(cutscene);
+
+  void markSeen(String cutscene) {
+    if (hasSeen(cutscene)) return;
+    _commit(
+      progress.value.copyWith(
+        seenCutscenes: {...progress.value.seenCutscenes, cutscene},
+      ),
+    );
+  }
+
   bool upgrade(BuildingId building) {
     final updated = upgradeBuilding(progress.value, building);
     if (updated == null) return false;

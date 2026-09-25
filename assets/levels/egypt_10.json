@@ -1,107 +1,133 @@
 {
   "id": "egypt_10",
-  "name": "Defense of the Ford",
+  "name": "The Oasis Garrison",
   "worldWidth": 50,
+  "wind": 1,
   "ammo": [
     "stone",
     "stone",
     "fireball",
-    "stone",
-    "fireball",
-    "powderKeg",
+    "cluster",
     "stone"
   ],
-  "par": 4,
-  "objective": "destroyEngines",
-  "playerHp": 120,
+  "par": 3,
+  "objective": "killAll",
+  "playerHp": 80,
   "defenses": [
     {
-      "m": "stone",
+      "m": "wood",
       "x": 5,
       "y": 0,
-      "w": 0.8,
+      "w": 0.9,
       "h": 2.4
     },
     {
       "m": "wood",
-      "x": 6,
+      "x": 6.1,
       "y": 0,
-      "w": 0.5,
-      "h": 3
+      "w": 0.9,
+      "h": 2.0
     }
   ],
   "blocks": [
     {
-      "m": "wood",
-      "x": 27,
+      "m": "stone",
+      "x": 28,
       "y": 0,
-      "w": 0.5,
-      "h": 2.2
-    },
-    {
-      "m": "wood",
-      "x": 27.7,
-      "y": 0,
-      "w": 0.5,
-      "h": 1.8
-    },
-    {
-      "m": "wood",
-      "x": 33,
-      "y": 0,
-      "w": 0.4,
+      "w": 1,
       "h": 3
     },
     {
       "m": "wood",
-      "x": 35,
+      "x": 31,
       "y": 0,
-      "w": 0.4,
-      "h": 3
+      "w": 0.5,
+      "h": 4
     },
     {
       "m": "wood",
       "x": 34,
-      "y": 3,
-      "w": 2.8,
+      "y": 0,
+      "w": 0.5,
+      "h": 4
+    },
+    {
+      "m": "wood",
+      "x": 32.5,
+      "y": 4,
+      "w": 4,
       "h": 0.4
     },
     {
       "m": "stone",
-      "x": 39.2,
+      "x": 38,
       "y": 0,
       "w": 0.8,
-      "h": 2
-    }
-  ],
-  "props": [
-    {
-      "kind": "enemyCatapult",
-      "x": 30,
-      "y": 0
+      "h": 3
     },
     {
-      "kind": "enemyCatapult",
+      "m": "stone",
       "x": 42,
-      "y": 0
+      "y": 0,
+      "w": 0.8,
+      "h": 3
+    },
+    {
+      "m": "stone",
+      "x": 40,
+      "y": 3,
+      "w": 5,
+      "h": 0.5
+    },
+    {
+      "m": "wood",
+      "x": 44.5,
+      "y": 0,
+      "w": 0.4,
+      "h": 2.2
+    },
+    {
+      "m": "wood",
+      "x": 47,
+      "y": 0,
+      "w": 0.4,
+      "h": 2.2
+    },
+    {
+      "m": "wood",
+      "x": 45.75,
+      "y": 2.2,
+      "w": 3,
+      "h": 0.4
     }
   ],
   "units": [
     {
       "kind": "archer",
-      "x": 34,
-      "y": 3.4
+      "x": 32.5,
+      "y": 4.4
     },
     {
-      "kind": "archer",
-      "x": 45.5,
+      "kind": "engineer",
+      "x": 40,
       "y": 0
     },
     {
       "kind": "soldier",
-      "x": 37,
+      "x": 40,
+      "y": 3.5
+    },
+    {
+      "kind": "soldier",
+      "x": 45.75,
       "y": 0
     }
   ],
-  "relic": "eyeOfHorus"
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "bashir",
+      "text": "An oasis fort. The engineer keeps it standing; the archer keeps us honest."
+    }
+  ]
 }

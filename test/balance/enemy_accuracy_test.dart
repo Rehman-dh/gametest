@@ -22,7 +22,7 @@ void main() {
   final damage = <String, List<double>>{};
   final engineHp = <String, double>{};
 
-  for (final id in ['egypt_08', 'egypt_09', 'egypt_10']) {
+  for (final id in ['egypt_08', 'egypt_09', 'egypt_14']) {
     final index = SiegeGame.levelFiles.indexWhere(
       (f) => f.endsWith('$id.json'),
     );

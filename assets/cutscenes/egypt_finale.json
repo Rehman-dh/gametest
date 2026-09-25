@@ -1,0 +1,144 @@
+{
+  "id": "egypt_finale",
+  "steps": [
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 0
+    },
+    {
+      "type": "spawn",
+      "actor": "sethmose",
+      "character": "sethmose",
+      "x": 6.5,
+      "facing": -1,
+      "pose": "fallen"
+    },
+    {
+      "type": "prop",
+      "prop": "shard",
+      "x": 5
+    },
+    {
+      "type": "spawn",
+      "actor": "hero",
+      "character": "arslan",
+      "x": 0,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "bashir",
+      "character": "bashir",
+      "x": -2,
+      "facing": 1
+    },
+    {
+      "type": "camera",
+      "x": 3,
+      "y": -1.4,
+      "viewHeight": 6
+    },
+    {
+      "type": "fade",
+      "to": 0,
+      "duration": 1.5
+    },
+    {
+      "type": "move",
+      "actor": "hero",
+      "x": 4.3,
+      "duration": 2
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "kneel"
+    },
+    {
+      "type": "camera",
+      "x": 4.5,
+      "y": -1,
+      "viewHeight": 4.5,
+      "duration": 1.5
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "It is cold. Colder than any night in this desert."
+    },
+    {
+      "type": "move",
+      "actor": "bashir",
+      "x": 2.5,
+      "duration": 1.5
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "His rage died the moment it left his crown. Look at his face. He looks almost at peace."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "camera",
+      "x": 6,
+      "y": -1.6,
+      "viewHeight": 7,
+      "duration": 1.5
+    },
+    {
+      "type": "spawn",
+      "actor": "messenger",
+      "character": "messenger",
+      "x": 15,
+      "facing": -1
+    },
+    {
+      "type": "move",
+      "actor": "messenger",
+      "x": 8.6,
+      "duration": 2.5
+    },
+    {
+      "type": "say",
+      "speaker": "messenger",
+      "text": "General Arslan! Rome sends greetings. General Castus has heard of your victories, and offers you alliance."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "facing": 1,
+      "pose": "stand"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Rome..."
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "Your master trusted Rome once."
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Then we go to Rome. And we watch our backs."
+    },
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 2
+    },
+    {
+      "type": "title",
+      "text": "ERA II · ROME",
+      "subtitle": "The Iron Legion · coming soon",
+      "duration": 3.5
+    }
+  ]
+}

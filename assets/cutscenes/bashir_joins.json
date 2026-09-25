@@ -1,0 +1,113 @@
+{
+  "id": "bashir_joins",
+  "steps": [
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 0
+    },
+    {
+      "type": "prop",
+      "prop": "banner",
+      "x": 9
+    },
+    {
+      "type": "spawn",
+      "actor": "hero",
+      "character": "arslan",
+      "x": 0,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "bashir",
+      "character": "bashir",
+      "x": 6,
+      "facing": -1,
+      "pose": "kneel"
+    },
+    {
+      "type": "camera",
+      "x": 3,
+      "y": -1.5,
+      "viewHeight": 6
+    },
+    {
+      "type": "fade",
+      "to": 0,
+      "duration": 1.5
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "Three years I built these walls for Sethmose. You found the flaw I hid in them."
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "You hid it?"
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "Every mason leaves one stone loose, in case the king forgets who raised his walls."
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "move",
+      "actor": "hero",
+      "x": 4.4,
+      "duration": 1.3
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Then raise siege engines with me instead."
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "Sethmose wears a shard of black iron in his crown. Since the day he took it, he has not slept, and he has not smiled."
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "I will follow you to his gates, General."
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "title",
+      "text": "BASHIR JOINS YOU",
+      "subtitle": "Engineer",
+      "duration": 2.5
+    },
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 1.5
+    }
+  ]
+}

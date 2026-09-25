@@ -2,29 +2,119 @@
   "id": "egypt_04",
   "name": "The Timber Stockade",
   "worldWidth": 50,
-  "ammo": ["fireball", "fireball", "stone"],
+  "ammo": [
+    "fireball",
+    "fireball",
+    "stone"
+  ],
   "par": 2,
   "objective": "killAll",
   "blocks": [
-    { "m": "wood", "x": 28, "y": 0, "w": 0.5, "h": 4 },
-
-    { "m": "wood", "x": 32, "y": 0, "w": 0.5, "h": 4 },
-    { "m": "wood", "x": 36, "y": 0, "w": 0.5, "h": 4 },
-    { "m": "wood", "x": 34, "y": 4, "w": 5, "h": 0.5 },
-    { "m": "wood", "x": 32.5, "y": 4.5, "w": 0.4, "h": 2.5 },
-    { "m": "wood", "x": 35.5, "y": 4.5, "w": 0.4, "h": 2.5 },
-    { "m": "wood", "x": 34, "y": 7, "w": 4, "h": 0.4 },
-
-    { "m": "wood", "x": 38.5, "y": 0, "w": 0.5, "h": 3 },
-    { "m": "wood", "x": 41.5, "y": 0, "w": 0.5, "h": 3 },
-    { "m": "wood", "x": 40, "y": 3, "w": 4, "h": 0.5 },
-
-    { "m": "wood", "x": 44, "y": 0, "w": 0.5, "h": 3.5 }
+    {
+      "m": "wood",
+      "x": 28,
+      "y": 0,
+      "w": 0.5,
+      "h": 4
+    },
+    {
+      "m": "wood",
+      "x": 32,
+      "y": 0,
+      "w": 0.5,
+      "h": 4
+    },
+    {
+      "m": "wood",
+      "x": 36,
+      "y": 0,
+      "w": 0.5,
+      "h": 4
+    },
+    {
+      "m": "wood",
+      "x": 34,
+      "y": 4,
+      "w": 5,
+      "h": 0.5
+    },
+    {
+      "m": "wood",
+      "x": 32.5,
+      "y": 4.5,
+      "w": 0.4,
+      "h": 2.5
+    },
+    {
+      "m": "wood",
+      "x": 35.5,
+      "y": 4.5,
+      "w": 0.4,
+      "h": 2.5
+    },
+    {
+      "m": "wood",
+      "x": 34,
+      "y": 7,
+      "w": 4,
+      "h": 0.4
+    },
+    {
+      "m": "wood",
+      "x": 38.5,
+      "y": 0,
+      "w": 0.5,
+      "h": 3
+    },
+    {
+      "m": "wood",
+      "x": 41.5,
+      "y": 0,
+      "w": 0.5,
+      "h": 3
+    },
+    {
+      "m": "wood",
+      "x": 40,
+      "y": 3,
+      "w": 4,
+      "h": 0.5
+    },
+    {
+      "m": "wood",
+      "x": 44,
+      "y": 0,
+      "w": 0.5,
+      "h": 3.5
+    }
   ],
   "units": [
-    { "kind": "soldier", "x": 34, "y": 0 },
-    { "kind": "soldier", "x": 34, "y": 4.5 },
-    { "kind": "soldier", "x": 40, "y": 0 },
-    { "kind": "soldier", "x": 46, "y": 0 }
+    {
+      "kind": "soldier",
+      "x": 34,
+      "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 34,
+      "y": 4.5
+    },
+    {
+      "kind": "soldier",
+      "x": 40,
+      "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 46,
+      "y": 0
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "bashir",
+      "text": "Timber burns, General. A fireball will do more than any stone here."
+    }
   ]
 }

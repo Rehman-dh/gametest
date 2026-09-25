@@ -24,6 +24,9 @@ import '../components/weapons/siege_engine.dart';
 import '../core/ammo.dart';
 import '../core/scoring.dart';
 import '../core/weapons.dart';
+import '../cutscene/cutscene_data.dart';
+import '../cutscene/cutscene_player.dart';
+import '../story/characters.dart';
 import '../levels/level_data.dart';
 import '../meta/campaign.dart';
 import '../meta/catalog.dart';
@@ -34,7 +37,16 @@ import '../systems/enemy_commander.dart';
 import '../theme/art_theme.dart';
 import '../theme/stylized_theme.dart';
 
-enum SiegePhase { menu, aiming, flying, settling, enemyTurn, won, lost }
+enum SiegePhase {
+  menu,
+  cutscene,
+  aiming,
+  flying,
+  settling,
+  enemyTurn,
+  won,
+  lost,
+}
 
 enum DefeatReason { outOfAmmo, engineDestroyed }
 
@@ -74,6 +86,11 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     'assets/levels/egypt_08.json',
     'assets/levels/egypt_09.json',
     'assets/levels/egypt_10.json',
+    'assets/levels/egypt_11.json',
+    'assets/levels/egypt_12.json',
+    'assets/levels/egypt_13.json',
+    'assets/levels/egypt_14.json',
+    'assets/levels/egypt_15.json',
   ];
 
   /// Progress and rewards; absent in headless tests.
@@ -189,12 +206,14 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
         ? Modifiers.none
         : Modifiers.from(campaign!.progress.value, this.loadout);
     usedAbilities.value = const {};
+    banner.value = null;
     revealWeakPoints = false;
     _nextShotIgnites = false;
 
     world.removeAll(world.children.toList());
     _levelTime = 0;
     _objectiveAnnounced = false;
+    stage = 0;
     _weakPointHit = false;
     _pendingExplosions.clear();
     _pendingIgnitions.clear();
@@ -247,9 +266,87 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
       ..removeAll(_screens)
       ..add('hud');
     phase.value = SiegePhase.aiming;
+    _speak('start');
   }
 
-  static const _screens = ['menu', 'map', 'prep', 'camp', 'hud', 'result'];
+  static const _screens = [
+    'menu',
+    'map',
+    'prep',
+    'camp',
+    'hud',
+    'result',
+    'cutscene',
+  ];
+
+  /// The scene playing, if any; the cutscene overlay listens to it.
+  final ValueNotifier<CutscenePlayer?> cutscene = ValueNotifier(null);
+
+  /// A line spoken during the siege, shown over the HUD for a while.
+  final ValueNotifier<SpokenLine?> banner = ValueNotifier(null);
+  double _bannerTime = 0;
+  static const _bannerDuration = 5.0;
+
+  Future<void> playCutscene(String id, {required VoidCallback then}) async {
+    final data = CutsceneData.parse(
+      await rootBundle.loadString('assets/cutscenes/$id.json'),
+    );
+    world.removeAll(world.children.toList());
+    _levelLoaded = false;
+    overlays
+      ..removeAll(_screens)
+      ..add('cutscene');
+    phase.value = SiegePhase.cutscene;
+    late final CutscenePlayer player;
+    player = CutscenePlayer(
+      data,
+      onDone: () {
+        player.removeFromParent();
+        cutscene.value = null;
+        campaign?.markSeen(id);
+        overlays.remove('cutscene');
+        then();
+      },
+    );
+    cutscene.value = player;
+    await add(player);
+  }
+
+  /// Opens a siege from the map, playing its story intro the first time.
+  void openLevel(int index) {
+    final intro = campaign?.levels[index].introCutscene;
+    if (intro != null && !campaign!.hasSeen(intro)) {
+      playCutscene(intro, then: () => showPrep(index));
+    } else {
+      showPrep(index);
+    }
+  }
+
+  /// Leaves the result screen for the map or the next siege, playing the
+  /// siege's story outro after a first win.
+  void leaveResult({required bool next}) {
+    void go() => next ? openLevel(levelIndex + 1) : showMap();
+    final outro = level.outroCutscene;
+    if (lastResult?.won == true &&
+        outro != null &&
+        campaign != null &&
+        !campaign!.hasSeen(outro)) {
+      playCutscene(outro, then: go);
+    } else {
+      go();
+    }
+  }
+
+  /// Shows the level's lines for [trigger], if any.
+  void _speak(String trigger) {
+    for (final line in level.lines.where((l) => l.trigger == trigger)) {
+      banner.value = SpokenLine(
+        look: characterLooks[CharacterId.values.byName(line.speaker)]!,
+        text: line.text,
+      );
+      _bannerTime = 0;
+    }
+  }
 
   /// Level index the Siege Prep screen is preparing.
   int prepIndex = 0;
@@ -466,7 +563,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   }
 
   void _announceIfObjectiveComplete() {
-    if (!_objectiveAnnounced && _objectiveComplete) {
+    if (!_objectiveAnnounced && !_hasMoreStages && _objectiveComplete) {
       _objectiveAnnounced = true;
       effects.objectiveComplete();
     }
@@ -525,7 +622,13 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     effects.tick(dt);
     final simDt = dt * effects.timeScale;
     super.update(simDt);
-    if (phase.value == SiegePhase.menu) return;
+    if (phase.value == SiegePhase.menu || phase.value == SiegePhase.cutscene) {
+      return;
+    }
+    if (banner.value != null) {
+      _bannerTime += dt;
+      if (_bannerTime > _bannerDuration) banner.value = null;
+    }
     _processQueues();
     _levelTime += simDt;
     _updateCamera(dt);
@@ -539,7 +642,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
       if (enemy.tick(simDt)) _endEnemyTurn();
     } else if (phase.value == SiegePhase.aiming && _objectiveComplete) {
       // Fire finished the job between shots.
-      _finish(won: true);
+      _completeStage();
     }
   }
 
@@ -556,9 +659,18 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   Iterable<Unit> get _aliveUnits =>
       world.children.whereType<Unit>().where((u) => !u.isDestroyed);
 
-  bool get _objectiveComplete => switch (level.objective) {
+  /// Index of the current stage in a multi-phase siege (0 = the level's
+  /// own castle).
+  int stage = 0;
+
+  Objective get _objective =>
+      stage == 0 ? level.objective : level.phases[stage - 1].objective;
+
+  bool get _hasMoreStages => stage < level.phases.length;
+
+  bool get _objectiveComplete => switch (_objective) {
     Objective.killAll => _aliveUnits.isEmpty,
-    Objective.killKing => !_aliveUnits.any((u) => u.kind == UnitKind.king),
+    Objective.killKing => !_aliveUnits.any((u) => u.kind.isRoyal),
     Objective.destroyEngines => !world.children.whereType<EnemyCatapult>().any(
       (e) => !e.isDestroyed,
     ),
@@ -566,7 +678,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
 
   void _resolveShot() {
     if (_objectiveComplete) {
-      _finish(won: true);
+      _completeStage();
     } else if (playerHp.value <= 0) {
       _finish(won: false, defeat: DefeatReason.engineDestroyed);
     } else if (shotsLeft == 0) {
@@ -578,19 +690,61 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
         _shotsUsed % level.enemyFireEvery == 0) {
       phase.value = SiegePhase.enemyTurn;
       enemy.startVolley();
+      _speak('volley:${enemy.volleys}');
     } else {
       phase.value = SiegePhase.aiming;
+      _speak('shot:$_shotsUsed');
     }
   }
 
   void _endEnemyTurn() {
     if (_objectiveComplete) {
-      _finish(won: true);
+      _completeStage();
     } else if (playerHp.value <= 0) {
       _finish(won: false, defeat: DefeatReason.engineDestroyed);
     } else {
       phase.value = SiegePhase.aiming;
     }
+  }
+
+  /// The current objective is met: raise the next stage of a boss
+  /// siege, or win.
+  void _completeStage() {
+    if (_hasMoreStages) {
+      _advanceStage();
+    } else {
+      _finish(won: true);
+    }
+  }
+
+  void _advanceStage() {
+    stage++;
+    final next = level.phases[stage - 1];
+    final blocks = [for (final b in next.blocks) CastleBlock(b)];
+    for (final b in blocks) {
+      _totalBlockHp += b.maxHp;
+    }
+    world.addAll([
+      ...blocks,
+      for (final p in next.props)
+        switch (p.kind) {
+          PropKind.powderBarrel => PowderBarrel(p),
+          PropKind.enemyCatapult => EnemyCatapult(p),
+        },
+      for (final u in next.units) Unit(u),
+    ]);
+    // New masonry settles before it can be hurt.
+    _levelTime = 0;
+    ammo.value = {
+      ...ammo.value,
+      for (final type in next.ammo.toSet())
+        type:
+            (ammo.value[type] ?? 0) + next.ammo.where((a) => a == type).length,
+    };
+    selectedAmmo.value ??= next.ammo.firstOrNull;
+    effects.stageBegins(next.title);
+    phase.value = SiegePhase.aiming;
+    _speak('phase:${stage + 1}');
   }
 
   void _finish({required bool won, DefeatReason? defeat}) {

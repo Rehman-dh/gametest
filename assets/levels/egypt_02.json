@@ -85,5 +85,12 @@
       "x": 39,
       "y": 0
     }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "arslan",
+      "text": "The king hides atop the watchtower. Bring the tower down beneath him."
+    }
   ]
 }

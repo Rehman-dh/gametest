@@ -134,5 +134,11 @@
       "y": 6.6
     }
   ],
-  "unlocksCrew": "liWei"
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "bashir",
+      "text": "The wind is at our backs today. Let it carry the stones, and aim short."
+    }
+  ]
 }

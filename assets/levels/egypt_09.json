@@ -93,5 +93,12 @@
       "x": 35,
       "y": 7.6
     }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "bashir",
+      "text": "Masons. Kill them, or every crack you make will be patched by morning."
+    }
   ]
 }

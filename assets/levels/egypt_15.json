@@ -1,0 +1,240 @@
+{
+  "id": "egypt_15",
+  "name": "The Sphinx Fortress",
+  "worldWidth": 60,
+  "introCutscene": "sphinx_approach",
+  "outroCutscene": "egypt_finale",
+  "relic": "eyeOfHorus",
+  "ammo": [
+    "stone",
+    "stone",
+    "stone",
+    "stone",
+    "fireball",
+    "powderKeg"
+  ],
+  "par": 7,
+  "objective": "destroyEngines",
+  "playerHp": 120,
+  "defenses": [
+    {
+      "m": "stone",
+      "x": 5,
+      "y": 0,
+      "w": 0.8,
+      "h": 2.4
+    },
+    {
+      "m": "wood",
+      "x": 6,
+      "y": 0,
+      "w": 0.5,
+      "h": 3
+    }
+  ],
+  "blocks": [
+    {
+      "m": "stone",
+      "x": 28,
+      "y": 0,
+      "w": 0.8,
+      "h": 2.2
+    },
+    {
+      "m": "stone",
+      "x": 33.5,
+      "y": 0,
+      "w": 0.8,
+      "h": 2.2
+    },
+    {
+      "m": "wood",
+      "x": 53,
+      "y": 0,
+      "w": 0.4,
+      "h": 3
+    },
+    {
+      "m": "wood",
+      "x": 55,
+      "y": 0,
+      "w": 0.4,
+      "h": 3
+    },
+    {
+      "m": "wood",
+      "x": 54,
+      "y": 3,
+      "w": 2.8,
+      "h": 0.4
+    }
+  ],
+  "props": [
+    {
+      "kind": "enemyCatapult",
+      "x": 30.5,
+      "y": 0
+    },
+    {
+      "kind": "enemyCatapult",
+      "x": 36,
+      "y": 0
+    }
+  ],
+  "units": [
+    {
+      "kind": "archer",
+      "x": 54,
+      "y": 3.4
+    },
+    {
+      "kind": "soldier",
+      "x": 52,
+      "y": 0
+    }
+  ],
+  "phases": [
+    {
+      "title": "The Sphinx rises",
+      "objective": "killAll",
+      "ammo": [
+        "stone",
+        "stone",
+        "stone",
+        "powderKeg"
+      ],
+      "blocks": [
+        {
+          "m": "stone",
+          "x": 38,
+          "y": 0,
+          "w": 4,
+          "h": 0.9
+        },
+        {
+          "m": "stone",
+          "x": 41,
+          "y": 0,
+          "w": 1,
+          "h": 3
+        },
+        {
+          "m": "stone",
+          "x": 46,
+          "y": 0,
+          "w": 8,
+          "h": 3
+        },
+        {
+          "m": "stone",
+          "x": 43,
+          "y": 3,
+          "w": 4,
+          "h": 0.5
+        },
+        {
+          "m": "stone",
+          "x": 42.5,
+          "y": 3.5,
+          "w": 2,
+          "h": 2
+        }
+      ],
+      "units": [
+        {
+          "kind": "archer",
+          "x": 47,
+          "y": 3
+        },
+        {
+          "kind": "archer",
+          "x": 49,
+          "y": 3
+        },
+        {
+          "kind": "soldier",
+          "x": 38,
+          "y": 0.9
+        },
+        {
+          "kind": "soldier",
+          "x": 39.5,
+          "y": 0.9
+        }
+      ]
+    },
+    {
+      "title": "The Pharaoh descends",
+      "objective": "killKing",
+      "ammo": [
+        "stone",
+        "stone",
+        "fireball"
+      ],
+      "blocks": [
+        {
+          "m": "wood",
+          "x": 41.7,
+          "y": 5.5,
+          "w": 0.3,
+          "h": 2
+        },
+        {
+          "m": "wood",
+          "x": 43.3,
+          "y": 5.5,
+          "w": 0.3,
+          "h": 2
+        },
+        {
+          "m": "wood",
+          "x": 42.5,
+          "y": 7.5,
+          "w": 2.2,
+          "h": 0.3
+        }
+      ],
+      "props": [
+        {
+          "kind": "powderBarrel",
+          "x": 47.5,
+          "y": 3
+        }
+      ],
+      "units": [
+        {
+          "kind": "pharaoh",
+          "x": 42.5,
+          "y": 5.5
+        },
+        {
+          "kind": "engineer",
+          "x": 49.5,
+          "y": 3
+        }
+      ]
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "sethmose",
+      "text": "Break my gate if you can, engineer. My Sphinx is waiting."
+    },
+    {
+      "trigger": "volley:1",
+      "speaker": "bashir",
+      "text": "Their catapults have our range. Break them first!"
+    },
+    {
+      "trigger": "phase:2",
+      "speaker": "sethmose",
+      "text": "Rise! Let the desert see its guardian wake!"
+    },
+    {
+      "trigger": "phase:3",
+      "speaker": "sethmose",
+      "text": "Enough. I will crush you myself."
+    }
+  ]
+}

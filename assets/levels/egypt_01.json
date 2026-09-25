@@ -73,5 +73,18 @@
       "x": 37.5,
       "y": 3
     }
+  ],
+  "introCutscene": "egypt_intro",
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "arslan",
+      "text": "Drag back anywhere and let go. The farther you pull, the harder the catapult throws."
+    },
+    {
+      "trigger": "shot:1",
+      "speaker": "arslan",
+      "text": "Watch where it lands, then adjust your pull."
+    }
   ]
 }

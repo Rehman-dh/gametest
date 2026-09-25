@@ -7,6 +7,7 @@ import 'meta/campaign.dart';
 import 'meta/save_repository.dart';
 import 'theme/realistic_theme.dart';
 import 'theme/stylized_theme.dart';
+import 'ui/overlays/cutscene_overlay.dart';
 import 'ui/overlays/hud.dart';
 import 'ui/overlays/main_menu.dart';
 import 'ui/overlays/result_panel.dart';
@@ -56,6 +57,7 @@ class SiegeApp extends StatelessWidget {
             'map': (_, game) => WorldMap(game: game),
             'prep': (_, game) => SiegePrep(game: game),
             'camp': (_, game) => SiegeCamp(game: game),
+            'cutscene': (_, game) => CutsceneOverlay(game: game),
           },
         ),
       ),

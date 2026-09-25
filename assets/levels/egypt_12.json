@@ -1,0 +1,91 @@
+{
+  "id": "egypt_12",
+  "name": "The Powder Line",
+  "worldWidth": 50,
+  "budget": 30,
+  "ammo": [
+    "stone"
+  ],
+  "par": 1,
+  "objective": "killKing",
+  "blocks": [
+    {
+      "m": "stone",
+      "x": 38.8,
+      "y": 0,
+      "w": 0.6,
+      "h": 2.5
+    },
+    {
+      "m": "stone",
+      "x": 41.2,
+      "y": 0,
+      "w": 0.6,
+      "h": 2.5
+    },
+    {
+      "m": "stone",
+      "x": 40,
+      "y": 2.5,
+      "w": 3.2,
+      "h": 0.5
+    },
+    {
+      "m": "wood",
+      "x": 45,
+      "y": 0,
+      "w": 0.5,
+      "h": 2
+    },
+    {
+      "m": "wood",
+      "x": 47,
+      "y": 0,
+      "w": 0.5,
+      "h": 2
+    },
+    {
+      "m": "wood",
+      "x": 46,
+      "y": 2,
+      "w": 2.6,
+      "h": 0.4
+    }
+  ],
+  "props": [
+    {
+      "kind": "powderBarrel",
+      "x": 30,
+      "y": 0
+    },
+    {
+      "kind": "powderBarrel",
+      "x": 33.5,
+      "y": 0
+    },
+    {
+      "kind": "powderBarrel",
+      "x": 36.8,
+      "y": 0
+    }
+  ],
+  "units": [
+    {
+      "kind": "king",
+      "x": 40,
+      "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 46,
+      "y": 0
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "bashir",
+      "text": "Someone stacked their powder in a line to the king's door. Careless. Light the first one."
+    }
+  ]
+}

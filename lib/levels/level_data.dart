@@ -27,6 +27,11 @@ enum UnitKind {
 
   /// Repairs damaged castle blocks nearby while alive.
   engineer,
+
+  /// An era's boss king: tougher, and counts as the king to slay.
+  pharaoh;
+
+  bool get isRoyal => this == king || this == pharaoh;
 }
 
 enum PropKind { powderBarrel, enemyCatapult }
@@ -86,6 +91,73 @@ class PropData {
   final double x, y;
 }
 
+/// A line spoken during a siege, shown briefly over the HUD.
+class LevelLine {
+  const LevelLine({
+    required this.trigger,
+    required this.speaker,
+    required this.text,
+  });
+
+  factory LevelLine.fromJson(Map<String, dynamic> json) => LevelLine(
+    trigger: json['trigger'] as String,
+    speaker: json['speaker'] as String,
+    text: json['text'] as String,
+  );
+
+  /// `start`, `shot:N` (after the Nth shot lands), `volley:N` (the enemy's
+  /// Nth volley) or `phase:N` (the Nth phase of a multi-phase siege begins).
+  final String trigger;
+
+  /// A story [CharacterId] name.
+  final String speaker;
+  final String text;
+}
+
+/// A later stage of a multi-phase siege: more castle rises once the
+/// previous stage's objective is met.
+class PhaseData {
+  const PhaseData({
+    required this.title,
+    required this.objective,
+    required this.blocks,
+    required this.units,
+    required this.props,
+    required this.ammo,
+  });
+
+  factory PhaseData.fromJson(Map<String, dynamic> json) => PhaseData(
+    title: json['title'] as String,
+    objective: Objective.values.byName(json['objective'] as String),
+    blocks: [
+      for (final b in json['blocks'] as List? ?? const [])
+        BlockData.fromJson(b as Map<String, dynamic>),
+    ],
+    units: [
+      for (final u in json['units'] as List? ?? const [])
+        UnitData.fromJson(u as Map<String, dynamic>),
+    ],
+    props: [
+      for (final p in json['props'] as List? ?? const [])
+        PropData.fromJson(p as Map<String, dynamic>),
+    ],
+    ammo: [
+      for (final a in json['ammo'] as List? ?? const [])
+        AmmoType.values.byName(a as String),
+    ],
+  );
+
+  /// Announced when the phase begins.
+  final String title;
+  final Objective objective;
+  final List<BlockData> blocks;
+  final List<UnitData> units;
+  final List<PropData> props;
+
+  /// Reinforcements added to the player's ammunition.
+  final List<AmmoType> ammo;
+}
+
 class LevelData {
   const LevelData({
     required this.id,
@@ -107,6 +179,10 @@ class LevelData {
     this.budget,
     this.relic,
     this.unlocksCrew,
+    this.introCutscene,
+    this.outroCutscene,
+    this.lines = const [],
+    this.phases = const [],
   });
 
   factory LevelData.fromJson(Map<String, dynamic> json) {
@@ -150,16 +226,31 @@ class LevelData {
         final String name => CrewId.values.byName(name),
         _ => null,
       },
+      introCutscene: json['introCutscene'] as String?,
+      outroCutscene: json['outroCutscene'] as String?,
+      lines: [
+        for (final l in json['lines'] as List? ?? const [])
+          LevelLine.fromJson(l as Map<String, dynamic>),
+      ],
+      phases: [
+        for (final p in json['phases'] as List? ?? const [])
+          PhaseData.fromJson(p as Map<String, dynamic>),
+      ],
     );
-    if (level.objective == Objective.killKing &&
-        !level.units.any((u) => u.kind == UnitKind.king)) {
-      throw FormatException('Level ${level.id} needs a king to kill');
-    }
-    if (level.objective == Objective.destroyEngines &&
-        !level.props.any((p) => p.kind == PropKind.enemyCatapult)) {
-      throw FormatException(
-        'Level ${level.id} has no enemy engines to destroy',
-      );
+    for (final (objective, units, props) in [
+      (level.objective, level.units, level.props),
+      for (final p in level.phases) (p.objective, p.units, p.props),
+    ]) {
+      if (objective == Objective.killKing &&
+          !units.any((u) => u.kind.isRoyal)) {
+        throw FormatException('Level ${level.id} needs a king to kill');
+      }
+      if (objective == Objective.destroyEngines &&
+          !props.any((p) => p.kind == PropKind.enemyCatapult)) {
+        throw FormatException(
+          'Level ${level.id} has no enemy engines to destroy',
+        );
+      }
     }
     final unusable = level.ammo.where(
       (a) => !level.weapon.spec.ammo.contains(a),
@@ -224,12 +315,28 @@ class LevelData {
   final RelicId? relic;
   final CrewId? unlocksCrew;
 
+  /// Story scenes played before the first attempt and after the first win.
+  final String? introCutscene;
+  final String? outroCutscene;
+  final List<LevelLine> lines;
+
+  /// Further stages after the first, for boss sieges.
+  final List<PhaseData> phases;
+
   /// Whether anything in this level shoots back.
   bool get hasCounterFire =>
-      units.any((u) => u.kind == UnitKind.archer) ||
-      props.any((p) => p.kind == PropKind.enemyCatapult);
+      [(units, props), for (final p in phases) (p.units, p.props)].any(
+        (s) =>
+            s.$1.any((u) => u.kind == UnitKind.archer) ||
+            s.$2.any((p) => p.kind == PropKind.enemyCatapult),
+      );
 
   bool get hasWeakPoints =>
       blocks.any((b) => b.weak) ||
-      props.any((p) => p.kind == PropKind.powderBarrel);
+      props.any((p) => p.kind == PropKind.powderBarrel) ||
+      phases.any(
+        (p) =>
+            p.blocks.any((b) => b.weak) ||
+            p.props.any((q) => q.kind == PropKind.powderBarrel),
+      );
 }

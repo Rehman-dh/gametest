@@ -1,0 +1,120 @@
+{
+  "id": "sphinx_approach",
+  "steps": [
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 0
+    },
+    {
+      "type": "spawn",
+      "actor": "hero",
+      "character": "arslan",
+      "x": 0,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "bashir",
+      "character": "bashir",
+      "x": -1.6,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "sethmose",
+      "character": "sethmose",
+      "x": 14,
+      "facing": -1
+    },
+    {
+      "type": "spawn",
+      "actor": "guard",
+      "character": "soldier",
+      "x": 12.5,
+      "facing": -1
+    },
+    {
+      "type": "spawn",
+      "actor": "guard2",
+      "character": "soldier",
+      "x": 15.5,
+      "facing": -1
+    },
+    {
+      "type": "camera",
+      "x": 0.5,
+      "y": -1.6,
+      "viewHeight": 6
+    },
+    {
+      "type": "fade",
+      "to": 0,
+      "duration": 1.5
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "point"
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "There. The Sphinx fortress. Every stone of it quarried by slaves, and every slave buried beneath it."
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "camera",
+      "x": 13,
+      "y": -1.8,
+      "viewHeight": 6.5,
+      "duration": 2.5
+    },
+    {
+      "type": "pose",
+      "actor": "sethmose",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "sethmose",
+      "text": "The engineer who breaks walls. Your master begged, at the end. Did you know that?"
+    },
+    {
+      "type": "camera",
+      "x": 7,
+      "y": -2,
+      "viewHeight": 9,
+      "duration": 1.5
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "point"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "You will tell me who sent the Iron Hand, before or after I bring your Sphinx down."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "say",
+      "speaker": "sethmose",
+      "text": "The Sphinx has watched this desert for a thousand years. It will watch your bones whiten in it."
+    },
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 1.5
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "id": "egypt_13",
+  "name": "The Tinder Tower",
+  "worldWidth": 48,
+  "budget": 90,
+  "ammo": [
+    "fireball",
+    "stone"
+  ],
+  "par": 1,
+  "objective": "killKing",
+  "blocks": [
+    {
+      "m": "wood",
+      "x": 34,
+      "y": 0,
+      "w": 0.5,
+      "h": 3
+    },
+    {
+      "m": "wood",
+      "x": 38,
+      "y": 0,
+      "w": 0.5,
+      "h": 3
+    },
+    {
+      "m": "wood",
+      "x": 36,
+      "y": 3,
+      "w": 4.6,
+      "h": 0.4
+    },
+    {
+      "m": "wood",
+      "x": 34.3,
+      "y": 3.4,
+      "w": 0.4,
+      "h": 3
+    },
+    {
+      "m": "wood",
+      "x": 37.7,
+      "y": 3.4,
+      "w": 0.4,
+      "h": 3
+    },
+    {
+      "m": "wood",
+      "x": 36,
+      "y": 6.4,
+      "w": 4,
+      "h": 0.4
+    },
+    {
+      "m": "wood",
+      "x": 34.6,
+      "y": 6.8,
+      "w": 0.4,
+      "h": 2.5
+    },
+    {
+      "m": "wood",
+      "x": 37.4,
+      "y": 6.8,
+      "w": 0.4,
+      "h": 2.5
+    },
+    {
+      "m": "wood",
+      "x": 36,
+      "y": 9.3,
+      "w": 3.4,
+      "h": 0.4
+    }
+  ],
+  "units": [
+    {
+      "kind": "king",
+      "x": 36,
+      "y": 9.7
+    },
+    {
+      "kind": "soldier",
+      "x": 36,
+      "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 36,
+      "y": 3.4
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "bashir",
+      "text": "All timber, and the king sits at the very top. Let the fire climb for you."
+    }
+  ]
+}

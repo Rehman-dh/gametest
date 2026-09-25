@@ -1,0 +1,68 @@
+{
+  "id": "egypt_11",
+  "name": "The Keystone",
+  "worldWidth": 48,
+  "budget": 30,
+  "ammo": [
+    "stone"
+  ],
+  "par": 1,
+  "objective": "killKing",
+  "blocks": [
+    {
+      "m": "stone",
+      "x": 33,
+      "y": 0,
+      "w": 1,
+      "h": 5
+    },
+    {
+      "m": "stone",
+      "x": 39,
+      "y": 0,
+      "w": 1,
+      "h": 5
+    },
+    {
+      "m": "stone",
+      "x": 36,
+      "y": 5,
+      "w": 7,
+      "h": 0.6,
+      "weak": true
+    },
+    {
+      "m": "stone",
+      "x": 34.5,
+      "y": 5.6,
+      "w": 2,
+      "h": 1.5
+    },
+    {
+      "m": "stone",
+      "x": 37.5,
+      "y": 5.6,
+      "w": 2,
+      "h": 1.5
+    }
+  ],
+  "units": [
+    {
+      "kind": "king",
+      "x": 36,
+      "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 34.4,
+      "y": 0
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "bashir",
+      "text": "One stone, General. Every arch rests on its keystone. Find it."
+    }
+  ]
+}

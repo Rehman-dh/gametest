@@ -7,6 +7,7 @@ import '../core/ammo.dart';
 import '../core/materials.dart';
 import '../core/weapons.dart';
 import '../levels/level_data.dart';
+import '../story/characters.dart';
 
 /// Every visual in the game is drawn through this interface.
 ///
@@ -76,6 +77,17 @@ abstract class ArtTheme {
 
   /// Pull-back line from the launch origin to the drag point.
   void drawAimBand(Canvas canvas, Offset from, Offset to, double power);
+
+  /// A story character; origin at the feet, facing +x.
+  void drawCharacter(
+    Canvas canvas,
+    CharacterLook look, {
+    required Pose pose,
+    required double time,
+  });
+
+  /// Cutscene scenery; origin on the ground at the prop's centre.
+  void drawSceneProp(Canvas canvas, SceneProp prop, double time);
 
   // Particle effects, positioned relative to the spawn point (meters).
 

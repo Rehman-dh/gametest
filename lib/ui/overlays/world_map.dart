@@ -99,7 +99,7 @@ class WorldMap extends StatelessWidget {
                                   stars: campaign.starsFor(i),
                                   won: progress.isWon(campaign.levels[i].id),
                                   unlocked: campaign.isUnlocked(i),
-                                  onTap: () => game.showPrep(i),
+                                  onTap: () => game.openLevel(i),
                                 ),
                               ),
                           ],

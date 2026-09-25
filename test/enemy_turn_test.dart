@@ -82,7 +82,7 @@ void main() {
     'defense mission is won by wrecking every enemy engine',
     build,
     (game) async {
-      await game.startLevel(_levelIndex('egypt_10'));
+      await game.startLevel(_levelIndex('egypt_14'));
       await game.ready();
       await run(game, 1.5);
       final engines = game.world.children.whereType<EnemyCatapult>().toList();

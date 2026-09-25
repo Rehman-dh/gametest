@@ -41,7 +41,12 @@ void main() {
     for (final path in SiegeGame.levelFiles) {
       final level = LevelData.parse(File(path).readAsStringSync());
       expect(level.units, isNotEmpty, reason: path);
-      expect(level.par, lessThanOrEqualTo(level.shots), reason: path);
+      final reinforcements = level.phases.fold(0, (n, p) => n + p.ammo.length);
+      expect(
+        level.par,
+        lessThanOrEqualTo(level.shots + reinforcements),
+        reason: path,
+      );
     }
   });
 

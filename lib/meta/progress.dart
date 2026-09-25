@@ -11,6 +11,7 @@ class Progress {
     this.buildings = const {},
     this.crewXp = const {},
     this.relics = const {},
+    this.seenCutscenes = const {},
   });
 
   factory Progress.fromJson(Map<String, dynamic> json) => Progress(
@@ -31,6 +32,9 @@ class Progress {
       for (final r in json['relics'] as List? ?? const [])
         ?_byName(RelicId.values, r),
     },
+    seenCutscenes: {
+      for (final c in json['seenCutscenes'] as List? ?? const []) c as String,
+    },
   );
 
   factory Progress.decode(String source) =>
@@ -46,6 +50,9 @@ class Progress {
   final Map<CrewId, int> crewXp;
   final Set<RelicId> relics;
 
+  /// Story scenes already shown, so each plays once.
+  final Set<String> seenCutscenes;
+
   int building(BuildingId id) => buildings[id] ?? 0;
   bool hasCrew(CrewId id) => crewXp.containsKey(id);
   int crewLevel(CrewId id) => crewLevelFor(crewXp[id] ?? 0);
@@ -57,12 +64,14 @@ class Progress {
     Map<BuildingId, int>? buildings,
     Map<CrewId, int>? crewXp,
     Set<RelicId>? relics,
+    Set<String>? seenCutscenes,
   }) => Progress(
     gold: gold ?? this.gold,
     stars: stars ?? this.stars,
     buildings: buildings ?? this.buildings,
     crewXp: crewXp ?? this.crewXp,
     relics: relics ?? this.relics,
+    seenCutscenes: seenCutscenes ?? this.seenCutscenes,
   );
 
   Map<String, dynamic> toJson() => {
@@ -71,6 +80,7 @@ class Progress {
     'buildings': {for (final e in buildings.entries) e.key.name: e.value},
     'crewXp': {for (final e in crewXp.entries) e.key.name: e.value},
     'relics': [for (final r in relics) r.name],
+    'seenCutscenes': seenCutscenes.toList(),
   };
 
   String encode() => jsonEncode(toJson());

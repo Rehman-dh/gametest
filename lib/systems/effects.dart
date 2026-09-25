@@ -179,6 +179,21 @@ class Effects {
     );
   }
 
+  /// A boss siege's next stage rises.
+  void stageBegins(String title) {
+    audio.play(Sfx.warHorn);
+    audio.play(Sfx.breakStone);
+    addTrauma(0.7);
+    game.world.add(
+      FloatingText(
+        title.toUpperCase(),
+        at: Vector2(game.level.worldWidth - 14, -8),
+        color: const Color(0xFFE8C45A),
+        fontSize: 1.6,
+      ),
+    );
+  }
+
   void weakPoint(Vector2 at) {
     audio.play(Sfx.weakPoint);
     game.world.add(FloatingText('WEAK POINT!', at: at));

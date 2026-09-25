@@ -62,7 +62,7 @@ class ResultPanel extends StatelessWidget {
                   SiegeButton(
                     label: 'Map',
                     icon: Icons.map_outlined,
-                    onPressed: game.showMap,
+                    onPressed: () => game.leaveResult(next: false),
                   ),
                   SiegeButton(
                     label: 'Retry',
@@ -73,7 +73,7 @@ class ResultPanel extends StatelessWidget {
                     SiegeButton(
                       label: 'Next',
                       icon: Icons.arrow_forward,
-                      onPressed: () => game.showPrep(game.levelIndex + 1),
+                      onPressed: () => game.leaveResult(next: true),
                     ),
                 ],
               ),

@@ -40,7 +40,7 @@ const Map<CrewId, CrewSpec> crewSpecs = {
     passive: 'Longer trajectory preview.',
     abilityName: 'Spotter',
     ability: 'Once per siege, reveals every weak point.',
-    joins: 'Joins after The Long Siege',
+    joins: 'Joins in China',
   ),
   CrewId.roxana: CrewSpec(
     name: 'Roxana',

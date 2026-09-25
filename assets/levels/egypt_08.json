@@ -93,5 +93,17 @@
       "x": 37,
       "y": 4.0
     }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "bashir",
+      "text": "Archers on the walls. They will answer every stone we throw."
+    },
+    {
+      "trigger": "volley:1",
+      "speaker": "bashir",
+      "text": "They have our range! Take those archers down first."
+    }
   ]
 }

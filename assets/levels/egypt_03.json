@@ -171,5 +171,13 @@
       "y": 5
     }
   ],
-  "unlocksCrew": "bashir"
+  "unlocksCrew": "bashir",
+  "outroCutscene": "bashir_joins",
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "arslan",
+      "text": "Sethmose's gate. The king cowers inside it. Collapse the keep on him."
+    }
+  ]
 }

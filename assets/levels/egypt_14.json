@@ -1,0 +1,118 @@
+{
+  "id": "egypt_14",
+  "name": "Defense of the Ford",
+  "worldWidth": 50,
+  "ammo": [
+    "stone",
+    "stone",
+    "fireball",
+    "stone",
+    "fireball",
+    "powderKeg",
+    "stone"
+  ],
+  "par": 4,
+  "objective": "destroyEngines",
+  "playerHp": 120,
+  "defenses": [
+    {
+      "m": "stone",
+      "x": 5,
+      "y": 0,
+      "w": 0.8,
+      "h": 2.4
+    },
+    {
+      "m": "wood",
+      "x": 6,
+      "y": 0,
+      "w": 0.5,
+      "h": 3
+    }
+  ],
+  "blocks": [
+    {
+      "m": "wood",
+      "x": 27,
+      "y": 0,
+      "w": 0.5,
+      "h": 2.2
+    },
+    {
+      "m": "wood",
+      "x": 27.7,
+      "y": 0,
+      "w": 0.5,
+      "h": 1.8
+    },
+    {
+      "m": "wood",
+      "x": 33,
+      "y": 0,
+      "w": 0.4,
+      "h": 3
+    },
+    {
+      "m": "wood",
+      "x": 35,
+      "y": 0,
+      "w": 0.4,
+      "h": 3
+    },
+    {
+      "m": "wood",
+      "x": 34,
+      "y": 3,
+      "w": 2.8,
+      "h": 0.4
+    },
+    {
+      "m": "stone",
+      "x": 39.2,
+      "y": 0,
+      "w": 0.8,
+      "h": 2
+    }
+  ],
+  "props": [
+    {
+      "kind": "enemyCatapult",
+      "x": 30,
+      "y": 0
+    },
+    {
+      "kind": "enemyCatapult",
+      "x": 42,
+      "y": 0
+    }
+  ],
+  "units": [
+    {
+      "kind": "archer",
+      "x": 34,
+      "y": 3.4
+    },
+    {
+      "kind": "archer",
+      "x": 45.5,
+      "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 37,
+      "y": 0
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "bashir",
+      "text": "Sethmose sends his engines against us. Wreck them before they find their range."
+    },
+    {
+      "trigger": "volley:2",
+      "speaker": "bashir",
+      "text": "The barricade will not hold forever. Hit those catapults!"
+    }
+  ]
+}

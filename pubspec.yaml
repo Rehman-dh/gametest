@@ -58,6 +58,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/levels/
+    - assets/cutscenes/
     - assets/audio/sfx/
     - assets/audio/music/
     - assets/images/textures/

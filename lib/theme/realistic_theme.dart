@@ -546,7 +546,8 @@ class RealisticTheme extends StylizedTheme {
       ..translate(0, radius - r * 0.95);
     final isKing = kind == UnitKind.king;
     final (cloth, clothDark) = switch (kind) {
-      UnitKind.king => (const Color(0xFF2F4C8E), const Color(0xFF1C2E57)),
+      UnitKind.king ||
+      UnitKind.pharaoh => (const Color(0xFF2F4C8E), const Color(0xFF1C2E57)),
       UnitKind.soldier => (const Color(0xFF8C2A20), const Color(0xFF561812)),
       UnitKind.archer => (const Color(0xFF55643A), const Color(0xFF2F3A1C)),
       UnitKind.engineer => (const Color(0xFF7A5634), const Color(0xFF4A3220)),

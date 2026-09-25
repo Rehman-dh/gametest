@@ -6,6 +6,8 @@ import '../../meta/catalog.dart';
 import '../../theme/art_theme.dart';
 import '../ui_style.dart';
 import '../widgets/ammo_icon.dart';
+import '../widgets/portrait.dart';
+import '../../cutscene/cutscene_player.dart';
 
 class Hud extends StatelessWidget {
   const Hud({super.key, required this.game});
@@ -14,6 +16,22 @@ class Hud extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        _topBar(),
+        // The sky is empty; the castle's base is not.
+        Align(
+          alignment: Alignment.topCenter,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 84),
+            child: _SpeechBanner(game: game),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _topBar() {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -343,6 +361,63 @@ class _CrewAbilities extends StatelessWidget {
               ),
             ),
         ],
+      ),
+    );
+  }
+}
+
+/// A line spoken mid-siege (tutorial hints, crew advice, enemy taunts).
+class _SpeechBanner extends StatelessWidget {
+  const _SpeechBanner({required this.game});
+
+  final SiegeGame game;
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<SpokenLine?>(
+      valueListenable: game.banner,
+      builder: (_, line, _) => AnimatedSwitcher(
+        duration: const Duration(milliseconds: 250),
+        child: line == null
+            ? const SizedBox.shrink()
+            : SafeArea(
+                key: ValueKey(line),
+                child: GestureDetector(
+                  onTap: () => game.banner.value = null,
+                  child: Container(
+                    constraints: const BoxConstraints(maxWidth: 500),
+                    padding: const EdgeInsets.all(8),
+                    decoration: UiStyle.panelDecoration,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Portrait(look: line.look, theme: game.theme, size: 44),
+                        const SizedBox(width: 10),
+                        Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                line.look.name.toUpperCase(),
+                                style: UiStyle.body.copyWith(
+                                  fontSize: 10,
+                                  letterSpacing: 2,
+                                  color: UiStyle.bronze,
+                                ),
+                              ),
+                              Text(
+                                line.text,
+                                style: UiStyle.body.copyWith(fontSize: 14),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
       ),
     );
   }
