@@ -41,6 +41,9 @@ class GameAudio {
   final Map<Sfx, DateTime> _lastPlayed = {};
   bool _musicStarted = false;
 
+  /// Scales every effect, e.g. quieter behind the main menu.
+  double volumeScale = 1;
+
   Future<void> load() async {
     try {
       FlameAudio.bgm.initialize();
@@ -60,7 +63,7 @@ class GameAudio {
     final last = _lastPlayed[sfx];
     if (last != null && now.difference(last) < _minGap) return;
     _lastPlayed[sfx] = now;
-    unawaited(pool.start(volume: volume.clamp(0, 1)));
+    unawaited(pool.start(volume: (volume * volumeScale).clamp(0, 1)));
   }
 
   void startMusic() {

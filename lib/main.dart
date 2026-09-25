@@ -29,7 +29,11 @@ Future<void> main() async {
   await campaign.load();
   runApp(
     SiegeApp(
-      game: SiegeGame(theme: realistic, campaign: campaign),
+      game: SiegeGame(
+        theme: realistic,
+        campaign: campaign,
+        attractOnLaunch: true,
+      ),
     ),
   );
 }

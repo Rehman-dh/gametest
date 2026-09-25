@@ -22,6 +22,7 @@ import '../components/structure/powder_barrel.dart';
 import '../components/units/unit.dart';
 import '../components/weapons/siege_engine.dart';
 import '../core/ammo.dart';
+import '../core/ballistics.dart';
 import '../core/scoring.dart';
 import '../core/weapons.dart';
 import '../cutscene/cutscene_data.dart';
@@ -33,6 +34,7 @@ import '../meta/catalog.dart';
 import '../meta/endless.dart';
 import '../meta/loadout.dart';
 import '../meta/rewards.dart';
+import '../procgen/castle_generator.dart';
 import '../systems/effects.dart';
 import '../systems/enemy_commander.dart';
 import '../theme/art_theme.dart';
@@ -97,6 +99,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     this.audioEnabled = true,
     this.random,
     this.campaign,
+    this.attractOnLaunch = false,
   }) : theme = theme ?? ProceduralTheme(),
        super(gravity: Vector2(0, 12));
 
@@ -117,6 +120,9 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     'assets/levels/egypt_14.json',
     'assets/levels/egypt_15.json',
   ];
+
+  /// Whether the main menu opens over a live demo siege.
+  final bool attractOnLaunch;
 
   /// Progress and rewards; absent in headless tests.
   final Campaign? campaign;
@@ -214,6 +220,98 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     await super.onLoad();
     camera.viewport.add(Vignette());
     if (audioEnabled) await effects.audio.load();
+    if (attractOnLaunch) await _startAttract();
+  }
+
+  // ------------------------------------------------------ attract mode
+
+  /// A demo siege playing behind the main menu: the engine bombards a
+  /// generated castle on its own, and a new castle rises when it falls.
+  bool attract = false;
+  double _attractTimer = 0;
+  double? _attractRestart;
+  final math.Random _attractRng = math.Random();
+
+  static const _attractAmmo = [
+    AmmoType.stone,
+    AmmoType.stone,
+    AmmoType.fireball,
+    AmmoType.powderKeg,
+    AmmoType.cluster,
+  ];
+
+  Future<void> _startAttract() async {
+    final castle = CastleGenerator(_attractRng.nextInt(1 << 30))
+        .generate(2 + _attractRng.nextInt(6));
+    await startCustomLevel(
+      castle,
+      loadout: Loadout(
+        weapon: WeaponType.catapult,
+        ammo: List.filled(40, AmmoType.stone),
+      ),
+    );
+    attract = true;
+    _attractTimer = 2.5;
+    _attractRestart = null;
+    effects.audio.volumeScale = 0.35;
+    overlays
+      ..removeAll(_screens)
+      ..add('menu');
+  }
+
+  void _stopAttract() {
+    if (!attract) return;
+    attract = false;
+    _attractRestart = null;
+    effects.audio.volumeScale = 1;
+    world.removeAll(world.children.toList());
+    _levelLoaded = false;
+  }
+
+  void _tickAttract(double dt) {
+    if (_attractRestart != null) {
+      _attractRestart = _attractRestart! - dt;
+      if (_attractRestart! <= 0) _startAttract();
+      return;
+    }
+    if (phase.value != SiegePhase.aiming) return;
+    _attractTimer -= dt;
+    if (_attractTimer > 0) return;
+    _attractTimer = 3 + _attractRng.nextDouble() * 1.5;
+
+    // Aim at a defender (or failing that, any block) with a little error.
+    final targets = [
+      ..._aliveUnits.map((u) => u.body.position),
+      ...world.children.whereType<CastleBlock>().map((b) => b.body.position),
+    ];
+    if (targets.isEmpty) return;
+    final target = targets[_attractRng.nextInt(targets.length)];
+    final from = siegeEngine.launchOriginFor(null);
+    final speed = 24 + _attractRng.nextDouble() * 5;
+    final solution = launchVelocityToHit(
+      fromX: from.x,
+      fromY: from.y,
+      toX: target.x + (_attractRng.nextDouble() - 0.5) * 2,
+      toY: target.y,
+      speed: speed,
+      gravity: world.gravity.y,
+      highArc: _attractRng.nextDouble() < 0.3,
+    );
+    if (solution == null) return;
+    final pull = Vector2(solution.vx, solution.vy) / weapon.spec.speedPerMeter;
+    if (pull.length > maxPull) pull.scaleTo(maxPull);
+    final type = _attractAmmo[_attractRng.nextInt(_attractAmmo.length)];
+    ammo.value = {...ammo.value, type: (ammo.value[type] ?? 0) + 1};
+    selectedAmmo.value = type;
+    _fire(pull);
+    // Burst clusters mid-flight, as a player would.
+    if (type.spec.splitsOnTap) {
+      Future.delayed(const Duration(milliseconds: 900), () {
+        for (final p in _projectiles.toList()) {
+          p.onPlayerTap();
+        }
+      });
+    }
   }
 
   // ------------------------------------------------------------ level flow
@@ -221,6 +319,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   Future<void> startLevel(int index, {Loadout? loadout}) async {
     levelIndex = index;
     endless = null;
+    _stopAttract();
     await startCustomLevel(
       LevelData.parse(await rootBundle.loadString(levelFiles[index])),
       loadout: loadout,
@@ -325,6 +424,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     final data = CutsceneData.parse(
       await rootBundle.loadString('assets/cutscenes/$id.json'),
     );
+    _stopAttract();
     world.removeAll(world.children.toList());
     _levelLoaded = false;
     overlays
@@ -387,6 +487,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
 
   /// Starts a new endless run with a fresh random seed.
   Future<void> startEndless() {
+    _stopAttract();
     endless = EndlessRun(seed: (random ?? math.Random()).nextInt(1 << 30));
     return _startEndlessCastle();
   }
@@ -420,13 +521,14 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   int prepIndex = 0;
 
   void _showScreen(String name) {
+    _stopAttract();
     overlays
       ..removeAll(_screens)
       ..add(name);
     phase.value = SiegePhase.menu;
   }
 
-  void showMenu() => _showScreen('menu');
+  void showMenu() => _startAttract();
   void showMap() => _showScreen('map');
   void showCamp() => _showScreen('camp');
 
@@ -463,7 +565,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   @override
   void onDragStart(DragStartEvent event) {
     super.onDragStart(event);
-    if (phase.value != SiegePhase.aiming) return;
+    if (phase.value != SiegePhase.aiming || attract) return;
     _dragStart = camera.globalToLocal(event.canvasPosition);
     _pull = Vector2.zero();
   }
@@ -500,7 +602,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   @override
   void onTapDown(TapDownEvent event) {
     super.onTapDown(event);
-    if (phase.value != SiegePhase.flying) return;
+    if (phase.value != SiegePhase.flying || attract) return;
     for (final p in _projectiles.toList()) {
       p.onPlayerTap();
     }
@@ -700,6 +802,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     _processQueues();
     _levelTime += simDt;
     _updateCamera(dt);
+    if (attract) _tickAttract(dt);
 
     if (phase.value == SiegePhase.settling) {
       _settleTime += simDt;
@@ -816,6 +919,12 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   }
 
   void _finish({required bool won, DefeatReason? defeat}) {
+    if (attract) {
+      // The demo siege ended: let the dust settle, then raise a new castle.
+      phase.value = won ? SiegePhase.won : SiegePhase.lost;
+      _attractRestart = 3;
+      return;
+    }
     final stars = starsFor(
       won: won,
       shotsUsed: _shotsUsed,
