@@ -1,72 +1,152 @@
 {
   "id": "china_09",
   "name": "The Dragon Bridge",
-  "worldWidth": 53,
+  "worldWidth": 52,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
+  "shots": 5,
+  "par": 3,
   "objective": "killAll",
+  "playerHp": 100,
+  "defenses": [
+    {
+      "m": "wood",
+      "x": 5,
+      "y": 0,
+      "w": 0.9,
+      "h": 2.4
+    },
+    {
+      "m": "wood",
+      "x": 6.1,
+      "y": 0,
+      "w": 0.9,
+      "h": 2.0
+    }
+  ],
+  "moat": {
+    "x": 33.0,
+    "w": 6.0,
+    "depth": 2.0
+  },
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "liWei",
+      "text": "The Dragon Bridge. Break the deck and the river takes whoever stands on it."
+    }
+  ],
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 25.7,
       "y": 0,
-      "w": 3.0,
-      "h": 7,
+      "w": 2.6,
+      "h": 6.2,
       "look": "tower",
-      "hp": 0.5
+      "hp": 0.9
     },
     {
       "m": "stone",
-      "x": 35.02,
+      "x": 28.465,
       "y": 0,
-      "w": 4.0,
-      "h": 3.2,
+      "w": 2.87,
+      "h": 1.6,
       "look": "wall",
-      "hp": 0.45
+      "hp": 1.4
     },
     {
       "m": "stone",
-      "x": 38.04,
+      "x": 37.4,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
+      "w": 2.6,
+      "h": 1.6,
       "look": "wall",
-      "hp": 1.5
+      "hp": 1.4
+    },
+    {
+      "m": "wood",
+      "x": 33.0,
+      "y": 1.6,
+      "w": 10.6,
+      "h": 0.45,
+      "hp": 1.2
+    },
+    {
+      "m": "wood",
+      "x": 31.0,
+      "y": 2.05,
+      "w": 0.45,
+      "h": 2.4,
+      "hp": 0.8
+    },
+    {
+      "m": "wood",
+      "x": 35.0,
+      "y": 2.05,
+      "w": 0.45,
+      "h": 2.4,
+      "hp": 0.8
+    },
+    {
+      "m": "wood",
+      "x": 33.0,
+      "y": 4.45,
+      "w": 5.0,
+      "h": 2.3,
+      "look": "pagoda",
+      "hp": 1.0
     },
     {
       "m": "stone",
-      "x": 45.58,
+      "x": 39.4,
       "y": 0,
-      "w": 3.0,
-      "h": 7.5,
+      "w": 1.0,
+      "h": 4.0,
       "look": "tower",
       "hp": 0.6
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 42.7,
+      "y": 0,
+      "w": 1.0,
+      "h": 4.0,
+      "look": "tower",
+      "hp": 0.6
+    },
+    {
+      "m": "stone",
+      "x": 41.05,
+      "y": 4.0,
+      "w": 4.3,
+      "h": 0.8,
+      "look": "wall",
+      "hp": 1.4
+    },
+    {
+      "m": "wood",
+      "x": 41.05,
+      "y": 4.8,
+      "w": 4.9,
+      "h": 2.2,
+      "look": "pagoda",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 45.13,
+      "y": 0,
+      "w": 2.8,
+      "h": 7.6,
+      "look": "tower",
+      "hp": 0.9
+    },
+    {
+      "m": "stone",
+      "x": 47.86,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
+      "h": 9.0,
       "look": "spire",
       "hp": 2
     }
@@ -74,18 +154,28 @@
   "units": [
     {
       "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "x": 25.7,
+      "y": 6.2
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 32.0,
+      "y": 2.05
     },
     {
       "kind": "soldier",
-      "x": 40.56,
+      "x": 34.0,
+      "y": 2.05
+    },
+    {
+      "kind": "soldier",
+      "x": 41.05,
       "y": 0
+    },
+    {
+      "kind": "archer",
+      "x": 45.13,
+      "y": 7.6
     }
   ]
 }
