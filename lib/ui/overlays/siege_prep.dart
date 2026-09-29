@@ -184,13 +184,14 @@ class _SiegePrepState extends State<SiegePrep> {
         Icons.groups_rounded,
         [
           if (count(UnitKind.king) > 0) 'king',
-          if (count(UnitKind.soldier) > 0)
-            '${count(UnitKind.soldier)} soldiers',
-          if (count(UnitKind.legionary) > 0)
-            '${count(UnitKind.legionary)} legionaries',
-          if (count(UnitKind.archer) > 0) '${count(UnitKind.archer)} archers',
-          if (count(UnitKind.engineer) > 0)
-            '${count(UnitKind.engineer)} engineers',
+          for (final (kind, one, many) in const [
+            (UnitKind.soldier, 'soldier', 'soldiers'),
+            (UnitKind.legionary, 'legionary', 'legionaries'),
+            (UnitKind.archer, 'archer', 'archers'),
+            (UnitKind.engineer, 'engineer', 'engineers'),
+          ])
+            if (count(kind) > 0)
+              '${count(kind)} ${count(kind) == 1 ? one : many}',
         ].join(', '),
       ),
       if (weakPoints > 0)
