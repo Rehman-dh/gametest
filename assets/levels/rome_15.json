@@ -1,91 +1,425 @@
 {
   "id": "rome_15",
   "name": "The Colosseum",
-  "worldWidth": 53,
-  "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
+  "introCutscene": "colosseum_approach",
+  "outroCutscene": "rome_finale",
+  "relic": "aquila",
+  "ammo": [
+    "stone",
+    "stone",
+    "stone",
+    "stone",
+    "fireball",
+    "powderKeg"
+  ],
+  "par": 7,
+  "objective": "destroyEngines",
+  "playerHp": 120,
+  "defenses": [
+    {
+      "m": "stone",
+      "x": 5,
+      "y": 0,
+      "w": 0.8,
+      "h": 2.4
+    },
+    {
+      "m": "wood",
+      "x": 6,
+      "y": 0,
+      "w": 0.5,
+      "h": 3
+    }
+  ],
+  "worldWidth": 62,
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 25.8,
       "y": 0,
-      "w": 3.0,
-      "h": 7,
+      "w": 2.8,
+      "h": 8.0,
       "look": "tower",
-      "hp": 0.5
+      "hp": 0.8
     },
     {
-      "m": "stone",
-      "x": 35.02,
+      "m": "marble",
+      "x": 27.7,
       "y": 0,
-      "w": 4.0,
-      "h": 3.2,
+      "w": 0.8,
+      "h": 3.0,
+      "hp": 0.8
+    },
+    {
+      "m": "marble",
+      "x": 31.4,
+      "y": 0,
+      "w": 0.8,
+      "h": 3.0,
+      "hp": 0.8
+    },
+    {
+      "m": "marble",
+      "x": 35.1,
+      "y": 0,
+      "w": 0.8,
+      "h": 3.0,
+      "hp": 0.8
+    },
+    {
+      "m": "marble",
+      "x": 38.8,
+      "y": 0,
+      "w": 0.8,
+      "h": 3.0,
+      "hp": 0.8
+    },
+    {
+      "m": "marble",
+      "x": 33.25,
+      "y": 3.0,
+      "w": 11.9,
+      "h": 0.8,
       "look": "wall",
-      "hp": 0.45
+      "hp": 1.0
     },
     {
-      "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
+      "m": "marble",
+      "x": 27.7,
+      "y": 3.8,
+      "w": 0.7,
+      "h": 2.4,
+      "hp": 0.8
     },
     {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
+      "m": "marble",
+      "x": 31.4,
+      "y": 3.8,
+      "w": 0.7,
+      "h": 2.4,
+      "hp": 0.8
     },
     {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
+      "m": "marble",
+      "x": 35.1,
+      "y": 3.8,
+      "w": 0.7,
+      "h": 2.4,
+      "hp": 0.8
+    },
+    {
+      "m": "marble",
+      "x": 38.8,
+      "y": 3.8,
+      "w": 0.7,
+      "h": 2.4,
+      "hp": 0.8
+    },
+    {
+      "m": "marble",
+      "x": 33.25,
+      "y": 6.2,
+      "w": 11.9,
+      "h": 0.7,
       "look": "wall",
-      "hp": 1.5
+      "hp": 1.0
     },
     {
       "m": "stone",
-      "x": 45.58,
+      "x": 40.7,
       "y": 0,
-      "w": 3.0,
-      "h": 7.5,
+      "w": 2.8,
+      "h": 9.0,
       "look": "tower",
-      "hp": 0.6
+      "hp": 0.9
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 58.8,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
-      "look": "spire",
-      "hp": 2
+      "h": 9.6,
+      "look": "tower",
+      "hp": 0.8
+    }
+  ],
+  "props": [
+    {
+      "kind": "enemyCatapult",
+      "x": 29.55,
+      "y": 0
+    },
+    {
+      "kind": "enemyCatapult",
+      "x": 36.95,
+      "y": 0
     }
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "kind": "archer",
+      "x": 25.8,
+      "y": 8.0
     },
     {
-      "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
-    },
-    {
-      "kind": "soldier",
-      "x": 40.56,
+      "kind": "legionary",
+      "x": 33.25,
       "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 29.55,
+      "y": 3.8
+    },
+    {
+      "kind": "archer",
+      "x": 36.95,
+      "y": 3.8
+    },
+    {
+      "kind": "legionary",
+      "x": 40.7,
+      "y": 9.0
+    }
+  ],
+  "phases": [
+    {
+      "title": "The arena opens",
+      "objective": "killAll",
+      "ammo": [
+        "stone",
+        "stone",
+        "stone",
+        "powderKeg"
+      ],
+      "blocks": [
+        {
+          "m": "marble",
+          "x": 42.6,
+          "y": 0,
+          "w": 0.8,
+          "h": 1.6,
+          "look": "wall",
+          "hp": 1.0
+        },
+        {
+          "m": "marble",
+          "x": 47.95,
+          "y": 0,
+          "w": 0.7,
+          "h": 2.8,
+          "hp": 0.9
+        },
+        {
+          "m": "marble",
+          "x": 50.95,
+          "y": 0,
+          "w": 0.7,
+          "h": 2.8,
+          "hp": 0.9
+        },
+        {
+          "m": "marble",
+          "x": 53.95,
+          "y": 0,
+          "w": 0.7,
+          "h": 2.8,
+          "hp": 0.9
+        },
+        {
+          "m": "marble",
+          "x": 56.95,
+          "y": 0,
+          "w": 0.7,
+          "h": 2.8,
+          "hp": 0.9
+        },
+        {
+          "m": "marble",
+          "x": 52.45,
+          "y": 2.8,
+          "w": 9.7,
+          "h": 0.6,
+          "look": "wall",
+          "hp": 1.2
+        },
+        {
+          "m": "marble",
+          "x": 50.95,
+          "y": 3.4,
+          "w": 0.7,
+          "h": 2.6,
+          "hp": 0.9
+        },
+        {
+          "m": "marble",
+          "x": 53.95,
+          "y": 3.4,
+          "w": 0.7,
+          "h": 2.6,
+          "hp": 0.9
+        },
+        {
+          "m": "marble",
+          "x": 56.95,
+          "y": 3.4,
+          "w": 0.7,
+          "h": 2.6,
+          "hp": 0.9
+        },
+        {
+          "m": "marble",
+          "x": 53.95,
+          "y": 6.0,
+          "w": 6.7,
+          "h": 0.6,
+          "look": "wall",
+          "hp": 1.2
+        },
+        {
+          "m": "marble",
+          "x": 53.95,
+          "y": 6.6,
+          "w": 0.7,
+          "h": 2.2,
+          "hp": 0.9
+        },
+        {
+          "m": "marble",
+          "x": 56.95,
+          "y": 6.6,
+          "w": 0.7,
+          "h": 2.2,
+          "hp": 0.9
+        },
+        {
+          "m": "marble",
+          "x": 55.45,
+          "y": 8.8,
+          "w": 3.7,
+          "h": 0.5,
+          "look": "wall",
+          "hp": 1.2
+        }
+      ],
+      "units": [
+        {
+          "kind": "soldier",
+          "x": 45.3,
+          "y": 0
+        },
+        {
+          "kind": "legionary",
+          "x": 49.45,
+          "y": 0
+        },
+        {
+          "kind": "soldier",
+          "x": 52.45,
+          "y": 0
+        },
+        {
+          "kind": "legionary",
+          "x": 55.45,
+          "y": 0
+        },
+        {
+          "kind": "archer",
+          "x": 49.45,
+          "y": 3.4
+        },
+        {
+          "kind": "soldier",
+          "x": 52.45,
+          "y": 3.4
+        },
+        {
+          "kind": "legionary",
+          "x": 55.45,
+          "y": 3.4
+        }
+      ],
+      "props": []
+    },
+    {
+      "title": "Castus descends",
+      "objective": "killKing",
+      "ammo": [
+        "stone",
+        "stone",
+        "fireball"
+      ],
+      "blocks": [
+        {
+          "m": "marble",
+          "x": 45.3,
+          "y": 0,
+          "w": 4.4,
+          "h": 1.6,
+          "look": "wall",
+          "hp": 1.5
+        },
+        {
+          "m": "marble",
+          "x": 43.55,
+          "y": 1.6,
+          "w": 0.5,
+          "h": 2.4,
+          "hp": 1.2
+        },
+        {
+          "m": "marble",
+          "x": 47.05,
+          "y": 1.6,
+          "w": 0.5,
+          "h": 2.4,
+          "hp": 1.2
+        },
+        {
+          "m": "marble",
+          "x": 45.3,
+          "y": 4.0,
+          "w": 4.4,
+          "h": 0.5,
+          "look": "wall",
+          "hp": 1.5
+        }
+      ],
+      "units": [
+        {
+          "kind": "pharaoh",
+          "x": 44.6,
+          "y": 1.6
+        },
+        {
+          "kind": "engineer",
+          "x": 45.3,
+          "y": 4.5
+        }
+      ],
+      "props": []
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "castus",
+      "text": "The Iron Crown sends its regards, Arslan. Come and die in my arena."
+    },
+    {
+      "trigger": "volley:1",
+      "speaker": "titus",
+      "text": "Onagers in the arches! Knock them out before they flatten us."
+    },
+    {
+      "trigger": "phase:2",
+      "speaker": "castus",
+      "text": "Open the gates! Rome wants its games."
+    },
+    {
+      "trigger": "phase:3",
+      "speaker": "castus",
+      "text": "Enough. I will finish this myself, as the Crown commands."
     }
   ]
 }
