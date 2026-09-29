@@ -1,91 +1,131 @@
 {
   "id": "rome_02",
   "name": "The Marble Gate",
-  "worldWidth": 53,
+  "worldWidth": 54,
   "catapultX": 0,
-  "shots": 4,
+  "shots": 5,
   "par": 2,
-  "objective": "killAll",
+  "objective": "killKing",
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "arslan",
+      "text": "Marble shrugs off our stones. Crack the weak pillar and let the arch fall on their commander."
+    }
+  ],
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 28.6,
       "y": 0,
-      "w": 3.0,
-      "h": 7,
-      "look": "tower",
-      "hp": 0.5
-    },
-    {
-      "m": "stone",
-      "x": 35.02,
-      "y": 0,
-      "w": 4.0,
-      "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
-    },
-    {
-      "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
-      "y": 0,
-      "w": 3.0,
+      "w": 3.2,
       "h": 7.5,
       "look": "tower",
-      "hp": 0.6
+      "hp": 1.2
+    },
+    {
+      "m": "marble",
+      "x": 32.12,
+      "y": 0,
+      "w": 3.8,
+      "h": 4.0,
+      "look": "wall",
+      "hp": 1.0
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 35.34,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
-      "look": "spire",
-      "hp": 2
+      "h": 6.0,
+      "look": "tower",
+      "hp": 1.0
+    },
+    {
+      "m": "marble",
+      "x": 37.46,
+      "y": 0,
+      "w": 1.6,
+      "h": 5.5,
+      "hp": 2.0,
+      "weak": true
+    },
+    {
+      "m": "marble",
+      "x": 42.48,
+      "y": 0,
+      "w": 1.6,
+      "h": 5.5,
+      "hp": 2.0
+    },
+    {
+      "m": "marble",
+      "x": 39.97,
+      "y": 5.5,
+      "w": 6.62,
+      "h": 1.6,
+      "look": "wall",
+      "hp": 3.0
+    },
+    {
+      "m": "marble",
+      "x": 45.3,
+      "y": 0,
+      "w": 4.0,
+      "h": 4.4,
+      "look": "wall",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 49.02,
+      "y": 0,
+      "w": 3.4,
+      "h": 9.5,
+      "look": "tower",
+      "hp": 1.0
     }
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "kind": "legionary",
+      "x": 28.6,
+      "y": 7.5
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 32.12,
+      "y": 4.0
     },
     {
-      "kind": "soldier",
-      "x": 40.56,
+      "kind": "legionary",
+      "x": 35.34,
+      "y": 6.0
+    },
+    {
+      "kind": "king",
+      "x": 39.98,
       "y": 0
+    },
+    {
+      "kind": "legionary",
+      "x": 38.37,
+      "y": 7.1
+    },
+    {
+      "kind": "soldier",
+      "x": 41.57,
+      "y": 7.1
+    },
+    {
+      "kind": "soldier",
+      "x": 45.3,
+      "y": 4.4
+    },
+    {
+      "kind": "legionary",
+      "x": 49.02,
+      "y": 9.5
     }
   ]
 }
