@@ -37,6 +37,12 @@ class CartoonTheme extends ProceduralTheme {
     'rome_tower_tall_0.png', 'rome_tower_tall_1.png', 'rome_tower_tall_2.png',
     'rome_wall_0.png', 'rome_wall_1.png', 'rome_wall_2.png',
     'rome_wall_brick_0.png', 'rome_wall_brick_1.png', 'rome_wall_brick_2.png',
+    'persia_tower_0.png', 'persia_tower_1.png', 'persia_tower_2.png',
+    'persia_tower_tall_0.png', 'persia_tower_tall_1.png',
+    'persia_tower_tall_2.png',
+    'persia_wall_0.png', 'persia_wall_1.png', 'persia_wall_2.png',
+    'persia_wall_brick_0.png', 'persia_wall_brick_1.png',
+    'persia_wall_brick_2.png',
   ];
 
   static Future<CartoonTheme> load() async {
@@ -325,8 +331,13 @@ class CartoonTheme extends ProceduralTheme {
   ui.Image? _fortArt(String? look, int stage, Size size) {
     if (look == null) return null;
     final s = stage.clamp(0, 2);
-    // Rome builds in grey stone and white marble; Egypt in sandstone.
-    final set = era == Era.rome ? 'rome_' : '';
+    // Each era builds in its own stone: Egypt sandstone, Rome grey stone
+    // and marble, Persia sun-baked brick banded with turquoise tile.
+    final set = switch (era) {
+      Era.rome => 'rome_',
+      Era.persia => 'persia_',
+      _ => '',
+    };
     return switch (look) {
       'tower' => _img['${set}tower_$s'],
       'spire' => _img['${set}tower_tall_$s'],
@@ -339,6 +350,100 @@ class CartoonTheme extends ProceduralTheme {
     };
   }
 
+  /// A Persian onion dome of glazed turquoise tile with a gold finial,
+  /// filling a block of [size]; it cracks as it takes damage.
+  void _drawDome(Canvas canvas, Size size, int crackStage, double char) {
+    final w = size.width, h = size.height;
+    final left = -w / 2, right = w / 2, bottom = h / 2, top = -h / 2;
+    final finial = math.min(h * 0.18, 0.7);
+    final domeTop = top + finial;
+    final shape = Path()
+      ..moveTo(left, bottom)
+      ..lineTo(left, bottom - h * 0.12)
+      // Swell out, then sweep in to the point.
+      ..cubicTo(
+        left - w * 0.08,
+        bottom - h * 0.55,
+        -w * 0.05,
+        domeTop + h * 0.12,
+        0,
+        domeTop,
+      )
+      ..cubicTo(
+        w * 0.05,
+        domeTop + h * 0.12,
+        right + w * 0.08,
+        bottom - h * 0.55,
+        right,
+        bottom - h * 0.12,
+      )
+      ..lineTo(right, bottom)
+      ..close();
+    final b = shape.getBounds();
+    canvas
+      ..save()
+      ..clipPath(shape)
+      ..drawRect(
+        b,
+        Paint()
+          ..shader = Gradient.linear(b.topLeft, b.bottomRight, [
+            Color.lerp(const Color(0xFF5FD6DC), const Color(0xFF3A2A20), char)!,
+            Color.lerp(const Color(0xFF16707E), const Color(0xFF241810), char)!,
+          ]),
+      );
+    // Diamond tile lattice.
+    final lattice = Paint()
+      ..color = const Color(0x88FFFFFF)
+      ..strokeWidth = 0.035
+      ..style = PaintingStyle.stroke;
+    for (var k = -6; k <= 6; k++) {
+      canvas
+        ..drawLine(
+          Offset(k * 0.5 - h, bottom),
+          Offset(k * 0.5 + h, top),
+          lattice,
+        )
+        ..drawLine(
+          Offset(k * 0.5 + h, bottom),
+          Offset(k * 0.5 - h, top),
+          lattice,
+        );
+    }
+    // A band of gold at the drum.
+    canvas.drawRect(
+      Rect.fromLTRB(left, bottom - h * 0.16, right, bottom - h * 0.1),
+      Paint()..color = const Color(0xFFE2B84A),
+    );
+    _cracks(
+      canvas,
+      Rect.fromLTRB(left, domeTop, right, bottom),
+      crackStage,
+      math.Random(7),
+    );
+    canvas
+      ..restore()
+      ..drawPath(
+        shape,
+        _line
+          ..strokeWidth = 0.08
+          ..color = _outline,
+      )
+      // Gold finial with a crescent.
+      ..drawLine(
+        Offset(0, domeTop + 0.05),
+        Offset(0, top + finial * 0.25),
+        Paint()
+          ..color = const Color(0xFFE2B84A)
+          ..strokeWidth = 0.08
+          ..strokeCap = StrokeCap.round,
+      )
+      ..drawCircle(
+        Offset(0, top + finial * 0.25),
+        0.12,
+        Paint()..color = const Color(0xFFE2B84A),
+      );
+  }
+
   /// Light and dark fill for a plain block, matched to the painted
   /// fortress: warm sandstone and orange timber.
   static (Color, Color) _shades(BlockMaterial m) => switch (m) {
@@ -346,6 +451,7 @@ class CartoonTheme extends ProceduralTheme {
     BlockMaterial.stone => (const Color(0xFFF0DCAA), const Color(0xFFCDAA6A)),
     BlockMaterial.glass => (const Color(0xCCBDEFFF), const Color(0xAA7FCDEB)),
     BlockMaterial.marble => (const Color(0xFFFBFAF7), const Color(0xFFD5D3CE)),
+    BlockMaterial.tile => (const Color(0xFF5FD6DC), const Color(0xFF1F8C9B)),
   };
 
   /// Draws fortress art over a block of [size], tiling wide pieces so their
@@ -379,6 +485,10 @@ class CartoonTheme extends ProceduralTheme {
     double char = 0,
     String? look,
   }) {
+    if (look == 'dome') {
+      _drawDome(canvas, size, crackStage, char);
+      return;
+    }
     final art = _fortArt(look, crackStage, size);
     if (art != null) {
       _drawFort(canvas, art, size);
@@ -550,6 +660,24 @@ class CartoonTheme extends ProceduralTheme {
             path.lineTo(p.dx, p.dy);
           }
           canvas.drawPath(path, vein);
+        }
+      case BlockMaterial.tile:
+        // A grid of glazed tiles, each with a white star.
+        final grout = Paint()
+          ..color = const Color(0xAAFFFFFF)
+          ..strokeWidth = 0.03;
+        const cell = 0.45;
+        for (var y = rect.top + cell; y < rect.bottom; y += cell) {
+          canvas.drawLine(Offset(rect.left, y), Offset(rect.right, y), grout);
+        }
+        for (var x = rect.left + cell; x < rect.right; x += cell) {
+          canvas.drawLine(Offset(x, rect.top), Offset(x, rect.bottom), grout);
+        }
+        final star = Paint()..color = const Color(0xCCFFFFFF);
+        for (var y = rect.top + cell / 2; y < rect.bottom; y += cell) {
+          for (var x = rect.left + cell / 2; x < rect.right; x += cell) {
+            canvas.drawCircle(Offset(x, y), 0.06, star);
+          }
         }
       case BlockMaterial.glass:
         // A bright glint.
@@ -912,6 +1040,7 @@ class CartoonTheme extends ProceduralTheme {
     BlockMaterial.stone => const Color(0xFFE6CE96),
     BlockMaterial.glass => const Color(0xDDBDEFFF),
     BlockMaterial.marble => const Color(0xFFF2F1EE),
+    BlockMaterial.tile => const Color(0xFF4CC3C9),
   };
 
   @override

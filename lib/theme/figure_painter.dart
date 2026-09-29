@@ -67,8 +67,12 @@ class FigurePainter {
   /// Set for the figure being painted: Roman kit instead of Egyptian.
   static bool _roman = false;
 
+  /// Set for the figure being painted: Persian kit.
+  static bool _persian = false;
+
   static void paint(Canvas canvas, UnitKind kind, FigurePose pose) {
     _roman = pose.era == Era.rome || kind == UnitKind.legionary;
+    _persian = !_roman && pose.era == Era.persia;
     final spearman = kind == UnitKind.soldier || kind == UnitKind.legionary;
     final h = heightOf(kind);
     final u = h / 1.8; // body unit: 1 at soldier height
@@ -149,6 +153,8 @@ class FigurePainter {
         final at = nearHand + Offset(0.08, 0.05 - 0.1 * alert);
         if (_roman) {
           _scutum(canvas, at, big: kind == UnitKind.legionary);
+        } else if (_persian) {
+          _spara(canvas, at);
         } else {
           _shield(canvas, at);
         }
@@ -355,6 +361,12 @@ class FigurePainter {
                     Color(0xFF7B3A93),
                     Color(0xFF4A1E5E),
                   ]
+                : _persian
+                ? const [
+                    Color(0xFF8C1F2E),
+                    Color(0xFFC23A4A),
+                    Color(0xFF8C1F2E),
+                  ]
                 : const [_linenShade, Color(0xFFF4EEDD), _linenShade],
             const [0, 0.5, 1],
           ),
@@ -458,9 +470,14 @@ class FigurePainter {
       case UnitKind.king || UnitKind.pharaoh:
         if (_roman) {
           _laurel(canvas, head, r);
+        } else if (_persian) {
+          _tiara(canvas, head, r);
         } else {
           _nemes(canvas, head, r);
         }
+      case UnitKind.soldier || UnitKind.archer || UnitKind.engineer
+          when _persian:
+        _turban(canvas, head, r, kind);
       case UnitKind.archer:
         // Striped linen headcloth.
         _headcloth(canvas, head, r, const Color(0xFF6E7A48), _linen);
@@ -596,6 +613,120 @@ class FigurePainter {
   }
 
   // ------------------------------------------------------------ gear
+
+  // ------------------------------------------------------------ Persia
+
+  /// A wrapped turban with a tail; archers wear blue, others white.
+  static void _turban(Canvas canvas, Offset head, double r, UnitKind kind) {
+    final cloth = kind == UnitKind.archer
+        ? const Color(0xFF3F7FC0)
+        : const Color(0xFFF4EEDF);
+    final wrap = Path()
+      ..addOval(
+        Rect.fromCenter(
+          center: head + Offset(0, -r * 0.55),
+          width: r * 2.25,
+          height: r * 1.35,
+        ),
+      );
+    canvas
+      ..drawPath(
+        Path()
+          ..moveTo(head.dx - r * 0.9, head.dy - r * 0.4)
+          ..quadraticBezierTo(
+            head.dx - r * 1.5,
+            head.dy + r * 0.3,
+            head.dx - r * 1.2,
+            head.dy + r * 1.1,
+          )
+          ..lineTo(head.dx - r * 0.8, head.dy + r * 0.9)
+          ..close(),
+        _fill..color = cloth,
+      )
+      ..drawPath(wrap, _fill..color = cloth)
+      ..drawPath(wrap, _edge);
+    final fold = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 0.018
+      ..color = const Color(0x55000000);
+    for (var i = 0; i < 3; i++) {
+      canvas.drawArc(
+        Rect.fromCenter(
+          center: head + Offset(0, -r * (0.3 + 0.2 * i)),
+          width: r * 2.1,
+          height: r * 0.8,
+        ),
+        math.pi * 1.1,
+        math.pi * 0.8,
+        false,
+        fold,
+      );
+    }
+    canvas.drawCircle(
+      head + Offset(r * 0.75, -r * 0.55),
+      0.04,
+      _fill..color = const Color(0xFFD83B2E),
+    );
+  }
+
+  /// The royal kidaris: a tall golden crown.
+  static void _tiara(Canvas canvas, Offset head, double r) {
+    final crown = Path()
+      ..moveTo(head.dx - r * 0.95, head.dy - r * 0.55)
+      ..lineTo(head.dx - r * 0.75, head.dy - r * 2.0)
+      ..lineTo(head.dx - r * 0.35, head.dy - r * 1.6)
+      ..lineTo(head.dx, head.dy - r * 2.2)
+      ..lineTo(head.dx + r * 0.35, head.dy - r * 1.6)
+      ..lineTo(head.dx + r * 0.75, head.dy - r * 2.0)
+      ..lineTo(head.dx + r * 0.95, head.dy - r * 0.55)
+      ..close();
+    final b = crown.getBounds();
+    canvas
+      ..drawPath(
+        crown,
+        _fill
+          ..shader = Gradient.linear(b.topCenter, b.bottomCenter, const [
+            Color(0xFFFFE08A),
+            Color(0xFFD9A63E),
+          ]),
+      )
+      ..drawPath(crown, _edge);
+    _fill.shader = null;
+    canvas.drawCircle(
+      head + Offset(0, -r * 1.05),
+      0.05,
+      _fill..color = const Color(0xFF2E9CB0),
+    );
+  }
+
+  /// The spara: a round wicker shield, painted with a sun.
+  static void _spara(Canvas canvas, Offset centre) {
+    const r = 0.26;
+    canvas
+      ..drawCircle(centre, r, _fill..color = const Color(0xFFC89A58))
+      ..drawCircle(centre, r * 0.55, _fill..color = const Color(0xFF2E9CB0));
+    final ray = Paint()
+      ..color = const Color(0xFFE2B84A)
+      ..strokeWidth = 0.03;
+    for (var i = 0; i < 8; i++) {
+      final a = i * math.pi / 4;
+      canvas.drawLine(
+        centre + Offset(math.cos(a), math.sin(a)) * r * 0.6,
+        centre + Offset(math.cos(a), math.sin(a)) * r * 0.9,
+        ray,
+      );
+    }
+    canvas
+      ..drawCircle(centre, 0.05, _fill..color = const Color(0xFFE2B84A))
+      ..drawCircle(
+        centre,
+        r,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 0.05
+          ..color = const Color(0xFF2B1A0E),
+      );
+  }
 
   // ------------------------------------------------------------ Rome
 

@@ -108,7 +108,8 @@ class RealisticTheme extends ProceduralTheme {
         offset: variant,
         filter: _greyStone,
       ),
-      BlockMaterial.glass => _fill..color = const Color(0x668FB8C4),
+      BlockMaterial.glass ||
+      BlockMaterial.tile => _fill..color = const Color(0x668FB8C4),
     };
   }
 

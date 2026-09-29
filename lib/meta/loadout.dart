@@ -94,6 +94,7 @@ class Modifiers {
     this.trajectoryMultiplier = 1,
     this.repairAmount = 0,
     this.firstShotBoost = 1,
+    this.stormMultiplier = 1,
   });
 
   factory Modifiers.from(Progress progress, Loadout loadout) {
@@ -131,6 +132,9 @@ class Modifiers {
       trajectoryMultiplier: trajectory,
       repairAmount: repair,
       firstShotBoost: firstShot,
+      stormMultiplier: progress.relics.contains(RelicId.simurghFeather)
+          ? 0.6
+          : 1,
     );
   }
 
@@ -147,4 +151,7 @@ class Modifiers {
 
   /// Titus the Strongman: how much harder the opening shot strikes.
   final double firstShotBoost;
+
+  /// How hard sandstorm gusts blow (the Simurgh Feather calms them).
+  final double stormMultiplier;
 }

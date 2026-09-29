@@ -1,0 +1,91 @@
+{
+  "id": "persia_06",
+  "name": "The Garden of Ten Fountains",
+  "worldWidth": 53,
+  "catapultX": 0,
+  "shots": 4,
+  "par": 2,
+  "objective": "killAll",
+  "blocks": [
+    {
+      "m": "stone",
+      "x": 31.5,
+      "y": 0,
+      "w": 3.0,
+      "h": 7,
+      "look": "tower",
+      "hp": 0.5
+    },
+    {
+      "m": "stone",
+      "x": 35.02,
+      "y": 0,
+      "w": 4.0,
+      "h": 3.2,
+      "look": "wall",
+      "hp": 0.45
+    },
+    {
+      "m": "stone",
+      "x": 38.04,
+      "y": 0,
+      "w": 2.0,
+      "h": 4.5,
+      "look": "tower",
+      "hp": 0.3
+    },
+    {
+      "m": "stone",
+      "x": 43.06,
+      "y": 0,
+      "w": 2.0,
+      "h": 4.5,
+      "look": "tower",
+      "hp": 0.3
+    },
+    {
+      "m": "stone",
+      "x": 40.55,
+      "y": 4.5,
+      "w": 7.02,
+      "h": 1.5,
+      "look": "wall",
+      "hp": 1.5
+    },
+    {
+      "m": "stone",
+      "x": 45.58,
+      "y": 0,
+      "w": 3.0,
+      "h": 7.5,
+      "look": "tower",
+      "hp": 0.6
+    },
+    {
+      "m": "stone",
+      "x": 48.4,
+      "y": 0,
+      "w": 2.6,
+      "h": 8.5,
+      "look": "spire",
+      "hp": 2
+    }
+  ],
+  "units": [
+    {
+      "kind": "soldier",
+      "x": 31.5,
+      "y": 7
+    },
+    {
+      "kind": "soldier",
+      "x": 35.02,
+      "y": 3.2
+    },
+    {
+      "kind": "soldier",
+      "x": 40.56,
+      "y": 0
+    }
+  ]
+}

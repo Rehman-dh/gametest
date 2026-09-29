@@ -206,6 +206,7 @@ class LevelData {
     this.props = const [],
     this.weapon = WeaponType.catapult,
     this.wind = 0,
+    this.storm = 0,
     this.defenses = const [],
     this.playerHp = 100,
     this.enemyFireEvery = 1,
@@ -244,6 +245,7 @@ class LevelData {
       ],
       weapon: WeaponType.values.byName(json['weapon'] as String? ?? 'catapult'),
       wind: (json['wind'] as num? ?? 0).toDouble(),
+      storm: (json['storm'] as num? ?? 0).toDouble(),
       defenses: [
         for (final b in json['defenses'] as List? ?? const [])
           BlockData.fromJson(b as Map<String, dynamic>),
@@ -331,6 +333,12 @@ class LevelData {
   /// Horizontal acceleration on projectiles (m/s²); positive blows toward
   /// the castle.
   final double wind;
+
+  /// A sandstorm: before every shot the wind gusts to a new strength, up
+  /// to this much either side of [wind].
+  final double storm;
+
+  bool get windy => wind != 0 || storm > 0;
 
   /// The player's own barricade, in front of the siege engine.
   final List<BlockData> defenses;

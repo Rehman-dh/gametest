@@ -150,7 +150,7 @@ class Projectile extends BodyComponent<SiegeGame> with ContactCallbacks {
     _age += dt;
 
     // Wind pushes on everything in the air.
-    final wind = game.level.wind;
+    final wind = game.windNow.value;
     if (wind != 0) body.applyForce(Vector2(wind * body.mass, 0));
 
     final speed = body.linearVelocity.length;

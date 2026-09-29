@@ -199,7 +199,9 @@ class _SiegePrepState extends State<SiegePrep> {
               ? '$weakPoints weak point${weakPoints > 1 ? 's' : ''} marked'
               : 'Rumours of a weak point',
         ),
-      if (level.wind != 0)
+      if (level.storm > 0)
+        (Icons.storm_rounded, 'Sandstorm: the wind gusts before every shot')
+      else if (level.wind != 0)
         (
           Icons.air_rounded,
           'Wind ${level.wind > 0 ? 'at your back' : 'in your face'}',

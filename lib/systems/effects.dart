@@ -214,7 +214,7 @@ class Effects {
     audio.play(switch (block.material) {
       BlockMaterial.wood => Sfx.impactWood,
       BlockMaterial.stone || BlockMaterial.marble => Sfx.impactStone,
-      BlockMaterial.glass => Sfx.impactGlass,
+      BlockMaterial.glass || BlockMaterial.tile => Sfx.impactGlass,
     }, volume: volume);
   }
 
@@ -245,7 +245,7 @@ class Effects {
     audio.play(switch (block.material) {
       BlockMaterial.wood => Sfx.breakWood,
       BlockMaterial.stone || BlockMaterial.marble => Sfx.breakStone,
-      BlockMaterial.glass => Sfx.breakGlass,
+      BlockMaterial.glass || BlockMaterial.tile => Sfx.breakGlass,
     });
     addTrauma(
       block.material == BlockMaterial.stone ||

@@ -1,0 +1,100 @@
+{
+  "id": "persia_01",
+  "name": "The Caravan Fort",
+  "worldWidth": 54,
+  "catapultX": 0,
+  "shots": 4,
+  "par": 2,
+  "objective": "killAll",
+  "blocks": [
+    {
+      "m": "stone",
+      "x": 31.5,
+      "y": 0,
+      "w": 3.2,
+      "h": 7,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 35.12,
+      "y": 0,
+      "w": 4.0,
+      "h": 3.4,
+      "look": "wall",
+      "hp": 0.7
+    },
+    {
+      "m": "tile",
+      "x": 38.02,
+      "y": 0,
+      "w": 1.8,
+      "h": 4.0
+    },
+    {
+      "m": "tile",
+      "x": 42.82,
+      "y": 0,
+      "w": 1.8,
+      "h": 4.0
+    },
+    {
+      "m": "tile",
+      "x": 40.42,
+      "y": 4.0,
+      "w": 6.6,
+      "h": 0.8
+    },
+    {
+      "m": "tile",
+      "x": 40.42,
+      "y": 4.8,
+      "w": 4.2,
+      "h": 3.6,
+      "look": "dome"
+    },
+    {
+      "m": "stone",
+      "x": 46.4,
+      "y": 0,
+      "w": 3.2,
+      "h": 8,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 49.42,
+      "y": 0,
+      "w": 2.8,
+      "h": 9,
+      "look": "spire",
+      "hp": 2
+    }
+  ],
+  "units": [
+    {
+      "kind": "archer",
+      "x": 31.5,
+      "y": 7
+    },
+    {
+      "kind": "soldier",
+      "x": 35.12,
+      "y": 3.4
+    },
+    {
+      "kind": "king",
+      "x": 40.42,
+      "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 46.4,
+      "y": 8
+    }
+  ],
+  "storm": 2.0,
+  "wind": 0.5
+}

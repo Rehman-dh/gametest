@@ -130,7 +130,14 @@ const Map<BuildingId, BuildingSpec> buildingSpecs = {
   ),
 };
 
-enum RelicId { scarabAmulet, eyeOfHorus, laurelWreath, aquila }
+enum RelicId {
+  scarabAmulet,
+  eyeOfHorus,
+  laurelWreath,
+  aquila,
+  simurghFeather,
+  cyrusCylinder,
+}
 
 class RelicSpec {
   const RelicSpec({required this.name, required this.effect});
@@ -151,6 +158,14 @@ const Map<RelicId, RelicSpec> relicSpecs = {
   RelicId.laurelWreath: RelicSpec(
     name: 'Laurel Wreath',
     effect: '+15% gold from sieges',
+  ),
+  RelicId.simurghFeather: RelicSpec(
+    name: 'Simurgh Feather',
+    effect: 'Sandstorm gusts blow 40% weaker',
+  ),
+  RelicId.cyrusCylinder: RelicSpec(
+    name: 'Cyrus Cylinder',
+    effect: '+10% gold from sieges',
   ),
   RelicId.aquila: RelicSpec(
     name: 'Eagle of the Legion',

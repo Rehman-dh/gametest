@@ -346,7 +346,7 @@ class ProceduralTheme implements ArtTheme {
             );
           }
         }
-      case BlockMaterial.glass:
+      case BlockMaterial.glass || BlockMaterial.tile:
         canvas.drawRRect(rrect, _fill..color = const Color(0x8C8FC3CF));
         canvas.drawLine(
           Offset(rect.left + 0.15, rect.bottom - 0.15),
@@ -410,6 +410,7 @@ class ProceduralTheme implements ArtTheme {
     BlockMaterial.wood => const Color(0xFF7A4E2D),
     BlockMaterial.stone => const Color(0xFF7D7A72),
     BlockMaterial.marble => const Color(0xFFE4E2DC),
+    BlockMaterial.tile => const Color(0xFF3FA7AE),
     BlockMaterial.glass => const Color(0x8C8FC3CF),
   };
 
@@ -1485,6 +1486,7 @@ class ProceduralTheme implements ArtTheme {
       BlockMaterial.wood => const Color(0xFF5E3A20),
       BlockMaterial.stone => const Color(0xFF6E6B64),
       BlockMaterial.marble => const Color(0xFFD8D6D0),
+      BlockMaterial.tile => const Color(0xFF52C0C6),
       BlockMaterial.glass => const Color(0xDDCBEFF5),
     };
     final puffs = (4 + area * 2).clamp(4, 12).round();

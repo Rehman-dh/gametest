@@ -6,6 +6,7 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
+import '../components/fx/sandstorm.dart';
 import '../components/fx/score_popup.dart';
 import '../components/env/background.dart';
 import '../components/env/ground.dart';
@@ -137,6 +138,21 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     'assets/levels/rome_13.json',
     'assets/levels/rome_14.json',
     'assets/levels/rome_15.json',
+    'assets/levels/persia_01.json',
+    'assets/levels/persia_02.json',
+    'assets/levels/persia_03.json',
+    'assets/levels/persia_04.json',
+    'assets/levels/persia_05.json',
+    'assets/levels/persia_06.json',
+    'assets/levels/persia_07.json',
+    'assets/levels/persia_08.json',
+    'assets/levels/persia_09.json',
+    'assets/levels/persia_10.json',
+    'assets/levels/persia_11.json',
+    'assets/levels/persia_12.json',
+    'assets/levels/persia_13.json',
+    'assets/levels/persia_14.json',
+    'assets/levels/persia_15.json',
   ];
 
   /// Whether the main menu opens over a live demo siege.
@@ -201,6 +217,24 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   bool _nextShotIgnites = false;
   bool _nextShotHeavy = false;
 
+  /// The wind blowing right now: the level's steady wind, plus in a
+  /// sandstorm a fresh gust before every shot.
+  final ValueNotifier<double> windNow = ValueNotifier(0);
+  final math.Random _stormRng = math.Random();
+
+  void _rollGust() {
+    final storm = level.storm * modifiers.stormMultiplier;
+    if (storm <= 0) {
+      windNow.value = level.wind;
+      return;
+    }
+    final gust = ((random ?? _stormRng).nextDouble() * 2 - 1) * storm;
+    // Whole half-steps, so the HUD can show the change clearly.
+    windNow.value = ((level.wind + gust) * 2).round() / 2;
+  }
+
+  bool get levelLoaded => _levelLoaded;
+
   WeaponType get weapon => loadout.weapon;
   double get playerMaxHp => level.playerHp + modifiers.engineHpBonus;
   late PlayerTarget playerTarget;
@@ -237,7 +271,9 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    camera.viewport.add(Vignette());
+    camera.viewport
+      ..add(Sandstorm())
+      ..add(Vignette());
     if (audioEnabled) await effects.audio.load();
     if (attractOnLaunch) await _startAttract();
   }
@@ -417,6 +453,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     _cameraBaseX = _cameraHomeX;
     camera.viewfinder.position = Vector2(_cameraBaseX, _cameraY);
     _startIntro();
+    _rollGust();
     effects.audio.playMusic(
       _startingAttract ? MusicTrack.menu : MusicTrack.battle,
     );
@@ -771,6 +808,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
           BlockMaterial.stone => const Color(0xFFE8ECF0),
           BlockMaterial.glass => const Color(0xFFA8EEFF),
           BlockMaterial.marble => const Color(0xFFFFFFFF),
+          BlockMaterial.tile => const Color(0xFF7FE6EC),
         },
       );
     }
@@ -934,6 +972,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
       _speak('volley:${enemy.volleys}');
     } else {
       phase.value = SiegePhase.aiming;
+      _rollGust();
       _speak('shot:$_shotsUsed');
     }
   }
@@ -945,6 +984,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
       _finish(won: false, defeat: DefeatReason.engineDestroyed);
     } else {
       phase.value = SiegePhase.aiming;
+      _rollGust();
     }
   }
 
@@ -986,6 +1026,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     selectedAmmo.value ??= next.ammo.firstOrNull;
     effects.stageBegins(next.title);
     phase.value = SiegePhase.aiming;
+    _rollGust();
     _speak('phase:${stage + 1}');
   }
 

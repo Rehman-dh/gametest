@@ -31,6 +31,7 @@ int goldFor({
   var multiplier = 1 + 0.1 * progress.building(BuildingId.trophyHall);
   if (progress.relics.contains(RelicId.eyeOfHorus)) multiplier += 0.2;
   if (progress.relics.contains(RelicId.laurelWreath)) multiplier += 0.15;
+  if (progress.relics.contains(RelicId.cyrusCylinder)) multiplier += 0.1;
   return (base * multiplier).round();
 }
 

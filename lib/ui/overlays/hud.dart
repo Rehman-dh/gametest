@@ -81,12 +81,16 @@ class Hud extends StatelessWidget {
                 child: _EngineHealth(game: game),
               ),
             ],
-            if (game.level.wind != 0) ...[
+            if (game.level.windy) ...[
               const SizedBox(width: 8),
               PopIn(
                 delay: const Duration(milliseconds: 140),
                 from: const Offset(0, -0.4),
-                child: _WindIndicator(wind: game.level.wind),
+                child: ValueListenableBuilder<double>(
+                  valueListenable: game.windNow,
+                  builder: (_, wind, _) =>
+                      _WindIndicator(wind: wind, storm: game.level.storm > 0),
+                ),
               ),
             ],
             const Spacer(),
@@ -279,9 +283,12 @@ class _AmmoChip extends StatelessWidget {
 }
 
 class _WindIndicator extends StatelessWidget {
-  const _WindIndicator({required this.wind});
+  const _WindIndicator({required this.wind, this.storm = false});
 
   final double wind;
+
+  /// A sandstorm: the gust changes before every shot.
+  final bool storm;
 
   @override
   Widget build(BuildContext context) {
@@ -293,7 +300,7 @@ class _WindIndicator extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'WIND',
+            storm ? 'SANDSTORM' : 'WIND',
             style: UiStyle.body.copyWith(
               fontSize: 11,
               fontWeight: FontWeight.w900,
@@ -303,17 +310,20 @@ class _WindIndicator extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              for (var i = 0; i < wind.abs().ceil().clamp(1, 4); i++)
-                Icon(
-                  towardCastle
-                      ? Icons.chevron_right_rounded
-                      : Icons.chevron_left_rounded,
-                  color: UiStyle.sky,
-                  size: 18,
-                  shadows: const [
-                    Shadow(color: UiStyle.ink, offset: Offset(0, 1.5)),
-                  ],
-                ),
+              if (wind == 0)
+                Text('calm', style: UiStyle.body.copyWith(fontSize: 12))
+              else
+                for (var i = 0; i < wind.abs().ceil().clamp(1, 4); i++)
+                  Icon(
+                    towardCastle
+                        ? Icons.chevron_right_rounded
+                        : Icons.chevron_left_rounded,
+                    color: UiStyle.sky,
+                    size: 18,
+                    shadows: const [
+                      Shadow(color: UiStyle.ink, offset: Offset(0, 1.5)),
+                    ],
+                  ),
             ],
           ),
         ],

@@ -1,7 +1,7 @@
 /// Physical and gameplay properties of castle building materials.
 ///
 /// Every tuning value lives here so balancing never touches component code.
-enum BlockMaterial { wood, stone, glass, marble }
+enum BlockMaterial { wood, stone, glass, marble, tile }
 
 class MaterialSpec {
   const MaterialSpec({
@@ -40,6 +40,14 @@ const Map<BlockMaterial, MaterialSpec> materialSpecs = {
     friction: 0.6,
     restitution: 0.02,
     maxHp: 160,
+    flammable: false,
+  ),
+  // Persian glazed tile: bright and light, and it shatters easily.
+  BlockMaterial.tile: MaterialSpec(
+    density: 1.4,
+    friction: 0.5,
+    restitution: 0.05,
+    maxHp: 45,
     flammable: false,
   ),
   BlockMaterial.glass: MaterialSpec(
