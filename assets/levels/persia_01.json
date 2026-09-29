@@ -1,74 +1,83 @@
 {
   "id": "persia_01",
   "name": "The Caravan Fort",
-  "worldWidth": 54,
+  "worldWidth": 53,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
+  "shots": 5,
+  "par": 3,
   "objective": "killAll",
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 29.5,
       "y": 0,
-      "w": 3.2,
-      "h": 7,
+      "w": 3.0,
+      "h": 7.0,
       "look": "tower",
-      "hp": 0.8
+      "hp": 0.6
     },
     {
       "m": "stone",
-      "x": 35.12,
+      "x": 32.82,
       "y": 0,
-      "w": 4.0,
+      "w": 3.6,
       "h": 3.4,
       "look": "wall",
-      "hp": 0.7
+      "hp": 0.5
     },
     {
       "m": "tile",
-      "x": 38.02,
+      "x": 35.34,
       "y": 0,
-      "w": 1.8,
+      "w": 1.4,
       "h": 4.0
     },
     {
       "m": "tile",
-      "x": 42.82,
+      "x": 40.14,
       "y": 0,
-      "w": 1.8,
+      "w": 1.4,
       "h": 4.0
     },
     {
       "m": "tile",
-      "x": 40.42,
+      "x": 37.74,
       "y": 4.0,
-      "w": 6.6,
+      "w": 6.2,
       "h": 0.8
     },
     {
       "m": "tile",
-      "x": 40.42,
+      "x": 37.74,
       "y": 4.8,
-      "w": 4.2,
-      "h": 3.6,
+      "w": 4.4,
+      "h": 3.4,
       "look": "dome"
     },
     {
       "m": "stone",
-      "x": 46.4,
+      "x": 42.56,
       "y": 0,
-      "w": 3.2,
-      "h": 8,
-      "look": "tower",
-      "hp": 0.8
+      "w": 3.4,
+      "h": 3.8,
+      "look": "wall",
+      "hp": 0.5
     },
     {
       "m": "stone",
-      "x": 49.42,
+      "x": 45.88,
       "y": 0,
-      "w": 2.8,
-      "h": 9,
+      "w": 3.2,
+      "h": 8.0,
+      "look": "tower",
+      "hp": 0.6
+    },
+    {
+      "m": "stone",
+      "x": 48.8,
+      "y": 0,
+      "w": 2.6,
+      "h": 9.5,
       "look": "spire",
       "hp": 2
     }
@@ -76,25 +85,30 @@
   "units": [
     {
       "kind": "archer",
-      "x": 31.5,
-      "y": 7
+      "x": 29.5,
+      "y": 7.0
     },
     {
       "kind": "soldier",
-      "x": 35.12,
+      "x": 32.82,
       "y": 3.4
     },
     {
-      "kind": "king",
-      "x": 40.42,
+      "kind": "soldier",
+      "x": 37.74,
       "y": 0
     },
     {
       "kind": "soldier",
-      "x": 46.4,
-      "y": 8
+      "x": 45.88,
+      "y": 8.0
     }
   ],
-  "storm": 2.0,
-  "wind": 0.5
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "bashir",
+      "text": "Glazed tile. Pretty, and it breaks like pottery. Aim for the blue."
+    }
+  ]
 }

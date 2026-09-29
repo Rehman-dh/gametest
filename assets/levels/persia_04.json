@@ -1,91 +1,157 @@
 {
   "id": "persia_04",
   "name": "The Tiled Mosque Walls",
-  "worldWidth": 53,
+  "worldWidth": 55,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
+  "par": 3,
   "objective": "killAll",
+  "ammo": [
+    "stone",
+    "cluster",
+    "stone",
+    "cluster",
+    "stone"
+  ],
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
-      "y": 0,
-      "w": 3.0,
-      "h": 7,
-      "look": "tower",
-      "hp": 0.5
-    },
-    {
-      "m": "stone",
-      "x": 35.02,
-      "y": 0,
-      "w": 4.0,
-      "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
-    },
-    {
-      "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
+      "x": 28.5,
       "y": 0,
       "w": 3.0,
       "h": 7.5,
       "look": "tower",
-      "hp": 0.6
+      "hp": 0.8
+    },
+    {
+      "m": "tile",
+      "x": 30.52,
+      "y": 0,
+      "w": 1.0,
+      "h": 3.2
+    },
+    {
+      "m": "tile",
+      "x": 34.12,
+      "y": 0,
+      "w": 1.0,
+      "h": 3.2
+    },
+    {
+      "m": "tile",
+      "x": 32.32,
+      "y": 3.2,
+      "w": 4.6,
+      "h": 0.7
+    },
+    {
+      "m": "tile",
+      "x": 32.32,
+      "y": 3.9,
+      "w": 3.8,
+      "h": 3.2,
+      "look": "dome"
+    },
+    {
+      "m": "tile",
+      "x": 36.04,
+      "y": 0,
+      "w": 2.8,
+      "h": 3.0
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 38.66,
       "y": 0,
-      "w": 2.6,
-      "h": 8.5,
+      "w": 2.4,
+      "h": 10.0,
       "look": "spire",
       "hp": 2
+    },
+    {
+      "m": "stone",
+      "x": 40.48,
+      "y": 0,
+      "w": 1.2,
+      "h": 3.4
+    },
+    {
+      "m": "stone",
+      "x": 44.48,
+      "y": 0,
+      "w": 1.2,
+      "h": 3.4
+    },
+    {
+      "m": "tile",
+      "x": 42.48,
+      "y": 3.4,
+      "w": 5.2,
+      "h": 0.8
+    },
+    {
+      "m": "tile",
+      "x": 42.48,
+      "y": 4.2,
+      "w": 4.4,
+      "h": 3.6,
+      "look": "dome"
+    },
+    {
+      "m": "stone",
+      "x": 46.7,
+      "y": 0,
+      "w": 3.2,
+      "h": 4.0,
+      "look": "wall",
+      "hp": 0.7
+    },
+    {
+      "m": "stone",
+      "x": 49.92,
+      "y": 0,
+      "w": 3.2,
+      "h": 8.5,
+      "look": "tower",
+      "hp": 0.8
     }
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "kind": "archer",
+      "x": 28.5,
+      "y": 7.5
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
-    },
-    {
-      "kind": "soldier",
-      "x": 40.56,
+      "x": 32.32,
       "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 36.04,
+      "y": 3.0
+    },
+    {
+      "kind": "soldier",
+      "x": 42.48,
+      "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 46.7,
+      "y": 4.0
+    },
+    {
+      "kind": "archer",
+      "x": 49.92,
+      "y": 8.5
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "bashir",
+      "text": "Tile over stone, and two domes to crown it. A cluster shot will shatter the glaze."
     }
   ]
 }
