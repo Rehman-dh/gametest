@@ -1,91 +1,113 @@
 {
   "id": "rome_11",
   "name": "The Triumphal Arch",
-  "worldWidth": 53,
-  "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
+  "budget": 30,
+  "ammo": [
+    "stone"
+  ],
+  "par": 1,
+  "objective": "killKing",
+  "worldWidth": 50,
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 28.2,
       "y": 0,
       "w": 3.0,
       "h": 7,
       "look": "tower",
-      "hp": 0.5
+      "hp": 1.0
     },
     {
       "m": "stone",
-      "x": 35.02,
+      "x": 30.65,
       "y": 0,
-      "w": 4.0,
-      "h": 3.2,
+      "w": 1.84,
+      "h": 3.0,
       "look": "wall",
-      "hp": 0.45
+      "hp": 0.8
+    },
+    {
+      "m": "marble",
+      "x": 32.5,
+      "y": 0,
+      "w": 1.6,
+      "h": 5.2,
+      "hp": 0.8
+    },
+    {
+      "m": "marble",
+      "x": 38.1,
+      "y": 0,
+      "w": 1.6,
+      "h": 5.2,
+      "hp": 0.8
+    },
+    {
+      "m": "marble",
+      "x": 35.3,
+      "y": 5.2,
+      "w": 7.2,
+      "h": 0.9,
+      "weak": true
+    },
+    {
+      "m": "marble",
+      "x": 34.2,
+      "y": 6.1,
+      "w": 2.2,
+      "h": 2.0,
+      "hp": 1.0
+    },
+    {
+      "m": "marble",
+      "x": 36.44,
+      "y": 6.1,
+      "w": 2.2,
+      "h": 2.0,
+      "hp": 1.0
     },
     {
       "m": "stone",
-      "x": 38.04,
+      "x": 42.2,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
+      "w": 3.2,
+      "h": 8,
       "look": "tower",
-      "hp": 0.3
+      "hp": 1.0
     },
     {
       "m": "stone",
-      "x": 43.06,
+      "x": 45.5,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
-      "y": 0,
-      "w": 3.0,
-      "h": 7.5,
-      "look": "tower",
-      "hp": 0.6
-    },
-    {
-      "m": "stone",
-      "x": 48.4,
-      "y": 0,
-      "w": 2.6,
-      "h": 8.5,
+      "w": 2.8,
+      "h": 9,
       "look": "spire",
       "hp": 2
     }
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
+      "kind": "king",
+      "x": 35.3,
+      "y": 0
+    },
+    {
+      "kind": "legionary",
+      "x": 28.2,
       "y": 7
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
-    },
+      "x": 42.2,
+      "y": 8
+    }
+  ],
+  "lines": [
     {
-      "kind": "soldier",
-      "x": 40.56,
-      "y": 0
+      "trigger": "start",
+      "speaker": "titus",
+      "text": "Castus raised this arch to his own victories. One good stone to the keystone and it buries his tribune."
     }
   ]
 }
