@@ -1,7 +1,7 @@
 {
   "id": "egypt_05",
   "name": "The Powder Store",
-  "worldWidth": 49,
+  "worldWidth": 54,
   "ammo": [
     "stone",
     "cluster",
@@ -12,34 +12,52 @@
   "wind": -1,
   "blocks": [
     {
-      "m": "wood",
-      "x": 30,
+      "m": "stone",
+      "x": 28.5,
       "y": 0,
-      "w": 0.8,
+      "w": 3.0,
+      "h": 8,
+      "look": "tower",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 31.82,
+      "y": 0,
+      "w": 3.6,
+      "h": 3.0,
+      "look": "wall",
+      "hp": 0.7
+    },
+    {
+      "m": "wood",
+      "x": 34.09,
+      "y": 0,
+      "w": 0.9,
       "h": 5.5,
       "weak": true
     },
     {
       "m": "stone",
-      "x": 36.8,
+      "x": 39.36,
       "y": 0,
       "w": 2.4,
       "h": 5.5,
       "look": "tower",
-      "hp": 0.5
+      "hp": 0.6
     },
     {
       "m": "stone",
-      "x": 33.6,
+      "x": 37.1,
       "y": 5.5,
-      "w": 9,
+      "w": 6.92,
       "h": 1.8,
       "look": "wall",
-      "hp": 2.0
+      "hp": 3.0
     },
     {
       "m": "stone",
-      "x": 33.6,
+      "x": 37.1,
       "y": 7.3,
       "w": 2.6,
       "h": 4.5,
@@ -48,55 +66,64 @@
     },
     {
       "m": "stone",
-      "x": 40.4,
+      "x": 42.58,
       "y": 0,
-      "w": 4.4,
+      "w": 4.0,
       "h": 5,
       "look": "wall",
       "hp": 0.8
     },
     {
       "m": "stone",
-      "x": 44.2,
+      "x": 46.2,
+      "y": 0,
+      "w": 3.2,
+      "h": 9,
+      "look": "tower",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 49.22,
       "y": 0,
       "w": 2.8,
       "h": 9,
       "look": "spire",
-      "hp": 1.5
+      "hp": 2
     }
   ],
   "props": [
     {
       "kind": "powderBarrel",
-      "x": 28.8,
+      "x": 35.09,
       "y": 0
     }
   ],
   "units": [
     {
+      "kind": "soldier",
+      "x": 28.5,
+      "y": 8
+    },
+    {
+      "kind": "soldier",
+      "x": 31.82,
+      "y": 3.0
+    },
+    {
       "kind": "king",
-      "x": 33.6,
+      "x": 37.1,
       "y": 11.8
     },
     {
       "kind": "soldier",
-      "x": 30.8,
+      "x": 39.5,
       "y": 7.3
     },
     {
       "kind": "soldier",
-      "x": 36.6,
-      "y": 7.3
-    },
-    {
-      "kind": "soldier",
-      "x": 33,
+      "x": 37.26,
       "y": 0
-    },
-    {
-      "kind": "soldier",
-      "x": 40.4,
-      "y": 5
     }
   ],
   "relic": "scarabAmulet",

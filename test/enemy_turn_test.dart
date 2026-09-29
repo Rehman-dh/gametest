@@ -6,8 +6,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gametest/components/enemy/enemy_catapult.dart';
 import 'package:gametest/components/structure/castle_block.dart';
+import 'package:gametest/components/units/unit.dart';
 import 'package:gametest/core/ammo.dart';
 import 'package:gametest/game/siege_game.dart';
+import 'package:gametest/levels/level_data.dart';
 
 int _levelIndex(String id) =>
     SiegeGame.levelFiles.indexWhere((f) => f.endsWith('$id.json'));
@@ -71,7 +73,17 @@ void main() {
     await game.startLevel(_levelIndex('egypt_09'));
     await game.ready();
     await run(game, 1.5);
-    final block = game.world.children.whereType<CastleBlock>().first;
+    // Damage the block nearest an engineer, so it is within his reach.
+    final engineer = game.world.children.whereType<Unit>().firstWhere(
+      (u) => u.kind == UnitKind.engineer,
+    );
+    final block = game.world.children.whereType<CastleBlock>().reduce(
+      (a, b) =>
+          a.body.position.distanceTo(engineer.body.position) <=
+              b.body.position.distanceTo(engineer.body.position)
+          ? a
+          : b,
+    );
     block.takeDamage(30);
     final damaged = block.hp;
     await run(game, 4);

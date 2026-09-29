@@ -34,8 +34,8 @@ void main() {
         // ignore: invalid_use_of_internal_member
         game.mount();
         await game.startLevel(i);
-        // Let bodies load and settle.
-        for (var f = 0; f < 90; f++) {
+        // Let bodies settle and the opening flyover finish.
+        for (var f = 0; f < 240; f++) {
           game.update(1 / 60);
           await game.ready();
         }
