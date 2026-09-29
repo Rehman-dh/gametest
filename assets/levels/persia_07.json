@@ -1,72 +1,117 @@
 {
   "id": "persia_07",
   "name": "The Cistern Keep",
-  "worldWidth": 53,
+  "worldWidth": 50,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
+  "ammo": [
+    "stone",
+    "stone",
+    "powderKeg",
+    "stone",
+    "stone"
+  ],
+  "par": 3,
+  "objective": "killKing",
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "titus",
+      "text": "The commander sits in the cistern under all that stone. Knock the floor out from under his keep."
+    }
+  ],
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 26.3,
       "y": 0,
-      "w": 3.0,
-      "h": 7,
+      "w": 2.6,
+      "h": 7.0,
       "look": "tower",
+      "hp": 0.55
+    },
+    {
+      "m": "stone",
+      "x": 29.22,
+      "y": 0,
+      "w": 3.2,
+      "h": 3.4,
+      "look": "wall",
       "hp": 0.5
     },
     {
       "m": "stone",
-      "x": 35.02,
+      "x": 32.69,
       "y": 0,
-      "w": 4.0,
-      "h": 3.2,
+      "w": 0.9,
+      "h": 2.6,
+      "hp": 0.5
+    },
+    {
+      "m": "stone",
+      "x": 35.21,
+      "y": 0,
+      "w": 0.9,
+      "h": 2.6,
+      "hp": 0.5
+    },
+    {
+      "m": "stone",
+      "x": 37.73,
+      "y": 0,
+      "w": 0.9,
+      "h": 2.6,
+      "hp": 0.5
+    },
+    {
+      "m": "stone",
+      "x": 40.25,
+      "y": 0,
+      "w": 0.9,
+      "h": 2.6,
+      "hp": 0.5
+    },
+    {
+      "m": "stone",
+      "x": 36.47,
+      "y": 2.6,
+      "w": 8.46,
+      "h": 0.8,
       "look": "wall",
-      "hp": 0.45
+      "hp": 1.2
     },
     {
       "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
+      "x": 34.35,
+      "y": 3.4,
+      "w": 4.22,
+      "h": 3.8,
       "look": "wall",
-      "hp": 1.5
+      "hp": 0.6
     },
     {
       "m": "stone",
-      "x": 45.58,
+      "x": 38.59,
+      "y": 3.4,
+      "w": 4.22,
+      "h": 3.8,
+      "look": "wall",
+      "hp": 0.6
+    },
+    {
+      "m": "stone",
+      "x": 43.52,
       "y": 0,
-      "w": 3.0,
-      "h": 7.5,
+      "w": 2.8,
+      "h": 8.5,
       "look": "tower",
       "hp": 0.6
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 46.14,
       "y": 0,
-      "w": 2.6,
-      "h": 8.5,
+      "w": 2.4,
+      "h": 9.5,
       "look": "spire",
       "hp": 2
     }
@@ -74,18 +119,48 @@
   "units": [
     {
       "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "x": 26.3,
+      "y": 7.0
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 29.22,
+      "y": 3.4
     },
     {
-      "kind": "soldier",
-      "x": 40.56,
+      "kind": "engineer",
+      "x": 31.54,
       "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 33.96,
+      "y": 0
+    },
+    {
+      "kind": "king",
+      "x": 36.48,
+      "y": 0
+    },
+    {
+      "kind": "engineer",
+      "x": 39.0,
+      "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 34.35,
+      "y": 7.2
+    },
+    {
+      "kind": "soldier",
+      "x": 38.59,
+      "y": 7.2
+    },
+    {
+      "kind": "soldier",
+      "x": 43.52,
+      "y": 8.5
     }
   ]
 }
