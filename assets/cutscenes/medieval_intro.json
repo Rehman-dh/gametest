@@ -1,0 +1,375 @@
+{
+  "id": "medieval_intro",
+  "steps": [
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 0
+    },
+    {
+      "type": "tint",
+      "color": "60707C88"
+    },
+    {
+      "type": "spawn",
+      "actor": "hero",
+      "character": "arslan",
+      "x": -6,
+      "facing": 1,
+      "pose": "walk"
+    },
+    {
+      "type": "spawn",
+      "actor": "roxana",
+      "character": "roxana",
+      "x": -8,
+      "facing": 1,
+      "pose": "walk"
+    },
+    {
+      "type": "spawn",
+      "actor": "bashir",
+      "character": "bashir",
+      "x": -10,
+      "facing": 1,
+      "pose": "walk"
+    },
+    {
+      "type": "spawn",
+      "actor": "titus",
+      "character": "titus",
+      "x": -12,
+      "facing": 1,
+      "pose": "walk"
+    },
+    {
+      "type": "camera",
+      "x": 0,
+      "y": -1.6,
+      "viewHeight": 7
+    },
+    {
+      "type": "title",
+      "text": "THE WEST",
+      "subtitle": "Where the rain never ends",
+      "duration": 3
+    },
+    {
+      "type": "fade",
+      "to": 0,
+      "duration": 2
+    },
+    {
+      "type": "parallel",
+      "steps": [
+        {
+          "type": "move",
+          "actor": "hero",
+          "x": 1,
+          "duration": 2.6
+        },
+        {
+          "type": "move",
+          "actor": "roxana",
+          "x": -1,
+          "duration": 2.7
+        },
+        {
+          "type": "move",
+          "actor": "bashir",
+          "x": -3,
+          "duration": 2.8
+        },
+        {
+          "type": "move",
+          "actor": "titus",
+          "x": -5.2,
+          "duration": 3
+        }
+      ]
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "titus",
+      "text": "Three weeks of rain. My armour has rusted in places I did not know it had."
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "point"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "This rise will do. High ground, and the river at our back. Pitch the camp."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "sound",
+      "sound": "hammer"
+    },
+    {
+      "type": "prop",
+      "prop": "tent",
+      "x": -4
+    },
+    {
+      "type": "wait",
+      "duration": 0.4
+    },
+    {
+      "type": "sound",
+      "sound": "hammer"
+    },
+    {
+      "type": "prop",
+      "prop": "banner",
+      "x": 2.5
+    },
+    {
+      "type": "wait",
+      "duration": 0.4
+    },
+    {
+      "type": "sound",
+      "sound": "ignite"
+    },
+    {
+      "type": "prop",
+      "prop": "campfire",
+      "x": -1.5
+    },
+    {
+      "type": "sound",
+      "sound": "fireCrackle"
+    },
+    {
+      "type": "wait",
+      "duration": 0.8
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "The Shahbanu's last words sit badly with me, General. The Crown knows where our camp lies."
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "The wagons, the wounded, the cooks and smiths who follow us. All of them sleep here."
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Then we double the watch and keep the fires low. We did not come this far to be caught sleeping."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "point"
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "Look at the valley. Every castle down there sits in its own lake. Moats, and deep ones."
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "Water drowns my fire and swallows your stones. These lords learned from someone."
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "stand"
+    },
+    {
+      "type": "spawn",
+      "actor": "messenger",
+      "character": "messenger",
+      "x": 12,
+      "facing": -1,
+      "pose": "walk"
+    },
+    {
+      "type": "camera",
+      "x": 4,
+      "y": -1.6,
+      "viewHeight": 7.5,
+      "duration": 1.5
+    },
+    {
+      "type": "move",
+      "actor": "messenger",
+      "x": 4.5,
+      "duration": 2.5
+    },
+    {
+      "type": "pose",
+      "actor": "messenger",
+      "pose": "kneel"
+    },
+    {
+      "type": "say",
+      "speaker": "messenger",
+      "text": "My lords, forgive me. I am only a miller from the low fields. You are the ones who break castles?"
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "talk",
+      "facing": 1
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "We are. Speak freely."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "messenger",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "messenger",
+      "text": "The Black Baron rules this land. Every one of his castles is ringed with water, and his Black Keep with the deepest moat of all."
+    },
+    {
+      "type": "say",
+      "speaker": "messenger",
+      "text": "His riders take our grain and burn what they cannot carry. No army has ever crossed his water."
+    },
+    {
+      "type": "pose",
+      "actor": "messenger",
+      "pose": "stand"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Then we will be the first. Go home, friend, and bar your door."
+    },
+    {
+      "type": "pose",
+      "actor": "messenger",
+      "pose": "walk",
+      "facing": 1
+    },
+    {
+      "type": "move",
+      "actor": "messenger",
+      "x": 13,
+      "duration": 2
+    },
+    {
+      "type": "remove",
+      "actor": "messenger"
+    },
+    {
+      "type": "camera",
+      "x": 0,
+      "y": -1.6,
+      "viewHeight": 7,
+      "duration": 1.5
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "titus",
+      "text": "Moats. In the arena we would have called it an unfair fight."
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "At first light we take the nearest house. The Moat House. Let the Baron hear us coming."
+    },
+    {
+      "type": "sound",
+      "sound": "warHorn"
+    },
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 2
+    },
+    {
+      "type": "title",
+      "text": "THE MISTY WEST",
+      "subtitle": "Era IV · Medieval",
+      "duration": 3
+    }
+  ]
+}

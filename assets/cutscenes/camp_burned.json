@@ -1,0 +1,349 @@
+{
+  "id": "camp_burned",
+  "steps": [
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 0
+    },
+    {
+      "type": "tint",
+      "color": "702A1408"
+    },
+    {
+      "type": "prop",
+      "prop": "tent",
+      "x": 0
+    },
+    {
+      "type": "prop",
+      "prop": "campfire",
+      "x": 3
+    },
+    {
+      "type": "prop",
+      "prop": "banner",
+      "x": 6
+    },
+    {
+      "type": "spawn",
+      "actor": "fallen",
+      "character": "soldier",
+      "x": 4.5,
+      "facing": -1,
+      "pose": "fallen"
+    },
+    {
+      "type": "spawn",
+      "actor": "hero",
+      "character": "arslan",
+      "x": -9,
+      "facing": 1,
+      "pose": "walk"
+    },
+    {
+      "type": "spawn",
+      "actor": "roxana",
+      "character": "roxana",
+      "x": -11,
+      "facing": 1,
+      "pose": "walk"
+    },
+    {
+      "type": "spawn",
+      "actor": "bashir",
+      "character": "bashir",
+      "x": -13,
+      "facing": 1,
+      "pose": "walk"
+    },
+    {
+      "type": "spawn",
+      "actor": "titus",
+      "character": "titus",
+      "x": -15,
+      "facing": 1,
+      "pose": "walk"
+    },
+    {
+      "type": "camera",
+      "x": 2,
+      "y": -1.6,
+      "viewHeight": 7
+    },
+    {
+      "type": "sound",
+      "sound": "fireCrackle"
+    },
+    {
+      "type": "fade",
+      "to": 0,
+      "duration": 2.5
+    },
+    {
+      "type": "wait",
+      "duration": 1
+    },
+    {
+      "type": "camera",
+      "x": -6,
+      "y": -1.6,
+      "viewHeight": 7,
+      "duration": 1.5
+    },
+    {
+      "type": "parallel",
+      "steps": [
+        {
+          "type": "move",
+          "actor": "hero",
+          "x": -5,
+          "duration": 2
+        },
+        {
+          "type": "move",
+          "actor": "roxana",
+          "x": -7,
+          "duration": 2.1
+        },
+        {
+          "type": "move",
+          "actor": "bashir",
+          "x": -9,
+          "duration": 2.2
+        },
+        {
+          "type": "move",
+          "actor": "titus",
+          "x": -11,
+          "duration": 2.3
+        }
+      ]
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "No... no. That smoke is ours."
+    },
+    {
+      "type": "sound",
+      "sound": "fireCrackle"
+    },
+    {
+      "type": "camera",
+      "x": 1,
+      "y": -1.6,
+      "viewHeight": 7.5,
+      "duration": 2
+    },
+    {
+      "type": "parallel",
+      "steps": [
+        {
+          "type": "move",
+          "actor": "hero",
+          "x": 3.2,
+          "duration": 2
+        },
+        {
+          "type": "move",
+          "actor": "bashir",
+          "x": 1,
+          "duration": 2.2
+        },
+        {
+          "type": "move",
+          "actor": "roxana",
+          "x": -1,
+          "duration": 2.2
+        },
+        {
+          "type": "move",
+          "actor": "titus",
+          "x": -3,
+          "duration": 2.4
+        }
+      ]
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "kneel"
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "kneel"
+    },
+    {
+      "type": "camera",
+      "x": 3.5,
+      "y": -1,
+      "viewHeight": 4.5,
+      "duration": 1.5
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Garin. He kept the night watch. He had marched with us since the very first siege."
+    },
+    {
+      "type": "sound",
+      "sound": "fireCrackle"
+    },
+    {
+      "type": "wait",
+      "duration": 1.2
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "The wagons are ash. The stores, the forge, the medicine. Everything we carried across three kingdoms."
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "They came while we were at the Baron's walls. They knew exactly when the camp would be empty."
+    },
+    {
+      "type": "camera",
+      "x": 1,
+      "y": -1.6,
+      "viewHeight": 7,
+      "duration": 1.5
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "point"
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "Hoofprints, heading east toward the Black Keep. And this pennant in the mud. The Baron's black tower."
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "titus",
+      "text": "Horsemen who burn a camp full of cooks and wounded men. That is not war. That is murder."
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "talk",
+      "facing": 1
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "I built this camp once, from nothing. I will build it again."
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "Every beam, every tent, every stone. I swear it on the ashes of our dead."
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "talk",
+      "facing": -1
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Build it, Bashir. But build it behind us. We will not sit here and wait for the next fire."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "point",
+      "facing": 1
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "The Baron has shown us the road to his door. We strike back before he strikes again."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "sound",
+      "sound": "warHorn"
+    },
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 2.5
+    },
+    {
+      "type": "title",
+      "text": "THE ASHES OF CAMP",
+      "subtitle": "What was taken will be answered",
+      "duration": 3
+    }
+  ]
+}
