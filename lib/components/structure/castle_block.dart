@@ -108,14 +108,14 @@ class CastleBlock extends BodyComponent<SiegeGame>
     var position = Vector2(data.x, -(data.y + data.height / 2));
     final hinge = data.hinge;
     if (hinge != null) {
-      // A hinged block stands with the middle of its base exactly on the
-      // pin however it is tilted, so the joint holds it from the start
-      // instead of yanking it into place.
-      final halfUp = data.height / 2;
-      position = Vector2(
-        hinge.$1 + math.sin(angle) * halfUp,
-        -hinge.$2 - math.cos(angle) * halfUp,
-      );
+      // The pin sits at a point of the block as laid out untilted; tilting
+      // turns the block about that point, so the joint holds it from the
+      // start instead of yanking it into place.
+      final pin = Vector2(hinge.$1, -hinge.$2);
+      final local = pin - position;
+      final c = math.cos(angle), s = math.sin(angle);
+      position =
+          pin - Vector2(c * local.x - s * local.y, s * local.x + c * local.y);
     }
     final body = world.createBody(
       BodyDef(
