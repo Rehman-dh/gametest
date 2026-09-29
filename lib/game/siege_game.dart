@@ -11,6 +11,7 @@ import '../components/fx/score_popup.dart';
 import '../components/env/background.dart';
 import '../components/env/ground.dart';
 import '../components/env/ground_detail.dart';
+import '../components/env/moat.dart';
 import '../components/fx/aim_guide.dart';
 import '../components/fx/vignette.dart';
 import '../components/damageable.dart';
@@ -153,6 +154,21 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     'assets/levels/persia_13.json',
     'assets/levels/persia_14.json',
     'assets/levels/persia_15.json',
+    'assets/levels/medieval_01.json',
+    'assets/levels/medieval_02.json',
+    'assets/levels/medieval_03.json',
+    'assets/levels/medieval_04.json',
+    'assets/levels/medieval_05.json',
+    'assets/levels/medieval_06.json',
+    'assets/levels/medieval_07.json',
+    'assets/levels/medieval_08.json',
+    'assets/levels/medieval_09.json',
+    'assets/levels/medieval_10.json',
+    'assets/levels/medieval_11.json',
+    'assets/levels/medieval_12.json',
+    'assets/levels/medieval_13.json',
+    'assets/levels/medieval_14.json',
+    'assets/levels/medieval_15.json',
   ];
 
   /// Whether the main menu opens over a live demo siege.
@@ -432,7 +448,15 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     playerHp.value = math.min(engineHp ?? playerMaxHp, playerMaxHp);
     await world.addAll([
       Background(),
-      Ground(left: minWorldX, right: maxWorldX),
+      ...switch (level.moat) {
+        null => [Ground(left: minWorldX, right: maxWorldX)],
+        final moat => [
+          Ground(left: minWorldX, right: moat.left),
+          Ground(left: moat.left, right: moat.right, top: moat.depth),
+          Ground(left: moat.right, right: maxWorldX),
+          Moat(moat),
+        ],
+      },
       GroundDetail(),
       siegeEngine,
       playerTarget,
@@ -446,6 +470,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
         },
       for (final u in level.units) Unit(u),
     ]);
+    _chain(blocks);
 
     _levelLoaded = true;
     _zoomScale = 1;
@@ -1028,6 +1053,38 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     phase.value = SiegePhase.aiming;
     _rollGust();
     _speak('phase:${stage + 1}');
+  }
+
+  /// Ties blocks with a "tie" to the block containing that point, by a
+  /// chain from the tied block's top that can pull taut but never push.
+  void _chain(List<CastleBlock> blocks) {
+    for (final b in blocks) {
+      final tie = b.data.tie;
+      if (tie == null) continue;
+      final at = Vector2(tie.$1, -tie.$2);
+      CastleBlock? holder;
+      for (final other in blocks) {
+        if (other != b && other.body.fixtures.first.testPoint(at)) {
+          holder = other;
+        }
+      }
+      if (holder == null) continue;
+      b
+        ..chainedTo = holder
+        ..chainAnchor = holder.body.localPoint(at);
+      final top = b.body.worldPoint(Vector2(0, -b.data.height / 2));
+      world.createJoint(
+        RopeJoint(
+          RopeJointDef()
+            ..bodyA = b.body
+            ..bodyB = holder.body
+            ..localAnchorA.setFrom(b.body.localPoint(top))
+            ..localAnchorB.setFrom(holder.body.localPoint(at))
+            ..maxLength = top.distanceTo(at) + 0.02
+            ..collideConnected = true,
+        ),
+      );
+    }
   }
 
   /// Rising masonry takes the place of whatever still stands where it

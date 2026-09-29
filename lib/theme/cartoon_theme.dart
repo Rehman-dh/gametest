@@ -43,6 +43,12 @@ class CartoonTheme extends ProceduralTheme {
     'persia_wall_0.png', 'persia_wall_1.png', 'persia_wall_2.png',
     'persia_wall_brick_0.png', 'persia_wall_brick_1.png',
     'persia_wall_brick_2.png',
+    'medieval_tower_0.png', 'medieval_tower_1.png', 'medieval_tower_2.png',
+    'medieval_tower_tall_0.png', 'medieval_tower_tall_1.png',
+    'medieval_tower_tall_2.png',
+    'medieval_wall_0.png', 'medieval_wall_1.png', 'medieval_wall_2.png',
+    'medieval_wall_brick_0.png', 'medieval_wall_brick_1.png',
+    'medieval_wall_brick_2.png',
   ];
 
   static Future<CartoonTheme> load() async {
@@ -336,6 +342,7 @@ class CartoonTheme extends ProceduralTheme {
     final set = switch (era) {
       Era.rome => 'rome_',
       Era.persia => 'persia_',
+      Era.medieval => 'medieval_',
       _ => '',
     };
     return switch (look) {

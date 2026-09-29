@@ -247,6 +247,7 @@ class _SceneryPainter extends CustomPainter {
     final (far, near) = switch (era) {
       Era.rome => (const Color(0xFF9BD46A), const Color(0xFF79BE4A)),
       Era.persia => (const Color(0xFFF0B872), const Color(0xFFD9914E)),
+      Era.medieval => (const Color(0xFF6FA84A), const Color(0xFF4E8A36)),
       _ => (const Color(0xFFF4D48C), const Color(0xFFEBC173)),
     };
     canvas

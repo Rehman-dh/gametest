@@ -70,9 +70,13 @@ class FigurePainter {
   /// Set for the figure being painted: Persian kit.
   static bool _persian = false;
 
+  /// Set for the figure being painted: the Black Baron's men-at-arms.
+  static bool _medieval = false;
+
   static void paint(Canvas canvas, UnitKind kind, FigurePose pose) {
     _roman = pose.era == Era.rome || kind == UnitKind.legionary;
     _persian = !_roman && pose.era == Era.persia;
+    _medieval = !_roman && pose.era == Era.medieval;
     final spearman = kind == UnitKind.soldier || kind == UnitKind.legionary;
     final h = heightOf(kind);
     final u = h / 1.8; // body unit: 1 at soldier height
@@ -155,6 +159,8 @@ class FigurePainter {
           _scutum(canvas, at, big: kind == UnitKind.legionary);
         } else if (_persian) {
           _spara(canvas, at);
+        } else if (_medieval) {
+          _heater(canvas, at);
         } else {
           _shield(canvas, at);
         }
@@ -251,6 +257,8 @@ class FigurePainter {
         kilt,
         _fill
           ..shader = Gradient.linear(b.topLeft, b.bottomRight, switch (kind) {
+            // The Baron's men wear black.
+            _ when _medieval => const [Color(0xFF2A2A34), Color(0xFF14141A)],
             // The garrison wears red, so they stand out on pale stone.
             UnitKind.soldier ||
             UnitKind.legionary => const [Color(0xFFE5483A), Color(0xFFA82A1F)],
@@ -361,6 +369,12 @@ class FigurePainter {
                     Color(0xFF7B3A93),
                     Color(0xFF4A1E5E),
                   ]
+                : _medieval
+                ? const [
+                    Color(0xFF1E1E26),
+                    Color(0xFF3A3A48),
+                    Color(0xFF1E1E26),
+                  ]
                 : _persian
                 ? const [
                     Color(0xFF8C1F2E),
@@ -470,11 +484,14 @@ class FigurePainter {
       case UnitKind.king || UnitKind.pharaoh:
         if (_roman) {
           _laurel(canvas, head, r);
-        } else if (_persian) {
+        } else if (_persian || _medieval) {
           _tiara(canvas, head, r);
         } else {
           _nemes(canvas, head, r);
         }
+      case UnitKind.soldier || UnitKind.archer || UnitKind.engineer
+          when _medieval:
+        _kettleHat(canvas, head, r);
       case UnitKind.soldier || UnitKind.archer || UnitKind.engineer
           when _persian:
         _turban(canvas, head, r, kind);
@@ -613,6 +630,87 @@ class FigurePainter {
   }
 
   // ------------------------------------------------------------ gear
+
+  // ------------------------------------------------------------ Medieval
+
+  /// A steel kettle hat with a wide brim.
+  static void _kettleHat(Canvas canvas, Offset head, double r) {
+    final crown = Path()
+      ..addArc(
+        Rect.fromCenter(
+          center: head + Offset(0, -r * 0.1),
+          width: r * 2.0,
+          height: r * 2.1,
+        ),
+        math.pi,
+        math.pi,
+      )
+      ..close();
+    final brim = RRect.fromRectAndRadius(
+      Rect.fromCenter(
+        center: head + Offset(0, -r * 0.05),
+        width: r * 2.9,
+        height: r * 0.35,
+      ),
+      Radius.circular(r * 0.17),
+    );
+    final steel = Paint()
+      ..shader = Gradient.linear(
+        head + Offset(-r, -r),
+        head + Offset(r, 0),
+        const [Color(0xFFDDE2E6), Color(0xFF8A9299)],
+      );
+    canvas
+      ..drawPath(crown, steel)
+      ..drawPath(crown, _edge)
+      ..drawRRect(brim, steel)
+      ..drawRRect(brim, _edge);
+  }
+
+  /// A black heater shield with the Baron's gold chevron.
+  static void _heater(Canvas canvas, Offset centre) {
+    final rect = Rect.fromCenter(center: centre, width: 0.46, height: 0.6);
+    final shape = Path()
+      ..moveTo(rect.left, rect.top)
+      ..lineTo(rect.right, rect.top)
+      ..lineTo(rect.right, rect.top + rect.height * 0.45)
+      ..quadraticBezierTo(
+        rect.right,
+        rect.bottom - 0.08,
+        centre.dx,
+        rect.bottom,
+      )
+      ..quadraticBezierTo(
+        rect.left,
+        rect.bottom - 0.08,
+        rect.left,
+        rect.top + rect.height * 0.45,
+      )
+      ..close();
+    canvas
+      ..drawPath(shape, _fill..color = const Color(0xFF22222A))
+      ..save()
+      ..clipPath(shape)
+      ..drawPath(
+        Path()
+          ..moveTo(rect.left, rect.center.dy + 0.08)
+          ..lineTo(centre.dx, rect.center.dy - 0.1)
+          ..lineTo(rect.right, rect.center.dy + 0.08)
+          ..lineTo(rect.right, rect.center.dy + 0.2)
+          ..lineTo(centre.dx, rect.center.dy + 0.02)
+          ..lineTo(rect.left, rect.center.dy + 0.2)
+          ..close(),
+        _fill..color = const Color(0xFFE2B84A),
+      )
+      ..restore()
+      ..drawPath(
+        shape,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 0.05
+          ..color = const Color(0xFF2B1A0E),
+      );
+  }
 
   // ------------------------------------------------------------ Persia
 

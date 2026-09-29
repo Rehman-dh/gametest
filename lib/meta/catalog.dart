@@ -137,6 +137,8 @@ enum RelicId {
   aquila,
   simurghFeather,
   cyrusCylinder,
+  baronsSeal,
+  greenKnightsHelm,
 }
 
 class RelicSpec {
@@ -166,6 +168,14 @@ const Map<RelicId, RelicSpec> relicSpecs = {
   RelicId.cyrusCylinder: RelicSpec(
     name: 'Cyrus Cylinder',
     effect: '+10% gold from sieges',
+  ),
+  RelicId.baronsSeal: RelicSpec(
+    name: "The Baron's Seal",
+    effect: '+15% gold from sieges',
+  ),
+  RelicId.greenKnightsHelm: RelicSpec(
+    name: "Green Knight's Helm",
+    effect: '+25 engine hit points',
   ),
   RelicId.aquila: RelicSpec(
     name: 'Eagle of the Legion',

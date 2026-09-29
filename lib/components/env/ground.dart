@@ -7,7 +7,7 @@ import '../../game/siege_game.dart';
 
 /// Static ground slab whose top surface is y = 0.
 class Ground extends BodyComponent<SiegeGame> {
-  Ground({required this.left, required this.right})
+  Ground({required this.left, required this.right, this.top = 0})
     : super(renderBody: false, priority: -1);
 
   static const depth = 12.0;
@@ -15,12 +15,15 @@ class Ground extends BodyComponent<SiegeGame> {
   final double left;
   final double right;
 
+  /// Depth of this slab's surface below the battlefield (a moat's bed).
+  final double top;
+
   double get _width => right - left;
 
   @override
   Body createBody() {
     final body = world.createBody(
-      BodyDef(position: Vector2((left + right) / 2, depth / 2)),
+      BodyDef(position: Vector2((left + right) / 2, top + depth / 2)),
     );
     body.createFixture(
       FixtureDef(

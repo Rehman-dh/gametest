@@ -114,6 +114,7 @@ class Unit extends BodyComponent<SiegeGame> with ContactCallbacks, Damageable {
         characterLooks[switch (game.level.era) {
           Era.rome => CharacterId.castus,
           Era.persia => CharacterId.shahbanu,
+          Era.medieval => CharacterId.blackBaron,
           _ => CharacterId.sethmose,
         }]!,
         pose: hurtFlash > 0 ? Pose.point : Pose.stand,

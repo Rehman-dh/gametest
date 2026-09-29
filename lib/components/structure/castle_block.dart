@@ -127,8 +127,57 @@ class CastleBlock extends BodyComponent<SiegeGame>
     return body;
   }
 
+  Body? _pivot;
+
+  /// The block this one is chained to, and where, while the chain holds.
+  CastleBlock? chainedTo;
+  Vector2? chainAnchor;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    final hinge = data.hinge;
+    if (hinge == null) return;
+    // A fixed pin in the world, with the block free to swing about it.
+    final pin = world.createBody(BodyDef());
+    world.createJoint(
+      RevoluteJoint(
+        RevoluteJointDef()..initialize(pin, body, Vector2(hinge.$1, -hinge.$2)),
+      ),
+    );
+    _pivot = pin;
+  }
+
+  @override
+  void onRemove() {
+    final pin = _pivot;
+    if (pin != null) world.destroyBody(pin);
+    _pivot = null;
+    super.onRemove();
+  }
+
   @override
   void render(Canvas canvas) {
+    final holder = chainedTo, anchor = chainAnchor;
+    if (holder != null && anchor != null && !holder.isDestroyed) {
+      // Links from the block's top to the holder's anchor point.
+      final from = Offset(0, -data.height / 2);
+      final to = holder.body.worldPoint(anchor);
+      final local = body.localPoint(to);
+      final end = Offset(local.x, local.y);
+      final links = ((end - from).distance / 0.22).ceil();
+      final link = Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 0.05
+        ..color = const Color(0xFF3A3A40);
+      for (var i = 0; i < links; i++) {
+        final c = Offset.lerp(from, end, (i + 0.5) / links)!;
+        canvas.drawOval(
+          Rect.fromCenter(center: c, width: 0.2, height: 0.12),
+          link,
+        );
+      }
+    }
     game.theme.drawBlock(
       canvas,
       Size(data.width, data.height),

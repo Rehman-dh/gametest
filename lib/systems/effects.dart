@@ -231,6 +231,19 @@ class Effects {
     );
   }
 
+  /// Something falls into a moat.
+  void splash(Vector2 at) {
+    audio.play(Sfx.poof, volume: 0.8);
+    _burst(
+      at,
+      game.theme.breakParticles(
+        BlockMaterial.glass,
+        const Size(1.2, 0.5),
+        _rng,
+      ),
+    );
+  }
+
   void blockBroken(CastleBlock block) {
     final body = block.body;
     final size = block.data;

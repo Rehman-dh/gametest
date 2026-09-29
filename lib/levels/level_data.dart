@@ -52,6 +52,8 @@ class BlockData {
     this.weak = false,
     this.look,
     this.toughness = 1,
+    this.hinge,
+    this.tie,
   });
 
   factory BlockData.fromJson(Map<String, dynamic> json) => BlockData(
@@ -64,6 +66,14 @@ class BlockData {
     weak: json['weak'] as bool? ?? false,
     look: json['look'] as String?,
     toughness: (json['hp'] as num? ?? 1).toDouble(),
+    hinge: switch (json['hinge']) {
+      [final num x, final num y] => (x.toDouble(), y.toDouble()),
+      _ => null,
+    },
+    tie: switch (json['tie']) {
+      [final num x, final num y] => (x.toDouble(), y.toDouble()),
+      _ => null,
+    },
   );
 
   final BlockMaterial material;
@@ -80,6 +90,15 @@ class BlockData {
   /// Multiplies the material's hit points, for massive masonry.
   final double toughness;
 
+  /// A pivot (level coordinates) the block swings about, like a
+  /// drawbridge on its hinge; null for a free block.
+  final (double, double)? hinge;
+
+  /// A point (level coordinates) inside another block that this one is
+  /// chained to, like a raised drawbridge's chain to its gatehouse: when
+  /// that block is destroyed the chain goes with it.
+  final (double, double)? tie;
+
   BlockData shifted(double dx) => copyWith(x: x + dx);
 
   BlockData copyWith({double? x, bool? weak}) => BlockData(
@@ -92,7 +111,27 @@ class BlockData {
     weak: weak ?? this.weak,
     look: look,
     toughness: toughness,
+    hinge: hinge,
+    tie: tie,
   );
+}
+
+/// A moat: a trench [depth] meters deep between [left] and [right], full
+/// of water. Defenders who fall in drown.
+class MoatData {
+  const MoatData({required this.left, required this.right, this.depth = 2});
+
+  factory MoatData.fromJson(Map<String, dynamic> json) {
+    final x = (json['x'] as num).toDouble();
+    final w = (json['w'] as num).toDouble();
+    return MoatData(
+      left: x - w / 2,
+      right: x + w / 2,
+      depth: (json['depth'] as num? ?? 2).toDouble(),
+    );
+  }
+
+  final double left, right, depth;
 }
 
 class UnitData {
@@ -207,6 +246,7 @@ class LevelData {
     this.weapon = WeaponType.catapult,
     this.wind = 0,
     this.storm = 0,
+    this.moat,
     this.defenses = const [],
     this.playerHp = 100,
     this.enemyFireEvery = 1,
@@ -246,6 +286,9 @@ class LevelData {
       weapon: WeaponType.values.byName(json['weapon'] as String? ?? 'catapult'),
       wind: (json['wind'] as num? ?? 0).toDouble(),
       storm: (json['storm'] as num? ?? 0).toDouble(),
+      moat: json['moat'] == null
+          ? null
+          : MoatData.fromJson(json['moat'] as Map<String, dynamic>),
       defenses: [
         for (final b in json['defenses'] as List? ?? const [])
           BlockData.fromJson(b as Map<String, dynamic>),
@@ -339,6 +382,9 @@ class LevelData {
   final double storm;
 
   bool get windy => wind != 0 || storm > 0;
+
+  /// A water-filled trench across the battlefield, if any.
+  final MoatData? moat;
 
   /// The player's own barricade, in front of the siege engine.
   final List<BlockData> defenses;

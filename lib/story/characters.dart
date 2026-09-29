@@ -50,6 +50,7 @@ enum CharacterId {
   centurion,
   shahbanu,
   roxana,
+  blackBaron,
 }
 
 const Map<CharacterId, CharacterLook> characterLooks = {
@@ -136,6 +137,18 @@ const Map<CharacterId, CharacterLook> characterLooks = {
     headgear: Headgear.crown,
     carried: Carried.staff,
     height: 1.86,
+  ),
+  CharacterId.blackBaron: CharacterLook(
+    name: 'The Black Baron',
+    cloth: Color(0xFF26262E),
+    clothDark: Color(0xFF121216),
+    cloak: Color(0xFF5A1414),
+    skin: Color(0xFFD7A887),
+    hair: Color(0xFF101012),
+    beard: Color(0xFF101012),
+    headgear: Headgear.helmet,
+    carried: Carried.sword,
+    height: 1.95,
   ),
   CharacterId.roxana: CharacterLook(
     name: 'Roxana',
