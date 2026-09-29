@@ -1,0 +1,405 @@
+{
+  "id": "mythic_intro",
+  "steps": [
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 0
+    },
+    {
+      "type": "tint",
+      "color": "68382C58"
+    },
+    {
+      "type": "spawn",
+      "actor": "hero",
+      "character": "arslan",
+      "x": -6,
+      "facing": 1,
+      "pose": "walk"
+    },
+    {
+      "type": "spawn",
+      "actor": "liwei",
+      "character": "liWei",
+      "x": -8,
+      "facing": 1,
+      "pose": "walk"
+    },
+    {
+      "type": "spawn",
+      "actor": "roxana",
+      "character": "roxana",
+      "x": -10,
+      "facing": 1,
+      "pose": "walk"
+    },
+    {
+      "type": "spawn",
+      "actor": "titus",
+      "character": "titus",
+      "x": -12,
+      "facing": 1,
+      "pose": "walk"
+    },
+    {
+      "type": "spawn",
+      "actor": "bashir",
+      "character": "bashir",
+      "x": -14,
+      "facing": 1,
+      "pose": "walk"
+    },
+    {
+      "type": "camera",
+      "x": 0,
+      "y": -1.6,
+      "viewHeight": 7
+    },
+    {
+      "type": "title",
+      "text": "THE EDGE OF THE WORLD",
+      "subtitle": "Where every era meets",
+      "duration": 3
+    },
+    {
+      "type": "fade",
+      "to": 0,
+      "duration": 2
+    },
+    {
+      "type": "sound",
+      "sound": "breakStone"
+    },
+    {
+      "type": "parallel",
+      "steps": [
+        {
+          "type": "move",
+          "actor": "hero",
+          "x": 1.0,
+          "duration": 2.6
+        },
+        {
+          "type": "move",
+          "actor": "liwei",
+          "x": -0.8,
+          "duration": 2.7
+        },
+        {
+          "type": "move",
+          "actor": "roxana",
+          "x": -2.6,
+          "duration": 2.8000000000000003
+        },
+        {
+          "type": "move",
+          "actor": "titus",
+          "x": -4.4,
+          "duration": 2.9000000000000004
+        },
+        {
+          "type": "move",
+          "actor": "bashir",
+          "x": -6.2,
+          "duration": 3.0
+        }
+      ]
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "liwei",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "liwei",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "liwei",
+      "text": "My maps ended a hundred miles behind us. Here the ground itself floats. Rocks hang in the air like ships at anchor."
+    },
+    {
+      "type": "pose",
+      "actor": "liwei",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "Look closer. Egyptian stone, Roman brick, Persian tile, all torn loose and stacked together."
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "Someone built this realm from the ruins of every kingdom we crossed."
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "titus",
+      "text": "Lightning with no rain. Wind with no direction. I do not trust a storm that cannot make up its mind."
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "point"
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "General, your pack. The shards."
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "kneel"
+    },
+    {
+      "type": "prop",
+      "prop": "shard",
+      "x": 1.8
+    },
+    {
+      "type": "sound",
+      "sound": "weakPoint"
+    },
+    {
+      "type": "camera",
+      "x": 1.5,
+      "y": -1,
+      "viewHeight": 4.5,
+      "duration": 1.5
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Five shards, and every one of them is straining east. As if they are being called home."
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "They are. The star wants to be whole again."
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "Whoever wears it whole would not rule kings. He would rule every age that has ever had a king."
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "spawn",
+      "actor": "king",
+      "character": "ironKing",
+      "x": 17,
+      "facing": -1
+    },
+    {
+      "type": "camera",
+      "x": 15,
+      "y": -2.5,
+      "viewHeight": 10,
+      "duration": 2.5
+    },
+    {
+      "type": "sound",
+      "sound": "breakStone"
+    },
+    {
+      "type": "wait",
+      "duration": 0.8
+    },
+    {
+      "type": "pose",
+      "actor": "king",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "king",
+      "text": "Five shards, carried across five kingdoms, to my very door. Idris taught you well, boy."
+    },
+    {
+      "type": "say",
+      "speaker": "king",
+      "text": "Climb my tower, castle-breaker. Bring me the pieces of my crown, and I will show you what your master truly was."
+    },
+    {
+      "type": "pose",
+      "actor": "king",
+      "pose": "stand"
+    },
+    {
+      "type": "camera",
+      "x": 3,
+      "y": -1.8,
+      "viewHeight": 8,
+      "duration": 1.5
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Face me, Iron King!"
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "sound",
+      "sound": "breakStone"
+    },
+    {
+      "type": "remove",
+      "actor": "king"
+    },
+    {
+      "type": "camera",
+      "x": 0,
+      "y": -1.6,
+      "viewHeight": 7,
+      "duration": 1.5
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "titus",
+      "text": "He knew your master's name, General."
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Then he knows who sent the Iron Hand into that tent. He has known all along."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "Every tyrant we broke told us the chain runs to him. This is the last link."
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "point"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Then we break it. Every wall between here and that tower, and then the tower itself."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "sound",
+      "sound": "warHorn"
+    },
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 2
+    },
+    {
+      "type": "title",
+      "text": "ERA VI · MYTHIC",
+      "subtitle": "The realm of the Iron King",
+      "duration": 3.5
+    }
+  ]
+}

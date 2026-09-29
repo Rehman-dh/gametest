@@ -1,0 +1,387 @@
+{
+  "id": "titan_tower_approach",
+  "steps": [
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 0
+    },
+    {
+      "type": "tint",
+      "color": "70301848"
+    },
+    {
+      "type": "spawn",
+      "actor": "king",
+      "character": "ironKing",
+      "x": 13,
+      "facing": -1
+    },
+    {
+      "type": "spawn",
+      "actor": "ironhand",
+      "character": "ironHand",
+      "x": 15,
+      "facing": -1
+    },
+    {
+      "type": "spawn",
+      "actor": "hero",
+      "character": "arslan",
+      "x": 0,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "liwei",
+      "character": "liWei",
+      "x": -2,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "roxana",
+      "character": "roxana",
+      "x": -4,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "titus",
+      "character": "titus",
+      "x": -6,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "bashir",
+      "character": "bashir",
+      "x": -8,
+      "facing": 1
+    },
+    {
+      "type": "camera",
+      "x": -2,
+      "y": -1.6,
+      "viewHeight": 7
+    },
+    {
+      "type": "fade",
+      "to": 0,
+      "duration": 2
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "The Titan Tower. It climbs past the clouds, and the clouds are made of lightning."
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "camera",
+      "x": 12.5,
+      "y": -2,
+      "viewHeight": 8,
+      "duration": 2.5
+    },
+    {
+      "type": "pose",
+      "actor": "king",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "king",
+      "text": "So the mason's apprentice reaches the top of the world."
+    },
+    {
+      "type": "say",
+      "speaker": "king",
+      "text": "Do you know what your master was, Arslan? He was mine. My engineer. He laid the first stones of this tower."
+    },
+    {
+      "type": "pose",
+      "actor": "king",
+      "pose": "stand"
+    },
+    {
+      "type": "camera",
+      "x": 6,
+      "y": -1.8,
+      "viewHeight": 9,
+      "duration": 1.5
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "You lie."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "king",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "king",
+      "text": "When the star fell, it was Idris who beat it into a crown for me. And when he saw what it made of me, it was Idris who broke it."
+    },
+    {
+      "type": "say",
+      "speaker": "king",
+      "text": "He scattered the shards among the kings of the earth. He thought no single king could hold them all."
+    },
+    {
+      "type": "say",
+      "speaker": "king",
+      "text": "He was right. So I ruled through all of them."
+    },
+    {
+      "type": "pose",
+      "actor": "king",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "king",
+      "pose": "point"
+    },
+    {
+      "type": "say",
+      "speaker": "king",
+      "text": "And when I found the old thief at last, I sent my Hand. Tell him, Hand. Tell him how Idris died."
+    },
+    {
+      "type": "pose",
+      "actor": "king",
+      "pose": "stand"
+    },
+    {
+      "type": "camera",
+      "x": 13.5,
+      "y": -2,
+      "viewHeight": 7,
+      "duration": 1.2
+    },
+    {
+      "type": "pose",
+      "actor": "ironhand",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "ironhand",
+      "text": "Sethmose told you he begged. He did not."
+    },
+    {
+      "type": "say",
+      "speaker": "ironhand",
+      "text": "He looked up at me and said, every wall has a flaw. Then he closed his eyes."
+    },
+    {
+      "type": "pose",
+      "actor": "ironhand",
+      "pose": "stand"
+    },
+    {
+      "type": "wait",
+      "duration": 1
+    },
+    {
+      "type": "camera",
+      "x": 3,
+      "y": -1.6,
+      "viewHeight": 7,
+      "duration": 1.5
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Every wall has a flaw. He was not saying farewell. He was telling me where to look."
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "You wear the last shard, King. The heart of the star. Every piece I carry pulls toward it. That is your flaw."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "camera",
+      "x": 11,
+      "y": -2,
+      "viewHeight": 8,
+      "duration": 1.2
+    },
+    {
+      "type": "pose",
+      "actor": "king",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "king",
+      "text": "Then come and take it. This tower has never fallen, and neither have I."
+    },
+    {
+      "type": "pose",
+      "actor": "king",
+      "pose": "stand"
+    },
+    {
+      "type": "parallel",
+      "steps": [
+        {
+          "type": "pose",
+          "actor": "king",
+          "pose": "walk",
+          "facing": 1
+        },
+        {
+          "type": "pose",
+          "actor": "ironhand",
+          "pose": "walk",
+          "facing": 1
+        }
+      ]
+    },
+    {
+      "type": "parallel",
+      "steps": [
+        {
+          "type": "move",
+          "actor": "king",
+          "x": 19,
+          "duration": 2
+        },
+        {
+          "type": "move",
+          "actor": "ironhand",
+          "x": 20,
+          "duration": 1.8
+        }
+      ]
+    },
+    {
+      "type": "remove",
+      "actor": "king"
+    },
+    {
+      "type": "remove",
+      "actor": "ironhand"
+    },
+    {
+      "type": "camera",
+      "x": -1,
+      "y": -1.6,
+      "viewHeight": 7,
+      "duration": 2
+    },
+    {
+      "type": "pose",
+      "actor": "liwei",
+      "pose": "point"
+    },
+    {
+      "type": "say",
+      "speaker": "liwei",
+      "text": "The tower stands on floating stones, chained together at the base. Cut the chains, and it has nothing left to stand on."
+    },
+    {
+      "type": "pose",
+      "actor": "liwei",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "Star-iron chains. My fire will have to burn hotter than it ever has. It will."
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "titus",
+      "text": "I carried a ram up the Colosseum steps. I will carry one into the sky if I must."
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "And remember, General. Idris built this tower. Every mason leaves one stone loose."
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "For Master Idris. For Garin. For every kingdom that wore his chains. Bring down the Titan Tower."
+    },
+    {
+      "type": "sound",
+      "sound": "warHorn"
+    },
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 2
+    },
+    {
+      "type": "title",
+      "text": "THE TITAN TOWER",
+      "subtitle": "The last stand of the Iron King",
+      "duration": 3
+    }
+  ]
+}

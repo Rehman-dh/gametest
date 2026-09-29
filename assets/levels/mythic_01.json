@@ -1,6 +1,7 @@
 {
   "id": "mythic_01",
   "name": "The Storm Gate",
+  "introCutscene": "mythic_intro",
   "par": 3,
   "objective": "killAll",
   "shots": 5,

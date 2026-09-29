@@ -1,0 +1,561 @@
+{
+  "id": "mythic_finale",
+  "steps": [
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 0
+    },
+    {
+      "type": "tint",
+      "color": "60302040"
+    },
+    {
+      "type": "spawn",
+      "actor": "king",
+      "character": "ironKing",
+      "x": 6.5,
+      "facing": -1,
+      "pose": "fallen"
+    },
+    {
+      "type": "prop",
+      "prop": "shard",
+      "x": 5
+    },
+    {
+      "type": "spawn",
+      "actor": "ironhand",
+      "character": "ironHand",
+      "x": 10,
+      "facing": -1,
+      "pose": "kneel"
+    },
+    {
+      "type": "spawn",
+      "actor": "hero",
+      "character": "arslan",
+      "x": 0,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "liwei",
+      "character": "liWei",
+      "x": -2,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "roxana",
+      "character": "roxana",
+      "x": -4,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "titus",
+      "character": "titus",
+      "x": -6,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "bashir",
+      "character": "bashir",
+      "x": -8,
+      "facing": 1
+    },
+    {
+      "type": "camera",
+      "x": 3,
+      "y": -1.5,
+      "viewHeight": 6.5
+    },
+    {
+      "type": "fade",
+      "to": 0,
+      "duration": 1.5
+    },
+    {
+      "type": "move",
+      "actor": "hero",
+      "x": 4.3,
+      "duration": 2
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "kneel"
+    },
+    {
+      "type": "camera",
+      "x": 5,
+      "y": -1,
+      "viewHeight": 4.5,
+      "duration": 1.5
+    },
+    {
+      "type": "say",
+      "speaker": "king",
+      "text": "My tower... Idris's tower. He left a flaw in it. He always did."
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "And he taught me to find it."
+    },
+    {
+      "type": "say",
+      "speaker": "king",
+      "text": "Then take the crown. Put it on. Feel every age kneel to you. No man has ever refused it."
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "I am not a king."
+    },
+    {
+      "type": "say",
+      "speaker": "king",
+      "text": "No... only an engineer. He said the same, the night he broke it."
+    },
+    {
+      "type": "wait",
+      "duration": 1.2
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "He is gone."
+    },
+    {
+      "type": "sound",
+      "sound": "weakPoint"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Six shards, whole again. It is warm now. It wants a head to wear it."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "camera",
+      "x": 2.5,
+      "y": -1.6,
+      "viewHeight": 7,
+      "duration": 1.5
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "Stone and steel cannot break star-iron. Only the fire it fell in."
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "Set it on the rock, General. Titus, your hammer. The fire is mine."
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "stand"
+    },
+    {
+      "type": "move",
+      "actor": "titus",
+      "x": 3.5,
+      "duration": 1.8
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "titus",
+      "text": "Nine years they made me break men for a crowd. Let me break this for all of them."
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "sound",
+      "sound": "ignite"
+    },
+    {
+      "type": "wait",
+      "duration": 0.8
+    },
+    {
+      "type": "sound",
+      "sound": "explosion"
+    },
+    {
+      "type": "fade",
+      "to": 0.85,
+      "duration": 0.2
+    },
+    {
+      "type": "sound",
+      "sound": "breakStone"
+    },
+    {
+      "type": "tint",
+      "color": "40D8A060"
+    },
+    {
+      "type": "fade",
+      "to": 0,
+      "duration": 1.8
+    },
+    {
+      "type": "wait",
+      "duration": 0.6
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "It is done. The Iron Crown is gone."
+    },
+    {
+      "type": "camera",
+      "x": 6,
+      "y": -1.8,
+      "viewHeight": 8,
+      "duration": 1.5
+    },
+    {
+      "type": "pose",
+      "actor": "ironhand",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "ironhand",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "ironhand",
+      "text": "The voice in the iron... it is gone. For the first time in thirty years, my head is quiet."
+    },
+    {
+      "type": "pose",
+      "actor": "ironhand",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "talk",
+      "facing": 1
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "You killed my master."
+    },
+    {
+      "type": "say",
+      "speaker": "ironhand",
+      "text": "I did. And now there is no crown to take the memory from me."
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Then live, and remember. It is more than you gave him."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "ironhand",
+      "pose": "walk",
+      "facing": 1
+    },
+    {
+      "type": "move",
+      "actor": "ironhand",
+      "x": 16,
+      "duration": 2.5
+    },
+    {
+      "type": "remove",
+      "actor": "ironhand"
+    },
+    {
+      "type": "camera",
+      "x": 1,
+      "y": -1.6,
+      "viewHeight": 7,
+      "duration": 1.5
+    },
+    {
+      "type": "pose",
+      "actor": "liwei",
+      "pose": "point"
+    },
+    {
+      "type": "say",
+      "speaker": "liwei",
+      "text": "Look. The storm is breaking, and the rocks are coming down to rest. The world is putting itself back together."
+    },
+    {
+      "type": "pose",
+      "actor": "liwei",
+      "pose": "stand"
+    },
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 2
+    },
+    {
+      "type": "remove",
+      "actor": "hero"
+    },
+    {
+      "type": "remove",
+      "actor": "liwei"
+    },
+    {
+      "type": "remove",
+      "actor": "roxana"
+    },
+    {
+      "type": "remove",
+      "actor": "titus"
+    },
+    {
+      "type": "remove",
+      "actor": "bashir"
+    },
+    {
+      "type": "remove",
+      "actor": "king"
+    },
+    {
+      "type": "tint",
+      "color": "38E0A868"
+    },
+    {
+      "type": "prop",
+      "prop": "tent",
+      "x": 36
+    },
+    {
+      "type": "prop",
+      "prop": "campfire",
+      "x": 40
+    },
+    {
+      "type": "prop",
+      "prop": "banner",
+      "x": 49
+    },
+    {
+      "type": "spawn",
+      "actor": "bashir",
+      "character": "bashir",
+      "x": 35,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "titus",
+      "character": "titus",
+      "x": 37.4,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "roxana",
+      "character": "roxana",
+      "x": 42,
+      "facing": -1
+    },
+    {
+      "type": "spawn",
+      "actor": "liwei",
+      "character": "liWei",
+      "x": 43.8,
+      "facing": -1
+    },
+    {
+      "type": "spawn",
+      "actor": "hero",
+      "character": "arslan",
+      "x": 46,
+      "facing": -1
+    },
+    {
+      "type": "camera",
+      "x": 40.8,
+      "y": -1.6,
+      "viewHeight": 7.5
+    },
+    {
+      "type": "title",
+      "text": "EPILOGUE",
+      "subtitle": "One year later",
+      "duration": 3
+    },
+    {
+      "type": "fade",
+      "to": 0,
+      "duration": 2
+    },
+    {
+      "type": "sound",
+      "sound": "fireCrackle"
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "The walls of Thebes are rising again, General. This time with gates wide enough for everyone."
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "titus",
+      "text": "Young men come to me in Rome and ask me to teach them to fight. I teach them to build first."
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "My workshop is mine again. At the next festival I will fill the sky with fire, and no one will need to run from it."
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "liwei",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "liwei",
+      "text": "And I am drawing the first honest map of the world. Every road open. No wall marked forbidden."
+    },
+    {
+      "type": "pose",
+      "actor": "liwei",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Garin would have liked that map."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "wait",
+      "duration": 1
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "walk",
+      "facing": 1
+    },
+    {
+      "type": "move",
+      "actor": "hero",
+      "x": 48.2,
+      "duration": 1.5
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "kneel"
+    },
+    {
+      "type": "camera",
+      "x": 48.5,
+      "y": -1,
+      "viewHeight": 4.5,
+      "duration": 2
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Every wall has a flaw, Master. I found the one in the king."
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "You can rest now."
+    },
+    {
+      "type": "wait",
+      "duration": 1.5
+    },
+    {
+      "type": "sound",
+      "sound": "warHorn"
+    },
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 3
+    },
+    {
+      "type": "title",
+      "text": "THE LAST SIEGE",
+      "subtitle": "The end",
+      "duration": 4
+    }
+  ]
+}
