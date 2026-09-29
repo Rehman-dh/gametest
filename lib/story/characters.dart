@@ -47,6 +47,7 @@ enum CharacterId {
   messenger,
   castus,
   titus,
+  centurion,
 }
 
 const Map<CharacterId, CharacterLook> characterLooks = {
@@ -122,6 +123,14 @@ const Map<CharacterId, CharacterLook> characterLooks = {
     headgear: Headgear.helmet,
     carried: Carried.sword,
     height: 1.92,
+  ),
+  CharacterId.centurion: CharacterLook(
+    name: 'Centurion',
+    cloth: Color(0xFF8C2A20),
+    clothDark: Color(0xFF561812),
+    cloak: Color(0xFF6A1A16),
+    headgear: Headgear.helmet,
+    carried: Carried.sword,
   ),
   CharacterId.titus: CharacterLook(
     name: 'Titus',

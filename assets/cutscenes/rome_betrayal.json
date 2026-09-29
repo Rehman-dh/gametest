@@ -18,7 +18,7 @@
     {
       "type": "spawn",
       "actor": "centurion",
-      "character": "soldier",
+      "character": "centurion",
       "x": 4,
       "facing": -1,
       "pose": "fallen"
