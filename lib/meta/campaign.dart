@@ -33,10 +33,15 @@ class Campaign {
     if (saved != null) progress.value = saved;
   }
 
+  /// Developer preview (`--dart-define=PREVIEW_ALL=true`): every level is
+  /// open and nothing is saved, so new content can be shown without
+  /// touching the player's progress.
+  static const preview = bool.fromEnvironment('PREVIEW_ALL');
+
   /// The first level is always open; each later one opens once the
   /// previous one is won.
   bool isUnlocked(int index) =>
-      index == 0 || progress.value.isWon(levels[index - 1].id);
+      preview || index == 0 || progress.value.isWon(levels[index - 1].id);
 
   int starsFor(int index) => progress.value.stars[levels[index].id] ?? 0;
 
@@ -100,6 +105,7 @@ class Campaign {
   void _commit(Progress updated) {
     if (identical(updated, progress.value)) return;
     progress.value = updated;
+    if (preview) return;
     unawaited(repository?.save(updated));
   }
 }
