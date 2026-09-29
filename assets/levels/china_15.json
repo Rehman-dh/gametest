@@ -1,91 +1,414 @@
 {
   "id": "china_15",
   "name": "The Great Wall Gate",
-  "worldWidth": 53,
+  "worldWidth": 62,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
+  "introCutscene": "great_wall_approach",
+  "outroCutscene": "china_finale",
+  "relic": "dragonBanner",
+  "ammo": [
+    "stone",
+    "stone",
+    "fireball",
+    "stone"
+  ],
+  "par": 7,
+  "objective": "destroyEngines",
+  "playerHp": 120,
+  "defenses": [
+    {
+      "m": "stone",
+      "x": 5,
+      "y": 0,
+      "w": 0.8,
+      "h": 2.4
+    },
+    {
+      "m": "wood",
+      "x": 6,
+      "y": 0,
+      "w": 0.5,
+      "h": 3
+    }
+  ],
   "blocks": [
     {
-      "m": "stone",
-      "x": 31.5,
+      "m": "bamboo",
+      "x": 24.4,
       "y": 0,
-      "w": 3.0,
-      "h": 7,
-      "look": "tower",
-      "hp": 0.5
+      "w": 0.35,
+      "h": 2.8
+    },
+    {
+      "m": "bamboo",
+      "x": 24.85,
+      "y": 0,
+      "w": 0.35,
+      "h": 2.8
+    },
+    {
+      "m": "bamboo",
+      "x": 25.3,
+      "y": 0,
+      "w": 0.35,
+      "h": 2.8
+    },
+    {
+      "m": "bamboo",
+      "x": 24.85,
+      "y": 2.8,
+      "w": 1.45,
+      "h": 0.3
     },
     {
       "m": "stone",
-      "x": 35.02,
+      "x": 32.0,
       "y": 0,
-      "w": 4.0,
-      "h": 3.2,
+      "w": 2.8,
+      "h": 6.5,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 34.93,
+      "y": 0,
+      "w": 2.2,
+      "h": 3.0,
       "look": "wall",
-      "hp": 0.45
+      "hp": 0.8
     },
     {
-      "m": "stone",
-      "x": 38.04,
+      "m": "wood",
+      "x": 32.0,
+      "y": 6.5,
+      "w": 4.4,
+      "h": 2.2,
+      "look": "pagoda",
+      "hp": 1.0
+    },
+    {
+      "m": "bamboo",
+      "x": 40.4,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
+      "w": 0.35,
+      "h": 2.4
     },
     {
-      "m": "stone",
-      "x": 43.06,
+      "m": "bamboo",
+      "x": 40.85,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
+      "w": 0.35,
+      "h": 2.4
     },
     {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
+      "m": "bamboo",
+      "x": 41.3,
       "y": 0,
-      "w": 3.0,
-      "h": 7.5,
-      "look": "tower",
-      "hp": 0.6
+      "w": 0.35,
+      "h": 2.4
     },
     {
-      "m": "stone",
-      "x": 48.4,
-      "y": 0,
-      "w": 2.6,
-      "h": 8.5,
-      "look": "spire",
-      "hp": 2
+      "m": "bamboo",
+      "x": 40.85,
+      "y": 2.4,
+      "w": 1.45,
+      "h": 0.3
     }
   ],
   "units": [
     {
       "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "x": 24.85,
+      "y": 3.1
+    },
+    {
+      "kind": "archer",
+      "x": 34.93,
+      "y": 3.0
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
-    },
+      "x": 40.85,
+      "y": 2.7
+    }
+  ],
+  "props": [
     {
-      "kind": "soldier",
-      "x": 40.56,
+      "kind": "enemyCatapult",
+      "x": 28.4,
       "y": 0
+    },
+    {
+      "kind": "powderBarrel",
+      "x": 36.7,
+      "y": 0
+    },
+    {
+      "kind": "enemyCatapult",
+      "x": 38.5,
+      "y": 0
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "warlordTao",
+      "text": "Ten thousand li of stone, Arslan, and every li of it is mine. Turn back while you still have a road behind you."
+    },
+    {
+      "trigger": "volley:1",
+      "speaker": "liWei",
+      "text": "Two engines below the Wall, and a powder store beside the far one. Tao always keeps his powder too close."
+    },
+    {
+      "trigger": "volley:2",
+      "speaker": "arslan",
+      "text": "Hold the barricade. We have come too far to be stopped at a gate."
+    },
+    {
+      "trigger": "phase:2",
+      "speaker": "warlordTao",
+      "text": "Man the Wall! Every tower, every bow. Let them break themselves on it."
+    },
+    {
+      "trigger": "volley:5",
+      "speaker": "titus",
+      "text": "Their archers stand on bare parapets. Knock the stone from under them."
+    },
+    {
+      "trigger": "phase:3",
+      "speaker": "warlordTao",
+      "text": "Enough. The Crown gave me this gate, and I will hold it with my own sword."
+    },
+    {
+      "trigger": "volley:7",
+      "speaker": "bashir",
+      "text": "He stands in the gate passage with a powder keg at his side. Get a stone in there!"
+    },
+    {
+      "trigger": "volley:9",
+      "speaker": "roxana",
+      "text": "The gatehouse sits on two piers. Break the near one and the whole pagoda comes down on him."
+    }
+  ],
+  "phases": [
+    {
+      "title": "The Wall rises",
+      "objective": "killAll",
+      "ammo": [
+        "stone",
+        "stone",
+        "powderKeg",
+        "stone"
+      ],
+      "blocks": [
+        {
+          "m": "stone",
+          "x": 44.5,
+          "y": 0,
+          "w": 3.0,
+          "h": 8.0,
+          "look": "tower",
+          "hp": 1.0
+        },
+        {
+          "m": "stone",
+          "x": 48.25,
+          "y": 0,
+          "w": 4.4,
+          "h": 4.6,
+          "look": "wall",
+          "hp": 1.2
+        },
+        {
+          "m": "stone",
+          "x": 51.95,
+          "y": 0,
+          "w": 2.9,
+          "h": 6.6,
+          "look": "tower",
+          "hp": 1.0
+        },
+        {
+          "m": "wood",
+          "x": 51.95,
+          "y": 6.6,
+          "w": 4.2,
+          "h": 2.2,
+          "look": "pagoda",
+          "hp": 1.0
+        },
+        {
+          "m": "stone",
+          "x": 55.63,
+          "y": 0,
+          "w": 4.4,
+          "h": 4.6,
+          "look": "wall",
+          "hp": 1.2
+        },
+        {
+          "m": "stone",
+          "x": 59.35,
+          "y": 0,
+          "w": 2.9,
+          "h": 8.6,
+          "look": "tower",
+          "hp": 1.0
+        },
+        {
+          "m": "wood",
+          "x": 59.35,
+          "y": 8.6,
+          "w": 3.9,
+          "h": 2.0,
+          "look": "pagoda",
+          "hp": 1.0
+        }
+      ],
+      "units": [
+        {
+          "kind": "archer",
+          "x": 44.5,
+          "y": 8.0
+        },
+        {
+          "kind": "soldier",
+          "x": 47.4,
+          "y": 4.6
+        },
+        {
+          "kind": "soldier",
+          "x": 55.0,
+          "y": 4.6
+        },
+        {
+          "kind": "archer",
+          "x": 56.9,
+          "y": 4.6
+        }
+      ]
+    },
+    {
+      "title": "Tao descends",
+      "objective": "killKing",
+      "ammo": [
+        "stone",
+        "stone",
+        "fireball"
+      ],
+      "blocks": [
+        {
+          "m": "stone",
+          "x": 44.5,
+          "y": 0,
+          "w": 3.0,
+          "h": 8.0,
+          "look": "tower",
+          "hp": 1.0
+        },
+        {
+          "m": "stone",
+          "x": 47.3,
+          "y": 0,
+          "w": 2.4,
+          "h": 5.0,
+          "look": "tower",
+          "hp": 1.5
+        },
+        {
+          "m": "stone",
+          "x": 56.1,
+          "y": 0,
+          "w": 2.4,
+          "h": 5.0,
+          "look": "tower",
+          "hp": 1.5
+        },
+        {
+          "m": "stone",
+          "x": 51.7,
+          "y": 5.0,
+          "w": 11.2,
+          "h": 1.0,
+          "look": "wall",
+          "hp": 2.5
+        },
+        {
+          "m": "stone",
+          "x": 48.4,
+          "y": 6.0,
+          "w": 0.8,
+          "h": 2.6,
+          "look": "wall",
+          "hp": 1.5
+        },
+        {
+          "m": "stone",
+          "x": 55.0,
+          "y": 6.0,
+          "w": 0.8,
+          "h": 2.6,
+          "look": "wall",
+          "hp": 1.5
+        },
+        {
+          "m": "stone",
+          "x": 51.7,
+          "y": 8.6,
+          "w": 8.2,
+          "h": 0.6,
+          "look": "wall",
+          "hp": 1.5
+        },
+        {
+          "m": "wood",
+          "x": 51.7,
+          "y": 9.2,
+          "w": 7.6,
+          "h": 3.0,
+          "look": "pagoda",
+          "hp": 1.5
+        },
+        {
+          "m": "stone",
+          "x": 59.35,
+          "y": 0,
+          "w": 2.9,
+          "h": 8.6,
+          "look": "tower",
+          "hp": 1.0
+        },
+        {
+          "m": "wood",
+          "x": 59.35,
+          "y": 8.6,
+          "w": 3.9,
+          "h": 2.0,
+          "look": "pagoda",
+          "hp": 1.0
+        }
+      ],
+      "units": [
+        {
+          "kind": "pharaoh",
+          "x": 51.7,
+          "y": 0
+        },
+        {
+          "kind": "engineer",
+          "x": 51.7,
+          "y": 6.0
+        }
+      ],
+      "props": [
+        {
+          "kind": "powderBarrel",
+          "x": 53.9,
+          "y": 0
+        }
+      ]
     }
   ]
 }
