@@ -47,9 +47,8 @@ void main() {
           (size.y * scale).round(),
         );
         final png = await image.toByteData(format: ui.ImageByteFormat.png);
-        File(
-          '$out/${SiegeGame.levelFiles[i].split('/').last}.png',
-        ).writeAsBytesSync(png!.buffer.asUint8List());
+        File('$out/${SiegeGame.levelFiles[i].split('/').last}.png')
+            .writeAsBytesSync(png!.buffer.asUint8List());
         game.onRemove();
       }
     });
