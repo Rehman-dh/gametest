@@ -1,91 +1,187 @@
 {
   "id": "mythic_04",
-  "name": "Hall of Broken Crowns",
-  "worldWidth": 53,
-  "catapultX": 0,
-  "shots": 4,
-  "par": 2,
+  "name": "The Chained Bridge",
+  "par": 3,
   "objective": "killAll",
+  "moat": {
+    "x": 29.42,
+    "w": 4.0,
+    "depth": 2.0
+  },
+  "ammo": [
+    "stone",
+    "fireball",
+    "stone",
+    "cluster",
+    "stone",
+    "stone"
+  ],
+  "wind": 0.5,
+  "storm": 1.5,
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "bashir",
+      "text": "Bamboo from China, marble from Rome, a Persian dome. The Iron King stole a piece of every land we crossed."
+    },
+    {
+      "trigger": "shot:1",
+      "speaker": "titus",
+      "text": "That bridge hangs on a chain from the wall. Break the wall and it drops over the moat."
+    }
+  ],
+  "worldWidth": 52,
+  "catapultX": 0,
   "blocks": [
     {
+      "m": "bamboo",
+      "x": 24.175,
+      "y": 0,
+      "w": 0.35,
+      "h": 5.0
+    },
+    {
+      "m": "bamboo",
+      "x": 26.825,
+      "y": 0,
+      "w": 0.35,
+      "h": 5.0
+    },
+    {
+      "m": "bamboo",
+      "x": 25.5,
+      "y": 5.0,
+      "w": 3.0,
+      "h": 0.35
+    },
+    {
+      "m": "wood",
+      "x": 31.57,
+      "y": 0.35,
+      "w": 0.45,
+      "h": 4.5,
+      "a": 5,
+      "hinge": [
+        31.57,
+        0.35
+      ],
+      "tie": [
+        32.52,
+        4.9
+      ]
+    },
+    {
       "m": "stone",
-      "x": 31.5,
+      "x": 33.22,
+      "y": 0,
+      "w": 2.4,
+      "h": 5.4,
+      "look": "wall",
+      "hp": 0.7
+    },
+    {
+      "m": "crystal",
+      "x": 35.09,
+      "y": 0,
+      "w": 0.7,
+      "h": 3.8
+    },
+    {
+      "m": "crystal",
+      "x": 37.69,
+      "y": 0,
+      "w": 0.7,
+      "h": 3.8
+    },
+    {
+      "m": "crystal",
+      "x": 40.29,
+      "y": 0,
+      "w": 0.7,
+      "h": 3.8
+    },
+    {
+      "m": "marble",
+      "x": 37.69,
+      "y": 3.8,
+      "w": 5.9,
+      "h": 0.6,
+      "hp": 0.8
+    },
+    {
+      "m": "tile",
+      "x": 37.69,
+      "y": 4.4,
+      "w": 4.2,
+      "h": 2.4,
+      "look": "dome",
+      "hp": 1.2
+    },
+    {
+      "m": "stone",
+      "x": 42.46,
       "y": 0,
       "w": 3.0,
-      "h": 7,
+      "h": 6.0,
+      "look": "tower",
+      "hp": 0.7
+    },
+    {
+      "m": "crystal",
+      "x": 42.46,
+      "y": 6.0,
+      "w": 2.4,
+      "h": 1.2
+    },
+    {
+      "m": "stone",
+      "x": 45.18,
+      "y": 0,
+      "w": 2.4,
+      "h": 8.0,
       "look": "tower",
       "hp": 0.5
     },
     {
       "m": "stone",
-      "x": 35.02,
-      "y": 0,
-      "w": 4.0,
-      "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
-    },
-    {
-      "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
-      "y": 0,
-      "w": 3.0,
-      "h": 7.5,
-      "look": "tower",
-      "hp": 0.6
-    },
-    {
-      "m": "stone",
-      "x": 48.4,
+      "x": 47.7,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
+      "h": 9.5,
       "look": "spire",
       "hp": 2
     }
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "kind": "archer",
+      "x": 25.5,
+      "y": 5.35
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 33.22,
+      "y": 5.4
     },
     {
-      "kind": "soldier",
-      "x": 40.56,
+      "kind": "legionary",
+      "x": 36.39,
       "y": 0
+    },
+    {
+      "kind": "legionary",
+      "x": 38.99,
+      "y": 0
+    },
+    {
+      "kind": "archer",
+      "x": 42.46,
+      "y": 7.2
+    },
+    {
+      "kind": "soldier",
+      "x": 45.18,
+      "y": 8.0
     }
   ]
 }
