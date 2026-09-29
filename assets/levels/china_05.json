@@ -1,91 +1,204 @@
 {
   "id": "china_05",
   "name": "The Gunpowder Works",
-  "worldWidth": 53,
-  "catapultX": 0,
-  "shots": 4,
-  "par": 2,
+  "par": 3,
   "objective": "killAll",
+  "ammo": [
+    "stone",
+    "fireball",
+    "stone",
+    "powderKeg",
+    "stone",
+    "stone"
+  ],
+  "relic": "jadeSeal",
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "roxana",
+      "text": "Tao makes his powder here. Mind the barrels: one spark in the wrong shed and we lose the whole works."
+    }
+  ],
+  "worldWidth": 57,
+  "catapultX": 0,
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 25.8,
       "y": 0,
-      "w": 3.0,
-      "h": 7,
-      "look": "tower",
-      "hp": 0.5
-    },
-    {
-      "m": "stone",
-      "x": 35.02,
-      "y": 0,
-      "w": 4.0,
+      "w": 0.8,
       "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
+      "hp": 0.8
     },
     {
       "m": "stone",
-      "x": 38.04,
+      "x": 30.0,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
+      "w": 0.8,
+      "h": 3.2,
+      "hp": 0.8
     },
     {
-      "m": "stone",
-      "x": 43.06,
+      "m": "tile",
+      "x": 27.9,
+      "y": 3.2,
+      "w": 5.3,
+      "h": 0.5,
+      "hp": 1.2
+    },
+    {
+      "m": "bamboo",
+      "x": 26.6,
+      "y": 3.7,
+      "w": 0.35,
+      "h": 2.6
+    },
+    {
+      "m": "bamboo",
+      "x": 29.2,
+      "y": 3.7,
+      "w": 0.35,
+      "h": 2.6
+    },
+    {
+      "m": "bamboo",
+      "x": 27.9,
+      "y": 6.3,
+      "w": 3.25,
+      "h": 0.35
+    },
+    {
+      "m": "bamboo",
+      "x": 31.8,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
+      "w": 0.3,
+      "h": 3.6
+    },
+    {
+      "m": "bamboo",
+      "x": 33.4,
+      "y": 0,
+      "w": 0.3,
+      "h": 3.6
+    },
+    {
+      "m": "bamboo",
+      "x": 32.6,
+      "y": 3.6,
+      "w": 2.2,
+      "h": 0.3
     },
     {
       "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
+      "x": 35.2,
+      "y": 0,
+      "w": 0.8,
+      "h": 3.4,
       "look": "wall",
-      "hp": 1.5
+      "hp": 0.8
     },
     {
       "m": "stone",
-      "x": 45.58,
+      "x": 39.8,
+      "y": 0,
+      "w": 0.8,
+      "h": 3.4,
+      "look": "wall",
+      "hp": 0.8
+    },
+    {
+      "m": "wood",
+      "x": 37.5,
+      "y": 3.4,
+      "w": 5.4,
+      "h": 2.4,
+      "look": "pagoda",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 43.2,
       "y": 0,
       "w": 3.0,
-      "h": 7.5,
+      "h": 7.4,
       "look": "tower",
-      "hp": 0.6
+      "hp": 0.8
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 46.23,
+      "y": 0,
+      "w": 3.0,
+      "h": 4.2,
+      "look": "wall",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 49.26,
+      "y": 0,
+      "w": 3.0,
+      "h": 8.0,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 52.09,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
+      "h": 9.5,
       "look": "spire",
       "hp": 2
     }
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
-    },
-    {
-      "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
-    },
-    {
-      "kind": "soldier",
-      "x": 40.56,
+      "kind": "engineer",
+      "x": 28.7,
       "y": 0
+    },
+    {
+      "kind": "archer",
+      "x": 27.9,
+      "y": 6.65
+    },
+    {
+      "kind": "soldier",
+      "x": 32.6,
+      "y": 3.9
+    },
+    {
+      "kind": "engineer",
+      "x": 38.3,
+      "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 43.2,
+      "y": 7.4
+    },
+    {
+      "kind": "engineer",
+      "x": 49.26,
+      "y": 8.0
+    }
+  ],
+  "props": [
+    {
+      "kind": "powderBarrel",
+      "x": 27.3,
+      "y": 0
+    },
+    {
+      "kind": "powderBarrel",
+      "x": 36.4,
+      "y": 0
+    },
+    {
+      "kind": "powderBarrel",
+      "x": 46.23,
+      "y": 4.2
     }
   ]
 }
