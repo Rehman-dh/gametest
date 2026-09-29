@@ -1,69 +1,78 @@
 {
   "id": "rome_08",
   "name": "The Traitor's Road",
-  "worldWidth": 53,
+  "worldWidth": 50,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
+  "shots": 6,
+  "par": 3,
+  "objective": "killKing",
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
-      "y": 0,
-      "w": 3.0,
-      "h": 7,
-      "look": "tower",
-      "hp": 0.5
-    },
-    {
-      "m": "stone",
-      "x": 35.02,
-      "y": 0,
-      "w": 4.0,
-      "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
-    },
-    {
-      "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
+      "x": 27.5,
       "y": 0,
       "w": 3.0,
       "h": 7.5,
       "look": "tower",
-      "hp": 0.6
+      "hp": 1.0
+    },
+    {
+      "m": "marble",
+      "x": 30.82,
+      "y": 0,
+      "w": 3.6,
+      "h": 3.4,
+      "look": "wall",
+      "hp": 0.8
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 33.94,
+      "y": 0,
+      "w": 2.6,
+      "h": 6.0,
+      "look": "tower",
+      "hp": 0.9
+    },
+    {
+      "m": "marble",
+      "x": 36.06,
+      "y": 0,
+      "w": 1.6,
+      "h": 3.6,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "marble",
+      "x": 40.08,
+      "y": 0,
+      "w": 1.6,
+      "h": 3.6,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "marble",
+      "x": 38.07,
+      "y": 3.6,
+      "w": 5.62,
+      "h": 1.0,
+      "look": "wall",
+      "hp": 2.0
+    },
+    {
+      "m": "stone",
+      "x": 42.5,
+      "y": 0,
+      "w": 3.2,
+      "h": 9,
+      "look": "tower",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 45.42,
       "y": 0,
       "w": 2.6,
       "h": 8.5,
@@ -73,19 +82,69 @@
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "kind": "archer",
+      "x": 27.5,
+      "y": 7.5
     },
     {
-      "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "kind": "legionary",
+      "x": 30.82,
+      "y": 3.4
     },
     {
-      "kind": "soldier",
-      "x": 40.56,
+      "kind": "archer",
+      "x": 33.94,
+      "y": 6.0
+    },
+    {
+      "kind": "king",
+      "x": 38.08,
       "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 36.77,
+      "y": 4.6
+    },
+    {
+      "kind": "soldier",
+      "x": 39.37,
+      "y": 4.6
+    },
+    {
+      "kind": "archer",
+      "x": 42.5,
+      "y": 9
+    }
+  ],
+  "playerHp": 80,
+  "defenses": [
+    {
+      "m": "wood",
+      "x": 5,
+      "y": 0,
+      "w": 0.9,
+      "h": 2.4
+    },
+    {
+      "m": "wood",
+      "x": 6.1,
+      "y": 0,
+      "w": 0.9,
+      "h": 2.0
+    }
+  ],
+  "outroCutscene": "rome_betrayal",
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "castus",
+      "text": "The last rebel stronghold, General. Burn it, and Rome is ours."
+    },
+    {
+      "trigger": "volley:1",
+      "speaker": "bashir",
+      "text": "Their archers have our range. These rebels fight like men with nothing to lose."
     }
   ]
 }
