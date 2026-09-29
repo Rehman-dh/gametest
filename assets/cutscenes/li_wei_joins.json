@@ -1,0 +1,242 @@
+{
+  "id": "li_wei_joins",
+  "steps": [
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 0
+    },
+    {
+      "type": "tint",
+      "color": "40B8A060"
+    },
+    {
+      "type": "prop",
+      "prop": "banner",
+      "x": -6
+    },
+    {
+      "type": "spawn",
+      "actor": "hero",
+      "character": "arslan",
+      "x": 0,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "roxana",
+      "character": "roxana",
+      "x": -2.2,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "bashir",
+      "character": "bashir",
+      "x": -4.4,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "titus",
+      "character": "titus",
+      "x": -6.6,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "liwei",
+      "character": "liWei",
+      "x": 6,
+      "facing": -1,
+      "pose": "kneel"
+    },
+    {
+      "type": "camera",
+      "x": 3,
+      "y": -1.6,
+      "viewHeight": 7
+    },
+    {
+      "type": "fade",
+      "to": 0,
+      "duration": 1.5
+    },
+    {
+      "type": "sound",
+      "sound": "breakWood"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "The cage is broken. Can you stand?"
+    },
+    {
+      "type": "pose",
+      "actor": "liwei",
+      "pose": "stand"
+    },
+    {
+      "type": "move",
+      "actor": "liwei",
+      "x": 3.2,
+      "duration": 1.4
+    },
+    {
+      "type": "camera",
+      "x": 2,
+      "y": -1.4,
+      "viewHeight": 6,
+      "duration": 1.2
+    },
+    {
+      "type": "pose",
+      "actor": "liwei",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "liwei",
+      "text": "Stand, run, climb. Tao only wanted my eyes, not my legs."
+    },
+    {
+      "type": "say",
+      "speaker": "liwei",
+      "text": "My name is Li Wei. I was a scout, until Tao caged me and made me draw every pass in these mountains."
+    },
+    {
+      "type": "pose",
+      "actor": "liwei",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "He caged a mapmaker? Then he feared what you knew."
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "liwei",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "liwei",
+      "text": "He feared that I would sell it. So he locked it in a bamboo box, with me inside."
+    },
+    {
+      "type": "pose",
+      "actor": "liwei",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "We march on the Great Wall. Tao and the Iron Hand wait behind it."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "liwei",
+      "pose": "point"
+    },
+    {
+      "type": "say",
+      "speaker": "liwei",
+      "text": "Then you need me. I have walked every mile of it, General. I know where it cracks."
+    },
+    {
+      "type": "say",
+      "speaker": "liwei",
+      "text": "Every loose stone, every gate hung too heavy, every tower built in a hurry. I drew them all for Tao."
+    },
+    {
+      "type": "pose",
+      "actor": "liwei",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "Show me the cracks, Li Wei, and I will show you what my powder does to them."
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "titus",
+      "text": "Quick feet and sharp eyes. We lost a friend who had both. It is good to have them in the company again."
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "liwei",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "liwei",
+      "text": "Then let Tao learn what his maps are worth in the wrong hands."
+    },
+    {
+      "type": "pose",
+      "actor": "liwei",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "point"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Welcome to the company, Li Wei. Lead us to the Wall."
+    },
+    {
+      "type": "sound",
+      "sound": "warHorn"
+    },
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 2
+    }
+  ]
+}

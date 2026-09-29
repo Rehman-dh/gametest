@@ -1,0 +1,293 @@
+{
+  "id": "china_intro",
+  "steps": [
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 0
+    },
+    {
+      "type": "tint",
+      "color": "58A8B868"
+    },
+    {
+      "type": "prop",
+      "prop": "campfire",
+      "x": -3
+    },
+    {
+      "type": "spawn",
+      "actor": "hero",
+      "character": "arslan",
+      "x": -6,
+      "facing": 1,
+      "pose": "walk"
+    },
+    {
+      "type": "spawn",
+      "actor": "roxana",
+      "character": "roxana",
+      "x": -8,
+      "facing": 1,
+      "pose": "walk"
+    },
+    {
+      "type": "spawn",
+      "actor": "bashir",
+      "character": "bashir",
+      "x": -10,
+      "facing": 1,
+      "pose": "walk"
+    },
+    {
+      "type": "spawn",
+      "actor": "titus",
+      "character": "titus",
+      "x": -12,
+      "facing": 1,
+      "pose": "walk"
+    },
+    {
+      "type": "camera",
+      "x": 0,
+      "y": -1.6,
+      "viewHeight": 7
+    },
+    {
+      "type": "title",
+      "text": "BEYOND THE MOUNTAINS",
+      "subtitle": "The land where fire was born",
+      "duration": 3
+    },
+    {
+      "type": "fade",
+      "to": 0,
+      "duration": 2
+    },
+    {
+      "type": "parallel",
+      "steps": [
+        {
+          "type": "move",
+          "actor": "hero",
+          "x": 1,
+          "duration": 2.6
+        },
+        {
+          "type": "move",
+          "actor": "roxana",
+          "x": -1,
+          "duration": 2.7
+        },
+        {
+          "type": "move",
+          "actor": "bashir",
+          "x": -3,
+          "duration": 2.8
+        },
+        {
+          "type": "move",
+          "actor": "titus",
+          "x": -5,
+          "duration": 2.9
+        }
+      ]
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "Mist on every peak, and bamboo thicker than any forest in the west. The road ends here, General."
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "titus",
+      "text": "Roads end. Soldiers keep walking. My legs have not heard the news yet."
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "Do you know where we stand? This is the land where blasting powder was born."
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "Every trick I learned in Persia, some monk here learned a thousand years before me. I want to see how they do it."
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "stand"
+    },
+    {
+      "type": "spawn",
+      "actor": "villager",
+      "character": "messenger",
+      "x": 9,
+      "facing": -1,
+      "pose": "walk"
+    },
+    {
+      "type": "camera",
+      "x": 3,
+      "y": -1.6,
+      "viewHeight": 7,
+      "duration": 1.5
+    },
+    {
+      "type": "move",
+      "actor": "villager",
+      "x": 4,
+      "duration": 2.2
+    },
+    {
+      "type": "pose",
+      "actor": "villager",
+      "pose": "kneel"
+    },
+    {
+      "type": "say",
+      "speaker": "villager",
+      "text": "Strangers, turn back. You march into Warlord Tao's country."
+    },
+    {
+      "type": "pose",
+      "actor": "villager",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "villager",
+      "text": "His soldiers carry fire-lances that spit flame, and rockets that scream down from the sky."
+    },
+    {
+      "type": "say",
+      "speaker": "villager",
+      "text": "He burned my village for sheltering one of his runaway scouts. The mountains belong to him now."
+    },
+    {
+      "type": "pose",
+      "actor": "villager",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "Fire-lances and rockets. So Tao has learned my craft, and learned it well."
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Then we will meet fire with fire. Tao serves the Iron Crown, and the Iron Hand has fled to him."
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "We cross these mountains, and we do not turn back."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "say",
+      "speaker": "villager",
+      "text": "Then may the mountains be kinder to you than they were to us."
+    },
+    {
+      "type": "pose",
+      "actor": "villager",
+      "pose": "walk",
+      "facing": 1
+    },
+    {
+      "type": "move",
+      "actor": "villager",
+      "x": 10,
+      "duration": 2
+    },
+    {
+      "type": "remove",
+      "actor": "villager"
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "point"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "First the watchpost in the bamboo. Break it, and Tao's passes lie open."
+    },
+    {
+      "type": "sound",
+      "sound": "warHorn"
+    },
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 2
+    }
+  ]
+}

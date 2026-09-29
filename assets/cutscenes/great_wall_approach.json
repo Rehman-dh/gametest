@@ -1,0 +1,296 @@
+{
+  "id": "great_wall_approach",
+  "steps": [
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 0
+    },
+    {
+      "type": "tint",
+      "color": "60C05828"
+    },
+    {
+      "type": "spawn",
+      "actor": "tao",
+      "character": "warlordTao",
+      "x": 13,
+      "facing": -1
+    },
+    {
+      "type": "spawn",
+      "actor": "hero",
+      "character": "arslan",
+      "x": 0,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "liwei",
+      "character": "liWei",
+      "x": -2,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "roxana",
+      "character": "roxana",
+      "x": -4,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "titus",
+      "character": "titus",
+      "x": -6,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "bashir",
+      "character": "bashir",
+      "x": -8,
+      "facing": 1
+    },
+    {
+      "type": "camera",
+      "x": 0,
+      "y": -1.6,
+      "viewHeight": 7
+    },
+    {
+      "type": "fade",
+      "to": 0,
+      "duration": 2
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "The Great Wall. It runs over every peak until the dusk swallows it. No mason alive could build that twice."
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "camera",
+      "x": 12,
+      "y": -2,
+      "viewHeight": 8,
+      "duration": 2.5
+    },
+    {
+      "type": "pose",
+      "actor": "tao",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "tao",
+      "text": "So the western dogs have climbed my mountains. Dusk is a fitting hour for you to die."
+    },
+    {
+      "type": "say",
+      "speaker": "tao",
+      "text": "This Wall has turned back horse lords and emperors. It will not bend for a general with a sling."
+    },
+    {
+      "type": "pose",
+      "actor": "tao",
+      "pose": "stand"
+    },
+    {
+      "type": "camera",
+      "x": 5,
+      "y": -1.8,
+      "viewHeight": 8,
+      "duration": 1.5
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Emperors did not have Li Wei. Open your gate, Tao, or we open it for you."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "spawn",
+      "actor": "ironhand",
+      "character": "ironHand",
+      "x": 16,
+      "facing": -1,
+      "pose": "walk"
+    },
+    {
+      "type": "camera",
+      "x": 13,
+      "y": -2,
+      "viewHeight": 8,
+      "duration": 1.5
+    },
+    {
+      "type": "move",
+      "actor": "ironhand",
+      "x": 14.5,
+      "duration": 1.5
+    },
+    {
+      "type": "pose",
+      "actor": "ironhand",
+      "pose": "stand"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "The Iron Hand. Still running."
+    },
+    {
+      "type": "pose",
+      "actor": "ironhand",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "ironhand",
+      "text": "Running? I am leading you, Arslan. You have followed my footsteps since Egypt."
+    },
+    {
+      "type": "say",
+      "speaker": "ironhand",
+      "text": "The last shard, and the Crown's master, wait at the edge of the world. Break this Wall and come find them, if you can."
+    },
+    {
+      "type": "pose",
+      "actor": "ironhand",
+      "pose": "walk",
+      "facing": 1
+    },
+    {
+      "type": "move",
+      "actor": "ironhand",
+      "x": 18,
+      "duration": 1.8
+    },
+    {
+      "type": "remove",
+      "actor": "ironhand"
+    },
+    {
+      "type": "pose",
+      "actor": "tao",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "tao",
+      "text": "Let him go. My rockets need no iron ghost to guide them."
+    },
+    {
+      "type": "pose",
+      "actor": "tao",
+      "pose": "walk",
+      "facing": 1
+    },
+    {
+      "type": "move",
+      "actor": "tao",
+      "x": 17,
+      "duration": 1.5
+    },
+    {
+      "type": "remove",
+      "actor": "tao"
+    },
+    {
+      "type": "camera",
+      "x": 0,
+      "y": -1.6,
+      "viewHeight": 7,
+      "duration": 2
+    },
+    {
+      "type": "pose",
+      "actor": "liwei",
+      "pose": "point"
+    },
+    {
+      "type": "say",
+      "speaker": "liwei",
+      "text": "Look at the gate, General. Tao hung it on new timbers over old stone."
+    },
+    {
+      "type": "say",
+      "speaker": "liwei",
+      "text": "The left tower was rebuilt in a single summer. Its footing is rubble. Strike it low and the gate comes down with it."
+    },
+    {
+      "type": "pose",
+      "actor": "liwei",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "Low and hard. Leave that to me."
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "titus",
+      "text": "And when the gate falls, leave Tao's soldiers to me."
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "For Garin, and for every village Tao burned. Break the Great Wall."
+    },
+    {
+      "type": "sound",
+      "sound": "warHorn"
+    },
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 2
+    },
+    {
+      "type": "title",
+      "text": "THE GREAT WALL",
+      "subtitle": "The gate of Warlord Tao",
+      "duration": 3
+    }
+  ]
+}
