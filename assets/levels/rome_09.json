@@ -1,91 +1,230 @@
 {
   "id": "rome_09",
   "name": "The Tiber Bridge",
-  "worldWidth": 53,
+  "worldWidth": 51,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
+  "shots": 5,
+  "par": 3,
   "objective": "killAll",
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 26.5,
       "y": 0,
       "w": 3.0,
-      "h": 7,
+      "h": 8,
       "look": "tower",
-      "hp": 0.5
+      "hp": 0.8
     },
     {
-      "m": "stone",
-      "x": 35.02,
-      "y": 0,
-      "w": 4.0,
-      "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
-    },
-    {
-      "m": "stone",
-      "x": 38.04,
+      "m": "marble",
+      "x": 29.02,
       "y": 0,
       "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
+      "h": 0.9,
       "hp": 1.5
     },
     {
-      "m": "stone",
-      "x": 45.58,
+      "m": "marble",
+      "x": 29.02,
+      "y": 0.9,
+      "w": 1.2,
+      "h": 2.1,
+      "hp": 1.5
+    },
+    {
+      "m": "marble",
+      "x": 29.02,
+      "y": 3.0,
+      "w": 1.9,
+      "h": 0.4,
+      "hp": 1.5
+    },
+    {
+      "m": "marble",
+      "x": 33.22,
       "y": 0,
-      "w": 3.0,
-      "h": 7.5,
+      "w": 2.0,
+      "h": 0.9,
+      "hp": 1.5
+    },
+    {
+      "m": "marble",
+      "x": 33.22,
+      "y": 0.9,
+      "w": 1.2,
+      "h": 2.1,
+      "hp": 1.5
+    },
+    {
+      "m": "marble",
+      "x": 33.22,
+      "y": 3.0,
+      "w": 1.9,
+      "h": 0.4,
+      "hp": 1.5
+    },
+    {
+      "m": "marble",
+      "x": 37.42,
+      "y": 0,
+      "w": 2.0,
+      "h": 0.9,
+      "hp": 1.5
+    },
+    {
+      "m": "marble",
+      "x": 37.42,
+      "y": 0.9,
+      "w": 1.2,
+      "h": 2.1,
+      "hp": 1.5
+    },
+    {
+      "m": "marble",
+      "x": 37.42,
+      "y": 3.0,
+      "w": 1.9,
+      "h": 0.4,
+      "hp": 1.5
+    },
+    {
+      "m": "marble",
+      "x": 41.62,
+      "y": 0,
+      "w": 2.0,
+      "h": 0.9,
+      "hp": 1.5
+    },
+    {
+      "m": "marble",
+      "x": 41.62,
+      "y": 0.9,
+      "w": 1.2,
+      "h": 2.1,
+      "hp": 1.5
+    },
+    {
+      "m": "marble",
+      "x": 41.62,
+      "y": 3.0,
+      "w": 1.9,
+      "h": 0.4,
+      "hp": 1.5
+    },
+    {
+      "m": "marble",
+      "x": 30.64,
+      "y": 3.4,
+      "w": 5.14,
+      "h": 0.7,
+      "look": "wall",
+      "hp": 0.8
+    },
+    {
+      "m": "marble",
+      "x": 35.32,
+      "y": 3.4,
+      "w": 4.18,
+      "h": 0.7,
+      "look": "wall",
+      "hp": 0.8
+    },
+    {
+      "m": "marble",
+      "x": 40.0,
+      "y": 3.4,
+      "w": 5.14,
+      "h": 0.7,
+      "look": "wall",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 33.22,
+      "y": 4.1,
+      "w": 1.6,
+      "h": 3.0,
       "look": "tower",
       "hp": 0.6
     },
     {
+      "m": "marble",
+      "x": 28.62,
+      "y": 4.1,
+      "w": 0.5,
+      "h": 1.0
+    },
+    {
+      "m": "marble",
+      "x": 37.98,
+      "y": 4.1,
+      "w": 0.5,
+      "h": 1.0
+    },
+    {
       "m": "stone",
-      "x": 48.4,
+      "x": 44.14,
+      "y": 0,
+      "w": 3.0,
+      "h": 8.5,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 46.96,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
+      "h": 9.5,
       "look": "spire",
       "hp": 2
     }
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "kind": "legionary",
+      "x": 26.5,
+      "y": 8
+    },
+    {
+      "kind": "legionary",
+      "x": 33.22,
+      "y": 7.1
+    },
+    {
+      "kind": "legionary",
+      "x": 30.27,
+      "y": 4.1
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 35.43,
+      "y": 4.1
+    },
+    {
+      "kind": "legionary",
+      "x": 39.63,
+      "y": 4.1
     },
     {
       "kind": "soldier",
-      "x": 40.56,
+      "x": 35.32,
       "y": 0
+    },
+    {
+      "kind": "legionary",
+      "x": 44.14,
+      "y": 8.5
+    }
+  ],
+  "weapon": "trebuchet",
+  "wind": -1,
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "arslan",
+      "text": "Castus holds the Tiber with his own legions. Drop the stones on their heads; the shields face us."
     }
   ]
 }

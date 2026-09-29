@@ -1,91 +1,217 @@
 {
   "id": "rome_10",
   "name": "The Senate Walls",
-  "worldWidth": 53,
+  "worldWidth": 55,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
+  "par": 3,
+  "objective": "killKing",
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 26.5,
       "y": 0,
       "w": 3.0,
-      "h": 7,
+      "h": 8.5,
       "look": "tower",
-      "hp": 0.5
+      "hp": 0.9
     },
     {
-      "m": "stone",
-      "x": 35.02,
+      "m": "marble",
+      "x": 30.22,
       "y": 0,
-      "w": 4.0,
+      "w": 4.4,
+      "h": 5.2,
+      "look": "wall",
+      "hp": 0.9
+    },
+    {
+      "m": "marble",
+      "x": 35.84,
+      "y": 0,
+      "w": 3.6,
+      "h": 4.3,
+      "look": "wall",
+      "hp": 0.9
+    },
+    {
+      "m": "marble",
+      "x": 39.46,
+      "y": 0,
+      "w": 0.8,
       "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
-    },
-    {
-      "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
       "hp": 1.5
     },
     {
-      "m": "stone",
-      "x": 45.58,
+      "m": "marble",
+      "x": 42.76,
       "y": 0,
-      "w": 3.0,
-      "h": 7.5,
-      "look": "tower",
-      "hp": 0.6
+      "w": 0.8,
+      "h": 3.2,
+      "hp": 1.5
+    },
+    {
+      "m": "marble",
+      "x": 46.06,
+      "y": 0,
+      "w": 0.8,
+      "h": 3.2,
+      "hp": 1.5
+    },
+    {
+      "m": "marble",
+      "x": 42.76,
+      "y": 3.2,
+      "w": 7.4,
+      "h": 0.7,
+      "hp": 2.5
+    },
+    {
+      "m": "marble",
+      "x": 43.46,
+      "y": 0,
+      "w": 0.5,
+      "h": 2.1,
+      "hp": 3.0
+    },
+    {
+      "m": "marble",
+      "x": 45.36,
+      "y": 0,
+      "w": 0.5,
+      "h": 2.1,
+      "hp": 3.0
+    },
+    {
+      "m": "marble",
+      "x": 44.41,
+      "y": 2.1,
+      "w": 2.4,
+      "h": 0.6,
+      "hp": 5.0
+    },
+    {
+      "m": "marble",
+      "x": 39.66,
+      "y": 3.9,
+      "w": 0.6,
+      "h": 2.2,
+      "hp": 1.0
+    },
+    {
+      "m": "marble",
+      "x": 42.76,
+      "y": 3.9,
+      "w": 0.6,
+      "h": 2.2,
+      "hp": 1.0
+    },
+    {
+      "m": "marble",
+      "x": 45.86,
+      "y": 3.9,
+      "w": 0.6,
+      "h": 2.2,
+      "hp": 1.0
+    },
+    {
+      "m": "marble",
+      "x": 42.76,
+      "y": 6.1,
+      "w": 7.2,
+      "h": 0.6,
+      "hp": 1.5
+    },
+    {
+      "m": "marble",
+      "x": 42.76,
+      "y": 6.7,
+      "w": 4.6000000000000005,
+      "h": 0.45,
+      "hp": 1.0
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 47.98,
+      "y": 0,
+      "w": 3.0,
+      "h": 9,
+      "look": "tower",
+      "hp": 0.9
+    },
+    {
+      "m": "stone",
+      "x": 50.8,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
+      "h": 10,
       "look": "spire",
       "hp": 2
     }
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "kind": "legionary",
+      "x": 26.5,
+      "y": 8.5
+    },
+    {
+      "kind": "legionary",
+      "x": 30.22,
+      "y": 5.2
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 35.84,
+      "y": 4.3
     },
     {
-      "kind": "soldier",
-      "x": 40.56,
+      "kind": "engineer",
+      "x": 33.24,
       "y": 0
+    },
+    {
+      "kind": "engineer",
+      "x": 38.36,
+      "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 41.11,
+      "y": 0
+    },
+    {
+      "kind": "king",
+      "x": 44.41,
+      "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 44.31,
+      "y": 3.9
+    },
+    {
+      "kind": "soldier",
+      "x": 42.76,
+      "y": 7.15
+    },
+    {
+      "kind": "legionary",
+      "x": 47.98,
+      "y": 9
+    }
+  ],
+  "ammo": [
+    "stone",
+    "stone",
+    "powderKeg",
+    "stone",
+    "stone"
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "messenger",
+      "text": "Castus waits behind the Senate walls. His engineers mend every crack we make."
     }
   ]
 }
