@@ -1,0 +1,157 @@
+{
+  "id": "titus_joins",
+  "steps": [
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 0
+    },
+    {
+      "type": "prop",
+      "prop": "banner",
+      "x": -6
+    },
+    {
+      "type": "spawn",
+      "actor": "hero",
+      "character": "arslan",
+      "x": 0,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "bashir",
+      "character": "bashir",
+      "x": -2.2,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "prisoner",
+      "character": "soldier",
+      "x": 5,
+      "facing": -1,
+      "pose": "kneel"
+    },
+    {
+      "type": "spawn",
+      "actor": "titus",
+      "character": "titus",
+      "x": 11,
+      "facing": -1,
+      "pose": "kneel"
+    },
+    {
+      "type": "camera",
+      "x": 4,
+      "y": -1.6,
+      "viewHeight": 7
+    },
+    {
+      "type": "fade",
+      "to": 0,
+      "duration": 1.5
+    },
+    {
+      "type": "sound",
+      "sound": "breakWood"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "The pens are open. You are free men. Go home, if you still have one."
+    },
+    {
+      "type": "pose",
+      "actor": "prisoner",
+      "pose": "stand",
+      "facing": 1
+    },
+    {
+      "type": "move",
+      "actor": "prisoner",
+      "x": 14,
+      "duration": 2.5
+    },
+    {
+      "type": "remove",
+      "actor": "prisoner"
+    },
+    {
+      "type": "wait",
+      "duration": 0.6
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "move",
+      "actor": "titus",
+      "x": 6.5,
+      "duration": 2
+    },
+    {
+      "type": "camera",
+      "x": 4.5,
+      "y": -2,
+      "viewHeight": 7.5,
+      "duration": 1.2
+    },
+    {
+      "type": "say",
+      "speaker": "titus",
+      "text": "Home is a word they beat out of me in the arena. They called me Titus. It is the only name I kept."
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "You are no one's property now, Titus. Where will you go?"
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "titus",
+      "text": "I watched your stones bring down those walls. For nine years I bled on the sand for Roman crowds."
+    },
+    {
+      "type": "say",
+      "speaker": "titus",
+      "text": "Let me break something of Rome's for once. Point me at a wall, General."
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "He could carry a battering ram on his own shoulders."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "point"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Then walk with us, Titus. There are walls enough ahead."
+    },
+    {
+      "type": "sound",
+      "sound": "warHorn"
+    },
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 2
+    }
+  ]
+}

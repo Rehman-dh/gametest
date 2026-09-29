@@ -1,0 +1,181 @@
+{
+  "id": "colosseum_approach",
+  "steps": [
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 0
+    },
+    {
+      "type": "tint",
+      "color": "58A0401A"
+    },
+    {
+      "type": "spawn",
+      "actor": "castus",
+      "character": "castus",
+      "x": 13,
+      "facing": -1
+    },
+    {
+      "type": "spawn",
+      "actor": "ironhand",
+      "character": "ironHand",
+      "x": 15.5,
+      "facing": -1
+    },
+    {
+      "type": "spawn",
+      "actor": "hero",
+      "character": "arslan",
+      "x": 0,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "titus",
+      "character": "titus",
+      "x": -2,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "bashir",
+      "character": "bashir",
+      "x": -4,
+      "facing": 1
+    },
+    {
+      "type": "camera",
+      "x": 0,
+      "y": -1.6,
+      "viewHeight": 7
+    },
+    {
+      "type": "fade",
+      "to": 0,
+      "duration": 2
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "The Colosseum. He has turned the arena into a fortress."
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "titus",
+      "text": "I fought on that sand once. Forty men went in with me. I walked out alone."
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "camera",
+      "x": 12,
+      "y": -1.8,
+      "viewHeight": 8,
+      "duration": 2.5
+    },
+    {
+      "type": "pose",
+      "actor": "castus",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "castus",
+      "text": "Arslan! I gave you gold, a camp, a cause. And you bring my own stones back against me?"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "You gave me a lie, Castus. The legions of the north died believing in Rome."
+    },
+    {
+      "type": "say",
+      "speaker": "castus",
+      "text": "Rome is a crowd. It cheers whoever stands last in the arena. Tonight that will be me."
+    },
+    {
+      "type": "pose",
+      "actor": "castus",
+      "pose": "stand"
+    },
+    {
+      "type": "move",
+      "actor": "ironhand",
+      "x": 14.6,
+      "duration": 1.2
+    },
+    {
+      "type": "say",
+      "speaker": "ironhand",
+      "text": "The Crown does not forget its debtors, General. Win tonight, and your debt is paid."
+    },
+    {
+      "type": "pose",
+      "actor": "castus",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "castus",
+      "text": "Watch from the stands, then. I will not need you."
+    },
+    {
+      "type": "pose",
+      "actor": "ironhand",
+      "pose": "walk",
+      "facing": 1
+    },
+    {
+      "type": "move",
+      "actor": "ironhand",
+      "x": 18,
+      "duration": 1.2
+    },
+    {
+      "type": "remove",
+      "actor": "ironhand"
+    },
+    {
+      "type": "camera",
+      "x": 3,
+      "y": -1.6,
+      "viewHeight": 7,
+      "duration": 2
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "The Iron Hand. The one who killed your master."
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Then Castus is only a link in the chain. We break it tonight."
+    },
+    {
+      "type": "sound",
+      "sound": "warHorn"
+    },
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 2
+    },
+    {
+      "type": "title",
+      "text": "THE COLOSSEUM",
+      "subtitle": "The last stand of Castus",
+      "duration": 3
+    }
+  ]
+}

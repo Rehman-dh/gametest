@@ -1,0 +1,165 @@
+{
+  "id": "rome_finale",
+  "steps": [
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 0
+    },
+    {
+      "type": "tint",
+      "color": "40202040"
+    },
+    {
+      "type": "spawn",
+      "actor": "castus",
+      "character": "castus",
+      "x": 6.5,
+      "facing": -1,
+      "pose": "fallen"
+    },
+    {
+      "type": "prop",
+      "prop": "shard",
+      "x": 5
+    },
+    {
+      "type": "spawn",
+      "actor": "hero",
+      "character": "arslan",
+      "x": 0,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "bashir",
+      "character": "bashir",
+      "x": -2,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "titus",
+      "character": "titus",
+      "x": -4.2,
+      "facing": 1
+    },
+    {
+      "type": "camera",
+      "x": 3,
+      "y": -1.5,
+      "viewHeight": 6.5
+    },
+    {
+      "type": "fade",
+      "to": 0,
+      "duration": 1.5
+    },
+    {
+      "type": "move",
+      "actor": "hero",
+      "x": 4.3,
+      "duration": 2
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "kneel"
+    },
+    {
+      "type": "camera",
+      "x": 5,
+      "y": -1,
+      "viewHeight": 4.5,
+      "duration": 1.5
+    },
+    {
+      "type": "say",
+      "speaker": "castus",
+      "text": "The crowd... is silent. Strange. I always thought they would cheer."
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Who gave you the shard, Castus? Who holds the next link?"
+    },
+    {
+      "type": "say",
+      "speaker": "castus",
+      "text": "You think you broke the chain...? It only runs east."
+    },
+    {
+      "type": "say",
+      "speaker": "castus",
+      "text": "Persia. The Shahbanu's court. She keeps an alchemist in chains there... Roxana."
+    },
+    {
+      "type": "say",
+      "speaker": "castus",
+      "text": "The girl knows how the Crown was forged. They will never... let her go."
+    },
+    {
+      "type": "wait",
+      "duration": 1.2
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "He is gone."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "camera",
+      "x": 2,
+      "y": -1.6,
+      "viewHeight": 7,
+      "duration": 1.5
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "titus",
+      "text": "I swore I would never stand on this sand again. It feels different, standing on it a free man."
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "Persia. Old walls, clever walls. Walls that were ancient before Rome was a village."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "talk",
+      "facing": -1
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Then we find their flaw. And we bring Roxana out alive."
+    },
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 2
+    },
+    {
+      "type": "title",
+      "text": "ERA III · PERSIA",
+      "subtitle": "The Shahbanu's Court · coming soon",
+      "duration": 3.5
+    }
+  ]
+}
