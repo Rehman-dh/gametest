@@ -103,12 +103,25 @@ class CastleBlock extends BodyComponent<SiegeGame>
   Body createBody() {
     final spec = material.spec;
     final shape = PolygonShape()..setAsBoxXY(data.width / 2, data.height / 2);
+    final angle = -data.angle * math.pi / 180;
+    // Level y is bottom-up from the ground; Forge2D is y-down.
+    var position = Vector2(data.x, -(data.y + data.height / 2));
+    final hinge = data.hinge;
+    if (hinge != null) {
+      // A hinged block stands with the middle of its base exactly on the
+      // pin however it is tilted, so the joint holds it from the start
+      // instead of yanking it into place.
+      final halfUp = data.height / 2;
+      position = Vector2(
+        hinge.$1 + math.sin(angle) * halfUp,
+        -hinge.$2 - math.cos(angle) * halfUp,
+      );
+    }
     final body = world.createBody(
       BodyDef(
         type: BodyType.dynamic,
-        // Level y is bottom-up from the ground; Forge2D is y-down.
-        position: Vector2(data.x, -(data.y + data.height / 2)),
-        angle: -data.angle * math.pi / 180,
+        position: position,
+        angle: angle,
         userData: this,
       ),
     );
