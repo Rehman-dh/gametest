@@ -82,6 +82,8 @@ void main() {
 
   testWithGame<SiegeGame>('solve', build, (g) async {
     await g.startLevel(level);
+    // Let the first load finish before replays restart the level.
+    await g.ready();
     final loadout = g.loadout.ammo;
     final par = g.level.par;
     final shots = <_Shot>[];
