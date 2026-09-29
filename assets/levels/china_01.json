@@ -1,0 +1,121 @@
+{
+  "id": "china_01",
+  "name": "The Bamboo Watchpost",
+  "worldWidth": 54,
+  "catapultX": 0,
+  "par": 2,
+  "objective": "killAll",
+  "blocks": [
+    {
+      "m": "bamboo",
+      "x": 28.3,
+      "y": 0,
+      "w": 0.35,
+      "h": 4.5
+    },
+    {
+      "m": "bamboo",
+      "x": 31.1,
+      "y": 0,
+      "w": 0.35,
+      "h": 4.5
+    },
+    {
+      "m": "bamboo",
+      "x": 29.7,
+      "y": 4.5,
+      "w": 3.4,
+      "h": 0.35
+    },
+    {
+      "m": "stone",
+      "x": 34.8,
+      "y": 0,
+      "w": 3.2,
+      "h": 7,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 37.82,
+      "y": 0,
+      "w": 2.8,
+      "h": 4.6,
+      "look": "wall",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 40.72,
+      "y": 0,
+      "w": 3.0,
+      "h": 4.6,
+      "look": "wall",
+      "hp": 0.8
+    },
+    {
+      "m": "wood",
+      "x": 39.27,
+      "y": 4.6,
+      "w": 5.8,
+      "h": 2.6,
+      "look": "pagoda",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 43.84,
+      "y": 0,
+      "w": 3.2,
+      "h": 8,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 46.86,
+      "y": 0,
+      "w": 2.8,
+      "h": 9,
+      "look": "spire",
+      "hp": 2
+    }
+  ],
+  "units": [
+    {
+      "kind": "archer",
+      "x": 29.7,
+      "y": 4.85
+    },
+    {
+      "kind": "soldier",
+      "x": 34.8,
+      "y": 7
+    },
+    {
+      "kind": "soldier",
+      "x": 43.84,
+      "y": 8
+    },
+    {
+      "kind": "soldier",
+      "x": 32.4,
+      "y": 0
+    }
+  ],
+  "ammo": [
+    "stone",
+    "stone",
+    "fireball",
+    "stone",
+    "stone"
+  ],
+  "props": [
+    {
+      "kind": "powderBarrel",
+      "x": 26.9,
+      "y": 0
+    }
+  ]
+}

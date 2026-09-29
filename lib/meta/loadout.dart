@@ -104,6 +104,7 @@ class Modifiers {
     if (progress.relics.contains(RelicId.scarabAmulet)) engineHp += 15;
     if (progress.relics.contains(RelicId.aquila)) engineHp += 20;
     if (progress.relics.contains(RelicId.greenKnightsHelm)) engineHp += 25;
+    if (progress.relics.contains(RelicId.dragonBanner)) engineHp += 30;
     var barricade = 1.0, fire = 1 + 0.1 * alchemy, blast = 1.0;
     var trajectory = 1.0, repair = 0.0, firstShot = 1.0;
     if (alchemy >= 3) blast += 0.3;

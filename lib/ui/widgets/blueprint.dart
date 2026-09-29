@@ -97,6 +97,7 @@ class BlueprintPainter extends CustomPainter {
         BlockMaterial.glass => const Color(0xFFBDE8F7),
         BlockMaterial.marble => const Color(0xFFF4F4F2),
         BlockMaterial.tile => const Color(0xFF4CC3C9),
+        BlockMaterial.bamboo => const Color(0xFFB9C95A),
       };
       canvas
         ..drawRect(rect, Paint()..color = fill)

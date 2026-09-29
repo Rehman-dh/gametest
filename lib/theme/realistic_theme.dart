@@ -96,7 +96,7 @@ class RealisticTheme extends ProceduralTheme {
     // A few texture offsets per material so neighbours don't look cloned.
     final variant = Offset((seed % 5) * 0.37, (seed % 3) * 0.53);
     return switch (material) {
-      BlockMaterial.wood => _texture(
+      BlockMaterial.wood || BlockMaterial.bamboo => _texture(
         _Tex.wood,
         metersPerImage: 1.8,
         rotation: horizontal ? math.pi / 2 : 0,

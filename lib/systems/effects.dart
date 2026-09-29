@@ -212,7 +212,7 @@ class Effects {
   void blockHit(CastleBlock block, double damage) {
     final volume = (damage / 40).clamp(0.0, 1.0);
     audio.play(switch (block.material) {
-      BlockMaterial.wood => Sfx.impactWood,
+      BlockMaterial.wood || BlockMaterial.bamboo => Sfx.impactWood,
       BlockMaterial.stone || BlockMaterial.marble => Sfx.impactStone,
       BlockMaterial.glass || BlockMaterial.tile => Sfx.impactGlass,
     }, volume: volume);
@@ -256,7 +256,7 @@ class Effects {
       ),
     );
     audio.play(switch (block.material) {
-      BlockMaterial.wood => Sfx.breakWood,
+      BlockMaterial.wood || BlockMaterial.bamboo => Sfx.breakWood,
       BlockMaterial.stone || BlockMaterial.marble => Sfx.breakStone,
       BlockMaterial.glass || BlockMaterial.tile => Sfx.breakGlass,
     });

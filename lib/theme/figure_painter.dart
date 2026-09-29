@@ -73,10 +73,14 @@ class FigurePainter {
   /// Set for the figure being painted: the Black Baron's men-at-arms.
   static bool _medieval = false;
 
+  /// Set for the figure being painted: Warlord Tao's army.
+  static bool _chinese = false;
+
   static void paint(Canvas canvas, UnitKind kind, FigurePose pose) {
     _roman = pose.era == Era.rome || kind == UnitKind.legionary;
     _persian = !_roman && pose.era == Era.persia;
     _medieval = !_roman && pose.era == Era.medieval;
+    _chinese = !_roman && pose.era == Era.china;
     final spearman = kind == UnitKind.soldier || kind == UnitKind.legionary;
     final h = heightOf(kind);
     final u = h / 1.8; // body unit: 1 at soldier height
@@ -161,6 +165,8 @@ class FigurePainter {
           _spara(canvas, at);
         } else if (_medieval) {
           _heater(canvas, at);
+        } else if (_chinese) {
+          _rattan(canvas, at);
         } else {
           _shield(canvas, at);
         }
@@ -259,6 +265,8 @@ class FigurePainter {
           ..shader = Gradient.linear(b.topLeft, b.bottomRight, switch (kind) {
             // The Baron's men wear black.
             _ when _medieval => const [Color(0xFF2A2A34), Color(0xFF14141A)],
+            // Tao's army wears red lacquered armour.
+            _ when _chinese => const [Color(0xFFD23A2A), Color(0xFF8C1F16)],
             // The garrison wears red, so they stand out on pale stone.
             UnitKind.soldier ||
             UnitKind.legionary => const [Color(0xFFE5483A), Color(0xFFA82A1F)],
@@ -368,6 +376,12 @@ class FigurePainter {
                     Color(0xFF4A1E5E),
                     Color(0xFF7B3A93),
                     Color(0xFF4A1E5E),
+                  ]
+                : _chinese
+                ? const [
+                    Color(0xFFB8860B),
+                    Color(0xFFE8C45A),
+                    Color(0xFFB8860B),
                   ]
                 : _medieval
                 ? const [
@@ -484,11 +498,14 @@ class FigurePainter {
       case UnitKind.king || UnitKind.pharaoh:
         if (_roman) {
           _laurel(canvas, head, r);
-        } else if (_persian || _medieval) {
+        } else if (_persian || _medieval || _chinese) {
           _tiara(canvas, head, r);
         } else {
           _nemes(canvas, head, r);
         }
+      case UnitKind.soldier || UnitKind.archer || UnitKind.engineer
+          when _chinese:
+        _chineseHelm(canvas, head, r, kind);
       case UnitKind.soldier || UnitKind.archer || UnitKind.engineer
           when _medieval:
         _kettleHat(canvas, head, r);
@@ -630,6 +647,93 @@ class FigurePainter {
   }
 
   // ------------------------------------------------------------ gear
+
+  // ------------------------------------------------------------ China
+
+  /// A lamellar helmet with a red tassel; archers wear a conical straw hat.
+  static void _chineseHelm(
+    Canvas canvas,
+    Offset head,
+    double r,
+    UnitKind kind,
+  ) {
+    if (kind == UnitKind.archer || kind == UnitKind.engineer) {
+      final hat = Path()
+        ..moveTo(head.dx - r * 1.6, head.dy - r * 0.35)
+        ..lineTo(head.dx, head.dy - r * 1.7)
+        ..lineTo(head.dx + r * 1.6, head.dy - r * 0.35)
+        ..close();
+      canvas
+        ..drawPath(hat, _fill..color = const Color(0xFFD8B56A))
+        ..drawPath(hat, _edge);
+      return;
+    }
+    final helm = Path()
+      ..addArc(
+        Rect.fromCenter(
+          center: head + Offset(0, -r * 0.1),
+          width: r * 2.1,
+          height: r * 2.2,
+        ),
+        math.pi,
+        math.pi,
+      )
+      ..close();
+    canvas
+      ..drawPath(helm, _fill..color = const Color(0xFF6E6A62))
+      ..drawPath(helm, _edge)
+      ..drawCircle(
+        head + Offset(0, -r * 1.2),
+        r * 0.28,
+        _fill..color = const Color(0xFFD8322A),
+      )
+      ..drawLine(
+        head + Offset(0, -r * 1.2),
+        head + Offset(-r * 0.35, -r * 0.6),
+        Paint()
+          ..color = const Color(0xFFD8322A)
+          ..strokeWidth = 0.05
+          ..strokeCap = StrokeCap.round,
+      );
+  }
+
+  /// A round rattan shield painted with a tiger's face.
+  static void _rattan(Canvas canvas, Offset centre) {
+    const r = 0.27;
+    canvas
+      ..drawCircle(centre, r, _fill..color = const Color(0xFFE0B04A))
+      ..drawCircle(centre, r * 0.7, _fill..color = const Color(0xFFE8782A));
+    final stripe = Paint()
+      ..color = const Color(0xFF2B1A0E)
+      ..strokeWidth = 0.035
+      ..strokeCap = StrokeCap.round;
+    for (final dx in [-0.1, 0.0, 0.1]) {
+      canvas.drawLine(
+        centre + Offset(dx, -r * 0.55),
+        centre + Offset(dx * 0.6, -r * 0.2),
+        stripe,
+      );
+    }
+    canvas
+      ..drawCircle(
+        centre + const Offset(-0.07, 0.02),
+        0.03,
+        _fill..color = const Color(0xFF2B1A0E),
+      )
+      ..drawCircle(
+        centre + const Offset(0.07, 0.02),
+        0.03,
+        _fill..color = const Color(0xFF2B1A0E),
+      )
+      ..drawCircle(
+        centre,
+        r,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 0.05
+          ..color = const Color(0xFF2B1A0E),
+      );
+  }
 
   // ------------------------------------------------------------ Medieval
 

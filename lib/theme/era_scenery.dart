@@ -5,7 +5,8 @@ import '../core/era.dart';
 
 /// The landscape behind a siege, painted per era in the game's outlined
 /// cartoon style: Egypt's dunes and pyramids, Persia's golden sands and a
-/// city of domes, the Medieval west's misty hills and pine forests.
+/// city of domes, China's misty karst peaks and bamboo, the Medieval
+/// west's misty hills and pine forests.
 ///
 /// Each era is a sky and three parallax layers. A layer is recorded once
 /// as a picture a fixed width wide and tiled as the camera moves, so the
@@ -34,6 +35,12 @@ class EraScenery {
       skyHorizon: const Color(0xFFF7C98A),
       sun: const Color(0xFFFFE3A0),
       layers: [(0.9, _persiaFar), (0.75, _persiaMid), (0.55, _persiaNear)],
+    ),
+    Era.china: _Look(
+      skyTop: const Color(0xFF6FB7D8),
+      skyHorizon: const Color(0xFFF2E6C8),
+      sun: const Color(0xFFFFD8B0),
+      layers: [(0.9, _chinaFar), (0.75, _chinaMid), (0.55, _chinaNear)],
     ),
     Era.medieval: _Look(
       skyTop: const Color(0xFF7F9CB5),
@@ -295,6 +302,131 @@ class EraScenery {
 
   static void _persiaNear(Canvas canvas) {
     _shape(canvas, _ridge(0.4, 1.5, 6, 25), const Color(0xFFD38F52));
+  }
+
+  // ------------------------------------------------------------ China
+
+  /// Tall rounded karst peaks rising out of the mist.
+  static void _karst(
+    Canvas canvas,
+    double x,
+    double base,
+    double h,
+    double w,
+    Color c,
+  ) {
+    final peak = Path()
+      ..moveTo(x - w, base)
+      ..cubicTo(x - w * 0.9, base - h * 0.7, x - w * 0.6, base - h, x, base - h)
+      ..cubicTo(x + w * 0.6, base - h, x + w * 0.9, base - h * 0.7, x + w, base)
+      ..close();
+    _shape(canvas, peak, c, w: 0.06);
+  }
+
+  static void _chinaFar(Canvas canvas) {
+    final rng = math.Random(41);
+    for (var x = 4.0; x < _wrap - 4; x += 7 + rng.nextDouble() * 9) {
+      _karst(
+        canvas,
+        x,
+        0,
+        8 + rng.nextDouble() * 7,
+        2.5 + rng.nextDouble() * 1.5,
+        const Color(0xFFA9C2B6),
+      );
+    }
+    // A pagoda on a far peak.
+    for (final x in [40.0, 120.0]) {
+      const red = Color(0xFFB0453A), roof = Color(0xFF4E7A62);
+      for (var i = 0; i < 4; i++) {
+        final y = -6.0 - i * 1.6;
+        final w = 1.8 - i * 0.3;
+        _shape(
+          canvas,
+          Path()..addRect(Rect.fromLTRB(x - w * 0.5, y, x + w * 0.5, y + 1.0)),
+          red,
+          w: 0.05,
+        );
+        _shape(
+          canvas,
+          Path()
+            ..moveTo(x - w - 0.4, y + 0.1)
+            ..quadraticBezierTo(x - w * 0.4, y - 0.1, x, y - 0.6)
+            ..quadraticBezierTo(x + w * 0.4, y - 0.1, x + w + 0.4, y + 0.1)
+            ..close(),
+          roof,
+          w: 0.05,
+        );
+      }
+    }
+    // Mist over the far peaks' feet.
+    canvas.drawRect(
+      const Rect.fromLTRB(0, -3.5, _wrap, 1),
+      Paint()
+        ..shader = Gradient.linear(
+          const Offset(0, -3.5),
+          const Offset(0, 0),
+          const [Color(0x00F2E6C8), Color(0xCCF2E6C8)],
+        ),
+    );
+  }
+
+  static void _bamboo(Canvas canvas, double x, double base, double h) {
+    final cane = Paint()
+      ..color = const Color(0xFF6FA54A)
+      ..strokeWidth = 0.22
+      ..strokeCap = StrokeCap.round;
+    canvas.drawLine(Offset(x, base), Offset(x + h * 0.06, base - h), cane);
+    final node = Paint()
+      ..color = const Color(0xFF3E6E2A)
+      ..strokeWidth = 0.05;
+    for (var y = 0.8; y < h; y += 0.8) {
+      final px = x + h * 0.06 * (y / h);
+      canvas.drawLine(
+        Offset(px - 0.12, base - y),
+        Offset(px + 0.12, base - y),
+        node,
+      );
+    }
+    final leaf = Paint()..color = const Color(0xFF4E9A3C);
+    for (var i = 0; i < 4; i++) {
+      final at = Offset(
+        x + h * 0.06 * (1 - i * 0.15),
+        base - h * (1 - i * 0.15),
+      );
+      canvas.drawPath(
+        Path()
+          ..moveTo(at.dx, at.dy)
+          ..quadraticBezierTo(
+            at.dx + 0.9 * (i.isEven ? 1 : -1),
+            at.dy - 0.3,
+            at.dx + 1.4 * (i.isEven ? 1 : -1),
+            at.dy + 0.3,
+          )
+          ..quadraticBezierTo(
+            at.dx + 0.6 * (i.isEven ? 1 : -1),
+            at.dy + 0.1,
+            at.dx,
+            at.dy,
+          )
+          ..close(),
+        leaf,
+      );
+    }
+  }
+
+  static void _chinaMid(Canvas canvas) {
+    _shape(canvas, _ridge(0.0, 2.6, 3, 42), const Color(0xFF7FB27A));
+    final rng = math.Random(43);
+    for (var x = 3.0; x < _wrap - 3; x += 9 + rng.nextDouble() * 12) {
+      for (var k = 0; k < 3 + rng.nextInt(4); k++) {
+        _bamboo(canvas, x + k * 0.55, -1.2, 4 + rng.nextDouble() * 2.5);
+      }
+    }
+  }
+
+  static void _chinaNear(Canvas canvas) {
+    _shape(canvas, _ridge(0.4, 1.3, 5, 44), const Color(0xFF5E9E5A));
   }
 
   // ------------------------------------------------------------ Medieval

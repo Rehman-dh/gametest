@@ -50,6 +50,12 @@ class CartoonTheme extends ProceduralTheme {
     'medieval_wall_0.png', 'medieval_wall_1.png', 'medieval_wall_2.png',
     'medieval_wall_brick_0.png', 'medieval_wall_brick_1.png',
     'medieval_wall_brick_2.png',
+    'china_tower_0.png', 'china_tower_1.png', 'china_tower_2.png',
+    'china_tower_tall_0.png', 'china_tower_tall_1.png',
+    'china_tower_tall_2.png',
+    'china_wall_0.png', 'china_wall_1.png', 'china_wall_2.png',
+    'china_wall_brick_0.png', 'china_wall_brick_1.png',
+    'china_wall_brick_2.png',
   ];
 
   static Future<CartoonTheme> load() async {
@@ -376,6 +382,7 @@ class CartoonTheme extends ProceduralTheme {
       Era.rome => 'rome_',
       Era.persia => 'persia_',
       Era.medieval => 'medieval_',
+      Era.china => 'china_',
       _ => '',
     };
     return switch (look) {
@@ -388,6 +395,110 @@ class CartoonTheme extends ProceduralTheme {
             ? _img['${set}wall_brick_$s']
             : _img['${set}wall_$s'],
     };
+  }
+
+  /// A pagoda roof: dark green glazed tiles sweeping up at the eaves over
+  /// a red lacquered beam, with a gold finial; fills a block of [size].
+  void _drawPagoda(Canvas canvas, Size size, int crackStage, double char) {
+    final w = size.width, h = size.height;
+    final left = -w / 2, right = w / 2, bottom = h / 2, top = -h / 2;
+    final beamH = h * 0.18;
+    final roofBottom = bottom - beamH;
+    final roof = Path()
+      ..moveTo(left - w * 0.02, roofBottom - h * 0.22)
+      ..quadraticBezierTo(
+        left + w * 0.12,
+        roofBottom,
+        left + w * 0.28,
+        roofBottom,
+      )
+      ..lineTo(right - w * 0.28, roofBottom)
+      ..quadraticBezierTo(
+        right - w * 0.12,
+        roofBottom,
+        right + w * 0.02,
+        roofBottom - h * 0.22,
+      )
+      ..quadraticBezierTo(
+        right - w * 0.2,
+        roofBottom - h * 0.3,
+        w * 0.12,
+        top + h * 0.12,
+      )
+      ..lineTo(-w * 0.12, top + h * 0.12)
+      ..quadraticBezierTo(
+        left + w * 0.2,
+        roofBottom - h * 0.3,
+        left - w * 0.02,
+        roofBottom - h * 0.22,
+      )
+      ..close();
+    final b = roof.getBounds();
+    final dark = Color.lerp(
+      const Color(0xFF2F7A5A),
+      const Color(0xFF241810),
+      char,
+    )!;
+    final light = Color.lerp(
+      const Color(0xFF5FB68A),
+      const Color(0xFF3A2A20),
+      char,
+    )!;
+    canvas
+      ..drawRect(
+        Rect.fromLTRB(left + w * 0.18, roofBottom, right - w * 0.18, bottom),
+        Paint()
+          ..color = Color.lerp(
+            const Color(0xFFC0392B),
+            const Color(0xFF3A2A20),
+            char,
+          )!,
+      )
+      ..drawRect(
+        Rect.fromLTRB(left + w * 0.18, roofBottom, right - w * 0.18, bottom),
+        _line
+          ..strokeWidth = 0.06
+          ..color = _outline,
+      )
+      ..save()
+      ..clipPath(roof)
+      ..drawRect(
+        b,
+        Paint()
+          ..shader = Gradient.linear(b.topCenter, b.bottomCenter, [
+            light,
+            dark,
+          ]),
+      );
+    // Rows of tile ridges.
+    final ridge = Paint()
+      ..color = const Color(0x55000000)
+      ..strokeWidth = 0.04;
+    for (var x = b.left; x < b.right; x += 0.3) {
+      canvas.drawLine(Offset(x, b.top), Offset(x, b.bottom), ridge);
+    }
+    _cracks(canvas, b, crackStage, math.Random(9));
+    canvas
+      ..restore()
+      ..drawPath(
+        roof,
+        _line
+          ..strokeWidth = 0.08
+          ..color = _outline,
+      )
+      ..drawLine(
+        Offset(0, top + h * 0.12),
+        Offset(0, top),
+        Paint()
+          ..color = const Color(0xFFE2B84A)
+          ..strokeWidth = 0.1
+          ..strokeCap = StrokeCap.round,
+      )
+      ..drawCircle(
+        Offset(0, top + 0.05),
+        0.1,
+        Paint()..color = const Color(0xFFE2B84A),
+      );
   }
 
   /// A Persian onion dome of glazed turquoise tile with a gold finial,
@@ -488,6 +599,7 @@ class CartoonTheme extends ProceduralTheme {
   /// fortress: warm sandstone and orange timber.
   static (Color, Color) _shades(BlockMaterial m) => switch (m) {
     BlockMaterial.wood => (const Color(0xFFE39447), const Color(0xFFB0622A)),
+    BlockMaterial.bamboo => (const Color(0xFFD9E27A), const Color(0xFF8FA83C)),
     BlockMaterial.stone => (const Color(0xFFF0DCAA), const Color(0xFFCDAA6A)),
     BlockMaterial.glass => (const Color(0xCCBDEFFF), const Color(0xAA7FCDEB)),
     BlockMaterial.marble => (const Color(0xFFFBFAF7), const Color(0xFFD5D3CE)),
@@ -527,6 +639,10 @@ class CartoonTheme extends ProceduralTheme {
   }) {
     if (look == 'dome') {
       _drawDome(canvas, size, crackStage, char);
+      return;
+    }
+    if (look == 'pagoda') {
+      _drawPagoda(canvas, size, crackStage, char);
       return;
     }
     final art = _fortArt(look, crackStage, size);
@@ -613,6 +729,49 @@ class CartoonTheme extends ProceduralTheme {
       ..save()
       ..clipRRect(shape);
     switch (material) {
+      case BlockMaterial.bamboo:
+        // Canes along the long side, ringed with nodes.
+        final alongX = size.width >= size.height;
+        final long = alongX ? rect.width : rect.height;
+        final short = alongX ? rect.height : rect.width;
+        final canes = math.max(1, (short / 0.28).round());
+        final seam = Paint()
+          ..color = const Color(0x886B7A28)
+          ..strokeWidth = 0.03;
+        final node = Paint()
+          ..color = const Color(0xCC5E6E22)
+          ..strokeWidth = 0.05;
+        for (var c = 1; c < canes; c++) {
+          final t = c / canes * short;
+          if (alongX) {
+            canvas.drawLine(
+              Offset(rect.left, rect.top + t),
+              Offset(rect.right, rect.top + t),
+              seam,
+            );
+          } else {
+            canvas.drawLine(
+              Offset(rect.left + t, rect.top),
+              Offset(rect.left + t, rect.bottom),
+              seam,
+            );
+          }
+        }
+        for (var d = 0.7; d < long; d += 0.7) {
+          if (alongX) {
+            canvas.drawLine(
+              Offset(rect.left + d, rect.top),
+              Offset(rect.left + d, rect.bottom),
+              node,
+            );
+          } else {
+            canvas.drawLine(
+              Offset(rect.left, rect.top + d),
+              Offset(rect.right, rect.top + d),
+              node,
+            );
+          }
+        }
       case BlockMaterial.wood:
         // Grain along the long side.
         final grain = Paint()
@@ -1077,6 +1236,7 @@ class CartoonTheme extends ProceduralTheme {
 
   static Color _materialColor(BlockMaterial m) => switch (m) {
     BlockMaterial.wood => const Color(0xFFD98A3E),
+    BlockMaterial.bamboo => const Color(0xFFC6D466),
     BlockMaterial.stone => const Color(0xFFE6CE96),
     BlockMaterial.glass => const Color(0xDDBDEFFF),
     BlockMaterial.marble => const Color(0xFFF2F1EE),

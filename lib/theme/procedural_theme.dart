@@ -303,7 +303,7 @@ class ProceduralTheme implements ArtTheme {
     final rrect = RRect.fromRectAndRadius(rect, const Radius.circular(0.08));
 
     switch (material) {
-      case BlockMaterial.wood:
+      case BlockMaterial.wood || BlockMaterial.bamboo:
         canvas.drawRRect(rrect, _fill..color = const Color(0xFF7A4E2D));
         final grain = Paint()
           ..color = const Color(0xFF5A3620)
@@ -408,6 +408,7 @@ class ProceduralTheme implements ArtTheme {
 
   static Color _materialColor(BlockMaterial material) => switch (material) {
     BlockMaterial.wood => const Color(0xFF7A4E2D),
+    BlockMaterial.bamboo => const Color(0xFF9DAE45),
     BlockMaterial.stone => const Color(0xFF7D7A72),
     BlockMaterial.marble => const Color(0xFFE4E2DC),
     BlockMaterial.tile => const Color(0xFF3FA7AE),
@@ -1484,6 +1485,7 @@ class ProceduralTheme implements ArtTheme {
     final area = size.width * size.height;
     final chipColor = switch (material) {
       BlockMaterial.wood => const Color(0xFF5E3A20),
+      BlockMaterial.bamboo => const Color(0xFF8A9A3A),
       BlockMaterial.stone => const Color(0xFF6E6B64),
       BlockMaterial.marble => const Color(0xFFD8D6D0),
       BlockMaterial.tile => const Color(0xFF52C0C6),

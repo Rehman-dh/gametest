@@ -51,6 +51,8 @@ enum CharacterId {
   shahbanu,
   roxana,
   blackBaron,
+  warlordTao,
+  liWei,
 }
 
 const Map<CharacterId, CharacterLook> characterLooks = {
@@ -149,6 +151,29 @@ const Map<CharacterId, CharacterLook> characterLooks = {
     headgear: Headgear.helmet,
     carried: Carried.sword,
     height: 1.95,
+  ),
+  CharacterId.warlordTao: CharacterLook(
+    name: 'Warlord Tao',
+    cloth: Color(0xFFB8860B),
+    clothDark: Color(0xFF7A5808),
+    cloak: Color(0xFF8C1F16),
+    skin: Color(0xFFE0B48C),
+    hair: Color(0xFF14100C),
+    beard: Color(0xFF14100C),
+    headgear: Headgear.helmet,
+    carried: Carried.sword,
+    height: 1.9,
+  ),
+  CharacterId.liWei: CharacterLook(
+    name: 'Li Wei',
+    cloth: Color(0xFF2E5E4A),
+    clothDark: Color(0xFF1C3C2E),
+    cloak: Color(0xFF5A6E3A),
+    skin: Color(0xFFE6BC94),
+    hair: Color(0xFF14100C),
+    headgear: Headgear.hood,
+    carried: Carried.staff,
+    height: 1.72,
   ),
   CharacterId.roxana: CharacterLook(
     name: 'Roxana',
