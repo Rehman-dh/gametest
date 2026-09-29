@@ -1,91 +1,332 @@
 {
   "id": "medieval_15",
   "name": "The Black Keep",
-  "worldWidth": 53,
+  "worldWidth": 62,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
+  "introCutscene": "black_keep_approach",
+  "outroCutscene": "medieval_finale",
+  "relic": "baronsSeal",
+  "ammo": [
+    "stone",
+    "stone",
+    "stone",
+    "stone",
+    "fireball",
+    "powderKeg"
+  ],
+  "par": 7,
+  "objective": "destroyEngines",
+  "playerHp": 120,
+  "defenses": [
+    {
+      "m": "stone",
+      "x": 5,
+      "y": 0,
+      "w": 0.8,
+      "h": 2.4
+    },
+    {
+      "m": "wood",
+      "x": 6,
+      "y": 0,
+      "w": 0.5,
+      "h": 3
+    }
+  ],
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 25.5,
       "y": 0,
       "w": 3.0,
-      "h": 7,
+      "h": 7.0,
       "look": "tower",
-      "hp": 0.5
+      "hp": 0.8
+    },
+    {
+      "m": "wood",
+      "x": 36.4,
+      "y": 0.35,
+      "w": 0.45,
+      "h": 5.6,
+      "a": 5,
+      "hinge": [
+        36.4,
+        0.35
+      ],
+      "tie": [
+        37.55,
+        5.0
+      ]
     },
     {
       "m": "stone",
-      "x": 35.02,
+      "x": 39.2,
       "y": 0,
       "w": 4.0,
-      "h": 3.2,
+      "h": 5.6,
       "look": "wall",
-      "hp": 0.45
+      "hp": 0.8
     },
     {
       "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
-      "y": 0,
-      "w": 3.0,
-      "h": 7.5,
-      "look": "tower",
-      "hp": 0.6
-    },
-    {
-      "m": "stone",
-      "x": 48.4,
+      "x": 46.3,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
+      "h": 6.5,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 50.1,
+      "y": 0,
+      "w": 3.0,
+      "h": 2.6,
+      "look": "wall",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 53.6,
+      "y": 0,
+      "w": 2.8,
+      "h": 9.5,
       "look": "spire",
       "hp": 2
     }
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "kind": "archer",
+      "x": 25.5,
+      "y": 7.0
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 39.8,
+      "y": 5.6
     },
     {
-      "kind": "soldier",
-      "x": 40.56,
+      "kind": "archer",
+      "x": 46.3,
+      "y": 6.5
+    }
+  ],
+  "props": [
+    {
+      "kind": "enemyCatapult",
+      "x": 43.3,
       "y": 0
+    },
+    {
+      "kind": "enemyCatapult",
+      "x": 50.1,
+      "y": 2.6
+    }
+  ],
+  "moat": {
+    "x": 33.7,
+    "w": 5.0,
+    "depth": 2.5
+  },
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "blackBaron",
+      "text": "So the desert rat has come to my door. Look well at the Black Keep, Arslan. No one has crossed its moat and lived."
+    },
+    {
+      "trigger": "volley:1",
+      "speaker": "bashir",
+      "text": "Engines behind the moat, in the outer bailey! Silence them before they find the barricade."
+    },
+    {
+      "trigger": "volley:2",
+      "speaker": "roxana",
+      "text": "The drawbridge hangs on one chain from the gatehouse. Bring the wall down and the bridge falls."
+    },
+    {
+      "trigger": "phase:2",
+      "speaker": "blackBaron",
+      "text": "Raise the curtain walls! Every man to the battlements."
+    },
+    {
+      "trigger": "volley:5",
+      "speaker": "titus",
+      "text": "Their archers stand on bare stone. Knock the towers from under them."
+    },
+    {
+      "trigger": "phase:3",
+      "speaker": "blackBaron",
+      "text": "Enough. The Crown gave me this keep, and I will hold it with my own hands."
+    },
+    {
+      "trigger": "volley:8",
+      "speaker": "arslan",
+      "text": "His roof is timber over stone. Burn it, and there is nowhere left for him to hide."
+    }
+  ],
+  "phases": [
+    {
+      "title": "The curtain walls rise",
+      "objective": "killAll",
+      "ammo": [
+        "stone",
+        "stone",
+        "stone",
+        "powderKeg"
+      ],
+      "blocks": [
+        {
+          "m": "stone",
+          "x": 49.6,
+          "y": 0,
+          "w": 3.0,
+          "h": 8.0,
+          "look": "tower",
+          "hp": 1.0
+        },
+        {
+          "m": "stone",
+          "x": 53.15,
+          "y": 0,
+          "w": 4.0,
+          "h": 5.0,
+          "look": "wall",
+          "hp": 1.2
+        },
+        {
+          "m": "stone",
+          "x": 56.7,
+          "y": 0,
+          "w": 3.0,
+          "h": 9.0,
+          "look": "tower",
+          "hp": 1.0
+        },
+        {
+          "m": "stone",
+          "x": 59.65,
+          "y": 0,
+          "w": 2.8,
+          "h": 6.4,
+          "look": "wall",
+          "hp": 1.2
+        }
+      ],
+      "units": [
+        {
+          "kind": "archer",
+          "x": 49.6,
+          "y": 8.0
+        },
+        {
+          "kind": "soldier",
+          "x": 53.15,
+          "y": 5.0
+        },
+        {
+          "kind": "archer",
+          "x": 56.7,
+          "y": 9.0
+        },
+        {
+          "kind": "soldier",
+          "x": 59.65,
+          "y": 6.4
+        }
+      ]
+    },
+    {
+      "title": "The Baron descends",
+      "objective": "killKing",
+      "ammo": [
+        "stone",
+        "stone",
+        "fireball"
+      ],
+      "blocks": [
+        {
+          "m": "stone",
+          "x": 47.6,
+          "y": 0,
+          "w": 1.6,
+          "h": 3.6,
+          "look": "wall",
+          "hp": 1.2
+        },
+        {
+          "m": "stone",
+          "x": 53.5,
+          "y": 0,
+          "w": 7.4,
+          "h": 4.6,
+          "look": "wall",
+          "hp": 2.0
+        },
+        {
+          "m": "stone",
+          "x": 50.65,
+          "y": 4.6,
+          "w": 1.7,
+          "h": 3.0,
+          "look": "tower",
+          "hp": 1.8
+        },
+        {
+          "m": "stone",
+          "x": 56.35,
+          "y": 4.6,
+          "w": 1.7,
+          "h": 3.0,
+          "look": "tower",
+          "hp": 1.8
+        },
+        {
+          "m": "wood",
+          "x": 53.5,
+          "y": 7.6,
+          "w": 7.4,
+          "h": 0.4
+        },
+        {
+          "m": "stone",
+          "x": 54.3,
+          "y": 8.0,
+          "w": 2.2,
+          "h": 4.0,
+          "look": "tower",
+          "hp": 1.0
+        },
+        {
+          "m": "stone",
+          "x": 59.2,
+          "y": 0,
+          "w": 2.8,
+          "h": 11.0,
+          "look": "spire",
+          "hp": 2
+        }
+      ],
+      "units": [
+        {
+          "kind": "pharaoh",
+          "x": 53.5,
+          "y": 4.6
+        },
+        {
+          "kind": "engineer",
+          "x": 51.3,
+          "y": 8.0
+        },
+        {
+          "kind": "soldier",
+          "x": 47.6,
+          "y": 3.6
+        }
+      ],
+      "props": []
     }
   ]
 }
