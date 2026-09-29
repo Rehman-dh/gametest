@@ -1,72 +1,183 @@
 {
   "id": "china_10",
   "name": "The Lantern Fortress",
-  "worldWidth": 53,
+  "worldWidth": 50,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
+  "ammo": [
+    "stone",
+    "cluster",
+    "powderKeg",
+    "stone",
+    "fireball"
+  ],
+  "par": 3,
+  "objective": "killKing",
+  "playerHp": 100,
+  "defenses": [
+    {
+      "m": "wood",
+      "x": 5,
+      "y": 0,
+      "w": 0.9,
+      "h": 2.4
+    },
+    {
+      "m": "wood",
+      "x": 6.1,
+      "y": 0,
+      "w": 0.9,
+      "h": 2.0
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "warlordTao",
+      "text": "My lanterns have burned for a hundred years. Your little catapult will not put them out."
+    },
+    {
+      "trigger": "shot:1",
+      "speaker": "arslan",
+      "text": "His general hides under the great roof. Bring it down on him."
+    }
+  ],
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 25.9,
       "y": 0,
-      "w": 3.0,
-      "h": 7,
-      "look": "tower",
-      "hp": 0.5
-    },
-    {
-      "m": "stone",
-      "x": 35.02,
-      "y": 0,
-      "w": 4.0,
-      "h": 3.2,
+      "w": 2.8,
+      "h": 4.2,
       "look": "wall",
-      "hp": 0.45
+      "hp": 0.9
     },
     {
       "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
-      "y": 0,
-      "w": 3.0,
-      "h": 7.5,
-      "look": "tower",
-      "hp": 0.6
-    },
-    {
-      "m": "stone",
-      "x": 48.4,
+      "x": 28.63,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
+      "h": 7.0,
+      "look": "tower",
+      "hp": 0.9
+    },
+    {
+      "m": "wood",
+      "x": 28.63,
+      "y": 7.0,
+      "w": 3.6,
+      "h": 2.0,
+      "look": "pagoda",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 31.1,
+      "y": 0,
+      "w": 1.2,
+      "h": 3.6,
+      "look": "tower",
+      "hp": 1.4
+    },
+    {
+      "m": "stone",
+      "x": 36.9,
+      "y": 0,
+      "w": 1.2,
+      "h": 3.6,
+      "look": "tower",
+      "hp": 1.4
+    },
+    {
+      "m": "stone",
+      "x": 34.0,
+      "y": 3.6,
+      "w": 7.0,
+      "h": 0.8,
+      "look": "wall",
+      "hp": 2.6
+    },
+    {
+      "m": "wood",
+      "x": 31.4,
+      "y": 4.4,
+      "w": 0.5,
+      "h": 2.6,
+      "hp": 0.8
+    },
+    {
+      "m": "wood",
+      "x": 36.6,
+      "y": 4.4,
+      "w": 0.5,
+      "h": 2.6,
+      "hp": 0.8
+    },
+    {
+      "m": "wood",
+      "x": 34.0,
+      "y": 7.0,
+      "w": 6.2,
+      "h": 0.4,
+      "hp": 1.0
+    },
+    {
+      "m": "wood",
+      "x": 32.0,
+      "y": 7.4,
+      "w": 0.45,
+      "h": 2.2,
+      "hp": 0.8
+    },
+    {
+      "m": "wood",
+      "x": 36.0,
+      "y": 7.4,
+      "w": 0.45,
+      "h": 2.2,
+      "hp": 0.8
+    },
+    {
+      "m": "wood",
+      "x": 34.0,
+      "y": 9.6,
+      "w": 6.0,
+      "h": 2.6,
+      "look": "pagoda",
+      "hp": 1.2
+    },
+    {
+      "m": "stone",
+      "x": 39.1,
+      "y": 0,
+      "w": 3.0,
+      "h": 4.0,
+      "look": "wall",
+      "hp": 0.9
+    },
+    {
+      "m": "wood",
+      "x": 39.2,
+      "y": 4.0,
+      "w": 3.2,
+      "h": 1.8,
+      "look": "pagoda",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 43.1,
+      "y": 0,
+      "w": 2.8,
+      "h": 8.2,
+      "look": "tower",
+      "hp": 0.9
+    },
+    {
+      "m": "stone",
+      "x": 45.93,
+      "y": 0,
+      "w": 2.8,
+      "h": 9.8,
       "look": "spire",
       "hp": 2
     }
@@ -74,17 +185,34 @@
   "units": [
     {
       "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "x": 25.9,
+      "y": 4.2
+    },
+    {
+      "kind": "king",
+      "x": 34.4,
+      "y": 0
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 34.0,
+      "y": 4.4
     },
     {
       "kind": "soldier",
-      "x": 40.56,
+      "x": 34.0,
+      "y": 7.4
+    },
+    {
+      "kind": "archer",
+      "x": 43.1,
+      "y": 8.2
+    }
+  ],
+  "props": [
+    {
+      "kind": "powderBarrel",
+      "x": 41.2,
       "y": 0
     }
   ]

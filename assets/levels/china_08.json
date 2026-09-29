@@ -1,72 +1,210 @@
 {
   "id": "china_08",
   "name": "The Rice Granaries",
-  "worldWidth": 53,
+  "worldWidth": 52,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
+  "ammo": [
+    "fireball",
+    "stone",
+    "fireball",
+    "stone",
+    "fireball"
+  ],
+  "par": 3,
   "objective": "killAll",
+  "playerHp": 100,
+  "defenses": [
+    {
+      "m": "wood",
+      "x": 5,
+      "y": 0,
+      "w": 0.9,
+      "h": 2.4
+    },
+    {
+      "m": "wood",
+      "x": 6.1,
+      "y": 0,
+      "w": 0.9,
+      "h": 2.0
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "liWei",
+      "text": "Tao feeds his army from these granaries. Dry timber on stilts \u2014 it will burn like paper."
+    },
+    {
+      "trigger": "shot:1",
+      "speaker": "bashir",
+      "text": "Let the fire eat the legs. The stone stores need a heavier hand."
+    }
+  ],
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 25.9,
       "y": 0,
-      "w": 3.0,
-      "h": 7,
+      "w": 2.8,
+      "h": 4.2,
+      "look": "wall",
+      "hp": 0.9
+    },
+    {
+      "m": "wood",
+      "x": 25.9,
+      "y": 4.2,
+      "w": 3.6,
+      "h": 1.8,
+      "look": "pagoda",
+      "hp": 1.0
+    },
+    {
+      "m": "wood",
+      "x": 28.4,
+      "y": 0,
+      "w": 0.4,
+      "h": 2.4,
+      "hp": 0.5
+    },
+    {
+      "m": "wood",
+      "x": 32.8,
+      "y": 0,
+      "w": 0.4,
+      "h": 2.4,
+      "hp": 0.5
+    },
+    {
+      "m": "wood",
+      "x": 30.6,
+      "y": 2.4,
+      "w": 5.2,
+      "h": 0.4,
+      "hp": 1.0
+    },
+    {
+      "m": "bamboo",
+      "x": 28.4,
+      "y": 2.8,
+      "w": 0.4,
+      "h": 2.0
+    },
+    {
+      "m": "bamboo",
+      "x": 32.8,
+      "y": 2.8,
+      "w": 0.4,
+      "h": 2.0
+    },
+    {
+      "m": "wood",
+      "x": 30.6,
+      "y": 4.8,
+      "w": 5.4,
+      "h": 2.0,
+      "look": "pagoda",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 34.05,
+      "y": 0,
+      "w": 0.9,
+      "h": 3.2,
+      "look": "tower",
+      "hp": 0.4
+    },
+    {
+      "m": "stone",
+      "x": 37.55,
+      "y": 0,
+      "w": 0.9,
+      "h": 3.2,
+      "look": "tower",
+      "hp": 0.4
+    },
+    {
+      "m": "stone",
+      "x": 35.8,
+      "y": 3.2,
+      "w": 4.4,
+      "h": 0.8,
+      "look": "wall",
+      "hp": 1.4
+    },
+    {
+      "m": "wood",
+      "x": 35.8,
+      "y": 4.0,
+      "w": 4.4,
+      "h": 2.0,
+      "look": "pagoda",
+      "hp": 1.0
+    },
+    {
+      "m": "wood",
+      "x": 38.7,
+      "y": 0,
+      "w": 0.4,
+      "h": 3.2,
+      "hp": 0.5
+    },
+    {
+      "m": "wood",
+      "x": 43.1,
+      "y": 0,
+      "w": 0.4,
+      "h": 3.2,
+      "hp": 0.5
+    },
+    {
+      "m": "wood",
+      "x": 40.9,
+      "y": 3.2,
+      "w": 5.2,
+      "h": 0.4,
+      "hp": 1.0
+    },
+    {
+      "m": "bamboo",
+      "x": 38.7,
+      "y": 3.6,
+      "w": 0.4,
+      "h": 2.0
+    },
+    {
+      "m": "bamboo",
+      "x": 43.1,
+      "y": 3.6,
+      "w": 0.4,
+      "h": 2.0
+    },
+    {
+      "m": "wood",
+      "x": 40.9,
+      "y": 5.6,
+      "w": 5.4,
+      "h": 2.0,
+      "look": "pagoda",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 45.2,
+      "y": 0,
+      "w": 2.8,
+      "h": 8.0,
       "look": "tower",
       "hp": 0.5
     },
     {
       "m": "stone",
-      "x": 35.02,
-      "y": 0,
-      "w": 4.0,
-      "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
-    },
-    {
-      "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
-      "y": 0,
-      "w": 3.0,
-      "h": 7.5,
-      "look": "tower",
-      "hp": 0.6
-    },
-    {
-      "m": "stone",
-      "x": 48.4,
+      "x": 47.93,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
+      "h": 9.2,
       "look": "spire",
       "hp": 2
     }
@@ -74,18 +212,28 @@
   "units": [
     {
       "kind": "soldier",
-      "x": 31.5,
-      "y": 7
-    },
-    {
-      "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
-    },
-    {
-      "kind": "soldier",
-      "x": 40.56,
+      "x": 30.6,
       "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 30.6,
+      "y": 2.8
+    },
+    {
+      "kind": "soldier",
+      "x": 35.8,
+      "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 40.9,
+      "y": 3.6
+    },
+    {
+      "kind": "archer",
+      "x": 45.2,
+      "y": 8.0
     }
   ]
 }

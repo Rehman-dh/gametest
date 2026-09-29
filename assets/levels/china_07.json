@@ -1,90 +1,221 @@
 {
   "id": "china_07",
   "name": "The Scout's Rescue",
-  "worldWidth": 53,
+  "worldWidth": 52,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
+  "shots": 6,
+  "par": 3,
   "objective": "killAll",
+  "playerHp": 100,
+  "defenses": [
+    {
+      "m": "wood",
+      "x": 5,
+      "y": 0,
+      "w": 0.9,
+      "h": 2.4
+    },
+    {
+      "m": "wood",
+      "x": 6.1,
+      "y": 0,
+      "w": 0.9,
+      "h": 2.0
+    }
+  ],
+  "unlocksCrew": "liWei",
+  "outroCutscene": "li_wei_joins",
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "arslan",
+      "text": "The scout is in the cage. Mind the bamboo \u2014 and mind the powder."
+    },
+    {
+      "trigger": "volley:1",
+      "speaker": "roxana",
+      "text": "Their archers have found us. Silence the towers first."
+    }
+  ],
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 26.3,
       "y": 0,
-      "w": 3.0,
-      "h": 7,
+      "w": 2.6,
+      "h": 6.4,
       "look": "tower",
-      "hp": 0.5
+      "hp": 0.9
     },
     {
-      "m": "stone",
-      "x": 35.02,
+      "m": "bamboo",
+      "x": 27.95,
       "y": 0,
-      "w": 4.0,
-      "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
+      "w": 0.35,
+      "h": 3.4
     },
     {
-      "m": "stone",
-      "x": 38.04,
+      "m": "bamboo",
+      "x": 28.5,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
+      "w": 0.35,
+      "h": 3.4
     },
     {
-      "m": "stone",
-      "x": 43.06,
+      "m": "bamboo",
+      "x": 29.05,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
+      "w": 0.35,
+      "h": 3.4
     },
     {
       "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
+      "x": 32.0,
+      "y": 0,
+      "w": 4.2,
+      "h": 0.6,
       "hp": 1.5
     },
     {
-      "m": "stone",
-      "x": 45.58,
-      "y": 0,
-      "w": 3.0,
-      "h": 7.5,
-      "look": "tower",
-      "hp": 0.6
+      "m": "bamboo",
+      "x": 30.2,
+      "y": 0.6,
+      "w": 0.3,
+      "h": 2.6
+    },
+    {
+      "m": "bamboo",
+      "x": 31.1,
+      "y": 0.6,
+      "w": 0.3,
+      "h": 2.6
+    },
+    {
+      "m": "bamboo",
+      "x": 32.0,
+      "y": 0.6,
+      "w": 0.3,
+      "h": 2.6
+    },
+    {
+      "m": "bamboo",
+      "x": 32.9,
+      "y": 0.6,
+      "w": 0.3,
+      "h": 2.6
+    },
+    {
+      "m": "bamboo",
+      "x": 33.8,
+      "y": 0.6,
+      "w": 0.3,
+      "h": 2.6
+    },
+    {
+      "m": "bamboo",
+      "x": 32.0,
+      "y": 3.2,
+      "w": 4.1,
+      "h": 0.3
+    },
+    {
+      "m": "wood",
+      "x": 32.0,
+      "y": 3.5,
+      "w": 4.4,
+      "h": 1.6,
+      "look": "pagoda",
+      "hp": 0.8
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 37.8,
+      "y": 0,
+      "w": 3.0,
+      "h": 3.6,
+      "look": "wall",
+      "hp": 0.8
+    },
+    {
+      "m": "wood",
+      "x": 37.8,
+      "y": 3.6,
+      "w": 4.0,
+      "h": 2.0,
+      "look": "pagoda",
+      "hp": 1.0
+    },
+    {
+      "m": "bamboo",
+      "x": 40.6,
+      "y": 0,
+      "w": 0.4,
+      "h": 4.8
+    },
+    {
+      "m": "bamboo",
+      "x": 43.0,
+      "y": 0,
+      "w": 0.4,
+      "h": 4.8
+    },
+    {
+      "m": "bamboo",
+      "x": 41.8,
+      "y": 4.8,
+      "w": 3.2,
+      "h": 0.35
+    },
+    {
+      "m": "stone",
+      "x": 45.3,
+      "y": 0,
+      "w": 3.0,
+      "h": 7.4,
+      "look": "tower",
+      "hp": 0.9
+    },
+    {
+      "m": "stone",
+      "x": 48.13,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
+      "h": 8.8,
       "look": "spire",
       "hp": 2
     }
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "kind": "archer",
+      "x": 26.3,
+      "y": 6.4
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 35.2,
+      "y": 0
     },
     {
       "kind": "soldier",
-      "x": 40.56,
+      "x": 41.8,
+      "y": 0
+    },
+    {
+      "kind": "archer",
+      "x": 41.8,
+      "y": 5.15
+    },
+    {
+      "kind": "soldier",
+      "x": 45.3,
+      "y": 7.4
+    }
+  ],
+  "props": [
+    {
+      "kind": "powderBarrel",
+      "x": 39.8,
       "y": 0
     }
   ]
