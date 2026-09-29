@@ -1,91 +1,144 @@
 {
   "id": "mythic_12",
-  "name": "Eye of the Tempest",
-  "worldWidth": 53,
+  "name": "The Moat Pier",
+  "worldWidth": 50,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
+  "budget": 60,
+  "ammo": [
+    "stone",
+    "stone"
+  ],
+  "par": 1,
+  "objective": "killKing",
+  "wind": -1.5,
+  "storm": 0.8,
+  "moat": {
+    "x": 33.0,
+    "w": 6.0,
+    "depth": 2.5
+  },
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "roxana",
+      "text": "Their captain watches us from a crystal pier in the middle of the moat. Crystal is hard, but it shatters. Break the pier, or drop their drawbridge on him."
+    },
+    {
+      "trigger": "shot:1",
+      "speaker": "titus",
+      "text": "The wind is in our teeth. Throw higher and let it bring the stone down."
+    }
+  ],
   "blocks": [
     {
-      "m": "stone",
-      "x": 31.5,
+      "m": "crystal",
+      "x": 25.0,
       "y": 0,
-      "w": 3.0,
-      "h": 7,
-      "look": "tower",
-      "hp": 0.5
+      "w": 0.6,
+      "h": 3.2,
+      "hp": 1.2
+    },
+    {
+      "m": "crystal",
+      "x": 28.2,
+      "y": 0,
+      "w": 0.6,
+      "h": 3.2,
+      "hp": 1.2
+    },
+    {
+      "m": "marble",
+      "x": 26.6,
+      "y": 3.2,
+      "w": 4.0,
+      "h": 0.6,
+      "look": "wall",
+      "hp": 1.2
+    },
+    {
+      "m": "crystal",
+      "x": 32.6,
+      "y": -2.5,
+      "w": 1.0,
+      "h": 4.2
+    },
+    {
+      "m": "marble",
+      "x": 32.6,
+      "y": 1.7,
+      "w": 2.2,
+      "h": 0.4,
+      "hp": 1.0
+    },
+    {
+      "m": "wood",
+      "x": 36.2,
+      "y": 0.35,
+      "w": 0.45,
+      "h": 5.6,
+      "a": 5,
+      "hinge": [
+        36.2,
+        0.35
+      ],
+      "tie": [
+        37.35,
+        5.0
+      ]
     },
     {
       "m": "stone",
-      "x": 35.02,
+      "x": 39.0,
       "y": 0,
       "w": 4.0,
-      "h": 3.2,
+      "h": 5.6,
       "look": "wall",
-      "hp": 0.45
+      "hp": 0.8
     },
     {
       "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
+      "x": 42.52,
       "y": 0,
       "w": 3.0,
-      "h": 7.5,
+      "h": 8.0,
       "look": "tower",
-      "hp": 0.6
+      "hp": 1.2
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 45.55,
       "y": 0,
-      "w": 2.6,
-      "h": 8.5,
+      "w": 2.8,
+      "h": 9.5,
       "look": "spire",
       "hp": 2
     }
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "kind": "legionary",
+      "x": 26.6,
+      "y": 3.8
+    },
+    {
+      "kind": "king",
+      "x": 32.6,
+      "y": 2.1
+    },
+    {
+      "kind": "legionary",
+      "x": 38.2,
+      "y": 5.6
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 39.8,
+      "y": 5.6
     },
     {
-      "kind": "soldier",
-      "x": 40.56,
-      "y": 0
+      "kind": "archer",
+      "x": 42.52,
+      "y": 8.0
     }
   ]
 }
