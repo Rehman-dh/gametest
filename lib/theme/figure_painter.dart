@@ -80,7 +80,11 @@ class FigurePainter {
   static bool _mythic = false;
 
   static void paint(Canvas canvas, UnitKind kind, FigurePose pose) {
-    _roman = pose.era == Era.rome || kind == UnitKind.legionary;
+    // Legionaries wear Roman kit everywhere but in the Iron King's realm,
+    // where his own legion holds the walls.
+    _roman =
+        pose.era == Era.rome ||
+        (kind == UnitKind.legionary && pose.era != Era.mythic);
     _persian = !_roman && pose.era == Era.persia;
     _medieval = !_roman && pose.era == Era.medieval;
     _chinese = !_roman && pose.era == Era.china;
@@ -517,7 +521,10 @@ class FigurePainter {
         } else {
           _nemes(canvas, head, r);
         }
-      case UnitKind.soldier || UnitKind.archer || UnitKind.engineer
+      case UnitKind.soldier ||
+              UnitKind.legionary ||
+              UnitKind.archer ||
+              UnitKind.engineer
           when _mythic:
         _hornedHelm(canvas, head, r);
       case UnitKind.soldier || UnitKind.archer || UnitKind.engineer
