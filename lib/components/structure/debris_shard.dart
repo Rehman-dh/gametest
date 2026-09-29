@@ -80,6 +80,13 @@ class DebrisShard extends BodyComponent<SiegeGame> {
   final int stage;
 
   @override
+  void onMount() {
+    super.onMount();
+    // Broke off just as a new stage rose: gone before it can shove it.
+    if (game.stage != stage) removeFromParent();
+  }
+
+  @override
   void update(double dt) {
     super.update(dt);
     if (game.stage != stage) {
