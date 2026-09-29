@@ -1,72 +1,127 @@
 {
   "id": "medieval_08",
   "name": "Defense of the New Camp",
-  "worldWidth": 53,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
+  "ammo": [
+    "stone",
+    "stone",
+    "fireball",
+    "stone",
+    "fireball",
+    "powderKeg",
+    "stone"
+  ],
+  "par": 4,
+  "objective": "destroyEngines",
+  "playerHp": 120,
+  "defenses": [
+    {
+      "m": "wood",
+      "x": 4.6,
+      "y": 0,
+      "w": 0.5,
+      "h": 2.8
+    },
+    {
+      "m": "stone",
+      "x": 5.4,
+      "y": 0,
+      "w": 0.8,
+      "h": 2.4
+    },
+    {
+      "m": "wood",
+      "x": 6.2,
+      "y": 0,
+      "w": 0.5,
+      "h": 3.0
+    }
+  ],
   "blocks": [
     {
+      "m": "wood",
+      "x": 24.6,
+      "y": 0,
+      "w": 0.5,
+      "h": 2.8
+    },
+    {
+      "m": "wood",
+      "x": 25.16,
+      "y": 0,
+      "w": 0.5,
+      "h": 2.8
+    },
+    {
+      "m": "wood",
+      "x": 25.72,
+      "y": 0,
+      "w": 0.5,
+      "h": 2.8
+    },
+    {
       "m": "stone",
-      "x": 31.5,
+      "x": 32.2,
       "y": 0,
       "w": 3.0,
-      "h": 7,
+      "h": 7.0,
       "look": "tower",
-      "hp": 0.5
+      "hp": 0.8
     },
     {
-      "m": "stone",
-      "x": 35.02,
+      "m": "wood",
+      "x": 34.4,
       "y": 0,
-      "w": 4.0,
-      "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
+      "w": 0.5,
+      "h": 3.0
     },
     {
-      "m": "stone",
-      "x": 38.04,
+      "m": "wood",
+      "x": 34.96,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
+      "w": 0.5,
+      "h": 3.0
     },
     {
-      "m": "stone",
-      "x": 43.06,
+      "m": "wood",
+      "x": 35.52,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
+      "w": 0.5,
+      "h": 3.0
     },
     {
       "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
+      "x": 42.4,
       "y": 0,
       "w": 3.0,
-      "h": 7.5,
+      "h": 8.0,
       "look": "tower",
-      "hp": 0.6
+      "hp": 0.8
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 46.4,
+      "y": 0,
+      "w": 4.4,
+      "h": 3.0,
+      "look": "wall",
+      "hp": 1.2
+    },
+    {
+      "m": "stone",
+      "x": 50.1,
+      "y": 0,
+      "w": 2.8,
+      "h": 8.5,
+      "look": "tower",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 53.0,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
+      "h": 10.0,
       "look": "spire",
       "hp": 2
     }
@@ -74,18 +129,58 @@
   "units": [
     {
       "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "x": 25.16,
+      "y": 2.8
+    },
+    {
+      "kind": "archer",
+      "x": 32.2,
+      "y": 7.0
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 34.96,
+      "y": 3.0
+    },
+    {
+      "kind": "archer",
+      "x": 42.4,
+      "y": 8.0
     },
     {
       "kind": "soldier",
-      "x": 40.56,
-      "y": 0
+      "x": 50.1,
+      "y": 8.5
     }
-  ]
+  ],
+  "props": [
+    {
+      "kind": "enemyCatapult",
+      "x": 28.6,
+      "y": 0
+    },
+    {
+      "kind": "enemyCatapult",
+      "x": 38.6,
+      "y": 0
+    },
+    {
+      "kind": "enemyCatapult",
+      "x": 46.4,
+      "y": 3.0
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "titus",
+      "text": "The Baron has rolled his engines up to our new stakes. Smash them before they smash the camp again."
+    },
+    {
+      "trigger": "volley:2",
+      "speaker": "roxana",
+      "text": "Their stones are landing inside the palisade. Burn those engines, Arslan!"
+    }
+  ],
+  "worldWidth": 57
 }
