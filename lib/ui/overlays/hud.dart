@@ -19,16 +19,6 @@ class Hud extends StatelessWidget {
     return Stack(
       children: [
         _topBar(),
-        if (game.endless == null)
-          Align(
-            alignment: Alignment.topCenter,
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: _Score(score: game.score),
-              ),
-            ),
-          ),
         // The sky is empty; the castle's base is not.
         Align(
           alignment: Alignment.topCenter,
@@ -93,7 +83,23 @@ class Hud extends StatelessWidget {
                 ),
               ),
             ],
-            const Spacer(),
+            // The score sits with the actions on the right, clear of the
+            // level, engine and wind panels on the left; it shrinks rather
+            // than overflow when the bar is crowded.
+            Expanded(
+              child: Align(
+                alignment: Alignment.topRight,
+                child: game.endless == null
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 8, right: 12),
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: _Score(score: game.score),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+              ),
+            ),
             PopIn(
               delay: const Duration(milliseconds: 100),
               from: const Offset(0, -0.4),
@@ -593,7 +599,7 @@ class _Score extends StatelessWidget {
             Text(
               'SCORE  $value',
               style: TextStyle(
-                fontSize: 26,
+                fontSize: 22,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 1.5,
                 foreground: Paint()
@@ -606,7 +612,7 @@ class _Score extends StatelessWidget {
             Text(
               'SCORE  $value',
               style: const TextStyle(
-                fontSize: 26,
+                fontSize: 22,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 1.5,
                 color: Colors.white,
