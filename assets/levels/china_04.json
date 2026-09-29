@@ -1,72 +1,125 @@
 {
   "id": "china_04",
   "name": "The Jade Gate",
-  "worldWidth": 53,
-  "catapultX": 0,
-  "shots": 4,
   "par": 2,
-  "objective": "killAll",
+  "objective": "killKing",
+  "ammo": [
+    "stone",
+    "stone",
+    "stone",
+    "stone",
+    "stone"
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "arslan",
+      "text": "The Jade Gate. Its commander shelters under the lintel, and that lintel is cracked."
+    }
+  ],
+  "worldWidth": 55,
+  "catapultX": 0,
   "blocks": [
     {
+      "m": "bamboo",
+      "x": 25.6,
+      "y": 0,
+      "w": 0.3,
+      "h": 2.0
+    },
+    {
+      "m": "bamboo",
+      "x": 26.1,
+      "y": 0,
+      "w": 0.3,
+      "h": 2.0
+    },
+    {
+      "m": "bamboo",
+      "x": 26.6,
+      "y": 0,
+      "w": 0.3,
+      "h": 2.0
+    },
+    {
       "m": "stone",
-      "x": 31.5,
+      "x": 30.6,
+      "y": 0,
+      "w": 3.2,
+      "h": 8.0,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 33.73,
       "y": 0,
       "w": 3.0,
-      "h": 7,
+      "h": 5.2,
+      "look": "wall",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 36.18,
+      "y": 0,
+      "w": 1.8,
+      "h": 5.4,
       "look": "tower",
       "hp": 0.5
     },
     {
       "m": "stone",
-      "x": 35.02,
+      "x": 41.18,
       "y": 0,
-      "w": 4.0,
-      "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
-    },
-    {
-      "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
+      "w": 1.8,
+      "h": 5.4,
       "look": "tower",
-      "hp": 0.3
+      "hp": 0.5
     },
     {
       "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
+      "x": 38.68,
+      "y": 5.4,
+      "w": 6.8,
+      "h": 1.4,
       "look": "wall",
-      "hp": 1.5
+      "hp": 1.2,
+      "weak": true
+    },
+    {
+      "m": "wood",
+      "x": 38.68,
+      "y": 6.8,
+      "w": 6.0,
+      "h": 2.6,
+      "look": "pagoda",
+      "hp": 1.0
     },
     {
       "m": "stone",
-      "x": 45.58,
+      "x": 43.63,
       "y": 0,
       "w": 3.0,
-      "h": 7.5,
-      "look": "tower",
-      "hp": 0.6
+      "h": 5.2,
+      "look": "wall",
+      "hp": 0.8
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 46.76,
+      "y": 0,
+      "w": 3.2,
+      "h": 8.4,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 49.69,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
+      "h": 9.5,
       "look": "spire",
       "hp": 2
     }
@@ -74,18 +127,33 @@
   "units": [
     {
       "kind": "soldier",
-      "x": 31.5,
-      "y": 7
-    },
-    {
-      "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
-    },
-    {
-      "kind": "soldier",
-      "x": 40.56,
+      "x": 27.8,
       "y": 0
+    },
+    {
+      "kind": "archer",
+      "x": 30.6,
+      "y": 8.0
+    },
+    {
+      "kind": "soldier",
+      "x": 33.73,
+      "y": 5.2
+    },
+    {
+      "kind": "king",
+      "x": 38.68,
+      "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 43.63,
+      "y": 5.2
+    },
+    {
+      "kind": "archer",
+      "x": 46.76,
+      "y": 8.4
     }
   ]
 }
