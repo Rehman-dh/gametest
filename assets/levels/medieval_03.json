@@ -1,91 +1,129 @@
 {
   "id": "medieval_03",
   "name": "The Drawbridge",
-  "worldWidth": 53,
+  "worldWidth": 50,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
+  "shots": 5,
+  "par": 3,
+  "objective": "killKing",
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
-      "y": 0,
-      "w": 3.0,
-      "h": 7,
-      "look": "tower",
-      "hp": 0.5
-    },
-    {
-      "m": "stone",
-      "x": 35.02,
-      "y": 0,
-      "w": 4.0,
-      "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
-    },
-    {
-      "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
-      "y": 0,
-      "w": 3.0,
-      "h": 7.5,
-      "look": "tower",
-      "hp": 0.6
-    },
-    {
-      "m": "stone",
-      "x": 48.4,
+      "x": 26.3,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
+      "h": 6.0,
+      "look": "tower",
+      "hp": 0.7
+    },
+    {
+      "m": "stone",
+      "x": 34.4,
+      "y": 0,
+      "w": 2.4,
+      "h": 5.4,
+      "look": "wall",
+      "hp": 0.7
+    },
+    {
+      "m": "wood",
+      "x": 32.75,
+      "y": 0.35,
+      "w": 0.45,
+      "h": 4.5,
+      "hinge": [
+        32.75,
+        0.35
+      ],
+      "a": 5,
+      "tie": [
+        33.7,
+        4.9
+      ]
+    },
+    {
+      "m": "stone",
+      "x": 36.37,
+      "y": 0,
+      "w": 1.5,
+      "h": 4.0,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 40.49,
+      "y": 0,
+      "w": 1.5,
+      "h": 4.0,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 38.43,
+      "y": 4.0,
+      "w": 5.62,
+      "h": 1.2,
+      "look": "wall",
+      "hp": 1.4
+    },
+    {
+      "m": "stone",
+      "x": 42.76,
+      "y": 0,
+      "w": 3.0,
+      "h": 8.0,
+      "look": "tower",
+      "hp": 0.9
+    },
+    {
+      "m": "stone",
+      "x": 45.68,
+      "y": 0,
+      "w": 2.8,
+      "h": 9,
       "look": "spire",
       "hp": 2
     }
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "kind": "archer",
+      "x": 26.3,
+      "y": 6.0
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 34.4,
+      "y": 5.4
     },
     {
-      "kind": "soldier",
-      "x": 40.56,
+      "kind": "king",
+      "x": 38.44,
       "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 38.43,
+      "y": 5.2
+    },
+    {
+      "kind": "archer",
+      "x": 42.76,
+      "y": 8.0
+    }
+  ],
+  "moat": {
+    "x": 30.6,
+    "w": 4.0,
+    "depth": 2.0
+  },
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "bashir",
+      "text": "The bridge hangs on that chain. Break the tower that holds it and it falls our way."
     }
   ]
 }
