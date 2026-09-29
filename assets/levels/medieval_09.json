@@ -1,91 +1,142 @@
 {
   "id": "medieval_09",
   "name": "The Black Forest Fort",
-  "worldWidth": 53,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
+  "shots": 5,
+  "par": 3,
   "objective": "killAll",
   "blocks": [
     {
-      "m": "stone",
-      "x": 31.5,
+      "m": "wood",
+      "x": 24.8,
       "y": 0,
-      "w": 3.0,
-      "h": 7,
-      "look": "tower",
-      "hp": 0.5
+      "w": 0.7,
+      "h": 6.5
     },
     {
       "m": "stone",
-      "x": 35.02,
+      "x": 27.6,
       "y": 0,
-      "w": 4.0,
-      "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
-    },
-    {
-      "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
-      "y": 0,
-      "w": 3.0,
-      "h": 7.5,
+      "w": 2.8,
+      "h": 6.0,
       "look": "tower",
       "hp": 0.6
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 31.1,
+      "y": 0,
+      "w": 4.0,
+      "h": 2.0,
+      "look": "wall",
+      "hp": 1.0
+    },
+    {
+      "m": "wood",
+      "x": 29.45,
+      "y": 2.0,
+      "w": 0.4,
+      "h": 2.6
+    },
+    {
+      "m": "wood",
+      "x": 32.75,
+      "y": 2.0,
+      "w": 0.4,
+      "h": 2.6
+    },
+    {
+      "m": "wood",
+      "x": 31.1,
+      "y": 4.6,
+      "w": 4.0,
+      "h": 0.4
+    },
+    {
+      "m": "wood",
+      "x": 34.0,
+      "y": 0,
+      "w": 0.7,
+      "h": 7.0
+    },
+    {
+      "m": "wood",
+      "x": 36.6,
+      "y": 0,
+      "w": 0.6,
+      "h": 5.0
+    },
+    {
+      "m": "wood",
+      "x": 39.6,
+      "y": 0,
+      "w": 0.6,
+      "h": 5.0
+    },
+    {
+      "m": "wood",
+      "x": 38.1,
+      "y": 5.0,
+      "w": 3.8,
+      "h": 0.4
+    },
+    {
+      "m": "stone",
+      "x": 42.6,
+      "y": 0,
+      "w": 3.0,
+      "h": 7.5,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 45.7,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
+      "h": 9.0,
       "look": "spire",
       "hp": 2
     }
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "kind": "archer",
+      "x": 27.6,
+      "y": 6.0
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 31.1,
+      "y": 2.0
     },
     {
       "kind": "soldier",
-      "x": 40.56,
+      "x": 31.1,
+      "y": 5.0
+    },
+    {
+      "kind": "archer",
+      "x": 38.1,
+      "y": 5.4
+    },
+    {
+      "kind": "soldier",
+      "x": 38.1,
       "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 42.6,
+      "y": 7.5
     }
-  ]
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "roxana",
+      "text": "The Baron's woodsmen built their fort among the oaks. Timber burns and stone cracks. Find where it is weakest."
+    }
+  ],
+  "worldWidth": 50
 }

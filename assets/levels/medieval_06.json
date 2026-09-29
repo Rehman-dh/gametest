@@ -1,69 +1,127 @@
 {
   "id": "medieval_06",
   "name": "The Night Raid",
-  "worldWidth": 53,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
+  "ammo": [
+    "stone",
+    "fireball",
+    "stone",
+    "fireball",
+    "stone"
+  ],
+  "par": 3,
   "objective": "killAll",
   "blocks": [
     {
-      "m": "stone",
-      "x": 31.5,
+      "m": "wood",
+      "x": 24.8,
       "y": 0,
-      "w": 3.0,
-      "h": 7,
-      "look": "tower",
-      "hp": 0.5
+      "w": 0.5,
+      "h": 3.4
+    },
+    {
+      "m": "wood",
+      "x": 25.35,
+      "y": 0,
+      "w": 0.5,
+      "h": 3.4
+    },
+    {
+      "m": "wood",
+      "x": 25.9,
+      "y": 0,
+      "w": 0.5,
+      "h": 3.4
+    },
+    {
+      "m": "wood",
+      "x": 27.6,
+      "y": 0,
+      "w": 0.4,
+      "h": 4.2
+    },
+    {
+      "m": "wood",
+      "x": 29.8,
+      "y": 0,
+      "w": 0.4,
+      "h": 4.2
+    },
+    {
+      "m": "wood",
+      "x": 28.7,
+      "y": 4.2,
+      "w": 2.9,
+      "h": 0.4
+    },
+    {
+      "m": "wood",
+      "x": 31.6,
+      "y": 0,
+      "w": 0.5,
+      "h": 2.6
+    },
+    {
+      "m": "wood",
+      "x": 35.4,
+      "y": 0,
+      "w": 0.5,
+      "h": 2.6
+    },
+    {
+      "m": "wood",
+      "x": 33.5,
+      "y": 2.6,
+      "w": 4.6,
+      "h": 0.4
+    },
+    {
+      "m": "wood",
+      "x": 32.0,
+      "y": 3.0,
+      "w": 0.3,
+      "h": 1.6
+    },
+    {
+      "m": "wood",
+      "x": 35.0,
+      "y": 3.0,
+      "w": 0.3,
+      "h": 1.6
+    },
+    {
+      "m": "wood",
+      "x": 33.5,
+      "y": 4.6,
+      "w": 3.6,
+      "h": 0.3
     },
     {
       "m": "stone",
-      "x": 35.02,
+      "x": 38.2,
       "y": 0,
-      "w": 4.0,
-      "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
-    },
-    {
-      "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
-      "y": 0,
-      "w": 3.0,
-      "h": 7.5,
+      "w": 2.6,
+      "h": 6.0,
       "look": "tower",
       "hp": 0.6
     },
     {
+      "m": "wood",
+      "x": 40.1,
+      "y": 0,
+      "w": 0.5,
+      "h": 3.2
+    },
+    {
+      "m": "wood",
+      "x": 40.66,
+      "y": 0,
+      "w": 0.5,
+      "h": 3.2
+    },
+    {
       "m": "stone",
-      "x": 48.4,
+      "x": 43.2,
       "y": 0,
       "w": 2.6,
       "h": 8.5,
@@ -73,19 +131,37 @@
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "kind": "archer",
+      "x": 28.7,
+      "y": 4.6
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
-    },
-    {
-      "kind": "soldier",
-      "x": 40.56,
+      "x": 28.7,
       "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 33.5,
+      "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 33.5,
+      "y": 3.0
+    },
+    {
+      "kind": "soldier",
+      "x": 38.2,
+      "y": 6.0
     }
-  ]
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "bashir",
+      "text": "The Baron's raiders sleep behind green timber. One lit stone and that whole palisade goes up like kindling."
+    }
+  ],
+  "worldWidth": 48
 }
