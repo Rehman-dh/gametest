@@ -1,0 +1,256 @@
+{
+  "id": "persia_intro",
+  "steps": [
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 0
+    },
+    {
+      "type": "tint",
+      "color": "60B07828"
+    },
+    {
+      "type": "prop",
+      "prop": "campfire",
+      "x": -3
+    },
+    {
+      "type": "prop",
+      "prop": "banner",
+      "x": -5.5
+    },
+    {
+      "type": "spawn",
+      "actor": "hero",
+      "character": "arslan",
+      "x": -6,
+      "facing": 1,
+      "pose": "walk"
+    },
+    {
+      "type": "spawn",
+      "actor": "bashir",
+      "character": "bashir",
+      "x": -8,
+      "facing": 1,
+      "pose": "walk"
+    },
+    {
+      "type": "spawn",
+      "actor": "titus",
+      "character": "titus",
+      "x": -10,
+      "facing": 1,
+      "pose": "walk"
+    },
+    {
+      "type": "camera",
+      "x": 0,
+      "y": -1.6,
+      "viewHeight": 7
+    },
+    {
+      "type": "title",
+      "text": "PERSIA",
+      "subtitle": "The edge of the great desert",
+      "duration": 3
+    },
+    {
+      "type": "fade",
+      "to": 0,
+      "duration": 2
+    },
+    {
+      "type": "parallel",
+      "steps": [
+        {
+          "type": "move",
+          "actor": "hero",
+          "x": 0,
+          "duration": 2.5
+        },
+        {
+          "type": "move",
+          "actor": "bashir",
+          "x": -2,
+          "duration": 2.6
+        },
+        {
+          "type": "move",
+          "actor": "titus",
+          "x": -4.2,
+          "duration": 2.8
+        }
+      ]
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "point"
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "Look to the east. The horizon is moving. A sandstorm, and a large one."
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "titus",
+      "text": "In Rome the sand was raked smooth for the crowds. Here it hunts you."
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "spawn",
+      "actor": "messenger",
+      "character": "messenger",
+      "x": 12,
+      "facing": -1,
+      "pose": "walk"
+    },
+    {
+      "type": "sound",
+      "sound": "warHorn"
+    },
+    {
+      "type": "camera",
+      "x": 4,
+      "y": -1.6,
+      "viewHeight": 7.5,
+      "duration": 1.5
+    },
+    {
+      "type": "move",
+      "actor": "messenger",
+      "x": 4,
+      "duration": 2.5
+    },
+    {
+      "type": "pose",
+      "actor": "messenger",
+      "pose": "kneel"
+    },
+    {
+      "type": "say",
+      "speaker": "messenger",
+      "text": "General Arslan. I carry the word of Shahbanu Parisa, Queen of Queens."
+    },
+    {
+      "type": "pose",
+      "actor": "messenger",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "messenger",
+      "text": "She says: the desert has buried greater armies than yours. Turn back now, and she will let the sand forget you."
+    },
+    {
+      "type": "pose",
+      "actor": "messenger",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Tell your queen I did not cross the sea to be frightened by the wind."
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "She holds a woman named Roxana. I will have her free, and I will have the shard."
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "stand"
+    },
+    {
+      "type": "say",
+      "speaker": "messenger",
+      "text": "Then the storm will find you before the queen does."
+    },
+    {
+      "type": "pose",
+      "actor": "messenger",
+      "pose": "walk",
+      "facing": 1
+    },
+    {
+      "type": "move",
+      "actor": "messenger",
+      "x": 13,
+      "duration": 2
+    },
+    {
+      "type": "remove",
+      "actor": "messenger"
+    },
+    {
+      "type": "camera",
+      "x": 0,
+      "y": -1.6,
+      "viewHeight": 7,
+      "duration": 1.5
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "A queen who warns before she strikes. Either she is proud, or she is afraid."
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "We march at first light. Keep to the caravan road."
+    },
+    {
+      "type": "sound",
+      "sound": "warHorn"
+    },
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 2
+    },
+    {
+      "type": "title",
+      "text": "THE ROAD TO PERSEPOLIS",
+      "subtitle": "Era III · Persia",
+      "duration": 3
+    }
+  ]
+}

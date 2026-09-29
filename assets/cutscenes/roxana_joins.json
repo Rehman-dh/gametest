@@ -1,0 +1,181 @@
+{
+  "id": "roxana_joins",
+  "steps": [
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 0
+    },
+    {
+      "type": "prop",
+      "prop": "banner",
+      "x": -6
+    },
+    {
+      "type": "spawn",
+      "actor": "hero",
+      "character": "arslan",
+      "x": 0,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "bashir",
+      "character": "bashir",
+      "x": -2.2,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "titus",
+      "character": "titus",
+      "x": -4.4,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "roxana",
+      "character": "roxana",
+      "x": 6,
+      "facing": -1,
+      "pose": "kneel"
+    },
+    {
+      "type": "camera",
+      "x": 3,
+      "y": -1.6,
+      "viewHeight": 7
+    },
+    {
+      "type": "fade",
+      "to": 0,
+      "duration": 1.5
+    },
+    {
+      "type": "sound",
+      "sound": "breakStone"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "The cell is open. You are Roxana?"
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "stand"
+    },
+    {
+      "type": "move",
+      "actor": "roxana",
+      "x": 3.2,
+      "duration": 1.8
+    },
+    {
+      "type": "camera",
+      "x": 2,
+      "y": -1.4,
+      "viewHeight": 6,
+      "duration": 1.2
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "I am. And you took your time, General. Three years I counted the cracks in that wall."
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "A dying man in Rome told me you know how the Iron Crown was made."
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "I do. The Crown was not forged from any metal of this earth. It was beaten from the shards of a fallen star."
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "Every shard still carries that fire. That is why the Crown's servants hunt them, and why the Shahbanu kept me in chains."
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "A star's metal... No mason's chisel was ever meant to cut that."
+    },
+    {
+      "type": "pose",
+      "actor": "bashir",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "Chisels are for patient men. Fire and blasting powder are my craft. I have brought down walls older than yours."
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "Give me fire, General, and I will give you open gates."
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "titus",
+      "text": "I like her. She talks the way I fight."
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "pose",
+      "actor": "hero",
+      "pose": "point"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Then you ride with us, Roxana. The Shahbanu's walls are waiting."
+    },
+    {
+      "type": "sound",
+      "sound": "ignite"
+    },
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 2
+    }
+  ]
+}

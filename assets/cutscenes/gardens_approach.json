@@ -1,0 +1,192 @@
+{
+  "id": "gardens_approach",
+  "steps": [
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 0
+    },
+    {
+      "type": "tint",
+      "color": "58803050"
+    },
+    {
+      "type": "spawn",
+      "actor": "shahbanu",
+      "character": "shahbanu",
+      "x": 13,
+      "facing": -1
+    },
+    {
+      "type": "spawn",
+      "actor": "hero",
+      "character": "arslan",
+      "x": 0,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "roxana",
+      "character": "roxana",
+      "x": -2,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "titus",
+      "character": "titus",
+      "x": -4,
+      "facing": 1
+    },
+    {
+      "type": "spawn",
+      "actor": "bashir",
+      "character": "bashir",
+      "x": -6,
+      "facing": 1
+    },
+    {
+      "type": "camera",
+      "x": 0,
+      "y": -1.6,
+      "viewHeight": 7
+    },
+    {
+      "type": "fade",
+      "to": 0,
+      "duration": 2
+    },
+    {
+      "type": "say",
+      "speaker": "bashir",
+      "text": "The Floating Gardens. Terrace upon terrace, and every one of them a wall with flowers on it."
+    },
+    {
+      "type": "camera",
+      "x": 12,
+      "y": -2,
+      "viewHeight": 8,
+      "duration": 2.5
+    },
+    {
+      "type": "pose",
+      "actor": "shahbanu",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "shahbanu",
+      "text": "So the desert did not take you, Arslan. And you have brought my little alchemist home."
+    },
+    {
+      "type": "say",
+      "speaker": "shahbanu",
+      "text": "Did she tell you how she begged, the first year? How she swore she would make fire for me?"
+    },
+    {
+      "type": "pose",
+      "actor": "shahbanu",
+      "pose": "stand"
+    },
+    {
+      "type": "camera",
+      "x": 5,
+      "y": -1.8,
+      "viewHeight": 8,
+      "duration": 1.5
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "I never begged, Parisa. I waited. You took my workshop, my name, and three years of my life."
+    },
+    {
+      "type": "say",
+      "speaker": "roxana",
+      "text": "Tonight I take them back, one terrace at a time."
+    },
+    {
+      "type": "pose",
+      "actor": "roxana",
+      "pose": "stand"
+    },
+    {
+      "type": "say",
+      "speaker": "hero",
+      "text": "Where is the Iron Hand? He has stood behind every tyrant we have faced."
+    },
+    {
+      "type": "pose",
+      "actor": "shahbanu",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "shahbanu",
+      "text": "Gone west, General, into the mists. The Crown does not wait for its servants to fall."
+    },
+    {
+      "type": "say",
+      "speaker": "shahbanu",
+      "text": "But you will not live to follow him. My gardens have never been breached."
+    },
+    {
+      "type": "pose",
+      "actor": "shahbanu",
+      "pose": "walk",
+      "facing": 1
+    },
+    {
+      "type": "move",
+      "actor": "shahbanu",
+      "x": 17,
+      "duration": 1.5
+    },
+    {
+      "type": "remove",
+      "actor": "shahbanu"
+    },
+    {
+      "type": "camera",
+      "x": 0,
+      "y": -1.6,
+      "viewHeight": 7,
+      "duration": 2
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "talk"
+    },
+    {
+      "type": "say",
+      "speaker": "titus",
+      "text": "Never breached. They always say that the night before."
+    },
+    {
+      "type": "pose",
+      "actor": "titus",
+      "pose": "stand"
+    },
+    {
+      "type": "sound",
+      "sound": "warHorn"
+    },
+    {
+      "type": "fade",
+      "to": 1,
+      "duration": 2
+    },
+    {
+      "type": "title",
+      "text": "THE FLOATING GARDENS",
+      "subtitle": "The last stand of the Shahbanu",
+      "duration": 3
+    }
+  ]
+}
