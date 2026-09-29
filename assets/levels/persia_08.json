@@ -1,71 +1,222 @@
 {
   "id": "persia_08",
   "name": "The Alchemist's Prison",
-  "worldWidth": 53,
+  "worldWidth": 51,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
+  "ammo": [
+    "stone",
+    "stone",
+    "stone",
+    "stone",
+    "stone",
+    "stone"
+  ],
+  "par": 3,
   "objective": "killAll",
+  "playerHp": 80,
+  "unlocksCrew": "roxana",
+  "outroCutscene": "roxana_joins",
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "arslan",
+      "text": "She is in there somewhere. Bring down the guards, not the cells."
+    },
+    {
+      "trigger": "volley:1",
+      "speaker": "bashir",
+      "text": "Archers on every tower! Silence them before they find our range."
+    }
+  ],
+  "defenses": [
+    {
+      "m": "wood",
+      "x": 5,
+      "y": 0,
+      "w": 0.9,
+      "h": 2.4
+    },
+    {
+      "m": "wood",
+      "x": 6.1,
+      "y": 0,
+      "w": 0.9,
+      "h": 2.0
+    }
+  ],
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 27.3,
       "y": 0,
-      "w": 3.0,
-      "h": 7,
+      "w": 2.6,
+      "h": 7.0,
       "look": "tower",
-      "hp": 0.5
+      "hp": 0.4
     },
     {
       "m": "stone",
-      "x": 35.02,
+      "x": 30.32,
       "y": 0,
-      "w": 4.0,
-      "h": 3.2,
+      "w": 3.4,
+      "h": 3.4,
       "look": "wall",
       "hp": 0.45
     },
     {
       "m": "stone",
-      "x": 38.04,
+      "x": 34.84,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
-      "y": 0,
-      "w": 3.0,
-      "h": 7.5,
-      "look": "tower",
+      "w": 0.8,
+      "h": 2.4,
       "hp": 0.6
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 37.16,
+      "y": 0,
+      "w": 0.8,
+      "h": 2.4,
+      "hp": 0.6
+    },
+    {
+      "m": "stone",
+      "x": 39.48,
+      "y": 0,
+      "w": 0.8,
+      "h": 2.4,
+      "hp": 0.6
+    },
+    {
+      "m": "stone",
+      "x": 41.8,
+      "y": 0,
+      "w": 0.8,
+      "h": 2.4,
+      "hp": 0.6
+    },
+    {
+      "m": "stone",
+      "x": 38.32,
+      "y": 2.4,
+      "w": 7.76,
+      "h": 0.7,
+      "look": "wall",
+      "hp": 1.4
+    },
+    {
+      "m": "wood",
+      "x": 35.56,
+      "y": 0,
+      "w": 0.16,
+      "h": 2.3,
+      "hp": 0.6
+    },
+    {
+      "m": "wood",
+      "x": 36.01,
+      "y": 0,
+      "w": 0.16,
+      "h": 2.3,
+      "hp": 0.6
+    },
+    {
+      "m": "wood",
+      "x": 36.46,
+      "y": 0,
+      "w": 0.16,
+      "h": 2.3,
+      "hp": 0.6
+    },
+    {
+      "m": "wood",
+      "x": 37.88,
+      "y": 0,
+      "w": 0.16,
+      "h": 2.3,
+      "hp": 0.6
+    },
+    {
+      "m": "wood",
+      "x": 38.33,
+      "y": 0,
+      "w": 0.16,
+      "h": 2.3,
+      "hp": 0.6
+    },
+    {
+      "m": "wood",
+      "x": 38.78,
+      "y": 0,
+      "w": 0.16,
+      "h": 2.3,
+      "hp": 0.6
+    },
+    {
+      "m": "wood",
+      "x": 40.2,
+      "y": 0,
+      "w": 0.16,
+      "h": 2.3,
+      "hp": 0.6
+    },
+    {
+      "m": "wood",
+      "x": 40.65,
+      "y": 0,
+      "w": 0.16,
+      "h": 2.3,
+      "hp": 0.6
+    },
+    {
+      "m": "wood",
+      "x": 41.1,
+      "y": 0,
+      "w": 0.16,
+      "h": 2.3,
+      "hp": 0.6
+    },
+    {
+      "m": "stone",
+      "x": 38.32,
+      "y": 3.1,
+      "w": 2.4,
+      "h": 4.4,
+      "look": "tower",
+      "hp": 0.35
+    },
+    {
+      "m": "stone",
+      "x": 35.04,
+      "y": 3.1,
+      "w": 1.2,
+      "h": 1.0,
+      "look": "wall",
+      "hp": 0.4
+    },
+    {
+      "m": "stone",
+      "x": 41.6,
+      "y": 3.1,
+      "w": 1.2,
+      "h": 1.0,
+      "look": "wall",
+      "hp": 0.4
+    },
+    {
+      "m": "stone",
+      "x": 43.92,
       "y": 0,
       "w": 2.6,
+      "h": 7.0,
+      "look": "tower",
+      "hp": 0.35
+    },
+    {
+      "m": "stone",
+      "x": 46.44,
+      "y": 0,
+      "w": 2.4,
       "h": 8.5,
       "look": "spire",
       "hp": 2
@@ -73,18 +224,40 @@
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "kind": "archer",
+      "x": 27.3,
+      "y": 7.0
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 30.32,
+      "y": 3.4
     },
     {
       "kind": "soldier",
-      "x": 40.56,
+      "x": 33.74,
+      "y": 0
+    },
+    {
+      "kind": "archer",
+      "x": 38.32,
+      "y": 7.5
+    },
+    {
+      "kind": "soldier",
+      "x": 36.38,
+      "y": 3.1
+    },
+    {
+      "kind": "archer",
+      "x": 43.92,
+      "y": 7.0
+    }
+  ],
+  "props": [
+    {
+      "kind": "powderBarrel",
+      "x": 32.59,
       "y": 0
     }
   ]
