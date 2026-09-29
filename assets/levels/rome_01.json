@@ -1,65 +1,70 @@
 {
   "id": "rome_01",
   "name": "The Legion's Outpost",
-  "worldWidth": 53,
+  "worldWidth": 52,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
+  "shots": 5,
+  "par": 3,
   "objective": "killAll",
+  "introCutscene": "rome_intro",
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "arslan",
+      "text": "Their shields turn aside anything thrown straight. Drop the stones on them from above."
+    }
+  ],
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 29.6,
       "y": 0,
-      "w": 3.0,
+      "w": 3.2,
       "h": 7,
       "look": "tower",
-      "hp": 0.8
+      "hp": 0.9
     },
     {
       "m": "marble",
-      "x": 35.02,
+      "x": 33.22,
       "y": 0,
       "w": 4.0,
-      "h": 3.2,
+      "h": 3.4,
       "look": "wall",
-      "hp": 0.6
-    },
-    {
-      "m": "marble",
-      "x": 38.04,
-      "y": 0,
-      "w": 0.8,
-      "h": 4.5
-    },
-    {
-      "m": "marble",
-      "x": 42.04,
-      "y": 0,
-      "w": 0.8,
-      "h": 4.5
-    },
-    {
-      "m": "marble",
-      "x": 40.04,
-      "y": 4.5,
-      "w": 5.0,
-      "h": 0.7
+      "hp": 0.7
     },
     {
       "m": "stone",
-      "x": 45.5,
+      "x": 36.94,
       "y": 0,
-      "w": 3.0,
-      "h": 7.5,
+      "w": 3.4,
+      "h": 8.5,
       "look": "tower",
-      "hp": 0.8
+      "hp": 0.9
+    },
+    {
+      "m": "marble",
+      "x": 40.66,
+      "y": 0,
+      "w": 4.0,
+      "h": 3.4,
+      "look": "wall",
+      "hp": 0.7
     },
     {
       "m": "stone",
-      "x": 48.42,
+      "x": 44.28,
       "y": 0,
-      "w": 2.8,
+      "w": 3.2,
+      "h": 7,
+      "look": "tower",
+      "hp": 0.9
+    },
+    {
+      "m": "stone",
+      "x": 47.2,
+      "y": 0,
+      "w": 2.6,
       "h": 9,
       "look": "spire",
       "hp": 2
@@ -68,23 +73,28 @@
   "units": [
     {
       "kind": "legionary",
-      "x": 31.5,
+      "x": 29.6,
       "y": 7
     },
     {
-      "kind": "legionary",
-      "x": 35.02,
-      "y": 3.2
-    },
-    {
-      "kind": "king",
-      "x": 40.04,
-      "y": 0
-    },
-    {
       "kind": "soldier",
-      "x": 40.04,
-      "y": 5.2
+      "x": 33.22,
+      "y": 3.4
+    },
+    {
+      "kind": "legionary",
+      "x": 36.94,
+      "y": 8.5
+    },
+    {
+      "kind": "legionary",
+      "x": 40.66,
+      "y": 3.4
+    },
+    {
+      "kind": "legionary",
+      "x": 44.28,
+      "y": 7
     }
   ]
 }
