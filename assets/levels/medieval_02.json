@@ -1,69 +1,88 @@
 {
   "id": "medieval_02",
   "name": "The Burning Mill",
-  "worldWidth": 53,
+  "worldWidth": 45,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
+  "par": 3,
   "objective": "killAll",
   "blocks": [
     {
-      "m": "stone",
-      "x": 31.5,
+      "m": "wood",
+      "x": 24.3,
       "y": 0,
+      "w": 0.5,
+      "h": 3.0
+    },
+    {
+      "m": "wood",
+      "x": 27.5,
+      "y": 0,
+      "w": 0.5,
+      "h": 3.0
+    },
+    {
+      "m": "wood",
+      "x": 25.9,
+      "y": 3.0,
+      "w": 3.9,
+      "h": 0.5
+    },
+    {
+      "m": "wood",
+      "x": 25.9,
+      "y": 3.5,
+      "w": 2.6,
+      "h": 1.3
+    },
+    {
+      "m": "stone",
+      "x": 34.4,
+      "y": 0,
+      "w": 4.6,
+      "h": 2.2,
+      "look": "wall",
+      "hp": 0.8
+    },
+    {
+      "m": "wood",
+      "x": 32.4,
+      "y": 2.2,
+      "w": 0.5,
+      "h": 3.0
+    },
+    {
+      "m": "wood",
+      "x": 36.4,
+      "y": 2.2,
+      "w": 0.5,
+      "h": 3.0
+    },
+    {
+      "m": "wood",
+      "x": 34.4,
+      "y": 5.2,
+      "w": 4.5,
+      "h": 0.5
+    },
+    {
+      "m": "wood",
+      "x": 34.4,
+      "y": 5.7,
       "w": 3.0,
-      "h": 7,
-      "look": "tower",
-      "hp": 0.5
+      "h": 1.2
     },
     {
       "m": "stone",
-      "x": 35.02,
-      "y": 0,
-      "w": 4.0,
-      "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
-    },
-    {
-      "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
+      "x": 38.22,
       "y": 0,
       "w": 3.0,
       "h": 7.5,
       "look": "tower",
-      "hp": 0.6
+      "hp": 0.8
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 41.04,
       "y": 0,
       "w": 2.6,
       "h": 8.5,
@@ -74,18 +93,46 @@
   "units": [
     {
       "kind": "soldier",
-      "x": 31.5,
-      "y": 7
-    },
-    {
-      "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
-    },
-    {
-      "kind": "soldier",
-      "x": 40.56,
+      "x": 25.9,
       "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 25.9,
+      "y": 4.8
+    },
+    {
+      "kind": "soldier",
+      "x": 34.4,
+      "y": 2.2
+    },
+    {
+      "kind": "soldier",
+      "x": 34.4,
+      "y": 6.9
+    },
+    {
+      "kind": "archer",
+      "x": 38.22,
+      "y": 7.5
+    }
+  ],
+  "moat": {
+    "x": 30.0,
+    "w": 3.6,
+    "depth": 2.0
+  },
+  "ammo": [
+    "fireball",
+    "fireball",
+    "stone",
+    "stone"
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "roxana",
+      "text": "Dry timber and a full granary. One of my pots and the whole mill goes up."
     }
   ]
 }

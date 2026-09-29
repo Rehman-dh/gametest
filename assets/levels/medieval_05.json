@@ -1,72 +1,105 @@
 {
   "id": "medieval_05",
   "name": "The Knights' Keep",
-  "worldWidth": 53,
+  "worldWidth": 54,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
+  "par": 3,
+  "objective": "killKing",
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 32.5,
+      "y": 0,
+      "w": 2.8,
+      "h": 6.2,
+      "look": "wall",
+      "hp": 1.0
+    },
+    {
+      "m": "wood",
+      "x": 30.65,
+      "y": 0.35,
+      "w": 0.45,
+      "h": 4.5,
+      "hinge": [
+        30.65,
+        0.35
+      ],
+      "a": 5,
+      "tie": [
+        31.6,
+        5.6
+      ]
+    },
+    {
+      "m": "stone",
+      "x": 36.82,
+      "y": 0,
+      "w": 4.2,
+      "h": 7.0,
+      "look": "wall",
+      "hp": 1.4
+    },
+    {
+      "m": "stone",
+      "x": 35.22,
+      "y": 7.0,
+      "w": 0.9,
+      "h": 1.8,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 38.42,
+      "y": 7.0,
+      "w": 0.9,
+      "h": 1.8,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 39.94,
+      "y": 0,
+      "w": 1.6,
+      "h": 4.0,
+      "look": "tower",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 44.36,
+      "y": 0,
+      "w": 1.6,
+      "h": 4.0,
+      "look": "tower",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 42.15,
+      "y": 4.0,
+      "w": 6.02,
+      "h": 1.0,
+      "look": "wall",
+      "hp": 1.6
+    },
+    {
+      "m": "stone",
+      "x": 46.68,
       "y": 0,
       "w": 3.0,
-      "h": 7,
+      "h": 9.0,
       "look": "tower",
-      "hp": 0.5
+      "hp": 0.9
     },
     {
       "m": "stone",
-      "x": 35.02,
-      "y": 0,
-      "w": 4.0,
-      "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
-    },
-    {
-      "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
-      "y": 0,
-      "w": 3.0,
-      "h": 7.5,
-      "look": "tower",
-      "hp": 0.6
-    },
-    {
-      "m": "stone",
-      "x": 48.4,
+      "x": 49.5,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
+      "h": 10.0,
       "look": "spire",
       "hp": 2
     }
@@ -74,18 +107,48 @@
   "units": [
     {
       "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "x": 32.5,
+      "y": 6.2
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 36.32,
+      "y": 7.0
     },
     {
       "kind": "soldier",
-      "x": 40.56,
+      "x": 37.32,
+      "y": 7.0
+    },
+    {
+      "kind": "king",
+      "x": 42.16,
       "y": 0
+    },
+    {
+      "kind": "archer",
+      "x": 46.68,
+      "y": 9.0
+    }
+  ],
+  "moat": {
+    "x": 28.5,
+    "w": 4.0,
+    "depth": 2.0
+  },
+  "ammo": [
+    "stone",
+    "stone",
+    "powderKeg",
+    "stone",
+    "stone"
+  ],
+  "relic": "greenKnightsHelm",
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "titus",
+      "text": "Knights on the roof, their lord in the hall. Drop the bridge and we walk in."
     }
   ]
 }

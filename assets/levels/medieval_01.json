@@ -1,58 +1,72 @@
 {
   "id": "medieval_01",
   "name": "The Moat House",
-  "worldWidth": 54,
+  "worldWidth": 50,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
+  "shots": 5,
+  "par": 3,
   "objective": "killAll",
   "blocks": [
     {
-      "m": "stone",
-      "x": 31.4,
+      "m": "wood",
+      "x": 24.3,
       "y": 0,
-      "w": 3.2,
-      "h": 7,
-      "look": "tower",
-      "hp": 0.8
+      "w": 0.5,
+      "h": 2.6
     },
     {
       "m": "wood",
-      "x": 39.15,
-      "y": 0.35,
-      "w": 0.45,
-      "h": 4.5,
-      "hinge": [
-        39.15,
-        0.35
-      ],
-      "a": 5,
-      "tie": [
-        40.1,
-        3.9
-      ]
+      "x": 25.4,
+      "y": 0,
+      "w": 0.5,
+      "h": 2.6
+    },
+    {
+      "m": "wood",
+      "x": 24.85,
+      "y": 2.6,
+      "w": 1.8,
+      "h": 0.4
     },
     {
       "m": "stone",
-      "x": 41.63,
+      "x": 33.0,
       "y": 0,
-      "w": 3.65,
-      "h": 4.5,
+      "w": 3.0,
+      "h": 3.6,
       "look": "wall",
-      "hp": 0.8
+      "hp": 0.6
     },
     {
       "m": "stone",
-      "x": 45.07,
+      "x": 36.02,
       "y": 0,
-      "w": 3.2,
-      "h": 8,
+      "w": 3.0,
+      "h": 7.0,
       "look": "tower",
       "hp": 0.8
     },
     {
       "m": "stone",
-      "x": 48.09,
+      "x": 39.24,
+      "y": 0,
+      "w": 3.4,
+      "h": 4.4,
+      "look": "wall",
+      "hp": 0.7
+    },
+    {
+      "m": "stone",
+      "x": 42.56,
+      "y": 0,
+      "w": 3.2,
+      "h": 8.5,
+      "look": "tower",
+      "hp": 0.9
+    },
+    {
+      "m": "stone",
+      "x": 45.58,
       "y": 0,
       "w": 2.8,
       "h": 9,
@@ -62,29 +76,42 @@
   ],
   "units": [
     {
-      "kind": "archer",
-      "x": 31.4,
-      "y": 7
-    },
-    {
       "kind": "soldier",
-      "x": 41.63,
-      "y": 4.5
-    },
-    {
-      "kind": "king",
-      "x": 45.07,
-      "y": 8
-    },
-    {
-      "kind": "soldier",
-      "x": 34.2,
+      "x": 26.6,
       "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 33.0,
+      "y": 3.6
+    },
+    {
+      "kind": "archer",
+      "x": 36.02,
+      "y": 7.0
+    },
+    {
+      "kind": "soldier",
+      "x": 39.24,
+      "y": 4.4
+    },
+    {
+      "kind": "soldier",
+      "x": 42.56,
+      "y": 8.5
     }
   ],
   "moat": {
-    "x": 37.0,
+    "x": 29.3,
     "w": 4.0,
     "depth": 2.0
-  }
+  },
+  "introCutscene": "medieval_intro",
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "bashir",
+      "text": "A moat. Knock them in, General. Mail doesn't float."
+    }
+  ]
 }
