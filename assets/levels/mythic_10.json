@@ -1,90 +1,229 @@
 {
   "id": "mythic_10",
   "name": "The Legion's Wall",
+  "par": 4,
+  "objective": "killKing",
+  "ammo": [
+    "stone",
+    "stone",
+    "powderKeg",
+    "fireball",
+    "stone",
+    "cluster"
+  ],
+  "wind": 0.4,
+  "storm": 1.6,
+  "playerHp": 120,
+  "defenses": [
+    {
+      "m": "stone",
+      "x": 5,
+      "y": 0,
+      "w": 0.8,
+      "h": 2.4
+    },
+    {
+      "m": "wood",
+      "x": 6,
+      "y": 0,
+      "w": 0.5,
+      "h": 3.0
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "arslan",
+      "text": "The Legate of the Iron Legion holds this wall for the Iron King. Bring him down and the legion breaks."
+    },
+    {
+      "trigger": "volley:1",
+      "speaker": "titus",
+      "text": "Their engine sits right under the keep. We cannot trade stones with it for long."
+    },
+    {
+      "trigger": "shot:2",
+      "speaker": "roxana",
+      "text": "Powder in the gatehouse, marble around the Legate. Blow the gate, then break the keep open."
+    }
+  ],
   "worldWidth": 53,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
-      "y": 0,
-      "w": 3.0,
-      "h": 7,
-      "look": "tower",
-      "hp": 0.5
-    },
-    {
-      "m": "stone",
-      "x": 35.02,
-      "y": 0,
-      "w": 4.0,
-      "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
-    },
-    {
-      "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
-      "y": 0,
-      "w": 3.0,
-      "h": 7.5,
-      "look": "tower",
-      "hp": 0.6
-    },
-    {
-      "m": "stone",
-      "x": 48.4,
+      "x": 25.3,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
+      "h": 6.5,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "marble",
+      "x": 28.32,
+      "y": 0,
+      "w": 3.4,
+      "h": 3.4,
+      "look": "wall",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 30.49,
+      "y": 0,
+      "w": 0.9,
+      "h": 3.6,
+      "look": "tower",
+      "hp": 0.7
+    },
+    {
+      "m": "stone",
+      "x": 34.21,
+      "y": 0,
+      "w": 0.9,
+      "h": 3.6,
+      "look": "tower",
+      "hp": 0.7
+    },
+    {
+      "m": "stone",
+      "x": 32.35,
+      "y": 3.6,
+      "w": 4.62,
+      "h": 0.8,
+      "look": "wall",
+      "hp": 1.4
+    },
+    {
+      "m": "marble",
+      "x": 36.28,
+      "y": 0,
+      "w": 1.0,
+      "h": 4.0,
+      "look": "wall",
+      "hp": 1.3
+    },
+    {
+      "m": "marble",
+      "x": 40.5,
+      "y": 0,
+      "w": 1.0,
+      "h": 4.0,
+      "look": "wall",
+      "hp": 1.3
+    },
+    {
+      "m": "marble",
+      "x": 38.39,
+      "y": 4.0,
+      "w": 5.22,
+      "h": 0.7,
+      "hp": 1.6
+    },
+    {
+      "m": "marble",
+      "x": 37.2,
+      "y": 0,
+      "w": 0.7,
+      "h": 3.0,
+      "hp": 1.3
+    },
+    {
+      "m": "crystal",
+      "x": 36.49,
+      "y": 4.7,
+      "w": 0.6,
+      "h": 2.2
+    },
+    {
+      "m": "crystal",
+      "x": 40.29,
+      "y": 4.7,
+      "w": 0.6,
+      "h": 2.2
+    },
+    {
+      "m": "marble",
+      "x": 38.39,
+      "y": 6.9,
+      "w": 5.0,
+      "h": 0.5
+    },
+    {
+      "m": "crystal",
+      "x": 38.39,
+      "y": 7.4,
+      "w": 3.0,
+      "h": 2.0,
+      "look": "dome",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 45.82,
+      "y": 0,
+      "w": 2.8,
+      "h": 8.2,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 48.54,
+      "y": 0,
+      "w": 2.6,
+      "h": 10.5,
       "look": "spire",
       "hp": 2
     }
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "kind": "legionary",
+      "x": 25.3,
+      "y": 6.5
+    },
+    {
+      "kind": "legionary",
+      "x": 28.32,
+      "y": 3.4
+    },
+    {
+      "kind": "engineer",
+      "x": 32.96,
+      "y": 0
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 32.35,
+      "y": 4.4
     },
     {
-      "kind": "soldier",
-      "x": 40.56,
+      "kind": "king",
+      "x": 38.9,
+      "y": 0
+    },
+    {
+      "kind": "legionary",
+      "x": 38.39,
+      "y": 4.7
+    },
+    {
+      "kind": "archer",
+      "x": 45.82,
+      "y": 8.2
+    }
+  ],
+  "props": [
+    {
+      "kind": "powderBarrel",
+      "x": 31.66,
+      "y": 0
+    },
+    {
+      "kind": "enemyCatapult",
+      "x": 42.62,
       "y": 0
     }
   ]
