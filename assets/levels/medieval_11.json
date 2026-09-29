@@ -1,72 +1,73 @@
 {
   "id": "medieval_11",
   "name": "The Hanging Bridge",
-  "worldWidth": 53,
+  "worldWidth": 50,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
+  "budget": 30,
+  "ammo": [
+    "stone"
+  ],
+  "par": 1,
+  "objective": "killKing",
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 25.6,
       "y": 0,
-      "w": 3.0,
-      "h": 7,
-      "look": "tower",
-      "hp": 0.5
-    },
-    {
-      "m": "stone",
-      "x": 35.02,
-      "y": 0,
-      "w": 4.0,
-      "h": 3.2,
+      "w": 2.4,
+      "h": 3.4,
       "look": "wall",
-      "hp": 0.45
+      "hp": 1.0
+    },
+    {
+      "m": "wood",
+      "x": 31.7,
+      "y": 0.0,
+      "w": 5.2,
+      "h": 0.35,
+      "hp": 4,
+      "hinge": [
+        34.1,
+        0.175
+      ],
+      "tie": [
+        35.45,
+        6.4
+      ]
     },
     {
       "m": "stone",
-      "x": 38.04,
+      "x": 36.4,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
+      "w": 2.6,
+      "h": 7.0,
       "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
       "hp": 1.5
     },
     {
       "m": "stone",
-      "x": 45.58,
+      "x": 39.5,
       "y": 0,
-      "w": 3.0,
-      "h": 7.5,
-      "look": "tower",
-      "hp": 0.6
+      "w": 3.5,
+      "h": 4.0,
+      "look": "wall",
+      "hp": 1.0
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 42.8,
       "y": 0,
-      "w": 2.6,
-      "h": 8.5,
+      "w": 3.0,
+      "h": 8.0,
+      "look": "tower",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 45.73,
+      "y": 0,
+      "w": 2.8,
+      "h": 9.0,
       "look": "spire",
       "hp": 2
     }
@@ -74,18 +75,35 @@
   "units": [
     {
       "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "x": 25.6,
+      "y": 3.4
+    },
+    {
+      "kind": "king",
+      "x": 30.6,
+      "y": 0.35
+    },
+    {
+      "kind": "archer",
+      "x": 42.8,
+      "y": 8.0
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
-    },
+      "x": 39.5,
+      "y": 4.0
+    }
+  ],
+  "moat": {
+    "x": 31.2,
+    "w": 6.0000000000000036,
+    "depth": 2.5
+  },
+  "lines": [
     {
-      "kind": "soldier",
-      "x": 40.56,
-      "y": 0
+      "trigger": "start",
+      "speaker": "roxana",
+      "text": "The Baron's castellan stands on a bridge held up by one chain. Break the tower that holds it and let the moat have him."
     }
   ]
 }
