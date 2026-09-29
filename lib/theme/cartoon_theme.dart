@@ -440,6 +440,7 @@ class CartoonTheme extends ProceduralTheme {
     canvas.drawRRect(
       shape,
       _fill
+        ..color = const Color(0xFFFFFFFF)
         ..shader = Gradient.linear(rect.topLeft, rect.bottomRight, [
           Color.lerp(light, const Color(0xFF3A2A20), char * 0.8)!,
           Color.lerp(dark, const Color(0xFF241810), char * 0.8)!,
@@ -539,7 +540,7 @@ class CartoonTheme extends ProceduralTheme {
         rect.width,
         math.min(0.12, rect.height * 0.2),
       ),
-      _fill..color = const Color(0x33FFFFFF),
+      Paint()..color = const Color(0x33FFFFFF),
     );
     _cracks(canvas, rect, crackStage, rng);
     canvas.restore();
@@ -603,6 +604,7 @@ class CartoonTheme extends ProceduralTheme {
       canvas.drawPath(
         path,
         _fill
+          ..color = const Color(0xFFFFFFFF)
           ..shader = Gradient.linear(b.topLeft, b.bottomRight, [light, dark]),
       );
       _fill.shader = null;
@@ -633,6 +635,7 @@ class CartoonTheme extends ProceduralTheme {
       ..drawRRect(
         r,
         _fill
+          ..color = const Color(0xFFFFFFFF)
           ..shader = Gradient.linear(
             Offset(0, -width / 2),
             Offset(0, width / 2),

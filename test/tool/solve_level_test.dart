@@ -14,6 +14,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:gametest/core/ammo.dart';
 import 'package:gametest/game/siege_game.dart';
 
+const _win = 1e6;
+
 class _Shot {
   const _Shot(this.type, this.angle, this.power);
   final AmmoType type;
@@ -73,7 +75,9 @@ void main() {
       if (s.type.spec.ignites) await step(g, 60 * 8);
     }
     final won = g.debugObjectiveComplete || g.phase.value == SiegePhase.won;
-    return (won ? 1e6 : 0) - g.debugAliveUnits * 1000 + g.destruction * 100;
+    // A win outranks any loss; among either, fewer defenders and more
+    // damage are better.
+    return (won ? _win : 0) - g.debugAliveUnits * 1000 + g.destruction * 100;
   }
 
   testWithGame<SiegeGame>('solve', build, (g) async {
@@ -103,9 +107,9 @@ void main() {
       }
       shots.add(pick!);
       best = pickScore;
-      if (best >= 1e6) break;
+      if (best >= _win / 2) break;
     }
-    final won = best >= 1e6;
+    final won = best >= _win / 2;
     // ignore: avoid_print
     print(
       'RESULT ${g.level.id} par $par shots ${loadout.length}: '

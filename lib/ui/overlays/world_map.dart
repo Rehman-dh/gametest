@@ -22,10 +22,11 @@ class WorldMap extends StatelessWidget {
     'Mythic',
   ];
 
-  /// Node positions as fractions of the map area.
+  /// Node positions as fractions of the map area: a zigzag road, so
+  /// neighbouring sieges sit on alternate rows and never crowd each other.
   static Offset _nodeAt(int i, int count) => Offset(
-    0.07 + 0.86 * i / math.max(1, count - 1),
-    0.5 + 0.28 * math.sin(i * 1.15 + 0.4),
+    0.06 + 0.88 * i / math.max(1, count - 1),
+    (i.isEven ? 0.3 : 0.7) + 0.05 * math.sin(i * 0.9),
   );
 
   @override
