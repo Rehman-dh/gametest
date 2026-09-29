@@ -1,72 +1,145 @@
 {
   "id": "persia_14",
   "name": "Defense of the Oasis",
-  "worldWidth": 53,
+  "worldWidth": 62,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
+  "ammo": [
+    "stone",
+    "stone",
+    "fireball",
+    "stone",
+    "fireball",
+    "powderKeg",
+    "stone"
+  ],
+  "par": 4,
+  "objective": "destroyEngines",
+  "playerHp": 120,
+  "wind": 0,
+  "storm": 1.5,
+  "defenses": [
+    {
+      "m": "stone",
+      "x": 5,
+      "y": 0,
+      "w": 0.8,
+      "h": 2.4
+    },
+    {
+      "m": "wood",
+      "x": 6,
+      "y": 0,
+      "w": 0.5,
+      "h": 3
+    }
+  ],
   "blocks": [
     {
+      "m": "wood",
+      "x": 24.35,
+      "y": 0,
+      "w": 0.5,
+      "h": 3.0
+    },
+    {
+      "m": "wood",
+      "x": 25.2,
+      "y": 0,
+      "w": 0.5,
+      "h": 3.0
+    },
+    {
+      "m": "wood",
+      "x": 26.05,
+      "y": 0,
+      "w": 0.5,
+      "h": 3.0
+    },
+    {
+      "m": "wood",
+      "x": 25.2,
+      "y": 3.0,
+      "w": 2.2,
+      "h": 0.4
+    },
+    {
       "m": "stone",
-      "x": 31.5,
+      "x": 32.9,
       "y": 0,
       "w": 3.0,
-      "h": 7,
+      "h": 7.0,
       "look": "tower",
-      "hp": 0.5
+      "hp": 0.8
     },
     {
       "m": "stone",
-      "x": 35.02,
+      "x": 36.22,
       "y": 0,
-      "w": 4.0,
-      "h": 3.2,
+      "w": 3.6,
+      "h": 3.6,
       "look": "wall",
-      "hp": 0.45
+      "hp": 1.0
+    },
+    {
+      "m": "tile",
+      "x": 36.22,
+      "y": 3.6,
+      "w": 3.2,
+      "h": 3.0,
+      "look": "dome"
     },
     {
       "m": "stone",
-      "x": 38.04,
+      "x": 44.6,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
+      "w": 3.2,
+      "h": 8.0,
       "look": "tower",
-      "hp": 0.3
+      "hp": 0.8
     },
     {
-      "m": "stone",
-      "x": 43.06,
+      "m": "wood",
+      "x": 46.6,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
+      "w": 0.5,
+      "h": 3.2
+    },
+    {
+      "m": "wood",
+      "x": 47.8,
+      "y": 0,
+      "w": 0.5,
+      "h": 3.2
+    },
+    {
+      "m": "wood",
+      "x": 49.0,
+      "y": 0,
+      "w": 0.5,
+      "h": 3.2
+    },
+    {
+      "m": "wood",
+      "x": 47.8,
+      "y": 3.2,
+      "w": 3.0,
+      "h": 0.4
     },
     {
       "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
+      "x": 55.7,
       "y": 0,
       "w": 3.0,
       "h": 7.5,
       "look": "tower",
-      "hp": 0.6
+      "hp": 1.0
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 58.62,
       "y": 0,
-      "w": 2.6,
-      "h": 8.5,
+      "w": 2.8,
+      "h": 9.0,
       "look": "spire",
       "hp": 2
     }
@@ -74,18 +147,57 @@
   "units": [
     {
       "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "x": 25.2,
+      "y": 3.4
+    },
+    {
+      "kind": "archer",
+      "x": 32.9,
+      "y": 7.0
+    },
+    {
+      "kind": "archer",
+      "x": 44.6,
+      "y": 8.0
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 47.8,
+      "y": 3.6
     },
     {
       "kind": "soldier",
-      "x": 40.56,
+      "x": 55.7,
+      "y": 7.5
+    }
+  ],
+  "props": [
+    {
+      "kind": "enemyCatapult",
+      "x": 28.8,
       "y": 0
+    },
+    {
+      "kind": "enemyCatapult",
+      "x": 40.5,
+      "y": 0
+    },
+    {
+      "kind": "enemyCatapult",
+      "x": 51.8,
+      "y": 0
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "bashir",
+      "text": "The Shahbanu holds the only water for a day's march, and she has put engines around it. Break them and the oasis is ours."
+    },
+    {
+      "trigger": "volley:2",
+      "speaker": "roxana",
+      "text": "The sand is in our faces and their stones are finding us. Fire at those engines!"
     }
   ]
 }

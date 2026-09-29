@@ -1,91 +1,407 @@
 {
   "id": "persia_15",
   "name": "The Floating Gardens",
-  "worldWidth": 53,
+  "worldWidth": 62,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
+  "introCutscene": "gardens_approach",
+  "outroCutscene": "persia_finale",
+  "relic": "cyrusCylinder",
+  "ammo": [
+    "stone",
+    "stone",
+    "stone",
+    "stone",
+    "fireball",
+    "powderKeg"
+  ],
+  "par": 7,
+  "objective": "destroyEngines",
+  "playerHp": 120,
+  "defenses": [
+    {
+      "m": "stone",
+      "x": 5,
+      "y": 0,
+      "w": 0.8,
+      "h": 2.4
+    },
+    {
+      "m": "wood",
+      "x": 6,
+      "y": 0,
+      "w": 0.5,
+      "h": 3
+    }
+  ],
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 25.6,
       "y": 0,
       "w": 3.0,
-      "h": 7,
+      "h": 8.0,
       "look": "tower",
-      "hp": 0.5
+      "hp": 0.8
     },
     {
       "m": "stone",
-      "x": 35.02,
+      "x": 28.32,
       "y": 0,
-      "w": 4.0,
-      "h": 3.2,
+      "w": 2.4,
+      "h": 1.8,
       "look": "wall",
-      "hp": 0.45
+      "hp": 0.8
     },
     {
       "m": "stone",
-      "x": 38.04,
+      "x": 35.2,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
+      "w": 2.8,
+      "h": 6.0,
       "look": "tower",
-      "hp": 0.3
+      "hp": 0.8
     },
     {
       "m": "stone",
-      "x": 43.06,
+      "x": 37.42,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
+      "w": 1.6,
+      "h": 1.8,
       "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
-      "y": 0,
-      "w": 3.0,
-      "h": 7.5,
-      "look": "tower",
-      "hp": 0.6
-    },
-    {
-      "m": "stone",
-      "x": 48.4,
-      "y": 0,
-      "w": 2.6,
-      "h": 8.5,
-      "look": "spire",
-      "hp": 2
+      "hp": 0.8
     }
   ],
   "units": [
     {
       "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "x": 25.6,
+      "y": 8.0
     },
     {
-      "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
-    },
+      "kind": "archer",
+      "x": 35.2,
+      "y": 6.0
+    }
+  ],
+  "props": [
     {
-      "kind": "soldier",
-      "x": 40.56,
+      "kind": "enemyCatapult",
+      "x": 31.4,
       "y": 0
+    },
+    {
+      "kind": "enemyCatapult",
+      "x": 40.0,
+      "y": 0
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "shahbanu",
+      "text": "You have come a long way to die among my roses, Arslan. The Iron Crown sends its greetings."
+    },
+    {
+      "trigger": "volley:1",
+      "speaker": "bashir",
+      "text": "Engines among the flower beds! Silence them before they find the barricade."
+    },
+    {
+      "trigger": "volley:2",
+      "speaker": "arslan",
+      "text": "Hold the barricade. We did not cross the desert to fall in a garden."
+    },
+    {
+      "trigger": "phase:2",
+      "speaker": "shahbanu",
+      "text": "Raise the terraces! Let my gardens float above the dust."
+    },
+    {
+      "trigger": "volley:5",
+      "speaker": "titus",
+      "text": "Stone on stone, like any wall. Knock the tiers out and the rest comes down."
+    },
+    {
+      "trigger": "phase:3",
+      "speaker": "shahbanu",
+      "text": "Enough. The Crown gave me this garden, and I will keep it myself."
+    },
+    {
+      "trigger": "volley:8",
+      "speaker": "roxana",
+      "text": "That great dome is only glazed tile, and there is powder beside her. One good hit, Arslan."
+    }
+  ],
+  "phases": [
+    {
+      "title": "The terraces rise",
+      "objective": "killAll",
+      "ammo": [
+        "stone",
+        "stone",
+        "stone",
+        "powderKeg"
+      ],
+      "blocks": [
+        {
+          "m": "stone",
+          "x": 45.2,
+          "y": 0,
+          "w": 6.6,
+          "h": 2.4,
+          "look": "wall",
+          "hp": 1.5
+        },
+        {
+          "m": "stone",
+          "x": 51.3,
+          "y": 0,
+          "w": 5.5,
+          "h": 4.8,
+          "look": "wall",
+          "hp": 1.5
+        },
+        {
+          "m": "stone",
+          "x": 56.6,
+          "y": 0,
+          "w": 5.0,
+          "h": 7.2,
+          "look": "wall",
+          "hp": 1.5
+        },
+        {
+          "m": "tile",
+          "x": 42.2,
+          "y": 2.4,
+          "w": 0.5,
+          "h": 2.4,
+          "hp": 1.2
+        },
+        {
+          "m": "tile",
+          "x": 48.2,
+          "y": 2.4,
+          "w": 0.5,
+          "h": 2.4,
+          "hp": 1.2
+        },
+        {
+          "m": "marble",
+          "x": 45.2,
+          "y": 4.8,
+          "w": 6.6,
+          "h": 0.5,
+          "hp": 1.0
+        },
+        {
+          "m": "tile",
+          "x": 45.9,
+          "y": 5.3,
+          "w": 3.8,
+          "h": 3.2,
+          "look": "dome"
+        },
+        {
+          "m": "tile",
+          "x": 49.15,
+          "y": 4.8,
+          "w": 0.6,
+          "h": 2.6,
+          "hp": 1.2
+        },
+        {
+          "m": "tile",
+          "x": 53.45,
+          "y": 4.8,
+          "w": 0.6,
+          "h": 2.6,
+          "hp": 1.2
+        },
+        {
+          "m": "tile",
+          "x": 51.3,
+          "y": 7.4,
+          "w": 5.4,
+          "h": 0.6,
+          "hp": 1.0
+        },
+        {
+          "m": "tile",
+          "x": 51.3,
+          "y": 8.0,
+          "w": 3.6,
+          "h": 2.8,
+          "look": "dome"
+        },
+        {
+          "m": "stone",
+          "x": 58.2,
+          "y": 7.2,
+          "w": 1.6,
+          "h": 4.6,
+          "look": "spire",
+          "hp": 1.0
+        }
+      ],
+      "units": [
+        {
+          "kind": "soldier",
+          "x": 45.2,
+          "y": 2.4
+        },
+        {
+          "kind": "archer",
+          "x": 42.8,
+          "y": 5.3
+        },
+        {
+          "kind": "soldier",
+          "x": 51.3,
+          "y": 4.8
+        },
+        {
+          "kind": "archer",
+          "x": 55.5,
+          "y": 7.2
+        }
+      ]
+    },
+    {
+      "title": "The Shahbanu descends",
+      "objective": "killKing",
+      "ammo": [
+        "stone",
+        "stone",
+        "fireball"
+      ],
+      "blocks": [
+        {
+          "m": "stone",
+          "x": 45.2,
+          "y": 0,
+          "w": 6.6,
+          "h": 2.4,
+          "look": "wall",
+          "hp": 1.5
+        },
+        {
+          "m": "stone",
+          "x": 51.3,
+          "y": 0,
+          "w": 5.5,
+          "h": 4.8,
+          "look": "wall",
+          "hp": 1.5
+        },
+        {
+          "m": "stone",
+          "x": 56.6,
+          "y": 0,
+          "w": 5.0,
+          "h": 7.2,
+          "look": "wall",
+          "hp": 1.5
+        },
+        {
+          "m": "tile",
+          "x": 42.2,
+          "y": 2.4,
+          "w": 0.5,
+          "h": 2.4,
+          "hp": 1.2
+        },
+        {
+          "m": "tile",
+          "x": 48.2,
+          "y": 2.4,
+          "w": 0.5,
+          "h": 2.4,
+          "hp": 1.2
+        },
+        {
+          "m": "marble",
+          "x": 45.2,
+          "y": 4.8,
+          "w": 6.6,
+          "h": 0.5,
+          "hp": 1.0
+        },
+        {
+          "m": "tile",
+          "x": 45.9,
+          "y": 5.3,
+          "w": 3.8,
+          "h": 3.2,
+          "look": "dome"
+        },
+        {
+          "m": "marble",
+          "x": 49.15,
+          "y": 4.8,
+          "w": 0.6,
+          "h": 2.6,
+          "hp": 1.2
+        },
+        {
+          "m": "marble",
+          "x": 53.45,
+          "y": 4.8,
+          "w": 0.6,
+          "h": 2.6,
+          "hp": 1.2
+        },
+        {
+          "m": "marble",
+          "x": 51.3,
+          "y": 7.4,
+          "w": 5.4,
+          "h": 0.6,
+          "hp": 1.2
+        },
+        {
+          "m": "tile",
+          "x": 51.3,
+          "y": 8.0,
+          "w": 5.0,
+          "h": 4.2,
+          "look": "dome",
+          "hp": 1.5
+        },
+        {
+          "m": "stone",
+          "x": 58.2,
+          "y": 7.2,
+          "w": 1.6,
+          "h": 4.6,
+          "look": "spire",
+          "hp": 1.0
+        }
+      ],
+      "units": [
+        {
+          "kind": "pharaoh",
+          "x": 50.55,
+          "y": 4.8
+        },
+        {
+          "kind": "engineer",
+          "x": 45.2,
+          "y": 2.4
+        },
+        {
+          "kind": "soldier",
+          "x": 55.5,
+          "y": 7.2
+        }
+      ],
+      "props": [
+        {
+          "kind": "powderBarrel",
+          "x": 52.4,
+          "y": 4.8
+        }
+      ]
     }
   ]
 }

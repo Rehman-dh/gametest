@@ -1,72 +1,80 @@
 {
   "id": "persia_11",
   "name": "The Hanging Dome",
-  "worldWidth": 53,
+  "worldWidth": 49,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
+  "budget": 30,
+  "ammo": [
+    "stone"
+  ],
+  "par": 1,
+  "objective": "killKing",
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 25.8,
+      "y": 0,
+      "w": 2.2,
+      "h": 3.0,
+      "look": "wall",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 28.5,
       "y": 0,
       "w": 3.0,
-      "h": 7,
+      "h": 7.6,
       "look": "tower",
-      "hp": 0.5
+      "hp": 1.0
     },
     {
-      "m": "stone",
-      "x": 35.02,
+      "m": "marble",
+      "x": 30.9,
       "y": 0,
-      "w": 4.0,
-      "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
+      "w": 1.2,
+      "h": 5.0,
+      "hp": 1.2
     },
     {
-      "m": "stone",
-      "x": 38.04,
+      "m": "tile",
+      "x": 37.9,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
+      "w": 0.7,
+      "h": 5.0,
+      "weak": true
+    },
+    {
+      "m": "marble",
+      "x": 34.45,
+      "y": 5.0,
+      "w": 8.1,
+      "h": 0.8,
+      "hp": 1.2
+    },
+    {
+      "m": "tile",
+      "x": 34.45,
+      "y": 5.8,
+      "w": 5.0,
+      "h": 3.8,
+      "look": "dome"
     },
     {
       "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
+      "x": 40.9,
       "y": 0,
       "w": 3.0,
-      "h": 7.5,
+      "h": 8.0,
       "look": "tower",
-      "hp": 0.6
+      "hp": 1.0
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 44.2,
       "y": 0,
-      "w": 2.6,
-      "h": 8.5,
+      "w": 2.8,
+      "h": 9.0,
       "look": "spire",
       "hp": 2
     }
@@ -74,18 +82,25 @@
   "units": [
     {
       "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "x": 28.5,
+      "y": 7.6
     },
     {
-      "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
-    },
-    {
-      "kind": "soldier",
-      "x": 40.56,
+      "kind": "king",
+      "x": 36.4,
       "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 40.9,
+      "y": 8.0
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "roxana",
+      "text": "A dome that heavy, on a column that thin? One crack and it all comes down on the satrap."
     }
   ]
 }
