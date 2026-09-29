@@ -1,91 +1,162 @@
 {
   "id": "persia_05",
   "name": "The Sandstorm Road",
-  "worldWidth": 53,
+  "worldWidth": 55,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
+  "par": 3,
+  "objective": "killKing",
+  "ammo": [
+    "stone",
+    "stone",
+    "powderKeg",
+    "stone",
+    "stone"
+  ],
+  "wind": -0.5,
+  "storm": 2.5,
+  "relic": "simurghFeather",
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
-      "y": 0,
-      "w": 3.0,
-      "h": 7,
-      "look": "tower",
-      "hp": 0.5
-    },
-    {
-      "m": "stone",
-      "x": 35.02,
-      "y": 0,
-      "w": 4.0,
-      "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
-    },
-    {
-      "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
+      "x": 28.5,
       "y": 0,
       "w": 3.0,
       "h": 7.5,
       "look": "tower",
-      "hp": 0.6
+      "hp": 0.9
+    },
+    {
+      "m": "tile",
+      "x": 30.57,
+      "y": 0,
+      "w": 1.1,
+      "h": 3.4,
+      "hp": 1.5
+    },
+    {
+      "m": "tile",
+      "x": 34.07,
+      "y": 0,
+      "w": 1.1,
+      "h": 3.4,
+      "hp": 1.5
+    },
+    {
+      "m": "tile",
+      "x": 32.32,
+      "y": 3.4,
+      "w": 4.6,
+      "h": 0.7,
+      "hp": 1.5
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 36.34,
+      "y": 0,
+      "w": 3.4,
+      "h": 5.0,
+      "look": "wall",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 39.56,
+      "y": 0,
+      "w": 1.4,
+      "h": 3.6,
+      "look": "tower",
+      "hp": 2.0
+    },
+    {
+      "m": "stone",
+      "x": 44.76,
+      "y": 0,
+      "w": 1.4,
+      "h": 3.6,
+      "look": "tower",
+      "hp": 2.0
+    },
+    {
+      "m": "stone",
+      "x": 42.16,
+      "y": 3.6,
+      "w": 6.6,
+      "h": 1.0,
+      "look": "wall",
+      "hp": 3.0
+    },
+    {
+      "m": "tile",
+      "x": 42.16,
+      "y": 4.6,
+      "w": 4.2,
+      "h": 3.4,
+      "look": "dome",
+      "hp": 1.5
+    },
+    {
+      "m": "stone",
+      "x": 47.98,
+      "y": 0,
+      "w": 3.4,
+      "h": 9.0,
+      "look": "tower",
+      "hp": 0.9
+    },
+    {
+      "m": "stone",
+      "x": 51.0,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
+      "h": 9.5,
       "look": "spire",
       "hp": 2
     }
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "kind": "archer",
+      "x": 28.5,
+      "y": 7.5
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
-    },
-    {
-      "kind": "soldier",
-      "x": 40.56,
+      "x": 32.32,
       "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 32.32,
+      "y": 4.1
+    },
+    {
+      "kind": "soldier",
+      "x": 36.34,
+      "y": 5.0
+    },
+    {
+      "kind": "king",
+      "x": 41.36,
+      "y": 0
+    },
+    {
+      "kind": "archer",
+      "x": 47.98,
+      "y": 9.0
+    }
+  ],
+  "props": [
+    {
+      "kind": "powderBarrel",
+      "x": 43.16,
+      "y": 0
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "arslan",
+      "text": "The storm hides us, and hides them too. The tax-lord keeps his powder in that roadside fort."
     }
   ]
 }
