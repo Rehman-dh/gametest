@@ -406,7 +406,7 @@ class _RelicCard extends StatelessWidget {
                 style: UiStyle.body.copyWith(fontWeight: FontWeight.w900),
               ),
               Text(
-                found ? spec.effect : 'Hidden somewhere in Egypt',
+                found ? spec.effect : 'Hidden somewhere on the campaign',
                 style: UiStyle.body.copyWith(fontSize: 12),
               ),
             ],

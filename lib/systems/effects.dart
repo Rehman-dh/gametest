@@ -213,7 +213,7 @@ class Effects {
     final volume = (damage / 40).clamp(0.0, 1.0);
     audio.play(switch (block.material) {
       BlockMaterial.wood => Sfx.impactWood,
-      BlockMaterial.stone => Sfx.impactStone,
+      BlockMaterial.stone || BlockMaterial.marble => Sfx.impactStone,
       BlockMaterial.glass => Sfx.impactGlass,
     }, volume: volume);
   }
@@ -244,10 +244,15 @@ class Effects {
     );
     audio.play(switch (block.material) {
       BlockMaterial.wood => Sfx.breakWood,
-      BlockMaterial.stone => Sfx.breakStone,
+      BlockMaterial.stone || BlockMaterial.marble => Sfx.breakStone,
       BlockMaterial.glass => Sfx.breakGlass,
     });
-    addTrauma(block.material == BlockMaterial.stone ? 0.3 : 0.15);
+    addTrauma(
+      block.material == BlockMaterial.stone ||
+              block.material == BlockMaterial.marble
+          ? 0.3
+          : 0.15,
+    );
     _spawnShards(block);
   }
 

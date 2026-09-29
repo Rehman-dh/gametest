@@ -20,6 +20,10 @@ mixin Damageable on BodyComponent<SiegeGame>, ContactCallbacks {
   /// Called once when hp reaches zero, before removal.
   void onDestroyed();
 
+  /// Scales damage from a collision with [other]; shields and armour
+  /// override it.
+  double damageScaleFrom(Object other) => 1;
+
   /// Called for every damaging hit, including the fatal one.
   void onHit(double damage) {}
 
@@ -31,10 +35,14 @@ mixin Damageable on BodyComponent<SiegeGame>, ContactCallbacks {
     for (var i = 0; i < impulse.count; i++) {
       peak = math.max(peak, impulse.normalImpulses[i]);
     }
-    final damage = damageFromImpulse(
-      peak,
-      multiplier: other is Projectile ? projectileDamageMultiplier : 1,
-    );
+    final damage =
+        damageFromImpulse(
+          peak,
+          multiplier: other is Projectile
+              ? projectileDamageMultiplier * other.damageBoost
+              : 1,
+        ) *
+        damageScaleFrom(other);
     if (damage > 0) takeDamage(damage);
   }
 

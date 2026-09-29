@@ -7,6 +7,7 @@ import 'package:flame/components.dart' show Vector2;
 import 'package:flame/particles.dart';
 import 'package:flutter/services.dart';
 
+import '../core/era.dart';
 import '../core/materials.dart';
 import '../core/weapons.dart';
 import '../levels/level_data.dart';
@@ -32,6 +33,10 @@ class CartoonTheme extends ProceduralTheme {
     'tree_0.png', 'tree_1.png', 'bush.png', 'tuft_0.png', 'tuft_1.png',
     'rock_0.png', 'rock_1.png', 'rock_2.png', 'rock_3.png', 'rock_4.png',
     'ground_top.png', 'ground_fill.png', 'barrel.png', 'crate.png',
+    'rome_tower_0.png', 'rome_tower_1.png', 'rome_tower_2.png',
+    'rome_tower_tall_0.png', 'rome_tower_tall_1.png', 'rome_tower_tall_2.png',
+    'rome_wall_0.png', 'rome_wall_1.png', 'rome_wall_2.png',
+    'rome_wall_brick_0.png', 'rome_wall_brick_1.png', 'rome_wall_brick_2.png',
   ];
 
   static Future<CartoonTheme> load() async {
@@ -320,13 +325,17 @@ class CartoonTheme extends ProceduralTheme {
   ui.Image? _fortArt(String? look, int stage, Size size) {
     if (look == null) return null;
     final s = stage.clamp(0, 2);
+    // Rome builds in grey stone and white marble; Egypt in sandstone.
+    final set = era == Era.rome ? 'rome_' : '';
     return switch (look) {
-      'tower' => _img['tower_$s'],
-      'spire' => _img['tower_tall_$s'],
-      'gate' => _img['wall_brick_$s'],
+      'tower' => _img['${set}tower_$s'],
+      'spire' => _img['${set}tower_tall_$s'],
+      'gate' => _img['${set}wall_brick_$s'],
       // Long low pieces (lintels) use the brick-banded wall.
       _ =>
-        size.width > size.height * 2 ? _img['wall_brick_$s'] : _img['wall_$s'],
+        size.width > size.height * 2
+            ? _img['${set}wall_brick_$s']
+            : _img['${set}wall_$s'],
     };
   }
 
@@ -336,6 +345,7 @@ class CartoonTheme extends ProceduralTheme {
     BlockMaterial.wood => (const Color(0xFFE39447), const Color(0xFFB0622A)),
     BlockMaterial.stone => (const Color(0xFFF0DCAA), const Color(0xFFCDAA6A)),
     BlockMaterial.glass => (const Color(0xCCBDEFFF), const Color(0xAA7FCDEB)),
+    BlockMaterial.marble => (const Color(0xFFFBFAF7), const Color(0xFFD5D3CE)),
   };
 
   /// Draws fortress art over a block of [size], tiling wide pieces so their
@@ -520,6 +530,26 @@ class CartoonTheme extends ProceduralTheme {
               joint,
             );
           }
+        }
+      case BlockMaterial.marble:
+        // Grey veins wandering through polished white stone.
+        final vein = Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 0.03
+          ..color = const Color(0x668A8F99);
+        for (var k = 0; k < 2 + (rect.width * rect.height).ceil(); k++) {
+          var p = Offset(
+            rect.left + rng.nextDouble() * rect.width,
+            rect.top + rng.nextDouble() * rect.height,
+          );
+          final path = Path()..moveTo(p.dx, p.dy);
+          final dir = rng.nextDouble() * math.pi;
+          for (var j = 0; j < 5; j++) {
+            final a = dir + (rng.nextDouble() - 0.5) * 0.9;
+            p += Offset(math.cos(a), math.sin(a)) * 0.25;
+            path.lineTo(p.dx, p.dy);
+          }
+          canvas.drawPath(path, vein);
         }
       case BlockMaterial.glass:
         // A bright glint.
@@ -881,6 +911,7 @@ class CartoonTheme extends ProceduralTheme {
     BlockMaterial.wood => const Color(0xFFD98A3E),
     BlockMaterial.stone => const Color(0xFFE6CE96),
     BlockMaterial.glass => const Color(0xDDBDEFFF),
+    BlockMaterial.marble => const Color(0xFFF2F1EE),
   };
 
   @override

@@ -185,6 +185,8 @@ class _SiegePrepState extends State<SiegePrep> {
           if (count(UnitKind.king) > 0) 'king',
           if (count(UnitKind.soldier) > 0)
             '${count(UnitKind.soldier)} soldiers',
+          if (count(UnitKind.legionary) > 0)
+            '${count(UnitKind.legionary)} legionaries',
           if (count(UnitKind.archer) > 0) '${count(UnitKind.archer)} archers',
           if (count(UnitKind.engineer) > 0)
             '${count(UnitKind.engineer)} engineers',

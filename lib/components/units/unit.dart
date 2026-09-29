@@ -4,10 +4,12 @@ import 'dart:ui';
 import 'package:flame_forge2d/flame_forge2d.dart';
 
 import '../../core/collision.dart';
+import '../../core/era.dart';
 import '../../game/siege_game.dart';
 import '../../levels/level_data.dart';
 import '../../story/characters.dart';
 import '../damageable.dart';
+import '../projectiles/projectile.dart';
 import '../../theme/figure_painter.dart';
 import '../structure/castle_block.dart';
 import 'fallen_figure.dart';
@@ -29,6 +31,7 @@ class Unit extends BodyComponent<SiegeGame> with ContactCallbacks, Damageable {
   double get radius => switch (kind) {
     UnitKind.pharaoh => 0.7,
     UnitKind.king => 0.6,
+    UnitKind.legionary => 0.5,
     _ => 0.45,
   };
 
@@ -37,6 +40,7 @@ class Unit extends BodyComponent<SiegeGame> with ContactCallbacks, Damageable {
     UnitKind.pharaoh => 40,
     UnitKind.king => 20,
     UnitKind.engineer => 10,
+    UnitKind.legionary => 16,
     _ => 12,
   };
 
@@ -107,7 +111,9 @@ class Unit extends BodyComponent<SiegeGame> with ContactCallbacks, Damageable {
         ..scale(0.8);
       game.theme.drawCharacter(
         canvas,
-        characterLooks[CharacterId.sethmose]!,
+        characterLooks[game.level.era == Era.rome
+            ? CharacterId.castus
+            : CharacterId.sethmose]!,
         pose: hurtFlash > 0 ? Pose.point : Pose.stand,
         time: game.realTime,
       );
@@ -132,6 +138,7 @@ class Unit extends BodyComponent<SiegeGame> with ContactCallbacks, Damageable {
         seed: data.x.round(),
         alert: _alert,
         panic: _panic,
+        era: game.level.era,
       ),
     );
     canvas.restore();
@@ -148,6 +155,17 @@ class Unit extends BodyComponent<SiegeGame> with ContactCallbacks, Damageable {
     _alert += ((incoming ? 1.0 : 0.0) - _alert) * k;
     _panic +=
         ((shaken ? 1.0 : 0.0) - _panic) * (shaken ? 1 - math.exp(-20 * dt) : k);
+  }
+
+  /// A legionary's shield takes most of a shot that comes at him from
+  /// the front; a round dropping from above, falling masonry or a blast
+  /// still hurts in full.
+  @override
+  double damageScaleFrom(Object other) {
+    if (kind != UnitKind.legionary || other is! Projectile) return 1;
+    final v = other.body.linearVelocity;
+    final frontal = v.x > 0 && v.y.abs() < v.x * 0.9;
+    return frontal ? 0.3 : 1;
   }
 
   @override

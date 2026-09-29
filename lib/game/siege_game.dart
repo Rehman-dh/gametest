@@ -122,6 +122,21 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     'assets/levels/egypt_13.json',
     'assets/levels/egypt_14.json',
     'assets/levels/egypt_15.json',
+    'assets/levels/rome_01.json',
+    'assets/levels/rome_02.json',
+    'assets/levels/rome_03.json',
+    'assets/levels/rome_04.json',
+    'assets/levels/rome_05.json',
+    'assets/levels/rome_06.json',
+    'assets/levels/rome_07.json',
+    'assets/levels/rome_08.json',
+    'assets/levels/rome_09.json',
+    'assets/levels/rome_10.json',
+    'assets/levels/rome_11.json',
+    'assets/levels/rome_12.json',
+    'assets/levels/rome_13.json',
+    'assets/levels/rome_14.json',
+    'assets/levels/rome_15.json',
   ];
 
   /// Whether the main menu opens over a live demo siege.
@@ -184,6 +199,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   /// Li Wei's Spotter: weak points glow for the rest of the siege.
   bool revealWeakPoints = false;
   bool _nextShotIgnites = false;
+  bool _nextShotHeavy = false;
 
   WeaponType get weapon => loadout.weapon;
   double get playerMaxHp => level.playerHp + modifiers.engineHpBonus;
@@ -342,6 +358,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     double? engineHp,
   }) async {
     level = data;
+    theme.era = data.era;
     this.loadout = loadout ?? Loadout.levelDefault(level);
     modifiers = campaign == null
         ? Modifiers.none
@@ -351,6 +368,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     banner.value = null;
     revealWeakPoints = false;
     _nextShotIgnites = false;
+    _nextShotHeavy = false;
 
     world.removeAll(world.children.toList());
     _levelTime = 0;
@@ -569,6 +587,8 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
         revealWeakPoints = true;
       case CrewId.roxana:
         _nextShotIgnites = true;
+      case CrewId.titus:
+        _nextShotHeavy = true;
     }
     effects.crewAbility(crewSpecs[id]!.abilityName);
     usedAbilities.value = {...usedAbilities.value, id};
@@ -684,6 +704,8 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
           .where((a) => (left[a] ?? 0) > 0)
           .firstOrNull;
     }
+    final opening = _shotsUsed == 0;
+    final heavy = _nextShotHeavy;
     _shotsUsed++;
     siegeEngine.release();
     effects.launch(ballista: weapon == WeaponType.ballista);
@@ -694,9 +716,14 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
         velocity: launchVelocity(pull),
         gravityScale: weapon.spec.gravityScale,
         forceIgnite: _nextShotIgnites,
+        radius: heavy ? type.spec.radius * 1.45 : null,
+        densityScale: heavy ? 2.4 : 1,
+        damageBoost:
+            (opening ? modifiers.firstShotBoost : 1) * (heavy ? 1.3 : 1),
       ),
     );
     _nextShotIgnites = false;
+    _nextShotHeavy = false;
     phase.value = SiegePhase.flying;
   }
 
@@ -743,6 +770,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
           BlockMaterial.wood => const Color(0xFFFFC266),
           BlockMaterial.stone => const Color(0xFFE8ECF0),
           BlockMaterial.glass => const Color(0xFFA8EEFF),
+          BlockMaterial.marble => const Color(0xFFFFFFFF),
         },
       );
     }

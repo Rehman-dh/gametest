@@ -17,6 +17,8 @@ class Projectile extends BodyComponent<SiegeGame> with ContactCallbacks {
     required this.velocity,
     this.gravityScale = 1,
     this.forceIgnite = false,
+    this.damageBoost = 1,
+    this.densityScale = 1,
     double? radius,
   }) : radius = radius ?? type.spec.radius,
        super(renderBody: false, priority: 8);
@@ -29,6 +31,12 @@ class Projectile extends BodyComponent<SiegeGame> with ContactCallbacks {
 
   /// Roxana's Greek Fire: this round ignites whatever it hits.
   final bool forceIgnite;
+
+  /// Multiplies the damage this round deals on impact (Titus's strength).
+  final double damageBoost;
+
+  /// Multiplies the round's mass, for Titus's Heavy Boulder.
+  final double densityScale;
 
   static const _minImpactSpeed = 7.0;
   static const _trailInterval = 0.035;
@@ -70,7 +78,7 @@ class Projectile extends BodyComponent<SiegeGame> with ContactCallbacks {
     body.createFixture(
       FixtureDef(
         shape,
-        density: spec.density,
+        density: spec.density * densityScale,
         friction: 0.6,
         restitution: isBolt ? 0.05 : 0.2,
         filter: Filter()

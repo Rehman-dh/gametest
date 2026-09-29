@@ -93,6 +93,7 @@ class Modifiers {
     this.blastMultiplier = 1,
     this.trajectoryMultiplier = 1,
     this.repairAmount = 0,
+    this.firstShotBoost = 1,
   });
 
   factory Modifiers.from(Progress progress, Loadout loadout) {
@@ -100,8 +101,9 @@ class Modifiers {
     final workshop = progress.building(BuildingId.workshop);
     var engineHp = workshop >= 3 ? 20.0 : 0.0;
     if (progress.relics.contains(RelicId.scarabAmulet)) engineHp += 15;
+    if (progress.relics.contains(RelicId.aquila)) engineHp += 20;
     var barricade = 1.0, fire = 1 + 0.1 * alchemy, blast = 1.0;
-    var trajectory = 1.0, repair = 0.0;
+    var trajectory = 1.0, repair = 0.0, firstShot = 1.0;
     if (alchemy >= 3) blast += 0.3;
 
     if (loadout.has(CrewId.bashir)) {
@@ -118,6 +120,9 @@ class Modifiers {
       fire += bonus;
       blast += bonus;
     }
+    if (loadout.has(CrewId.titus)) {
+      firstShot = 1.5 + 0.05 * (progress.crewLevel(CrewId.titus) - 1);
+    }
     return Modifiers(
       engineHpBonus: engineHp,
       barricadeHpMultiplier: barricade,
@@ -125,6 +130,7 @@ class Modifiers {
       blastMultiplier: blast,
       trajectoryMultiplier: trajectory,
       repairAmount: repair,
+      firstShotBoost: firstShot,
     );
   }
 
@@ -138,4 +144,7 @@ class Modifiers {
 
   /// Engine hit points restored by Bashir's Field Repair.
   final double repairAmount;
+
+  /// Titus the Strongman: how much harder the opening shot strikes.
+  final double firstShotBoost;
 }

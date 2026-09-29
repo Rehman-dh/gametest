@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'dart:ui';
 
+import '../core/era.dart';
 import '../levels/level_data.dart';
 
 /// How a figure is standing at this moment. All values are blended, so a
@@ -12,6 +13,7 @@ class FigurePose {
     this.alert = 0,
     this.panic = 0,
     this.limp = 0,
+    this.era = Era.egypt,
   });
 
   /// Seconds, for breathing and idle motion.
@@ -28,6 +30,9 @@ class FigurePose {
 
   /// 0–1: knocked out, every joint slack.
   final double limp;
+
+  /// Whose army: Egyptian linen and bronze, or Roman iron and red.
+  final Era era;
 }
 
 /// Draws the enemy garrison as shaded, jointed figures in Egyptian kit:
@@ -59,7 +64,12 @@ class FigurePainter {
     _ => 2.0,
   };
 
+  /// Set for the figure being painted: Roman kit instead of Egyptian.
+  static bool _roman = false;
+
   static void paint(Canvas canvas, UnitKind kind, FigurePose pose) {
+    _roman = pose.era == Era.rome || kind == UnitKind.legionary;
+    final spearman = kind == UnitKind.soldier || kind == UnitKind.legionary;
     final h = heightOf(kind);
     final u = h / 1.8; // body unit: 1 at soldier height
     final t = pose.time + pose.seed * 1.37;
@@ -99,7 +109,7 @@ class FigurePainter {
       farShoulder + Offset(-0.2 + 0.1 * wave, -0.45),
       panic,
     )!;
-    if (kind == UnitKind.soldier) {
+    if (spearman) {
       // Spear, leaning forward as he braces.
       final tilt = 0.1 + 0.35 * alert - 0.3 * panic;
       final dir = Offset(math.sin(tilt), -math.cos(tilt));
@@ -117,6 +127,7 @@ class FigurePainter {
     } else {
       _kilt(canvas, hip, kind);
       _chest(canvas, hip, neck, kind);
+      if (_roman && spearman) _lorica(canvas, hip, neck);
     }
 
     _head(canvas, head, kind, t, alert, panic);
@@ -134,8 +145,13 @@ class FigurePainter {
     )!;
     _arm(canvas, nearShoulder, nearHand);
     switch (kind) {
-      case UnitKind.soldier:
-        _shield(canvas, nearHand + Offset(0.08, 0.05 - 0.1 * alert));
+      case UnitKind.soldier || UnitKind.legionary:
+        final at = nearHand + Offset(0.08, 0.05 - 0.1 * alert);
+        if (_roman) {
+          _scutum(canvas, at, big: kind == UnitKind.legionary);
+        } else {
+          _shield(canvas, at);
+        }
       case UnitKind.archer:
         _bow(canvas, nearHand, alert);
       case UnitKind.king || UnitKind.pharaoh:
@@ -230,7 +246,8 @@ class FigurePainter {
         _fill
           ..shader = Gradient.linear(b.topLeft, b.bottomRight, switch (kind) {
             // The garrison wears red, so they stand out on pale stone.
-            UnitKind.soldier => const [Color(0xFFE5483A), Color(0xFFA82A1F)],
+            UnitKind.soldier ||
+            UnitKind.legionary => const [Color(0xFFE5483A), Color(0xFFA82A1F)],
             UnitKind.archer => const [Color(0xFF6FB443), Color(0xFF3F7A22)],
             _ => const [Color(0xFFC08A52), Color(0xFF8A5A2E)],
           }),
@@ -332,7 +349,13 @@ class FigurePainter {
           ..shader = Gradient.linear(
             b.centerLeft,
             b.centerRight,
-            const [_linenShade, Color(0xFFF4EEDD), _linenShade],
+            _roman
+                ? const [
+                    Color(0xFF4A1E5E),
+                    Color(0xFF7B3A93),
+                    Color(0xFF4A1E5E),
+                  ]
+                : const [_linenShade, Color(0xFFF4EEDD), _linenShade],
             const [0, 0.5, 1],
           ),
       )
@@ -433,7 +456,11 @@ class FigurePainter {
 
     switch (kind) {
       case UnitKind.king || UnitKind.pharaoh:
-        _nemes(canvas, head, r);
+        if (_roman) {
+          _laurel(canvas, head, r);
+        } else {
+          _nemes(canvas, head, r);
+        }
       case UnitKind.archer:
         // Striped linen headcloth.
         _headcloth(canvas, head, r, const Color(0xFF6E7A48), _linen);
@@ -445,7 +472,9 @@ class FigurePainter {
           const Color(0xFF8A6A44),
           const Color(0xFFBFA27A),
         );
-      case UnitKind.soldier:
+      case UnitKind.soldier || UnitKind.legionary when _roman:
+        _galea(canvas, head, r);
+      case UnitKind.soldier || UnitKind.legionary:
         // Bronze cap with a crest.
         final cap = Path()
           ..addArc(
@@ -567,6 +596,163 @@ class FigurePainter {
   }
 
   // ------------------------------------------------------------ gear
+
+  // ------------------------------------------------------------ Rome
+
+  /// Segmented iron armour over the chest.
+  static void _lorica(Canvas canvas, Offset hip, Offset neck) {
+    final plate = Paint()
+      ..shader = Gradient.linear(
+        Offset(hip.dx - 0.2, 0),
+        Offset(hip.dx + 0.2, 0),
+        const [Color(0xFF8E959C), Color(0xFFD5DADF), Color(0xFF6E757C)],
+        const [0, 0.55, 1],
+      );
+    final top = neck.dy + 0.1, bottom = hip.dy - 0.06;
+    final bands = 4;
+    final h = (bottom - top) / bands;
+    for (var i = 0; i < bands; i++) {
+      final r = RRect.fromLTRBR(
+        hip.dx - 0.19,
+        top + i * h,
+        hip.dx + 0.19,
+        top + (i + 1) * h + 0.01,
+        const Radius.circular(0.03),
+      );
+      canvas
+        ..drawRRect(r, plate)
+        ..drawRRect(r, _edge);
+    }
+  }
+
+  /// The legionary's galea: an iron helmet with a red transverse crest.
+  static void _galea(Canvas canvas, Offset head, double r) {
+    final cap = Path()
+      ..addArc(
+        Rect.fromCenter(
+          center: head + const Offset(0, -0.01),
+          width: r * 2.2,
+          height: r * 2.3,
+        ),
+        math.pi,
+        math.pi,
+      )
+      ..close();
+    final b = cap.getBounds();
+    canvas
+      // Crest across the crown.
+      ..drawRRect(
+        RRect.fromRectAndRadius(
+          Rect.fromCenter(
+            center: Offset(head.dx - 0.01, b.top - 0.05),
+            width: r * 2.1,
+            height: 0.12,
+          ),
+          const Radius.circular(0.06),
+        ),
+        _fill..color = const Color(0xFFD8322A),
+      )
+      ..drawPath(
+        cap,
+        _fill
+          ..shader = Gradient.linear(b.topLeft, b.bottomRight, const [
+            Color(0xFFE3E7EA),
+            Color(0xFF9AA2A9),
+          ]),
+      )
+      ..drawPath(cap, _edge);
+    _fill.shader = null;
+    // Neck guard and cheek piece.
+    canvas
+      ..drawRect(
+        Rect.fromLTRB(
+          b.left - 0.03,
+          b.bottom - 0.02,
+          b.left + 0.1,
+          b.bottom + 0.1,
+        ),
+        _fill..color = const Color(0xFF9AA2A9),
+      )
+      ..drawRect(
+        Rect.fromLTRB(
+          head.dx + r * 0.2,
+          b.bottom - 0.02,
+          head.dx + r * 0.5,
+          b.bottom + 0.12,
+        ),
+        _fill..color = const Color(0xFFB8BFC5),
+      );
+  }
+
+  /// A general's golden laurel wreath.
+  static void _laurel(Canvas canvas, Offset head, double r) {
+    final leaf = Paint()..color = const Color(0xFFE2B84A);
+    final vein = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 0.012
+      ..color = const Color(0xFF7A5A14);
+    for (var i = 0; i < 7; i++) {
+      final a = math.pi * (1.05 + i * 0.13);
+      final c = head + Offset(math.cos(a) * r * 1.02, math.sin(a) * r * 1.05);
+      final o = Rect.fromCenter(center: c, width: 0.09, height: 0.05);
+      canvas
+        ..save()
+        ..translate(c.dx, c.dy)
+        ..rotate(a + math.pi / 2)
+        ..translate(-c.dx, -c.dy)
+        ..drawOval(o, leaf)
+        ..drawOval(o, vein)
+        ..restore();
+    }
+  }
+
+  /// The scutum: a tall, curved red shield with a bronze boss; the
+  /// legionary's is big enough to hide behind.
+  static void _scutum(Canvas canvas, Offset centre, {required bool big}) {
+    final rect = Rect.fromCenter(
+      center: centre + Offset(0.02, big ? -0.05 : 0),
+      width: big ? 0.52 : 0.4,
+      height: big ? 1.05 : 0.78,
+    );
+    final shape = RRect.fromRectAndRadius(rect, const Radius.circular(0.06));
+    canvas.drawRRect(
+      shape,
+      _fill
+        ..shader = Gradient.linear(
+          rect.centerLeft,
+          rect.centerRight,
+          const [Color(0xFFA82A1F), Color(0xFFE5483A), Color(0xFF8C1F16)],
+          const [0, 0.5, 1],
+        ),
+    );
+    _fill.shader = null;
+    final gold = Paint()
+      ..color = const Color(0xFFE2B84A)
+      ..strokeWidth = 0.035
+      ..style = PaintingStyle.stroke;
+    canvas
+      ..drawRRect(shape.deflate(0.04), gold)
+      // Crossed lightning bolts on the face.
+      ..drawLine(
+        rect.topCenter + const Offset(-0.1, 0.12),
+        rect.bottomCenter + const Offset(0.1, -0.12),
+        gold,
+      )
+      ..drawLine(
+        rect.topCenter + const Offset(0.1, 0.12),
+        rect.bottomCenter + const Offset(-0.1, -0.12),
+        gold,
+      )
+      ..drawCircle(rect.center, 0.07, _fill..color = const Color(0xFFD9A63E))
+      ..drawCircle(rect.center, 0.07, _edge)
+      ..drawRRect(
+        shape,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 0.05
+          ..color = const Color(0xFF2B1A0E),
+      );
+  }
 
   static void _spear(Canvas canvas, Offset butt, Offset tip) {
     canvas.drawLine(

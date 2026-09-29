@@ -66,7 +66,13 @@ class FallenFigure extends PositionComponent with HasGameReference<SiegeGame> {
     FigurePainter.paint(
       canvas,
       kind,
-      FigurePose(time: game.realTime, seed: seed, limp: 1, panic: 0.3),
+      FigurePose(
+        time: game.realTime,
+        seed: seed,
+        limp: 1,
+        panic: 0.3,
+        era: game.level.era,
+      ),
     );
     canvas.restore();
   }

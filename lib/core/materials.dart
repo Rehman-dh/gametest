@@ -1,7 +1,7 @@
 /// Physical and gameplay properties of castle building materials.
 ///
 /// Every tuning value lives here so balancing never touches component code.
-enum BlockMaterial { wood, stone, glass }
+enum BlockMaterial { wood, stone, glass, marble }
 
 class MaterialSpec {
   const MaterialSpec({
@@ -32,6 +32,14 @@ const Map<BlockMaterial, MaterialSpec> materialSpecs = {
     friction: 0.9,
     restitution: 0.02,
     maxHp: 110,
+    flammable: false,
+  ),
+  // Roman marble: the toughest and heaviest masonry, and slick.
+  BlockMaterial.marble: MaterialSpec(
+    density: 2.8,
+    friction: 0.6,
+    restitution: 0.02,
+    maxHp: 160,
     flammable: false,
   ),
   BlockMaterial.glass: MaterialSpec(

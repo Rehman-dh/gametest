@@ -45,6 +45,8 @@ enum CharacterId {
   ironHand,
   soldier,
   messenger,
+  castus,
+  titus,
 }
 
 const Map<CharacterId, CharacterLook> characterLooks = {
@@ -109,6 +111,27 @@ const Map<CharacterId, CharacterLook> characterLooks = {
     clothDark: Color(0xFF6A1A16),
     cloak: Color(0xFFB08A2E),
     headgear: Headgear.helmet,
+  ),
+  CharacterId.castus: CharacterLook(
+    name: 'General Castus',
+    cloth: Color(0xFF8C1F16),
+    clothDark: Color(0xFF5A130E),
+    cloak: Color(0xFF4A1E5E),
+    skin: Color(0xFFD9A07A),
+    hair: Color(0xFF2A2320),
+    headgear: Headgear.helmet,
+    carried: Carried.sword,
+    height: 1.92,
+  ),
+  CharacterId.titus: CharacterLook(
+    name: 'Titus',
+    cloth: Color(0xFF8A6A48),
+    clothDark: Color(0xFF5E4630),
+    skin: Color(0xFFC98E62),
+    hair: Color(0xFF3A2416),
+    beard: Color(0xFF3A2416),
+    carried: Carried.hammer,
+    height: 2.0,
   ),
 };
 

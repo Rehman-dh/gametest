@@ -95,6 +95,7 @@ class BlueprintPainter extends CustomPainter {
         BlockMaterial.stone => const Color(0xFFC9CED6),
         BlockMaterial.wood => const Color(0xFFF0C27E),
         BlockMaterial.glass => const Color(0xFFBDE8F7),
+        BlockMaterial.marble => const Color(0xFFF4F4F2),
       };
       canvas
         ..drawRect(rect, Paint()..color = fill)
@@ -133,6 +134,7 @@ class BlueprintPainter extends CustomPainter {
       final color = switch (u.kind) {
         UnitKind.king || UnitKind.pharaoh => const Color(0xFFFFC933),
         UnitKind.soldier => const Color(0xFFD83B2E),
+        UnitKind.legionary => const Color(0xFF9C1F18),
         UnitKind.archer => const Color(0xFF5DBB3A),
         UnitKind.engineer => const Color(0xFFE0782A),
       };

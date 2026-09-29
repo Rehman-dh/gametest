@@ -3,7 +3,7 @@ import '../core/ammo.dart';
 /// Static definitions of everything the meta layer can unlock or buy.
 /// All costs and bonuses live here so balancing touches no logic.
 
-enum CrewId { bashir, liWei, roxana }
+enum CrewId { bashir, liWei, roxana, titus }
 
 class CrewSpec {
   const CrewSpec({
@@ -49,6 +49,14 @@ const Map<CrewId, CrewSpec> crewSpecs = {
     abilityName: 'Greek Fire',
     ability: 'Once per siege, the next shot sets wood ablaze.',
     joins: 'Joins in Persia',
+  ),
+  CrewId.titus: CrewSpec(
+    name: 'Titus',
+    role: 'Strongman',
+    passive: 'The first shot of every siege strikes half again as hard.',
+    abilityName: 'Heavy Boulder',
+    ability: 'Once per siege, the next shot is a huge, crushing boulder.',
+    joins: 'Joins in Rome',
   ),
 };
 
@@ -122,7 +130,7 @@ const Map<BuildingId, BuildingSpec> buildingSpecs = {
   ),
 };
 
-enum RelicId { scarabAmulet, eyeOfHorus }
+enum RelicId { scarabAmulet, eyeOfHorus, laurelWreath, aquila }
 
 class RelicSpec {
   const RelicSpec({required this.name, required this.effect});
@@ -139,6 +147,14 @@ const Map<RelicId, RelicSpec> relicSpecs = {
   RelicId.eyeOfHorus: RelicSpec(
     name: 'Eye of Horus',
     effect: '+20% gold from sieges',
+  ),
+  RelicId.laurelWreath: RelicSpec(
+    name: 'Laurel Wreath',
+    effect: '+15% gold from sieges',
+  ),
+  RelicId.aquila: RelicSpec(
+    name: 'Eagle of the Legion',
+    effect: '+20 engine hit points',
   ),
 };
 

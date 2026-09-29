@@ -2,25 +2,50 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../../core/era.dart';
 import '../../game/siege_game.dart';
 import '../../meta/progress.dart';
 import '../ui_style.dart';
 
-/// The campaign map: the current era's sieges along a winding road, each
-/// with its best star rating. Later eras are shown but sealed.
-class WorldMap extends StatelessWidget {
+/// The campaign map: one era's sieges along a winding road, each with its
+/// best star rating. An era opens once its first siege is unlocked; the
+/// map starts on the era of the next siege to play.
+class WorldMap extends StatefulWidget {
   const WorldMap({super.key, required this.game});
 
   final SiegeGame game;
 
-  static const _eras = [
-    'Egypt',
-    'Rome',
-    'Persia',
-    'Medieval',
-    'China',
-    'Mythic',
+  @override
+  State<WorldMap> createState() => _WorldMapState();
+}
+
+class _WorldMapState extends State<WorldMap> {
+  SiegeGame get game => widget.game;
+
+  late Era _era = _currentEra();
+
+  /// The era of the first open, unbeaten siege (or the last era reached).
+  Era _currentEra() {
+    final campaign = game.campaign!;
+    var era = Era.egypt;
+    for (var i = 0; i < campaign.levels.length; i++) {
+      if (!campaign.isUnlocked(i)) break;
+      era = campaign.levels[i].era;
+      if (!campaign.progress.value.isWon(campaign.levels[i].id)) break;
+    }
+    return era;
+  }
+
+  /// Global level indices belonging to [era], in order.
+  List<int> _levelsOf(Era era) => [
+    for (var i = 0; i < game.campaign!.levels.length; i++)
+      if (game.campaign!.levels[i].era == era) i,
   ];
+
+  bool _isOpen(Era era) {
+    final levels = _levelsOf(era);
+    return levels.isNotEmpty && game.campaign!.isUnlocked(levels.first);
+  }
 
   /// Node positions as fractions of the map area: a zigzag road, so
   /// neighbouring sieges sit on alternate rows and never crowd each other.
@@ -35,13 +60,15 @@ class WorldMap extends StatelessWidget {
     return ValueListenableBuilder<Progress>(
       valueListenable: campaign.progress,
       builder: (context, progress, _) {
-        final count = campaign.levels.length;
+        final indices = _levelsOf(_era);
+        final count = indices.length;
         // The first open, unbeaten siege pulses to invite a tap.
         var next = -1;
-        for (var i = 0; i < count; i++) {
+        for (var k = 0; k < count; k++) {
+          final i = indices[k];
           if (campaign.isUnlocked(i) &&
               !progress.isWon(campaign.levels[i].id)) {
-            next = i;
+            next = k;
             break;
           }
         }
@@ -54,7 +81,7 @@ class WorldMap extends StatelessWidget {
             ),
           ),
           child: CustomPaint(
-            painter: const _SceneryPainter(),
+            painter: _SceneryPainter(_era),
             child: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(12),
@@ -71,7 +98,7 @@ class WorldMap extends StatelessWidget {
                             size: 0.9,
                           ),
                           const SizedBox(width: 12),
-                          const OutlinedText('ERA I · EGYPT', size: 26),
+                          OutlinedText(_era.title, size: 26),
                           const Spacer(),
                           _GoldBadge(gold: progress.gold),
                           const SizedBox(width: 10),
@@ -106,22 +133,23 @@ class WorldMap extends StatelessWidget {
                                   ]),
                                 ),
                               ),
-                              for (var i = 0; i < count; i++)
+                              for (final (k, i) in indices.indexed)
                                 Positioned(
-                                  left: at(i).dx - _SiegeNode.width / 2,
-                                  top: at(i).dy - _SiegeNode.badge / 2,
+                                  key: ValueKey(i),
+                                  left: at(k).dx - _SiegeNode.width / 2,
+                                  top: at(k).dy - _SiegeNode.badge / 2,
                                   child: PopIn(
-                                    delay: Duration(milliseconds: 120 + 50 * i),
+                                    delay: Duration(milliseconds: 120 + 50 * k),
                                     from: Offset.zero,
                                     child: _SiegeNode(
-                                      number: i + 1,
+                                      number: k + 1,
                                       name: campaign.levels[i].name,
                                       stars: campaign.starsFor(i),
                                       won: progress.isWon(
                                         campaign.levels[i].id,
                                       ),
                                       unlocked: campaign.isUnlocked(i),
-                                      pulse: i == next,
+                                      pulse: k == next,
                                       onTap: () => game.openLevel(i),
                                     ),
                                   ),
@@ -134,17 +162,24 @@ class WorldMap extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        for (final (i, era) in _eras.indexed)
+                        for (final (i, era) in Era.values.indexed)
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 4),
                             child: PopIn(
                               delay: Duration(milliseconds: 200 + 50 * i),
                               child: CartoonButton(
-                                label: era,
-                                icon: i == 0 ? Icons.flag : Icons.lock,
-                                // Only Egypt is open for now.
-                                onPressed: i == 0 ? () {} : null,
-                                tone: ButtonTone.orange,
+                                label: era.label,
+                                icon: !_isOpen(era)
+                                    ? Icons.lock
+                                    : era == _era
+                                    ? Icons.flag
+                                    : null,
+                                onPressed: _isOpen(era)
+                                    ? () => setState(() => _era = era)
+                                    : null,
+                                tone: era == _era
+                                    ? ButtonTone.orange
+                                    : ButtonTone.plain,
                                 size: 0.7,
                               ),
                             ),
@@ -162,9 +197,12 @@ class WorldMap extends StatelessWidget {
   }
 }
 
-/// Soft cartoon clouds in the sky and sandy dunes along the bottom.
+/// Soft cartoon clouds in the sky, and along the bottom the era's land:
+/// sandy dunes for Egypt, green hills for Rome.
 class _SceneryPainter extends CustomPainter {
-  const _SceneryPainter();
+  const _SceneryPainter(this.era);
+
+  final Era era;
 
   /// Clouds as (x, y, scale) fractions of the screen.
   static const _clouds = [
@@ -206,13 +244,17 @@ class _SceneryPainter extends CustomPainter {
       ..lineTo(w, h)
       ..lineTo(0, h)
       ..close();
+    final (far, near) = switch (era) {
+      Era.rome => (const Color(0xFF9BD46A), const Color(0xFF79BE4A)),
+      _ => (const Color(0xFFF4D48C), const Color(0xFFEBC173)),
+    };
     canvas
-      ..drawPath(dune(0.62, 0.08), Paint()..color = const Color(0xFFF4D48C))
-      ..drawPath(dune(0.74, -0.06), Paint()..color = const Color(0xFFEBC173));
+      ..drawPath(dune(0.62, 0.08), Paint()..color = far)
+      ..drawPath(dune(0.74, -0.06), Paint()..color = near);
   }
 
   @override
-  bool shouldRepaint(_SceneryPainter old) => false;
+  bool shouldRepaint(_SceneryPainter old) => old.era != era;
 }
 
 class _RoadPainter extends CustomPainter {

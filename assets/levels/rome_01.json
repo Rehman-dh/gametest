@@ -1,0 +1,90 @@
+{
+  "id": "rome_01",
+  "name": "The Legion's Outpost",
+  "worldWidth": 53,
+  "catapultX": 0,
+  "shots": 4,
+  "par": 2,
+  "objective": "killAll",
+  "blocks": [
+    {
+      "m": "stone",
+      "x": 31.5,
+      "y": 0,
+      "w": 3.0,
+      "h": 7,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "marble",
+      "x": 35.02,
+      "y": 0,
+      "w": 4.0,
+      "h": 3.2,
+      "look": "wall",
+      "hp": 0.6
+    },
+    {
+      "m": "marble",
+      "x": 38.04,
+      "y": 0,
+      "w": 0.8,
+      "h": 4.5
+    },
+    {
+      "m": "marble",
+      "x": 42.04,
+      "y": 0,
+      "w": 0.8,
+      "h": 4.5
+    },
+    {
+      "m": "marble",
+      "x": 40.04,
+      "y": 4.5,
+      "w": 5.0,
+      "h": 0.7
+    },
+    {
+      "m": "stone",
+      "x": 45.5,
+      "y": 0,
+      "w": 3.0,
+      "h": 7.5,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 48.42,
+      "y": 0,
+      "w": 2.8,
+      "h": 9,
+      "look": "spire",
+      "hp": 2
+    }
+  ],
+  "units": [
+    {
+      "kind": "legionary",
+      "x": 31.5,
+      "y": 7
+    },
+    {
+      "kind": "legionary",
+      "x": 35.02,
+      "y": 3.2
+    },
+    {
+      "kind": "king",
+      "x": 40.04,
+      "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 40.04,
+      "y": 5.2
+    }
+  ]
+}

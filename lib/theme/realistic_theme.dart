@@ -102,7 +102,7 @@ class RealisticTheme extends ProceduralTheme {
         rotation: horizontal ? math.pi / 2 : 0,
         offset: variant,
       ),
-      BlockMaterial.stone => _texture(
+      BlockMaterial.stone || BlockMaterial.marble => _texture(
         _Tex.stone,
         metersPerImage: 2.6,
         offset: variant,
@@ -584,7 +584,8 @@ class RealisticTheme extends ProceduralTheme {
     final (cloth, clothDark) = switch (kind) {
       UnitKind.king ||
       UnitKind.pharaoh => (const Color(0xFF2F4C8E), const Color(0xFF1C2E57)),
-      UnitKind.soldier => (const Color(0xFF8C2A20), const Color(0xFF561812)),
+      UnitKind.soldier ||
+      UnitKind.legionary => (const Color(0xFF8C2A20), const Color(0xFF561812)),
       UnitKind.archer => (const Color(0xFF55643A), const Color(0xFF2F3A1C)),
       UnitKind.engineer => (const Color(0xFF7A5634), const Color(0xFF4A3220)),
     };

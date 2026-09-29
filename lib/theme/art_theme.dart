@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flame/particles.dart';
 
+import '../core/era.dart';
 import '../core/ammo.dart';
 import '../core/materials.dart';
 import '../core/weapons.dart';
@@ -18,6 +19,9 @@ import '../story/characters.dart';
 /// All coordinates are in world meters in the caller's local space
 /// (y-down, origin at the body's center unless stated otherwise).
 abstract class ArtTheme {
+  /// The era being drawn; themes with per-era art switch on it.
+  Era era = Era.egypt;
+
   /// Sky and parallax background layers covering [visible] (world rect).
   /// [time] is real seconds, for ambient motion (clouds, drifting dust).
   /// With an [atmosphere] colour only the landscape layers are drawn, over

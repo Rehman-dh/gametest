@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:flame/particles.dart';
 
+import '../core/era.dart';
 import '../core/ammo.dart';
 import '../core/materials.dart';
 import '../core/weapons.dart';
@@ -16,6 +17,9 @@ import 'art_theme.dart';
 /// texture yet), and a light theme for headless tests that need no image
 /// assets. It is not offered to players as a style of its own.
 class ProceduralTheme implements ArtTheme {
+  @override
+  Era era = Era.egypt;
+
   static const _outline = Color(0xFF1A140F);
   static const _stroke = 0.07;
 
@@ -322,7 +326,7 @@ class ProceduralTheme implements ArtTheme {
             );
           }
         }
-      case BlockMaterial.stone:
+      case BlockMaterial.stone || BlockMaterial.marble:
         canvas.drawRRect(rrect, _fill..color = const Color(0xFF7D7A72));
         final mortar = Paint()
           ..color = const Color(0xFF55524C)
@@ -405,6 +409,7 @@ class ProceduralTheme implements ArtTheme {
   static Color _materialColor(BlockMaterial material) => switch (material) {
     BlockMaterial.wood => const Color(0xFF7A4E2D),
     BlockMaterial.stone => const Color(0xFF7D7A72),
+    BlockMaterial.marble => const Color(0xFFE4E2DC),
     BlockMaterial.glass => const Color(0x8C8FC3CF),
   };
 
@@ -422,7 +427,7 @@ class ProceduralTheme implements ArtTheme {
         ? const Color(0xFFA33A2E)
         : switch (kind) {
             UnitKind.king || UnitKind.pharaoh => const Color(0xFF4B2A55),
-            UnitKind.soldier => const Color(0xFF7B6A4A),
+            UnitKind.soldier || UnitKind.legionary => const Color(0xFF7B6A4A),
             UnitKind.archer => const Color(0xFF55603A),
             UnitKind.engineer => const Color(0xFF6B4A2E),
           };
@@ -1479,6 +1484,7 @@ class ProceduralTheme implements ArtTheme {
     final chipColor = switch (material) {
       BlockMaterial.wood => const Color(0xFF5E3A20),
       BlockMaterial.stone => const Color(0xFF6E6B64),
+      BlockMaterial.marble => const Color(0xFFD8D6D0),
       BlockMaterial.glass => const Color(0xDDCBEFF5),
     };
     final puffs = (4 + area * 2).clamp(4, 12).round();

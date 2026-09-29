@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../core/ammo.dart';
+import '../core/era.dart';
 import '../core/materials.dart';
 import '../core/weapons.dart';
 import '../meta/catalog.dart';
@@ -29,7 +30,11 @@ enum UnitKind {
   engineer,
 
   /// An era's boss king: tougher, and counts as the king to slay.
-  pharaoh;
+  pharaoh,
+
+  /// A shield-bearer: shrugs off shots from the front, so he must be
+  /// struck from above or buried under his own walls.
+  legionary;
 
   bool get isRoyal => this == king || this == pharaoh;
 }
@@ -308,6 +313,9 @@ class LevelData {
       LevelData.fromJson(jsonDecode(source) as Map<String, dynamic>);
 
   final String id;
+
+  /// The age this siege belongs to, from its id.
+  Era get era => Era.ofLevel(id);
   final String name;
   final double worldWidth;
   final double catapultX;
