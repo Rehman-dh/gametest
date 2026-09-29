@@ -1,90 +1,170 @@
 {
   "id": "mythic_05",
-  "name": "The Floating Keep",
-  "worldWidth": 53,
-  "catapultX": 0,
-  "shots": 4,
-  "par": 2,
+  "name": "The Iron Vanguard",
+  "par": 3,
   "objective": "killAll",
+  "ammo": [
+    "stone",
+    "fireball",
+    "cluster",
+    "powderKeg",
+    "stone",
+    "stone"
+  ],
+  "wind": -0.5,
+  "storm": 2.0,
+  "relic": "stormHeart",
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "arslan",
+      "text": "The Iron King's vanguard. Their engine is already loaded. Silence it."
+    },
+    {
+      "trigger": "volley:1",
+      "speaker": "roxana",
+      "text": "Powder under that pagoda roof. One fireball and the hall goes up."
+    },
+    {
+      "trigger": "volley:2",
+      "speaker": "bashir",
+      "text": "Their engineers are mending the walls. Take them first."
+    }
+  ],
+  "worldWidth": 54,
+  "catapultX": 0,
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 26.5,
       "y": 0,
       "w": 3.0,
-      "h": 7,
+      "h": 6.0,
       "look": "tower",
-      "hp": 0.5
+      "hp": 0.7
     },
     {
       "m": "stone",
-      "x": 35.02,
+      "x": 30.22,
       "y": 0,
-      "w": 4.0,
+      "w": 4.4,
+      "h": 2.8,
+      "look": "wall",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 33.14,
+      "y": 0,
+      "w": 1.0,
       "h": 3.2,
       "look": "wall",
-      "hp": 0.45
+      "hp": 0.8
     },
     {
       "m": "stone",
-      "x": 38.04,
+      "x": 37.14,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
+      "w": 1.0,
+      "h": 3.2,
       "look": "wall",
-      "hp": 1.5
+      "hp": 0.8
+    },
+    {
+      "m": "wood",
+      "x": 35.14,
+      "y": 3.2,
+      "w": 5.4,
+      "h": 2.4,
+      "look": "pagoda",
+      "hp": 1.0
     },
     {
       "m": "stone",
-      "x": 45.58,
+      "x": 38.84,
       "y": 0,
-      "w": 3.0,
-      "h": 7.5,
+      "w": 1.6,
+      "h": 5.0,
       "look": "tower",
-      "hp": 0.6
+      "hp": 0.7
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 42.86,
+      "y": 0,
+      "w": 1.6,
+      "h": 5.0,
+      "look": "tower",
+      "hp": 0.7
+    },
+    {
+      "m": "crystal",
+      "x": 40.85,
+      "y": 5.0,
+      "w": 5.62,
+      "h": 1.0,
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 45.28,
+      "y": 0,
+      "w": 3.2,
+      "h": 9.0,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 49.6,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
+      "h": 10.0,
       "look": "spire",
       "hp": 2
     }
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "kind": "legionary",
+      "x": 26.5,
+      "y": 6.0
+    },
+    {
+      "kind": "engineer",
+      "x": 34.44,
+      "y": 0
+    },
+    {
+      "kind": "legionary",
+      "x": 40.86,
+      "y": 0
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 40.85,
+      "y": 6.0
     },
     {
-      "kind": "soldier",
-      "x": 40.56,
+      "kind": "archer",
+      "x": 45.28,
+      "y": 9.0
+    },
+    {
+      "kind": "engineer",
+      "x": 47.6,
+      "y": 0
+    }
+  ],
+  "props": [
+    {
+      "kind": "enemyCatapult",
+      "x": 30.22,
+      "y": 2.8
+    },
+    {
+      "kind": "powderBarrel",
+      "x": 35.94,
       "y": 0
     }
   ]

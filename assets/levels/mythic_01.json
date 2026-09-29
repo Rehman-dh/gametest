@@ -3,7 +3,6 @@
   "name": "The Storm Gate",
   "par": 3,
   "objective": "killAll",
-  "shots": 5,
   "ammo": [
     "stone",
     "fireball",
@@ -11,95 +10,88 @@
     "stone",
     "stone"
   ],
-  "wind": 0.4,
-  "storm": 1.5,
+  "wind": 0.3,
+  "storm": 1.0,
+  "introCutscene": "mythic_intro",
   "lines": [
     {
       "trigger": "start",
       "speaker": "arslan",
       "text": "The storm follows him. Aim between the gusts."
+    },
+    {
+      "trigger": "shot:1",
+      "speaker": "roxana",
+      "text": "That gate is crystal. Hard as iron, but one clean blow and it shatters."
     }
   ],
-  "worldWidth": 56,
+  "worldWidth": 49,
   "catapultX": 0,
   "blocks": [
     {
       "m": "stone",
-      "x": 30.5,
+      "x": 29.5,
       "y": 0,
       "w": 3.0,
-      "h": 7,
+      "h": 7.0,
       "look": "tower",
       "hp": 0.5
     },
     {
       "m": "crystal",
-      "x": 33.3,
+      "x": 31.32,
       "y": 0,
-      "w": 0.5,
-      "h": 3.0
+      "w": 0.6,
+      "h": 3.2
     },
     {
       "m": "crystal",
-      "x": 35.7,
+      "x": 34.12,
       "y": 0,
-      "w": 0.5,
-      "h": 3.0
+      "w": 0.6,
+      "h": 3.2
     },
     {
       "m": "marble",
-      "x": 34.5,
-      "y": 3.0,
-      "w": 3.0,
-      "h": 0.4
+      "x": 32.72,
+      "y": 3.2,
+      "w": 3.4,
+      "h": 0.45,
+      "hp": 1.2
     },
     {
       "m": "stone",
-      "x": 38.5,
+      "x": 36.14,
       "y": 0,
-      "w": 4.0,
-      "h": 3.2,
+      "w": 3.4,
+      "h": 3.6,
       "look": "wall",
-      "hp": 0.45
-    },
-    {
-      "m": "stone",
-      "x": 42.0,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "crystal",
-      "x": 44.2,
-      "y": 0,
-      "w": 0.5,
-      "h": 4.0
-    },
-    {
-      "m": "tile",
-      "x": 44.2,
-      "y": 4.0,
-      "w": 2.6,
-      "h": 0.4
-    },
-    {
-      "m": "stone",
-      "x": 47.5,
-      "y": 0,
-      "w": 3.0,
-      "h": 8.0,
-      "look": "tower",
       "hp": 0.6
     },
     {
       "m": "stone",
-      "x": 50.4,
+      "x": 38.96,
+      "y": 0,
+      "w": 2.2,
+      "h": 4.6,
+      "look": "tower",
+      "hp": 0.5
+    },
+    {
+      "m": "stone",
+      "x": 41.58,
+      "y": 0,
+      "w": 3.0,
+      "h": 7.5,
+      "look": "tower",
+      "hp": 0.5
+    },
+    {
+      "m": "stone",
+      "x": 44.4,
       "y": 0,
       "w": 2.6,
-      "h": 9.0,
+      "h": 9.5,
       "look": "spire",
       "hp": 2
     }
@@ -107,30 +99,35 @@
   "units": [
     {
       "kind": "soldier",
-      "x": 30.5,
-      "y": 7
+      "x": 29.5,
+      "y": 7.0
     },
     {
       "kind": "legionary",
-      "x": 34.5,
+      "x": 32.72,
       "y": 0
     },
     {
       "kind": "soldier",
-      "x": 38.5,
-      "y": 3.2
+      "x": 32.72,
+      "y": 3.65
+    },
+    {
+      "kind": "soldier",
+      "x": 36.14,
+      "y": 3.6
     },
     {
       "kind": "archer",
-      "x": 47.5,
-      "y": 8.0
+      "x": 41.58,
+      "y": 7.5
     }
   ],
   "props": [
     {
       "kind": "powderBarrel",
-      "x": 42.0,
-      "y": 4.5
+      "x": 38.96,
+      "y": 4.6
     }
   ]
 }

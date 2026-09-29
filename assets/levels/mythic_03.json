@@ -1,90 +1,141 @@
 {
   "id": "mythic_03",
-  "name": "The Drowned Bastion",
-  "worldWidth": 53,
+  "name": "The Thunder Moat",
+  "par": 3,
+  "objective": "killKing",
+  "moat": {
+    "x": 30.32,
+    "w": 4.4,
+    "depth": 2.0
+  },
+  "ammo": [
+    "stone",
+    "fireball",
+    "stone",
+    "powderKeg",
+    "stone"
+  ],
+  "wind": -0.5,
+  "storm": 2.0,
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "titus",
+      "text": "The Iron Crown's warden sits under that crystal lintel. It is cracked. Bring it down on him."
+    },
+    {
+      "trigger": "shot:1",
+      "speaker": "arslan",
+      "text": "The wind is against us. Throw harder."
+    }
+  ],
+  "worldWidth": 52,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 26.4,
       "y": 0,
-      "w": 3.0,
-      "h": 7,
-      "look": "tower",
-      "hp": 0.5
-    },
-    {
-      "m": "stone",
-      "x": 35.02,
-      "y": 0,
-      "w": 4.0,
-      "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
-    },
-    {
-      "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
-      "y": 0,
-      "w": 3.0,
-      "h": 7.5,
+      "w": 2.8,
+      "h": 6.5,
       "look": "tower",
       "hp": 0.6
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 33.62,
+      "y": 0,
+      "w": 1.6,
+      "h": 4.2,
+      "look": "tower",
+      "hp": 0.9
+    },
+    {
+      "m": "stone",
+      "x": 37.84,
+      "y": 0,
+      "w": 1.6,
+      "h": 4.2,
+      "look": "tower",
+      "hp": 0.9
+    },
+    {
+      "m": "crystal",
+      "x": 35.73,
+      "y": 4.2,
+      "w": 5.82,
+      "h": 0.9,
+      "hp": 1.0,
+      "weak": true
+    },
+    {
+      "m": "crystal",
+      "x": 34.67,
+      "y": 0,
+      "w": 0.4,
+      "h": 3.4
+    },
+    {
+      "m": "crystal",
+      "x": 35.73,
+      "y": 5.1,
+      "w": 3.6,
+      "h": 2.2,
+      "look": "dome",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 40.16,
+      "y": 0,
+      "w": 3.0,
+      "h": 4.4,
+      "look": "wall",
+      "hp": 0.7
+    },
+    {
+      "m": "stone",
+      "x": 43.18,
+      "y": 0,
+      "w": 3.0,
+      "h": 8.5,
+      "look": "tower",
+      "hp": 0.7
+    },
+    {
+      "m": "stone",
+      "x": 47.6,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
+      "h": 9.5,
       "look": "spire",
       "hp": 2
     }
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "kind": "archer",
+      "x": 26.4,
+      "y": 6.5
+    },
+    {
+      "kind": "king",
+      "x": 36.04,
+      "y": 0
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 40.16,
+      "y": 4.4
     },
     {
-      "kind": "soldier",
-      "x": 40.56,
+      "kind": "archer",
+      "x": 43.18,
+      "y": 8.5
+    },
+    {
+      "kind": "engineer",
+      "x": 45.5,
       "y": 0
     }
   ]
