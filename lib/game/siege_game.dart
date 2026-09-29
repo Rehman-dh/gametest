@@ -989,7 +989,8 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
       // Out of ammo: give any fires the chance to win the siege.
       if (_anyBurning && _settleTime < _maxFireWait) return;
       _finish(won: false, defeat: DefeatReason.outOfAmmo);
-    } else if (level.hasCounterFire &&
+    } else if (!attract &&
+        level.hasCounterFire &&
         enemy.hasShooters &&
         _shotsUsed % level.enemyFireEvery == 0) {
       phase.value = SiegePhase.enemyTurn;
