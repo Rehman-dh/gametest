@@ -56,6 +56,12 @@ class CartoonTheme extends ProceduralTheme {
     'china_wall_0.png', 'china_wall_1.png', 'china_wall_2.png',
     'china_wall_brick_0.png', 'china_wall_brick_1.png',
     'china_wall_brick_2.png',
+    'mythic_tower_0.png', 'mythic_tower_1.png', 'mythic_tower_2.png',
+    'mythic_tower_tall_0.png', 'mythic_tower_tall_1.png',
+    'mythic_tower_tall_2.png',
+    'mythic_wall_0.png', 'mythic_wall_1.png', 'mythic_wall_2.png',
+    'mythic_wall_brick_0.png', 'mythic_wall_brick_1.png',
+    'mythic_wall_brick_2.png',
   ];
 
   static Future<CartoonTheme> load() async {
@@ -213,10 +219,16 @@ class CartoonTheme extends ProceduralTheme {
       canvas
         ..save()
         ..translate(x, y)
-        ..drawPath(cloud.path, cloud.paint)
-        ..restore();
+        ..drawPath(cloud.path, cloud.paint);
+      // The Iron King's storm clouds hang dark and heavy.
+      if (era == Era.mythic) {
+        canvas.drawPath(cloud.path, _stormCloud);
+      }
+      canvas.restore();
     }
   }
+
+  static final _stormCloud = Paint()..color = const Color(0xB04A4262);
 
   /// Cloud outlines and fills, built once around their own origin.
   late final List<_Cloud> _cloudShapes = () {
@@ -383,6 +395,7 @@ class CartoonTheme extends ProceduralTheme {
       Era.persia => 'persia_',
       Era.medieval => 'medieval_',
       Era.china => 'china_',
+      Era.mythic => 'mythic_',
       _ => '',
     };
     return switch (look) {
@@ -604,6 +617,7 @@ class CartoonTheme extends ProceduralTheme {
     BlockMaterial.glass => (const Color(0xCCBDEFFF), const Color(0xAA7FCDEB)),
     BlockMaterial.marble => (const Color(0xFFFBFAF7), const Color(0xFFD5D3CE)),
     BlockMaterial.tile => (const Color(0xFF5FD6DC), const Color(0xFF1F8C9B)),
+    BlockMaterial.crystal => (const Color(0xFFE4CCFF), const Color(0xFF8A56D6)),
   };
 
   /// Draws fortress art over a block of [size], tiling wide pieces so their
@@ -860,6 +874,21 @@ class CartoonTheme extends ProceduralTheme {
           }
           canvas.drawPath(path, vein);
         }
+      case BlockMaterial.crystal:
+        // Facets catching the light.
+        final facet = Paint()
+          ..color = const Color(0x66FFFFFF)
+          ..strokeWidth = 0.04;
+        canvas
+          ..drawLine(rect.topLeft, rect.center, facet)
+          ..drawLine(rect.topRight, rect.center, facet)
+          ..drawLine(rect.bottomLeft, rect.center, facet)
+          ..drawLine(rect.bottomRight, rect.center, facet)
+          ..drawCircle(
+            rect.center,
+            math.min(rect.width, rect.height) * 0.18,
+            Paint()..color = const Color(0x88FFFFFF),
+          );
       case BlockMaterial.tile:
         // A grid of glazed tiles, each with a white star.
         final grout = Paint()
@@ -1241,6 +1270,7 @@ class CartoonTheme extends ProceduralTheme {
     BlockMaterial.glass => const Color(0xDDBDEFFF),
     BlockMaterial.marble => const Color(0xFFF2F1EE),
     BlockMaterial.tile => const Color(0xFF4CC3C9),
+    BlockMaterial.crystal => const Color(0xFFCBA6FF),
   };
 
   @override

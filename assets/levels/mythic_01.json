@@ -1,0 +1,136 @@
+{
+  "id": "mythic_01",
+  "name": "The Storm Gate",
+  "par": 3,
+  "objective": "killAll",
+  "shots": 5,
+  "ammo": [
+    "stone",
+    "fireball",
+    "stone",
+    "stone",
+    "stone"
+  ],
+  "wind": 0.4,
+  "storm": 1.5,
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "arslan",
+      "text": "The storm follows him. Aim between the gusts."
+    }
+  ],
+  "worldWidth": 56,
+  "catapultX": 0,
+  "blocks": [
+    {
+      "m": "stone",
+      "x": 30.5,
+      "y": 0,
+      "w": 3.0,
+      "h": 7,
+      "look": "tower",
+      "hp": 0.5
+    },
+    {
+      "m": "crystal",
+      "x": 33.3,
+      "y": 0,
+      "w": 0.5,
+      "h": 3.0
+    },
+    {
+      "m": "crystal",
+      "x": 35.7,
+      "y": 0,
+      "w": 0.5,
+      "h": 3.0
+    },
+    {
+      "m": "marble",
+      "x": 34.5,
+      "y": 3.0,
+      "w": 3.0,
+      "h": 0.4
+    },
+    {
+      "m": "stone",
+      "x": 38.5,
+      "y": 0,
+      "w": 4.0,
+      "h": 3.2,
+      "look": "wall",
+      "hp": 0.45
+    },
+    {
+      "m": "stone",
+      "x": 42.0,
+      "y": 0,
+      "w": 2.0,
+      "h": 4.5,
+      "look": "tower",
+      "hp": 0.3
+    },
+    {
+      "m": "crystal",
+      "x": 44.2,
+      "y": 0,
+      "w": 0.5,
+      "h": 4.0
+    },
+    {
+      "m": "tile",
+      "x": 44.2,
+      "y": 4.0,
+      "w": 2.6,
+      "h": 0.4
+    },
+    {
+      "m": "stone",
+      "x": 47.5,
+      "y": 0,
+      "w": 3.0,
+      "h": 8.0,
+      "look": "tower",
+      "hp": 0.6
+    },
+    {
+      "m": "stone",
+      "x": 50.4,
+      "y": 0,
+      "w": 2.6,
+      "h": 9.0,
+      "look": "spire",
+      "hp": 2
+    }
+  ],
+  "units": [
+    {
+      "kind": "soldier",
+      "x": 30.5,
+      "y": 7
+    },
+    {
+      "kind": "legionary",
+      "x": 34.5,
+      "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 38.5,
+      "y": 3.2
+    },
+    {
+      "kind": "archer",
+      "x": 47.5,
+      "y": 8.0
+    }
+  ],
+  "props": [
+    {
+      "kind": "powderBarrel",
+      "x": 42.0,
+      "y": 4.5
+    }
+  ]
+}

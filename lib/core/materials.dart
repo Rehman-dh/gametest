@@ -1,7 +1,7 @@
 /// Physical and gameplay properties of castle building materials.
 ///
 /// Every tuning value lives here so balancing never touches component code.
-enum BlockMaterial { wood, stone, glass, marble, tile, bamboo }
+enum BlockMaterial { wood, stone, glass, marble, tile, bamboo, crystal }
 
 class MaterialSpec {
   const MaterialSpec({
@@ -57,6 +57,14 @@ const Map<BlockMaterial, MaterialSpec> materialSpecs = {
     restitution: 0.25,
     maxHp: 22,
     flammable: true,
+  ),
+  // Mythic crystal: heavy and hard, but it shatters in one good blow.
+  BlockMaterial.crystal: MaterialSpec(
+    density: 2.0,
+    friction: 0.35,
+    restitution: 0.1,
+    maxHp: 70,
+    flammable: false,
   ),
   BlockMaterial.glass: MaterialSpec(
     density: 1.0,

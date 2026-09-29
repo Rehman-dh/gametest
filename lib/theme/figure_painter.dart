@@ -76,11 +76,15 @@ class FigurePainter {
   /// Set for the figure being painted: Warlord Tao's army.
   static bool _chinese = false;
 
+  /// Set for the figure being painted: the Iron King's legion.
+  static bool _mythic = false;
+
   static void paint(Canvas canvas, UnitKind kind, FigurePose pose) {
     _roman = pose.era == Era.rome || kind == UnitKind.legionary;
     _persian = !_roman && pose.era == Era.persia;
     _medieval = !_roman && pose.era == Era.medieval;
     _chinese = !_roman && pose.era == Era.china;
+    _mythic = !_roman && pose.era == Era.mythic;
     final spearman = kind == UnitKind.soldier || kind == UnitKind.legionary;
     final h = heightOf(kind);
     final u = h / 1.8; // body unit: 1 at soldier height
@@ -167,6 +171,8 @@ class FigurePainter {
           _heater(canvas, at);
         } else if (_chinese) {
           _rattan(canvas, at);
+        } else if (_mythic) {
+          _ironShield(canvas, at);
         } else {
           _shield(canvas, at);
         }
@@ -267,6 +273,8 @@ class FigurePainter {
             _ when _medieval => const [Color(0xFF2A2A34), Color(0xFF14141A)],
             // Tao's army wears red lacquered armour.
             _ when _chinese => const [Color(0xFFD23A2A), Color(0xFF8C1F16)],
+            // The Iron King's legion in blackened iron and violet.
+            _ when _mythic => const [Color(0xFF5A3A8A), Color(0xFF2A1A44)],
             // The garrison wears red, so they stand out on pale stone.
             UnitKind.soldier ||
             UnitKind.legionary => const [Color(0xFFE5483A), Color(0xFFA82A1F)],
@@ -376,6 +384,12 @@ class FigurePainter {
                     Color(0xFF4A1E5E),
                     Color(0xFF7B3A93),
                     Color(0xFF4A1E5E),
+                  ]
+                : _mythic
+                ? const [
+                    Color(0xFF2A2A34),
+                    Color(0xFF6A5A8A),
+                    Color(0xFF2A2A34),
                   ]
                 : _chinese
                 ? const [
@@ -498,11 +512,14 @@ class FigurePainter {
       case UnitKind.king || UnitKind.pharaoh:
         if (_roman) {
           _laurel(canvas, head, r);
-        } else if (_persian || _medieval || _chinese) {
+        } else if (_persian || _medieval || _chinese || _mythic) {
           _tiara(canvas, head, r);
         } else {
           _nemes(canvas, head, r);
         }
+      case UnitKind.soldier || UnitKind.archer || UnitKind.engineer
+          when _mythic:
+        _hornedHelm(canvas, head, r);
       case UnitKind.soldier || UnitKind.archer || UnitKind.engineer
           when _chinese:
         _chineseHelm(canvas, head, r, kind);
@@ -647,6 +664,66 @@ class FigurePainter {
   }
 
   // ------------------------------------------------------------ gear
+
+  // ------------------------------------------------------------ Mythic
+
+  /// A blackened iron helm with curling horns.
+  static void _hornedHelm(Canvas canvas, Offset head, double r) {
+    final horn = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = r * 0.28
+      ..strokeCap = StrokeCap.round
+      ..color = const Color(0xFFE8DCC4);
+    for (final side in const [-1.0, 1.0]) {
+      canvas.drawPath(
+        Path()
+          ..moveTo(head.dx + side * r * 0.7, head.dy - r * 0.6)
+          ..quadraticBezierTo(
+            head.dx + side * r * 1.6,
+            head.dy - r * 1.0,
+            head.dx + side * r * 1.2,
+            head.dy - r * 1.9,
+          ),
+        horn,
+      );
+    }
+    final helm = Path()
+      ..addArc(
+        Rect.fromCenter(
+          center: head + Offset(0, -r * 0.05),
+          width: r * 2.2,
+          height: r * 2.3,
+        ),
+        math.pi,
+        math.pi,
+      )
+      ..close();
+    canvas
+      ..drawPath(helm, _fill..color = const Color(0xFF34343E))
+      ..drawPath(helm, _edge)
+      ..drawCircle(
+        head + Offset(r * 0.6, -r * 0.3),
+        r * 0.12,
+        _fill..color = const Color(0xFFB57CFF),
+      );
+  }
+
+  /// A spiked iron shield with a glowing violet rune.
+  static void _ironShield(Canvas canvas, Offset centre) {
+    final rect = Rect.fromCenter(center: centre, width: 0.44, height: 0.62);
+    final shape = RRect.fromRectAndRadius(rect, const Radius.circular(0.1));
+    canvas
+      ..drawRRect(shape, _fill..color = const Color(0xFF2E2E38))
+      ..drawCircle(
+        centre,
+        0.11,
+        Paint()
+          ..color = const Color(0xFFB57CFF)
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 0.04),
+      )
+      ..drawCircle(centre, 0.05, _fill..color = const Color(0xFFE8D4FF))
+      ..drawRRect(shape, _edge);
+  }
 
   // ------------------------------------------------------------ China
 

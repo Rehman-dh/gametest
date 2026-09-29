@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/ammo.dart';
 import '../../core/weapons.dart';
+import '../../core/era.dart';
 import '../../game/siege_game.dart';
 import '../../levels/level_data.dart';
 import '../../meta/catalog.dart';
@@ -200,7 +201,12 @@ class _SiegePrepState extends State<SiegePrep> {
               : 'Rumours of a weak point',
         ),
       if (level.storm > 0)
-        (Icons.storm_rounded, 'Sandstorm: the wind gusts before every shot')
+        (
+          Icons.storm_rounded,
+          level.era == Era.mythic
+              ? 'Storm: the wind gusts before every shot'
+              : 'Sandstorm: the wind gusts before every shot',
+        )
       else if (level.wind != 0)
         (
           Icons.air_rounded,

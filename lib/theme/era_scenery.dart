@@ -6,7 +6,8 @@ import '../core/era.dart';
 /// The landscape behind a siege, painted per era in the game's outlined
 /// cartoon style: Egypt's dunes and pyramids, Persia's golden sands and a
 /// city of domes, China's misty karst peaks and bamboo, the Medieval
-/// west's misty hills and pine forests.
+/// west's misty hills and pine forests, and the Iron King's storm-lit
+/// crags and floating rocks.
 ///
 /// Each era is a sky and three parallax layers. A layer is recorded once
 /// as a picture a fixed width wide and tiled as the camera moves, so the
@@ -50,6 +51,12 @@ class EraScenery {
         (0.75, _medievalMid),
         (0.55, _medievalNear),
       ],
+    ),
+    Era.mythic: _Look(
+      skyTop: const Color(0xFF2A2244),
+      skyHorizon: const Color(0xFF9A86B8),
+      sun: const Color(0xFFD9C8FF),
+      layers: [(0.9, _mythicFar), (0.75, _mythicMid), (0.55, _mythicNear)],
     ),
   };
 
@@ -491,6 +498,156 @@ class EraScenery {
         0.2,
         3.8 + rng.nextDouble() * 2.2,
         const Color(0xFF2F6040),
+      );
+    }
+  }
+
+  // ------------------------------------------------------------ Mythic
+
+  /// Jagged crags: a saw-toothed ridge, seamless at the tile's edges.
+  static Path _crags(double base, double amp, int teeth, int seed) {
+    final rng = math.Random(seed);
+    final path = Path()..moveTo(0, 4);
+    final step = _wrap / teeth;
+    path.lineTo(0, base - amp * 0.4);
+    for (var i = 0; i < teeth; i++) {
+      final x = i * step;
+      path
+        ..lineTo(
+          x + step * (0.3 + rng.nextDouble() * 0.4),
+          base - amp * (0.6 + rng.nextDouble() * 0.4),
+        )
+        ..lineTo(x + step, base - amp * (0.2 + rng.nextDouble() * 0.2));
+    }
+    return path
+      ..lineTo(_wrap, base - amp * 0.4)
+      ..lineTo(_wrap, 4)
+      ..close();
+  }
+
+  /// A rock floating in the storm, its underside tapering to a point.
+  static void _floatingRock(
+    Canvas canvas,
+    double x,
+    double y,
+    double w,
+    Color c,
+  ) {
+    final rock = Path()
+      ..moveTo(x - w, y)
+      ..lineTo(x - w * 0.7, y - w * 0.35)
+      ..lineTo(x + w * 0.5, y - w * 0.4)
+      ..lineTo(x + w, y - w * 0.05)
+      ..lineTo(x + w * 0.3, y + w * 0.5)
+      ..lineTo(x, y + w * 1.1)
+      ..lineTo(x - w * 0.4, y + w * 0.45)
+      ..close();
+    _shape(canvas, rock, c, w: 0.06);
+    // A cap of grass and a glowing crystal.
+    _shape(
+      canvas,
+      Path()
+        ..moveTo(x - w * 0.75, y - w * 0.3)
+        ..lineTo(x + w * 0.5, y - w * 0.38)
+        ..lineTo(x + w * 0.4, y - w * 0.2)
+        ..lineTo(x - w * 0.6, y - w * 0.15)
+        ..close(),
+      const Color(0xFF5E7A5A),
+      w: 0.04,
+    );
+    _shape(
+      canvas,
+      Path()
+        ..moveTo(x + w * 0.1, y - w * 0.35)
+        ..lineTo(x + w * 0.2, y - w * 0.8)
+        ..lineTo(x + w * 0.3, y - w * 0.35)
+        ..close(),
+      const Color(0xFFC9A2FF),
+      w: 0.04,
+    );
+  }
+
+  static void _mythicFar(Canvas canvas) {
+    _shape(canvas, _crags(0, 9, 14, 61), const Color(0xFF6E6290));
+    // The Titan Tower on the horizon, wreathed in storm.
+    const tower = Color(0xFF4A4068);
+    for (final x in [50.0, 130.0]) {
+      _shape(
+        canvas,
+        Path()
+          ..moveTo(x - 2.2, 0)
+          ..lineTo(x - 1.4, -22)
+          ..lineTo(x - 2.0, -22.5)
+          ..lineTo(x, -26)
+          ..lineTo(x + 2.0, -22.5)
+          ..lineTo(x + 1.4, -22)
+          ..lineTo(x + 2.2, 0)
+          ..close(),
+        tower,
+        w: 0.06,
+      );
+      canvas.drawCircle(
+        Offset(x, -24.2),
+        0.5,
+        Paint()
+          ..color = const Color(0xFFE2CCFF)
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 0.6),
+      );
+    }
+    final rng = math.Random(62);
+    for (var i = 0; i < 6; i++) {
+      _floatingRock(
+        canvas,
+        8 + i * 26 + rng.nextDouble() * 10,
+        -14 - rng.nextDouble() * 6,
+        1.0 + rng.nextDouble() * 0.8,
+        const Color(0xFF7A6E9A),
+      );
+    }
+  }
+
+  static void _mythicMid(Canvas canvas) {
+    _shape(canvas, _crags(0.2, 5.5, 18, 63), const Color(0xFF4E5A62));
+    final rng = math.Random(64);
+    for (var i = 0; i < 4; i++) {
+      final x = 20 + i * 40 + rng.nextDouble() * 12;
+      final y = -10 - rng.nextDouble() * 4;
+      // Chains hold the nearer rocks to the ground.
+      canvas.drawLine(
+        Offset(x, y + 1.6),
+        Offset(x + 1.5, -2),
+        _line..strokeWidth = 0.08,
+      );
+      _floatingRock(
+        canvas,
+        x,
+        y,
+        1.6 + rng.nextDouble(),
+        const Color(0xFF6A6280),
+      );
+    }
+  }
+
+  static void _mythicNear(Canvas canvas) {
+    _shape(canvas, _ridge(0.4, 1.8, 7, 65), const Color(0xFF4F6A4A));
+    final rng = math.Random(66);
+    for (var x = 5.0; x < _wrap - 3; x += 9 + rng.nextDouble() * 12) {
+      // Dead, twisted trees.
+      final h = 2.5 + rng.nextDouble() * 1.5;
+      final b = Path()
+        ..moveTo(x, 0.2)
+        ..lineTo(x + 0.1, 0.2 - h)
+        ..moveTo(x + 0.05, 0.2 - h * 0.6)
+        ..lineTo(x + 0.8, 0.2 - h * 0.9)
+        ..moveTo(x + 0.07, 0.2 - h * 0.75)
+        ..lineTo(x - 0.6, 0.2 - h * 1.05);
+      canvas.drawPath(
+        b,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeCap = StrokeCap.round
+          ..strokeWidth = 0.22
+          ..color = const Color(0xFF2E2A26),
       );
     }
   }

@@ -346,7 +346,7 @@ class ProceduralTheme implements ArtTheme {
             );
           }
         }
-      case BlockMaterial.glass || BlockMaterial.tile:
+      case BlockMaterial.glass || BlockMaterial.tile || BlockMaterial.crystal:
         canvas.drawRRect(rrect, _fill..color = const Color(0x8C8FC3CF));
         canvas.drawLine(
           Offset(rect.left + 0.15, rect.bottom - 0.15),
@@ -413,6 +413,7 @@ class ProceduralTheme implements ArtTheme {
     BlockMaterial.marble => const Color(0xFFE4E2DC),
     BlockMaterial.tile => const Color(0xFF3FA7AE),
     BlockMaterial.glass => const Color(0x8C8FC3CF),
+    BlockMaterial.crystal => const Color(0xFF9A6FD6),
   };
 
   // ----------------------------------------------------------------- units
@@ -1490,6 +1491,7 @@ class ProceduralTheme implements ArtTheme {
       BlockMaterial.marble => const Color(0xFFD8D6D0),
       BlockMaterial.tile => const Color(0xFF52C0C6),
       BlockMaterial.glass => const Color(0xDDCBEFF5),
+      BlockMaterial.crystal => const Color(0xFFB98CF2),
     };
     final puffs = (4 + area * 2).clamp(4, 12).round();
     final chips = (8 + area * 6).clamp(8, 26).round();

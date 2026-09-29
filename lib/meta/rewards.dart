@@ -34,6 +34,7 @@ int goldFor({
   if (progress.relics.contains(RelicId.cyrusCylinder)) multiplier += 0.1;
   if (progress.relics.contains(RelicId.baronsSeal)) multiplier += 0.15;
   if (progress.relics.contains(RelicId.jadeSeal)) multiplier += 0.2;
+  if (progress.relics.contains(RelicId.ironCrown)) multiplier += 0.5;
   return (base * multiplier).round();
 }
 

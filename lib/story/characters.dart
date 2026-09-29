@@ -53,6 +53,7 @@ enum CharacterId {
   blackBaron,
   warlordTao,
   liWei,
+  ironKing,
 }
 
 const Map<CharacterId, CharacterLook> characterLooks = {
@@ -163,6 +164,18 @@ const Map<CharacterId, CharacterLook> characterLooks = {
     headgear: Headgear.helmet,
     carried: Carried.sword,
     height: 1.9,
+  ),
+  CharacterId.ironKing: CharacterLook(
+    name: 'The Iron King',
+    cloth: Color(0xFF2A2A34),
+    clothDark: Color(0xFF15151C),
+    cloak: Color(0xFF4A1E6E),
+    skin: Color(0xFF9A9CA4),
+    hair: Color(0xFF0E0E12),
+    beard: Color(0xFF0E0E12),
+    headgear: Headgear.crown,
+    carried: Carried.sword,
+    height: 2.1,
   ),
   CharacterId.liWei: CharacterLook(
     name: 'Li Wei',

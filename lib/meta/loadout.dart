@@ -134,7 +134,9 @@ class Modifiers {
       trajectoryMultiplier: trajectory,
       repairAmount: repair,
       firstShotBoost: firstShot,
-      stormMultiplier: progress.relics.contains(RelicId.simurghFeather)
+      stormMultiplier:
+          progress.relics.contains(RelicId.simurghFeather) ||
+              progress.relics.contains(RelicId.stormHeart)
           ? 0.6
           : 1,
     );

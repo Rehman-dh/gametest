@@ -116,6 +116,7 @@ class Unit extends BodyComponent<SiegeGame> with ContactCallbacks, Damageable {
           Era.persia => CharacterId.shahbanu,
           Era.medieval => CharacterId.blackBaron,
           Era.china => CharacterId.warlordTao,
+          Era.mythic => CharacterId.ironKing,
           _ => CharacterId.sethmose,
         }]!,
         pose: hurtFlash > 0 ? Pose.point : Pose.stand,

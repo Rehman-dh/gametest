@@ -184,6 +184,21 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     'assets/levels/china_13.json',
     'assets/levels/china_14.json',
     'assets/levels/china_15.json',
+    'assets/levels/mythic_01.json',
+    'assets/levels/mythic_02.json',
+    'assets/levels/mythic_03.json',
+    'assets/levels/mythic_04.json',
+    'assets/levels/mythic_05.json',
+    'assets/levels/mythic_06.json',
+    'assets/levels/mythic_07.json',
+    'assets/levels/mythic_08.json',
+    'assets/levels/mythic_09.json',
+    'assets/levels/mythic_10.json',
+    'assets/levels/mythic_11.json',
+    'assets/levels/mythic_12.json',
+    'assets/levels/mythic_13.json',
+    'assets/levels/mythic_14.json',
+    'assets/levels/mythic_15.json',
   ];
 
   /// Whether the main menu opens over a live demo siege.
@@ -850,6 +865,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
           BlockMaterial.marble => const Color(0xFFFFFFFF),
           BlockMaterial.tile => const Color(0xFF7FE6EC),
           BlockMaterial.bamboo => const Color(0xFFD6E27A),
+          BlockMaterial.crystal => const Color(0xFFD9B8FF),
         },
       );
     }

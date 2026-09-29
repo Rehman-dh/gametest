@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/ammo.dart';
+import '../../core/era.dart';
 import '../../game/siege_game.dart';
 import '../../meta/catalog.dart';
 import '../../theme/art_theme.dart';
@@ -78,8 +79,11 @@ class Hud extends StatelessWidget {
                 from: const Offset(0, -0.4),
                 child: ValueListenableBuilder<double>(
                   valueListenable: game.windNow,
-                  builder: (_, wind, _) =>
-                      _WindIndicator(wind: wind, storm: game.level.storm > 0),
+                  builder: (_, wind, _) => _WindIndicator(
+                    wind: wind,
+                    storm: game.level.storm > 0,
+                    thunder: game.level.era == Era.mythic,
+                  ),
                 ),
               ),
             ],
@@ -289,12 +293,19 @@ class _AmmoChip extends StatelessWidget {
 }
 
 class _WindIndicator extends StatelessWidget {
-  const _WindIndicator({required this.wind, this.storm = false});
+  const _WindIndicator({
+    required this.wind,
+    this.storm = false,
+    this.thunder = false,
+  });
 
   final double wind;
 
   /// A sandstorm: the gust changes before every shot.
   final bool storm;
+
+  /// A thunderstorm rather than blowing sand.
+  final bool thunder;
 
   @override
   Widget build(BuildContext context) {
@@ -306,7 +317,7 @@ class _WindIndicator extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            storm ? 'SANDSTORM' : 'WIND',
+            storm ? (thunder ? 'STORM' : 'SANDSTORM') : 'WIND',
             style: UiStyle.body.copyWith(
               fontSize: 11,
               fontWeight: FontWeight.w900,

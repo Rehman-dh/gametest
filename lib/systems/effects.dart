@@ -127,6 +127,12 @@ class Effects {
     );
   }
 
+  /// A thunderclap in a Mythic storm.
+  void thunder() {
+    audio.play(Sfx.explosion, volume: 0.35);
+    addTrauma(0.15);
+  }
+
   void arrowLoosed() => audio.play(Sfx.arrow, volume: 0.7);
 
   void enemyCatapultLaunch() => audio.play(Sfx.launch, volume: 0.6);
@@ -214,7 +220,9 @@ class Effects {
     audio.play(switch (block.material) {
       BlockMaterial.wood || BlockMaterial.bamboo => Sfx.impactWood,
       BlockMaterial.stone || BlockMaterial.marble => Sfx.impactStone,
-      BlockMaterial.glass || BlockMaterial.tile => Sfx.impactGlass,
+      BlockMaterial.glass ||
+      BlockMaterial.tile ||
+      BlockMaterial.crystal => Sfx.impactGlass,
     }, volume: volume);
   }
 
@@ -258,7 +266,9 @@ class Effects {
     audio.play(switch (block.material) {
       BlockMaterial.wood || BlockMaterial.bamboo => Sfx.breakWood,
       BlockMaterial.stone || BlockMaterial.marble => Sfx.breakStone,
-      BlockMaterial.glass || BlockMaterial.tile => Sfx.breakGlass,
+      BlockMaterial.glass ||
+      BlockMaterial.tile ||
+      BlockMaterial.crystal => Sfx.breakGlass,
     });
     addTrauma(
       block.material == BlockMaterial.stone ||

@@ -141,6 +141,8 @@ enum RelicId {
   greenKnightsHelm,
   jadeSeal,
   dragonBanner,
+  stormHeart,
+  ironCrown,
 }
 
 class RelicSpec {
@@ -186,6 +188,14 @@ const Map<RelicId, RelicSpec> relicSpecs = {
   RelicId.dragonBanner: RelicSpec(
     name: 'Dragon Banner',
     effect: '+30 engine hit points',
+  ),
+  RelicId.stormHeart: RelicSpec(
+    name: 'Heart of the Storm',
+    effect: 'Storm gusts blow 40% weaker',
+  ),
+  RelicId.ironCrown: RelicSpec(
+    name: 'The Iron Crown',
+    effect: '+50% gold from sieges',
   ),
   RelicId.aquila: RelicSpec(
     name: 'Eagle of the Legion',
