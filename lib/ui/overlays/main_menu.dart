@@ -61,6 +61,15 @@ class _MainMenuState extends State<MainMenu>
               final endlessOpen = campaign?.endlessUnlocked ?? false;
               return Stack(
                 children: [
+                  Positioned(
+                    top: 10,
+                    left: 16,
+                    child: PopIn(
+                      delay: const Duration(milliseconds: 700),
+                      from: const Offset(-0.4, 0),
+                      child: _AudioToggles(game: game),
+                    ),
+                  ),
                   if (progress != null)
                     Positioned(
                       top: 10,
@@ -240,6 +249,49 @@ class _PulsingPlayState extends State<_PulsingPlay>
         width: 260,
         onPressed: widget.onTap,
       ),
+    );
+  }
+}
+
+/// Music and sound on/off, remembered between sessions.
+class _AudioToggles extends StatelessWidget {
+  const _AudioToggles({required this.game});
+
+  final SiegeGame game;
+
+  @override
+  Widget build(BuildContext context) {
+    final audio = game.effects.audio;
+    Widget toggle(
+      ValueNotifier<bool> on,
+      IconData yes,
+      IconData no,
+      Future<void> Function() flip,
+    ) => ValueListenableBuilder<bool>(
+      valueListenable: on,
+      builder: (_, value, _) => CartoonButton(
+        icon: value ? yes : no,
+        tone: value ? ButtonTone.blue : ButtonTone.plain,
+        size: 0.85,
+        onPressed: flip,
+      ),
+    );
+    return Row(
+      children: [
+        toggle(
+          audio.musicOn,
+          Icons.music_note_rounded,
+          Icons.music_off_rounded,
+          audio.toggleMusic,
+        ),
+        const SizedBox(width: 8),
+        toggle(
+          audio.soundOn,
+          Icons.volume_up_rounded,
+          Icons.volume_off_rounded,
+          audio.toggleSound,
+        ),
+      ],
     );
   }
 }

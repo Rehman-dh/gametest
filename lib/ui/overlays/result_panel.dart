@@ -99,6 +99,7 @@ class ResultPanel extends StatelessWidget {
       for (final (i, (icon, color, text)) in lines.indexed)
         PopIn(
           delay: Duration(milliseconds: 1300 + 150 * i),
+          onShow: icon == Icons.monetization_on ? UiSounds.coin : null,
           child: Padding(
             padding: const EdgeInsets.only(top: 6),
             child: Row(
@@ -260,7 +261,9 @@ class _StarState extends State<_Star> with SingleTickerProviderStateMixin {
     super.initState();
     if (widget.earned) {
       Future.delayed(widget.delay, () {
-        if (mounted) _c.forward();
+        if (!mounted) return;
+        UiSounds.star?.call();
+        _c.forward();
       });
     }
   }

@@ -219,14 +219,17 @@ class Effects {
   }
 
   /// A leftover block giving way to rising masonry: it just crumbles.
-  void crumble(CastleBlock block) => _burst(
-    block.body.position,
-    game.theme.breakParticles(
-      block.material,
-      Size(block.data.width, block.data.height),
-      _rng,
-    ),
-  );
+  void crumble(CastleBlock block) {
+    audio.play(Sfx.poof, volume: 0.6);
+    _burst(
+      block.body.position,
+      game.theme.breakParticles(
+        block.material,
+        Size(block.data.width, block.data.height),
+        _rng,
+      ),
+    );
+  }
 
   void blockBroken(CastleBlock block) {
     final body = block.body;
@@ -287,7 +290,9 @@ class Effects {
 
   void unitKilled(Unit unit) {
     _burst(unit.body.position, game.theme.unitDeathParticles(unit.kind, _rng));
-    audio.play(Sfx.unitDown);
+    audio
+      ..play(Sfx.unitDown)
+      ..play(Sfx.poof, volume: 0.7);
     addTrauma(0.15);
   }
 

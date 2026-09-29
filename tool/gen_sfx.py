@@ -117,62 +117,9 @@ def tinks(seconds, count, rng, lo=2200, hi=5200, spread=0.0):
 def main():
     rng = random.Random(7)
 
-    # Catapult release: creaking rope/wood, then a whoosh.
-    creak = envelope(lowpass(tone(38, 0.3, 'saw', sweep=0.6), 700), 0.02, 9)
-    whoosh_n = noise(0.6, rng)
-    whoosh = [s * math.sin(math.pi * i / len(whoosh_n)) ** 2
-              for i, s in enumerate(lowpass(highpass(whoosh_n, 300), 1800))]
-    launch = mix(silence(0.8), creak)
-    write('sfx/launch.wav', mix(launch, whoosh, 0.08, 1.4))
-
-    write('sfx/impact_wood.wav',
-          mix(thud(120, 0.35, 16, 0.9, rng),
-              envelope(tone(520, 0.12), 0.001, 40), gain=0.5))
-    write('sfx/impact_stone.wav', thud(70, 0.5, 11, 1.3, rng, 1400))
-    write('sfx/impact_glass.wav',
-          mix(tinks(0.4, 5, rng, spread=0.04), thud(200, 0.15, 30, 0.3, rng),
-              gain=0.4))
-
-    # Wood breaking: a volley of cracks over a creak.
-    brk = mix(silence(0.8), envelope(lowpass(tone(55, 0.5, 'saw', -0.4), 600),
-                                     0.01, 6), gain=0.5)
-    for _ in range(9):
-        crack = envelope(highpass(noise(0.05, rng), 800), 0.0005, 70)
-        mix(brk, crack, rng.uniform(0, 0.3), rng.uniform(0.5, 1))
-    write('sfx/break_wood.wav', mix(brk, thud(90, 0.4, 10, 1, rng), 0.02))
-
-    # Stone crumbling: deep rumble with gravel grains.
-    rumble = envelope(lowpass(noise(1.2, rng), 220), 0.01, 3.5)
-    for _ in range(40):
-        grain = envelope(lowpass(noise(0.04, rng), 2500), 0.0005, 90)
-        mix(rumble, grain, rng.uniform(0, 0.9), rng.uniform(0.1, 0.35))
-    write('sfx/break_stone.wav', mix(rumble, thud(55, 0.6, 7, 1, rng)))
-
-    shatter = envelope(highpass(noise(0.7, rng), 2500), 0.001, 7)
-    write('sfx/break_glass.wav',
-          mix(shatter, tinks(0.8, 24, rng, spread=0.35), gain=1.2), peak=0.7)
-
-    # Soldier down: armor clank (inharmonic partials) + body thud.
-    clank = silence(0.5)
-    for f, g in ((523, 1), (1270, 0.6), (2110, 0.4), (3380, 0.25)):
-        mix(clank, envelope(tone(f, 0.5), 0.001, 14), gain=g)
-    write('sfx/unit_down.wav', mix(clank, thud(95, 0.4, 12, 1, rng), 0.03, 1.2))
-
-    # Victory: low war horns swelling on a fifth, octave above at the end.
-    horn = silence(3.2)
-    for f, t, g in ((110, 0, 1), (165, 0.35, 0.8), (220, 1.1, 0.7)):
-        h = lowpass(tone(f, 3.2 - t, 'saw'), 900)
-        h = [s * min(1, i / (0.4 * RATE)) * math.exp(-0.6 * i / RATE)
-             for i, s in enumerate(h)]
-        mix(horn, h, t, g)
-    write('sfx/victory.wav', horn, peak=0.8)
-
-    # Defeat: falling drone and two slow drum hits.
-    drone = lowpass(tone(98, 2.8, 'saw', sweep=-0.25), 500)
-    drone = [s * math.exp(-0.9 * i / RATE) for i, s in enumerate(drone)]
-    for t in (0.0, 0.9):
-        mix(drone, thud(50, 0.9, 5, 0.8, rng, 400), t, 1.4)
-    write('sfx/defeat.wav', drone, peak=0.8)
+    # Launch, impacts, breaks, unit down, victory and defeat now come from
+    # Kenney's CC0 packs (see assets/CREDITS.md); only the effects below
+    # are synthesized.
 
     # Powder explosion: sharp crack, deep boom, rolling rumble.
     boom = mix(thud(40, 1.6, 3, 1.5, rng, 500),
@@ -241,43 +188,6 @@ def main():
     write('sfx/war_horn.wav', mix(horn, lowpass(tone(147, 1.3, 'saw'), 600), gain=0.4),
           peak=0.7)
 
-    write('music/siege_ambient.wav', ambient(rng), peak=0.6)
-
-
-def ambient(rng):
-    """32 second seamless loop: drone fifth, war drums, wind."""
-    seconds = 32.0
-    n = int(seconds * RATE)
-    out = [0.0] * n
-    # Drone frequencies chosen to complete whole cycles over the loop.
-    for f, g in ((55.0, 0.5), (82.5, 0.3), (110.0, 0.15)):
-        for i in range(n):
-            wobble = 1 + 0.25 * math.sin(2 * math.pi * i / n * 2)
-            out[i] += g * wobble * math.sin(2 * math.pi * f * i / RATE)
-    out = lowpass(out, 400)
-
-    # Drums: 64 bpm, pattern accents, wraps evenly into 32 s.
-    beat = 60 / 64
-    t, k = 0.0, 0
-    pattern = (1.0, 0.0, 0.55, 0.0, 1.0, 0.35, 0.55, 0.0)
-    while t < seconds - 0.8:
-        g = pattern[k % len(pattern)]
-        if g:
-            mix(out, thud(48, 0.8, 6, 0.6, rng, 300), t, 0.9 * g)
-        t += beat / 2
-        k += 1
-    del out[n:]
-
-    # Wind: slow-swelling filtered noise, crossfaded at the loop point.
-    wind = lowpass(highpass(noise(seconds, rng), 150), 700)
-    for i in range(n):
-        swell = 0.5 + 0.5 * math.sin(2 * math.pi * i / n * 3)
-        out[i] += wind[i] * 0.35 * swell
-    xf = int(1.0 * RATE)
-    for i in range(xf):
-        a = i / xf
-        out[i] = out[i] * a + out[n - xf + i] * (1 - a)
-    return out[: n - xf]
 
 
 if __name__ == '__main__':

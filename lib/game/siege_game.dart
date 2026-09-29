@@ -37,6 +37,7 @@ import '../meta/endless.dart';
 import '../meta/loadout.dart';
 import '../meta/rewards.dart';
 import '../procgen/castle_generator.dart';
+import '../systems/audio.dart';
 import '../systems/effects.dart';
 import '../systems/enemy_commander.dart';
 import '../theme/art_theme.dart';
@@ -242,7 +243,11 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     AmmoType.cluster,
   ];
 
+  /// Set while the menu's demo siege is being built, so it gets menu music.
+  bool _startingAttract = false;
+
   Future<void> _startAttract() async {
+    _startingAttract = true;
     final castle = CastleGenerator(_attractRng.nextInt(1 << 30))
         .generate(2 + _attractRng.nextInt(6));
     await startCustomLevel(
@@ -252,6 +257,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
         ammo: List.filled(40, AmmoType.stone),
       ),
     );
+    _startingAttract = false;
     attract = true;
     _attractTimer = 2.5;
     _attractRestart = null;
@@ -393,7 +399,9 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     _cameraBaseX = _cameraHomeX;
     camera.viewfinder.position = Vector2(_cameraBaseX, _cameraY);
     _startIntro();
-    effects.audio.startMusic();
+    effects.audio.playMusic(
+      _startingAttract ? MusicTrack.menu : MusicTrack.battle,
+    );
     final rounds = this.loadout.ammo;
     ammo.value = {
       for (final type in rounds.toSet())
@@ -531,6 +539,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
       ..removeAll(_screens)
       ..add(name);
     phase.value = SiegePhase.menu;
+    effects.audio.playMusic(MusicTrack.menu);
   }
 
   void showMenu() => _startAttract();
@@ -746,6 +755,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   void _award(int points, Vector2 at, Color color) {
     if (attract || points <= 0) return;
     score.value += points;
+    effects.audio.play(Sfx.score, volume: 0.5);
     world.add(ScorePopup(points: points, at: at.clone(), color: color));
   }
 

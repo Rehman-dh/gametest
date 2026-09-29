@@ -60,6 +60,14 @@ abstract final class UiStyle {
   );
 }
 
+/// Sounds the UI kit plays, wired to the game's audio at start-up (left
+/// unset in tests).
+abstract final class UiSounds {
+  static VoidCallback? tap;
+  static VoidCallback? star;
+  static VoidCallback? coin;
+}
+
 /// Bold white text with a dark outline, like the game's title lettering.
 class OutlinedText extends StatelessWidget {
   const OutlinedText(
@@ -194,6 +202,7 @@ class _CartoonButtonState extends State<CartoonButton> {
       onTapUp: enabled
           ? (_) {
               setState(() => _down = false);
+              UiSounds.tap?.call();
               widget.onPressed!();
             }
           : null,
@@ -314,6 +323,7 @@ class PopIn extends StatefulWidget {
     this.delay = Duration.zero,
     this.from = const Offset(0, 0.25),
     this.scale = true,
+    this.onShow,
   });
 
   final Widget child;
@@ -322,6 +332,9 @@ class PopIn extends StatefulWidget {
   /// Starting offset, as a fraction of the child's size.
   final Offset from;
   final bool scale;
+
+  /// Called as the child starts to appear, e.g. to play a sound.
+  final VoidCallback? onShow;
 
   @override
   State<PopIn> createState() => _PopInState();
@@ -337,7 +350,9 @@ class _PopInState extends State<PopIn> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     Future.delayed(widget.delay, () {
-      if (mounted) _c.forward();
+      if (!mounted) return;
+      widget.onShow?.call();
+      _c.forward();
     });
   }
 

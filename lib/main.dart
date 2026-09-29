@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'game/siege_game.dart';
 import 'meta/campaign.dart';
 import 'meta/save_repository.dart';
+import 'systems/audio.dart';
 import 'theme/cartoon_theme.dart';
 import 'ui/overlays/cutscene_overlay.dart';
 import 'ui/overlays/hud.dart';
@@ -13,6 +14,7 @@ import 'ui/overlays/result_panel.dart';
 import 'ui/overlays/siege_camp.dart';
 import 'ui/overlays/siege_prep.dart';
 import 'ui/overlays/world_map.dart';
+import 'ui/ui_style.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,11 +29,16 @@ Future<void> main() async {
     repository: SaveRepository(),
   );
   await campaign.load();
-  runApp(
-    SiegeApp(
-      game: SiegeGame(theme: theme, campaign: campaign, attractOnLaunch: true),
-    ),
+  final game = SiegeGame(
+    theme: theme,
+    campaign: campaign,
+    attractOnLaunch: true,
   );
+  final audio = game.effects.audio;
+  UiSounds.tap = () => audio.play(Sfx.click, volume: 0.7);
+  UiSounds.star = () => audio.play(Sfx.star, volume: 0.8);
+  UiSounds.coin = () => audio.play(Sfx.coin, volume: 0.7);
+  runApp(SiegeApp(game: game));
 }
 
 class SiegeApp extends StatelessWidget {
