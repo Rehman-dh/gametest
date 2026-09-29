@@ -218,6 +218,16 @@ class Effects {
     }, volume: volume);
   }
 
+  /// A leftover block giving way to rising masonry: it just crumbles.
+  void crumble(CastleBlock block) => _burst(
+    block.body.position,
+    game.theme.breakParticles(
+      block.material,
+      Size(block.data.width, block.data.height),
+      _rng,
+    ),
+  );
+
   void blockBroken(CastleBlock block) {
     final body = block.body;
     final size = block.data;
@@ -267,6 +277,7 @@ class Effects {
           lifetime: 2.5 + _rng.nextDouble() * 1.5,
           spriteOffset: shard.center,
           look: block.data.look,
+          stage: game.stage,
           crackStage: 2,
           blockSize: Size(block.data.width, block.data.height),
         ),

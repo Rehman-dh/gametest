@@ -923,6 +923,7 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
   void _advanceStage() {
     stage++;
     final next = level.phases[stage - 1];
+    _clearFootprint(next.blocks);
     final blocks = [for (final b in next.blocks) CastleBlock(b)];
     for (final b in blocks) {
       _totalBlockHp += b.maxHp;
@@ -948,6 +949,41 @@ class SiegeGame extends Forge2DGame with DragCallbacks, TapCallbacks {
     effects.stageBegins(next.title);
     phase.value = SiegePhase.aiming;
     _speak('phase:${stage + 1}');
+  }
+
+  /// Rising masonry takes the place of whatever still stands where it
+  /// goes: those leftovers crumble away (counted as destroyed, but worth no
+  /// points) and loose debris is swept, so a stage never spawns inside old
+  /// stone or hangs over a gap the player already knocked out.
+  void _clearFootprint(List<BlockData> blocks) {
+    final footprint = [
+      for (final b in blocks)
+        Rect.fromLTWH(
+          b.x - b.width / 2,
+          -(b.y + b.height),
+          b.width,
+          b.height,
+        ).deflate(0.05),
+    ];
+    final box = AABB();
+    for (final c in world.children.toList()) {
+      if (c is DebrisShard) {
+        c.removeFromParent();
+      } else if (c is CastleBlock && !c.isDefense && !c.isDestroyed) {
+        c.body.fixtures.first.shape.computeAABB(box, c.body.transform, 0);
+        final r = Rect.fromLTRB(
+          box.lowerBound.x,
+          box.lowerBound.y,
+          box.upperBound.x,
+          box.upperBound.y,
+        );
+        if (footprint.any((f) => f.overlaps(r))) {
+          _destroyedBlockHp += c.maxHp;
+          effects.crumble(c);
+          c.removeFromParent();
+        }
+      }
+    }
   }
 
   void _finish({required bool won, DefeatReason? defeat}) {

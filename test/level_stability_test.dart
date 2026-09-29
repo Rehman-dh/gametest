@@ -1,3 +1,4 @@
+import 'package:flame/components.dart';
 import 'package:flame_test/flame_test.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -121,6 +122,71 @@ void main() {
                 .map((u) => '${u.kind.name}@${u.data.x}'),
             isEmpty,
             reason: 'stage $stage units died on their own',
+          );
+        }
+      },
+    );
+  }
+
+  // A stage must also rise cleanly over ruins: when the player has already
+  // smashed everything, the new stage brings its own footing.
+  for (var i = 0; i < SiegeGame.levelFiles.length; i++) {
+    testWithGame<SiegeGame>(
+      '${SiegeGame.levelFiles[i]} stages rise over ruins',
+      build,
+      (game) async {
+        await game.startLevel(i);
+        await game.ready();
+        for (var stage = 1; stage <= game.level.phases.length; stage++) {
+          await run(game, 120);
+          for (final b
+              in game.world.children.whereType<CastleBlock>().toList()) {
+            if (!b.isDefense) b.destroy();
+          }
+          for (final e
+              in game.world.children.whereType<EnemyCatapult>().toList()) {
+            e.destroy();
+          }
+          for (final u in game.world.children.whereType<Unit>().toList()) {
+            u.destroy();
+          }
+          for (var step = 0; step < 120 && game.stage < stage; step++) {
+            await run(game, 1);
+          }
+          expect(game.stage, stage, reason: 'stage $stage did not begin');
+          final risen = game.world.children.whereType<CastleBlock>().toList();
+          final units = game.world.children.whereType<Unit>().toList();
+          await run(game, 480);
+          // Nothing may fall: every piece must have found footing.
+          for (final b in risen) {
+            expect(
+              (b.body.position -
+                      Vector2(b.data.x, -(b.data.y + b.data.height / 2)))
+                  .length,
+              lessThan(0.5),
+              reason: 'stage $stage block at ${b.data.x},${b.data.y} fell',
+            );
+          }
+          for (final u in units.where((u) => !u.isDestroyed)) {
+            expect(
+              (u.body.position.y + u.radius + u.data.y).abs(),
+              lessThan(0.5),
+              reason: 'stage $stage ${u.kind.name}@${u.data.x} fell',
+            );
+          }
+          expect(
+            risen
+                .where((b) => b.isDestroyed)
+                .map((b) => '${b.data.x},${b.data.y}'),
+            isEmpty,
+            reason: 'stage $stage blocks broke over ruins',
+          );
+          expect(
+            units
+                .where((u) => u.isDestroyed)
+                .map((u) => '${u.kind.name}@${u.data.x}'),
+            isEmpty,
+            reason: 'stage $stage units died over ruins',
           );
         }
       },

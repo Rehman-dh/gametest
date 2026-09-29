@@ -21,6 +21,7 @@ class DebrisShard extends BodyComponent<SiegeGame> {
     this.look,
     this.crackStage = 0,
     this.blockSize,
+    this.stage = 0,
   }) : super(renderBody: false, priority: 1);
 
   static const _shrinkTime = 0.5;
@@ -74,9 +75,17 @@ class DebrisShard extends BodyComponent<SiegeGame> {
     return body;
   }
 
+  /// The siege stage this shard broke off in; a newly risen stage sweeps
+  /// away older rubble so it never jams the fresh masonry.
+  final int stage;
+
   @override
   void update(double dt) {
     super.update(dt);
+    if (game.stage != stage) {
+      removeFromParent();
+      return;
+    }
     _age += dt;
     if (_age > lifetime + _shrinkTime || body.position.y > 25) {
       removeFromParent();
