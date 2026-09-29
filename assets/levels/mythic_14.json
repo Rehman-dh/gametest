@@ -1,72 +1,151 @@
 {
   "id": "mythic_14",
-  "name": "The Iron Siege",
-  "worldWidth": 53,
+  "name": "Defense of the Storm Road",
+  "worldWidth": 59,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
+  "ammo": [
+    "stone",
+    "stone",
+    "fireball",
+    "stone",
+    "powderKeg",
+    "cluster",
+    "stone"
+  ],
+  "par": 4,
+  "objective": "destroyEngines",
+  "playerHp": 120,
+  "storm": 1.2,
+  "moat": {
+    "x": 37.75,
+    "w": 4.5,
+    "depth": 2.0
+  },
+  "defenses": [
+    {
+      "m": "stone",
+      "x": 5,
+      "y": 0,
+      "w": 0.8,
+      "h": 2.4
+    },
+    {
+      "m": "wood",
+      "x": 6,
+      "y": 0,
+      "w": 0.5,
+      "h": 3
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "bashir",
+      "text": "The storm road is the only way up to the Titan Tower, and the Legion has closed it with three engines. One on our side of the moat, two beyond it."
+    },
+    {
+      "trigger": "volley:1",
+      "speaker": "ironKing",
+      "text": "Every road in the world ends at my door, Arslan. This one ends in the rain."
+    },
+    {
+      "trigger": "volley:2",
+      "speaker": "titus",
+      "text": "An engineer is patching their works across the water. Put him down, or every crack we make is wasted."
+    },
+    {
+      "trigger": "volley:4",
+      "speaker": "roxana",
+      "text": "The engine on the wall has our range. There is powder behind that wall. Light it!"
+    }
+  ],
   "blocks": [
     {
-      "m": "stone",
-      "x": 31.5,
+      "m": "bamboo",
+      "x": 24.4,
       "y": 0,
-      "w": 3.0,
-      "h": 7,
-      "look": "tower",
-      "hp": 0.5
+      "w": 0.35,
+      "h": 2.6
+    },
+    {
+      "m": "bamboo",
+      "x": 24.85,
+      "y": 0,
+      "w": 0.35,
+      "h": 2.6
+    },
+    {
+      "m": "bamboo",
+      "x": 25.3,
+      "y": 0,
+      "w": 0.35,
+      "h": 2.6
+    },
+    {
+      "m": "bamboo",
+      "x": 24.85,
+      "y": 2.6,
+      "w": 1.45,
+      "h": 0.3
     },
     {
       "m": "stone",
-      "x": 35.02,
+      "x": 31.6,
       "y": 0,
-      "w": 4.0,
-      "h": 3.2,
+      "w": 2.6,
+      "h": 6.8,
+      "look": "tower",
+      "hp": 1.0
+    },
+    {
+      "m": "crystal",
+      "x": 33.6,
+      "y": 0,
+      "w": 0.8,
+      "h": 2.2,
+      "hp": 1.0
+    },
+    {
+      "m": "marble",
+      "x": 41.0,
+      "y": 0,
+      "w": 1.4,
+      "h": 2.2,
       "look": "wall",
-      "hp": 0.45
+      "hp": 1.0
     },
     {
       "m": "stone",
-      "x": 38.04,
+      "x": 48.2,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
+      "w": 4.4,
+      "h": 3.4,
       "look": "wall",
-      "hp": 1.5
+      "hp": 1.2
+    },
+    {
+      "m": "crystal",
+      "x": 46.35,
+      "y": 3.4,
+      "w": 0.6,
+      "h": 1.4,
+      "hp": 1.0
     },
     {
       "m": "stone",
-      "x": 45.58,
+      "x": 51.92,
       "y": 0,
       "w": 3.0,
       "h": 7.5,
       "look": "tower",
-      "hp": 0.6
+      "hp": 1.0
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 54.95,
       "y": 0,
-      "w": 2.6,
-      "h": 8.5,
+      "w": 2.8,
+      "h": 9.5,
       "look": "spire",
       "hp": 2
     }
@@ -74,18 +153,50 @@
   "units": [
     {
       "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "x": 24.85,
+      "y": 2.9
     },
     {
-      "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "kind": "archer",
+      "x": 31.6,
+      "y": 6.8
     },
     {
-      "kind": "soldier",
-      "x": 40.56,
+      "kind": "legionary",
+      "x": 33.6,
+      "y": 2.2
+    },
+    {
+      "kind": "engineer",
+      "x": 41.0,
+      "y": 2.2
+    },
+    {
+      "kind": "archer",
+      "x": 51.92,
+      "y": 7.5
+    }
+  ],
+  "props": [
+    {
+      "kind": "enemyCatapult",
+      "x": 27.9,
       "y": 0
+    },
+    {
+      "kind": "enemyCatapult",
+      "x": 43.4,
+      "y": 0
+    },
+    {
+      "kind": "powderBarrel",
+      "x": 45.25,
+      "y": 0
+    },
+    {
+      "kind": "enemyCatapult",
+      "x": 48.7,
+      "y": 3.4
     }
   ]
 }

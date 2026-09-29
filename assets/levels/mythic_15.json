@@ -1,91 +1,404 @@
 {
   "id": "mythic_15",
   "name": "The Titan Tower",
-  "worldWidth": 53,
+  "worldWidth": 66,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
+  "introCutscene": "titan_tower_approach",
+  "outroCutscene": "mythic_finale",
+  "relic": "ironCrown",
+  "ammo": [
+    "stone",
+    "stone",
+    "stone",
+    "fireball",
+    "stone",
+    "powderKeg"
+  ],
+  "par": 8,
+  "objective": "destroyEngines",
+  "playerHp": 120,
+  "storm": 1.0,
+  "moat": {
+    "x": 35.5,
+    "w": 5.0,
+    "depth": 2.5
+  },
+  "defenses": [
+    {
+      "m": "stone",
+      "x": 5,
+      "y": 0,
+      "w": 0.8,
+      "h": 2.4
+    },
+    {
+      "m": "wood",
+      "x": 6,
+      "y": 0,
+      "w": 0.5,
+      "h": 3
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "ironKing",
+      "text": "Six ages you crossed to reach my door, mason. Look up. No engine ever built has thrown a stone this high."
+    },
+    {
+      "trigger": "volley:1",
+      "speaker": "bashir",
+      "text": "Engines on both banks of the moat! Silence the near one before it finds the barricade."
+    },
+    {
+      "trigger": "volley:2",
+      "speaker": "roxana",
+      "text": "The drawbridge hangs on one chain from the gatehouse. Bring the wall down and the bridge comes with it."
+    },
+    {
+      "trigger": "phase:2",
+      "speaker": "ironKing",
+      "text": "Rise, my tower! Let the storm carry them off the mountain."
+    },
+    {
+      "trigger": "volley:5",
+      "speaker": "titus",
+      "text": "Their men walk a bridge of crystal between the towers. Crystal is hard, but it shatters. Break it under them."
+    },
+    {
+      "trigger": "phase:3",
+      "speaker": "ironKing",
+      "text": "Enough. I will take the last shard from your corpse myself."
+    },
+    {
+      "trigger": "volley:8",
+      "speaker": "liWei",
+      "text": "His chamber stands on one marble slab over an open hall. The engineer down there will patch every crack we make, unless we get him first."
+    },
+    {
+      "trigger": "volley:10",
+      "speaker": "bashir",
+      "text": "Every mason leaves one stone loose, General. Look at the far pillar of his chamber."
+    }
+  ],
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 25.5,
       "y": 0,
       "w": 3.0,
-      "h": 7,
+      "h": 7.0,
       "look": "tower",
-      "hp": 0.5
+      "hp": 0.8
     },
     {
       "m": "stone",
-      "x": 35.02,
+      "x": 28.02,
+      "y": 0,
+      "w": 2.0,
+      "h": 3.0,
+      "look": "wall",
+      "hp": 0.8
+    },
+    {
+      "m": "crystal",
+      "x": 29.4,
+      "y": 0,
+      "w": 0.6,
+      "h": 2.0,
+      "hp": 1.0
+    },
+    {
+      "m": "wood",
+      "x": 38.2,
+      "y": 0.35,
+      "w": 0.45,
+      "h": 5.6,
+      "a": 5,
+      "hinge": [
+        38.2,
+        0.35
+      ],
+      "tie": [
+        39.35,
+        5.0
+      ]
+    },
+    {
+      "m": "stone",
+      "x": 41.0,
       "y": 0,
       "w": 4.0,
-      "h": 3.2,
+      "h": 5.6,
       "look": "wall",
-      "hp": 0.45
+      "hp": 0.8
     },
     {
-      "m": "stone",
-      "x": 38.04,
+      "m": "marble",
+      "x": 47.6,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
+      "w": 3.2,
+      "h": 2.6,
       "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
-      "y": 0,
-      "w": 3.0,
-      "h": 7.5,
-      "look": "tower",
-      "hp": 0.6
-    },
-    {
-      "m": "stone",
-      "x": 48.4,
-      "y": 0,
-      "w": 2.6,
-      "h": 8.5,
-      "look": "spire",
-      "hp": 2
+      "hp": 1.0
     }
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "kind": "archer",
+      "x": 25.5,
+      "y": 7.0
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 28.02,
+      "y": 3.0
+    },
+    {
+      "kind": "legionary",
+      "x": 40.2,
+      "y": 5.6
     },
     {
       "kind": "soldier",
-      "x": 40.56,
+      "x": 41.8,
+      "y": 5.6
+    }
+  ],
+  "props": [
+    {
+      "kind": "enemyCatapult",
+      "x": 31.3,
       "y": 0
+    },
+    {
+      "kind": "powderBarrel",
+      "x": 44.0,
+      "y": 0
+    },
+    {
+      "kind": "enemyCatapult",
+      "x": 47.6,
+      "y": 2.6
+    }
+  ],
+  "phases": [
+    {
+      "title": "The Titan Tower rises",
+      "objective": "killAll",
+      "ammo": [
+        "stone",
+        "stone",
+        "powderKeg",
+        "cluster",
+        "stone"
+      ],
+      "blocks": [
+        {
+          "m": "stone",
+          "x": 46.7,
+          "y": 0,
+          "w": 3.0,
+          "h": 8.0,
+          "look": "tower",
+          "hp": 1.0
+        },
+        {
+          "m": "marble",
+          "x": 50.22,
+          "y": 0,
+          "w": 4.0,
+          "h": 4.2,
+          "look": "wall",
+          "hp": 1.2
+        },
+        {
+          "m": "stone",
+          "x": 53.74,
+          "y": 0,
+          "w": 3.0,
+          "h": 8.0,
+          "look": "tower",
+          "hp": 1.0
+        },
+        {
+          "m": "stone",
+          "x": 56.86,
+          "y": 0,
+          "w": 3.2,
+          "h": 9.0,
+          "look": "tower",
+          "hp": 1.2
+        },
+        {
+          "m": "stone",
+          "x": 60.28,
+          "y": 0,
+          "w": 2.8,
+          "h": 11.5,
+          "look": "spire",
+          "hp": 2
+        },
+        {
+          "m": "crystal",
+          "x": 50.22,
+          "y": 8.0,
+          "w": 8.24,
+          "h": 0.6,
+          "hp": 1.0
+        },
+        {
+          "m": "wood",
+          "x": 56.86,
+          "y": 9.0,
+          "w": 3.8,
+          "h": 2.2,
+          "look": "pagoda",
+          "hp": 1.0
+        }
+      ],
+      "units": [
+        {
+          "kind": "soldier",
+          "x": 49.22,
+          "y": 4.2
+        },
+        {
+          "kind": "engineer",
+          "x": 51.22,
+          "y": 4.2
+        },
+        {
+          "kind": "legionary",
+          "x": 46.7,
+          "y": 8.6
+        },
+        {
+          "kind": "soldier",
+          "x": 50.22,
+          "y": 8.6
+        },
+        {
+          "kind": "archer",
+          "x": 54.74,
+          "y": 8.0
+        }
+      ],
+      "props": []
+    },
+    {
+      "title": "The Iron King descends",
+      "objective": "killKing",
+      "ammo": [
+        "stone",
+        "stone",
+        "fireball",
+        "powderKeg"
+      ],
+      "blocks": [
+        {
+          "m": "stone",
+          "x": 46.7,
+          "y": 0,
+          "w": 3.0,
+          "h": 9.5,
+          "look": "tower",
+          "hp": 1.8
+        },
+        {
+          "m": "stone",
+          "x": 49.82,
+          "y": 0,
+          "w": 2.2,
+          "h": 6.0,
+          "look": "tower",
+          "hp": 2.5
+        },
+        {
+          "m": "stone",
+          "x": 58.44,
+          "y": 0,
+          "w": 2.2,
+          "h": 6.0,
+          "look": "tower",
+          "hp": 2.5
+        },
+        {
+          "m": "stone",
+          "x": 61.26,
+          "y": 0,
+          "w": 2.8,
+          "h": 13.0,
+          "look": "spire",
+          "hp": 2
+        },
+        {
+          "m": "marble",
+          "x": 54.13,
+          "y": 6.0,
+          "w": 10.82,
+          "h": 1.0,
+          "look": "wall",
+          "hp": 2.5
+        },
+        {
+          "m": "crystal",
+          "x": 50.53,
+          "y": 7.0,
+          "w": 0.8,
+          "h": 3.0,
+          "hp": 1.2
+        },
+        {
+          "m": "crystal",
+          "x": 57.73,
+          "y": 7.0,
+          "w": 0.8,
+          "h": 3.0,
+          "weak": true,
+          "hp": 2.0
+        },
+        {
+          "m": "crystal",
+          "x": 54.13,
+          "y": 10.0,
+          "w": 8.0,
+          "h": 0.6,
+          "hp": 1.2
+        },
+        {
+          "m": "tile",
+          "x": 54.13,
+          "y": 10.6,
+          "w": 6.0,
+          "h": 3.2,
+          "look": "dome",
+          "hp": 1.2
+        }
+      ],
+      "units": [
+        {
+          "kind": "legionary",
+          "x": 46.7,
+          "y": 9.5
+        },
+        {
+          "kind": "pharaoh",
+          "x": 54.73,
+          "y": 7.0
+        },
+        {
+          "kind": "legionary",
+          "x": 51.93,
+          "y": 7.0
+        },
+        {
+          "kind": "engineer",
+          "x": 52.33,
+          "y": 0
+        }
+      ],
+      "props": []
     }
   ]
 }

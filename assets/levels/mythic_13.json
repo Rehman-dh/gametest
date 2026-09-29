@@ -1,72 +1,124 @@
 {
   "id": "mythic_13",
-  "name": "The Last Rampart",
-  "worldWidth": 53,
+  "name": "The Stilted Shrine",
+  "worldWidth": 50,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
+  "budget": 60,
+  "ammo": [
+    "fireball"
+  ],
+  "par": 1,
+  "objective": "killKing",
+  "storm": 1.0,
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "liWei",
+      "text": "Crystal on bamboo stilts, and two engineers to patch every crack. They cannot patch a fire. Burn the stilts and the shrine comes down on their captain."
+    }
+  ],
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 25.4,
+      "y": 0,
+      "w": 2.4,
+      "h": 3.8,
+      "look": "wall",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 28.4,
+      "y": 0,
+      "w": 2.2,
+      "h": 6.0,
+      "look": "tower",
+      "hp": 1.2
+    },
+    {
+      "m": "bamboo",
+      "x": 31.0,
+      "y": 0,
+      "w": 0.35,
+      "h": 3.6
+    },
+    {
+      "m": "bamboo",
+      "x": 33.4,
+      "y": 0,
+      "w": 0.35,
+      "h": 3.6
+    },
+    {
+      "m": "bamboo",
+      "x": 35.8,
+      "y": 0,
+      "w": 0.35,
+      "h": 3.6
+    },
+    {
+      "m": "bamboo",
+      "x": 38.2,
+      "y": 0,
+      "w": 0.35,
+      "h": 3.6
+    },
+    {
+      "m": "bamboo",
+      "x": 34.6,
+      "y": 3.6,
+      "w": 7.8,
+      "h": 0.3
+    },
+    {
+      "m": "crystal",
+      "x": 32.25,
+      "y": 3.9,
+      "w": 2.9,
+      "h": 1.2,
+      "hp": 1.2
+    },
+    {
+      "m": "crystal",
+      "x": 34.6,
+      "y": 5.1,
+      "w": 3.4,
+      "h": 1.2,
+      "hp": 1.2
+    },
+    {
+      "m": "crystal",
+      "x": 36.95,
+      "y": 3.9,
+      "w": 2.9,
+      "h": 1.2,
+      "hp": 1.2
+    },
+    {
+      "m": "wood",
+      "x": 34.6,
+      "y": 6.3,
+      "w": 4.4,
+      "h": 2.4,
+      "look": "pagoda",
+      "hp": 1.2
+    },
+    {
+      "m": "stone",
+      "x": 42.2,
       "y": 0,
       "w": 3.0,
-      "h": 7,
+      "h": 8.0,
       "look": "tower",
-      "hp": 0.5
+      "hp": 1.2
     },
     {
       "m": "stone",
-      "x": 35.02,
+      "x": 45.23,
       "y": 0,
-      "w": 4.0,
-      "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
-    },
-    {
-      "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
-      "y": 0,
-      "w": 3.0,
-      "h": 7.5,
-      "look": "tower",
-      "hp": 0.6
-    },
-    {
-      "m": "stone",
-      "x": 48.4,
-      "y": 0,
-      "w": 2.6,
-      "h": 8.5,
+      "w": 2.8,
+      "h": 9.5,
       "look": "spire",
       "hp": 2
     }
@@ -74,18 +126,33 @@
   "units": [
     {
       "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "x": 25.4,
+      "y": 3.8
     },
     {
-      "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "kind": "legionary",
+      "x": 28.4,
+      "y": 6.0
     },
     {
-      "kind": "soldier",
-      "x": 40.56,
+      "kind": "king",
+      "x": 34.6,
       "y": 0
+    },
+    {
+      "kind": "engineer",
+      "x": 32.25,
+      "y": 5.1
+    },
+    {
+      "kind": "engineer",
+      "x": 36.95,
+      "y": 5.1
+    },
+    {
+      "kind": "archer",
+      "x": 42.2,
+      "y": 8.0
     }
   ]
 }
