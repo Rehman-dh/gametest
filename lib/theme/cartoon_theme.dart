@@ -8,6 +8,7 @@ import 'package:flame/particles.dart';
 import 'package:flutter/services.dart';
 
 import '../core/era.dart';
+import 'era_scenery.dart';
 import '../core/materials.dart';
 import '../core/weapons.dart';
 import '../levels/level_data.dart';
@@ -123,6 +124,16 @@ class CartoonTheme extends ProceduralTheme {
     double time, {
     Color? atmosphere,
   }) {
+    if (EraScenery.paints(era)) {
+      EraScenery.draw(
+        canvas,
+        visible,
+        time,
+        era,
+        () => _clouds(canvas, visible, time),
+      );
+      return;
+    }
     // Snowy peaks and bushes, far away: mirrored tiles scroll slowly.
     final backdrop = _img['backdrop']!;
     const height = 11.0, parallax = 0.85, top = 0.4 - height;
@@ -300,7 +311,27 @@ class CartoonTheme extends ProceduralTheme {
       ),
       _tiles(_img['ground_top']!, tile, Offset(rect.left, rect.top - lip)),
     );
+    if (_desert) {
+      // Sand drifted over the grass, with a soft wavy edge.
+      final sand = Path()..moveTo(rect.left, rect.top + 1.1);
+      for (var x = rect.left; x <= rect.right; x += 0.4) {
+        sand.lineTo(x, rect.top - 0.12 + math.sin(x * 1.3) * 0.05);
+      }
+      sand
+        ..lineTo(rect.right, rect.top + 1.1)
+        ..close();
+      canvas
+        ..drawPath(sand, _fill..color = const Color(0xFFE9C487))
+        ..drawPath(
+          sand,
+          _line
+            ..strokeWidth = 0.06
+            ..color = _outline,
+        );
+    }
   }
+
+  bool get _desert => era == Era.egypt || era == Era.persia;
 
   @override
   void drawGroundDetail(Canvas canvas, Rect visible) {
@@ -310,6 +341,8 @@ class CartoonTheme extends ProceduralTheme {
       final flip = rng.nextBool();
       if (x < visible.left - 3 || x > visible.right + 3) continue;
       if (pick < 6) {
+        // No grass in the desert.
+        if (_desert) continue;
         _stand(
           canvas,
           _img['tuft_${pick % 2}']!,
