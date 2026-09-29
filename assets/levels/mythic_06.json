@@ -1,90 +1,207 @@
 {
   "id": "mythic_06",
   "name": "Iron Foundry",
-  "worldWidth": 53,
-  "catapultX": 0,
-  "shots": 4,
-  "par": 2,
+  "par": 3,
   "objective": "killAll",
+  "ammo": [
+    "stone",
+    "powderKeg",
+    "stone",
+    "fireball",
+    "stone",
+    "stone"
+  ],
+  "wind": 0.3,
+  "storm": 1.2,
+  "playerHp": 110,
+  "defenses": [
+    {
+      "m": "stone",
+      "x": 5,
+      "y": 0,
+      "w": 0.8,
+      "h": 2.4
+    },
+    {
+      "m": "wood",
+      "x": 6,
+      "y": 0,
+      "w": 0.5,
+      "h": 3.0
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "bashir",
+      "text": "The Iron Legion casts its armour here. Two engineers keep the halls standing. Kill them first, or they will patch every crack we make."
+    },
+    {
+      "trigger": "shot:1",
+      "speaker": "roxana",
+      "text": "There is black powder stacked by the furnace. One spark and the hall does our work for us."
+    },
+    {
+      "trigger": "shot:3",
+      "speaker": "titus",
+      "text": "Those shields turn a stone from the front. Drop the roof on them instead."
+    }
+  ],
+  "worldWidth": 50,
+  "catapultX": 0,
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 27.3,
+      "y": 0,
+      "w": 2.6,
+      "h": 7.0,
+      "look": "tower",
+      "hp": 0.6
+    },
+    {
+      "m": "crystal",
+      "x": 29.02,
+      "y": 0,
+      "w": 0.8,
+      "h": 3.4
+    },
+    {
+      "m": "crystal",
+      "x": 33.04,
+      "y": 0,
+      "w": 0.8,
+      "h": 3.4
+    },
+    {
+      "m": "marble",
+      "x": 31.03,
+      "y": 3.4,
+      "w": 4.82,
+      "h": 0.7,
+      "hp": 0.8
+    },
+    {
+      "m": "marble",
+      "x": 31.03,
+      "y": 4.1,
+      "w": 4.2,
+      "h": 2.6,
+      "look": "dome",
+      "hp": 0.8
+    },
+    {
+      "m": "stone",
+      "x": 34.96,
       "y": 0,
       "w": 3.0,
-      "h": 7,
-      "look": "tower",
-      "hp": 0.5
-    },
-    {
-      "m": "stone",
-      "x": 35.02,
-      "y": 0,
-      "w": 4.0,
-      "h": 3.2,
+      "h": 3.6,
       "look": "wall",
-      "hp": 0.45
+      "hp": 1.0
     },
     {
       "m": "stone",
-      "x": 38.04,
+      "x": 36.93,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
-      "y": 0,
-      "w": 3.0,
-      "h": 7.5,
+      "w": 0.9,
+      "h": 4.0,
       "look": "tower",
       "hp": 0.6
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 40.85,
+      "y": 0,
+      "w": 0.9,
+      "h": 4.0,
+      "look": "tower",
+      "hp": 0.6
+    },
+    {
+      "m": "stone",
+      "x": 38.89,
+      "y": 4.0,
+      "w": 4.82,
+      "h": 0.7,
+      "look": "wall",
+      "hp": 1.2
+    },
+    {
+      "m": "crystal",
+      "x": 36.99,
+      "y": 4.7,
+      "w": 0.5,
+      "h": 2.0
+    },
+    {
+      "m": "crystal",
+      "x": 40.79,
+      "y": 4.7,
+      "w": 0.5,
+      "h": 2.0
+    },
+    {
+      "m": "tile",
+      "x": 38.89,
+      "y": 6.7,
+      "w": 4.6,
+      "h": 0.4
+    },
+    {
+      "m": "stone",
+      "x": 42.72,
+      "y": 0,
+      "w": 2.8,
+      "h": 8.0,
+      "look": "tower",
+      "hp": 0.6
+    },
+    {
+      "m": "stone",
+      "x": 45.44,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
+      "h": 9.5,
       "look": "spire",
       "hp": 2
     }
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "kind": "legionary",
+      "x": 27.3,
+      "y": 7.0
+    },
+    {
+      "kind": "engineer",
+      "x": 30.34,
+      "y": 0
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 34.96,
+      "y": 3.6
+    },
+    {
+      "kind": "engineer",
+      "x": 38.9,
+      "y": 0
     },
     {
       "kind": "soldier",
-      "x": 40.56,
+      "x": 38.89,
+      "y": 4.7
+    },
+    {
+      "kind": "archer",
+      "x": 42.72,
+      "y": 8.0
+    }
+  ],
+  "props": [
+    {
+      "kind": "powderBarrel",
+      "x": 31.84,
       "y": 0
     }
   ]

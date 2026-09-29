@@ -1,90 +1,201 @@
 {
   "id": "mythic_09",
-  "name": "Garden of Ash",
-  "worldWidth": 53,
-  "catapultX": 0,
-  "shots": 4,
-  "par": 2,
+  "name": "Bridge of Chains",
+  "par": 4,
   "objective": "killAll",
+  "ammo": [
+    "stone",
+    "stone",
+    "powderKeg",
+    "stone",
+    "cluster",
+    "stone"
+  ],
+  "wind": 0.2,
+  "storm": 1.8,
+  "moat": {
+    "x": 31.64,
+    "w": 4.6,
+    "depth": 2.0
+  },
+  "playerHp": 110,
+  "defenses": [
+    {
+      "m": "stone",
+      "x": 5,
+      "y": 0,
+      "w": 0.8,
+      "h": 2.4
+    },
+    {
+      "m": "wood",
+      "x": 6,
+      "y": 0,
+      "w": 0.5,
+      "h": 3.0
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "titus",
+      "text": "A moat and a drawbridge on iron chains. Break the gatehouse and the bridge falls with nobody to hold it."
+    },
+    {
+      "trigger": "shot:1",
+      "speaker": "bashir",
+      "text": "Anyone knocked into that water stays there. Push them off the walls."
+    },
+    {
+      "trigger": "shot:3",
+      "speaker": "arslan",
+      "text": "The Titan Tower is beyond this bridge. Do not stop now."
+    }
+  ],
+  "worldWidth": 52,
+  "catapultX": 0,
   "blocks": [
     {
       "m": "stone",
-      "x": 31.5,
+      "x": 25.3,
       "y": 0,
-      "w": 3.0,
-      "h": 7,
+      "w": 2.6,
+      "h": 6.4,
       "look": "tower",
-      "hp": 0.5
+      "hp": 0.8
     },
     {
       "m": "stone",
-      "x": 35.02,
+      "x": 27.92,
       "y": 0,
-      "w": 4.0,
-      "h": 3.2,
+      "w": 2.6,
+      "h": 1.6,
       "look": "wall",
-      "hp": 0.45
+      "hp": 1.4
     },
     {
-      "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
+      "m": "wood",
+      "x": 34.09,
+      "y": 0.35,
+      "w": 0.45,
       "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
+      "a": 5,
+      "hinge": [
+        34.09,
+        0.35
+      ],
+      "tie": [
+        35.24,
+        5.4
+      ]
     },
     {
       "m": "stone",
-      "x": 43.06,
+      "x": 36.44,
       "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
+      "w": 3.4,
+      "h": 6.0,
       "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
-      "y": 0,
-      "w": 3.0,
-      "h": 7.5,
-      "look": "tower",
       "hp": 0.6
     },
     {
+      "m": "crystal",
+      "x": 38.51,
+      "y": 0,
+      "w": 0.7,
+      "h": 3.4
+    },
+    {
+      "m": "crystal",
+      "x": 42.23,
+      "y": 0,
+      "w": 0.7,
+      "h": 3.4
+    },
+    {
+      "m": "marble",
+      "x": 40.37,
+      "y": 3.4,
+      "w": 4.42,
+      "h": 0.6,
+      "hp": 0.8
+    },
+    {
+      "m": "crystal",
+      "x": 38.77,
+      "y": 4.0,
+      "w": 0.5,
+      "h": 2.0
+    },
+    {
+      "m": "crystal",
+      "x": 41.97,
+      "y": 4.0,
+      "w": 0.5,
+      "h": 2.0
+    },
+    {
+      "m": "marble",
+      "x": 40.37,
+      "y": 6.0,
+      "w": 3.9,
+      "h": 0.5
+    },
+    {
       "m": "stone",
-      "x": 48.4,
+      "x": 45.1,
+      "y": 0,
+      "w": 2.8,
+      "h": 8.0,
+      "look": "tower",
+      "hp": 0.55
+    },
+    {
+      "m": "stone",
+      "x": 47.82,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
+      "h": 10.0,
       "look": "spire",
       "hp": 2
     }
   ],
   "units": [
     {
-      "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "kind": "legionary",
+      "x": 25.3,
+      "y": 6.4
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 27.92,
+      "y": 1.6
     },
     {
       "kind": "soldier",
-      "x": 40.56,
+      "x": 36.44,
+      "y": 6.0
+    },
+    {
+      "kind": "legionary",
+      "x": 40.38,
+      "y": 0
+    },
+    {
+      "kind": "soldier",
+      "x": 40.37,
+      "y": 4.0
+    },
+    {
+      "kind": "archer",
+      "x": 45.1,
+      "y": 8.0
+    }
+  ],
+  "props": [
+    {
+      "kind": "powderBarrel",
+      "x": 43.1,
       "y": 0
     }
   ]

@@ -1,72 +1,209 @@
 {
   "id": "mythic_08",
-  "name": "Bridge of Chains",
+  "name": "Garden of Ash",
+  "par": 3,
+  "objective": "killAll",
+  "ammo": [
+    "fireball",
+    "stone",
+    "cluster",
+    "fireball",
+    "stone",
+    "stone"
+  ],
+  "wind": -0.4,
+  "storm": 1.0,
+  "playerHp": 110,
+  "enemyFireEvery": 1,
+  "defenses": [
+    {
+      "m": "stone",
+      "x": 5,
+      "y": 0,
+      "w": 0.8,
+      "h": 2.4
+    },
+    {
+      "m": "wood",
+      "x": 6,
+      "y": 0,
+      "w": 0.5,
+      "h": 3.0
+    }
+  ],
+  "lines": [
+    {
+      "trigger": "start",
+      "speaker": "roxana",
+      "text": "The Iron King took these gardens from Tao and planted an engine in them. Bamboo and cedar. Fire will do the rest."
+    },
+    {
+      "trigger": "volley:1",
+      "speaker": "titus",
+      "text": "That engine behind the stakes has our range. Silence it before it silences us."
+    },
+    {
+      "trigger": "shot:3",
+      "speaker": "liWei",
+      "text": "The shrine engineer is rebuilding what we burn. Crack the dome over his head."
+    }
+  ],
   "worldWidth": 53,
   "catapultX": 0,
-  "shots": 4,
-  "par": 2,
-  "objective": "killAll",
   "blocks": [
     {
-      "m": "stone",
-      "x": 31.5,
+      "m": "bamboo",
+      "x": 24.2,
       "y": 0,
-      "w": 3.0,
-      "h": 7,
-      "look": "tower",
-      "hp": 0.5
+      "w": 0.35,
+      "h": 2.6
+    },
+    {
+      "m": "bamboo",
+      "x": 24.65,
+      "y": 0,
+      "w": 0.35,
+      "h": 2.6
+    },
+    {
+      "m": "bamboo",
+      "x": 25.1,
+      "y": 0,
+      "w": 0.35,
+      "h": 2.6
+    },
+    {
+      "m": "bamboo",
+      "x": 24.65,
+      "y": 2.6,
+      "w": 1.45,
+      "h": 0.3
     },
     {
       "m": "stone",
-      "x": 35.02,
+      "x": 30.1,
       "y": 0,
-      "w": 4.0,
+      "w": 2.6,
+      "h": 6.0,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "marble",
+      "x": 32.02,
+      "y": 0,
+      "w": 0.6,
+      "h": 2.6,
+      "hp": 0.7
+    },
+    {
+      "m": "wood",
+      "x": 34.62,
+      "y": 0,
+      "w": 0.45,
+      "h": 2.6,
+      "hp": 0.7
+    },
+    {
+      "m": "wood",
+      "x": 33.32,
+      "y": 2.6,
+      "w": 3.4,
+      "h": 0.4,
+      "hp": 1.0
+    },
+    {
+      "m": "bamboo",
+      "x": 32.02,
+      "y": 3.0,
+      "w": 0.4,
+      "h": 2.0
+    },
+    {
+      "m": "bamboo",
+      "x": 34.62,
+      "y": 3.0,
+      "w": 0.4,
+      "h": 2.0
+    },
+    {
+      "m": "wood",
+      "x": 33.32,
+      "y": 5.0,
+      "w": 3.8,
+      "h": 2.0,
+      "look": "pagoda",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 38.02,
+      "y": 0,
+      "w": 3.2,
+      "h": 3.8,
+      "look": "wall",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 40.09,
+      "y": 0,
+      "w": 0.9,
       "h": 3.2,
-      "look": "wall",
-      "hp": 0.45
-    },
-    {
-      "m": "stone",
-      "x": 38.04,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 43.06,
-      "y": 0,
-      "w": 2.0,
-      "h": 4.5,
-      "look": "tower",
-      "hp": 0.3
-    },
-    {
-      "m": "stone",
-      "x": 40.55,
-      "y": 4.5,
-      "w": 7.02,
-      "h": 1.5,
-      "look": "wall",
-      "hp": 1.5
-    },
-    {
-      "m": "stone",
-      "x": 45.58,
-      "y": 0,
-      "w": 3.0,
-      "h": 7.5,
       "look": "tower",
       "hp": 0.6
     },
     {
       "m": "stone",
-      "x": 48.4,
+      "x": 44.01,
+      "y": 0,
+      "w": 0.9,
+      "h": 3.2,
+      "look": "tower",
+      "hp": 0.6
+    },
+    {
+      "m": "stone",
+      "x": 42.05,
+      "y": 3.2,
+      "w": 4.82,
+      "h": 0.6,
+      "look": "wall",
+      "hp": 1.2
+    },
+    {
+      "m": "tile",
+      "x": 42.05,
+      "y": 3.8,
+      "w": 3.6,
+      "h": 2.6,
+      "look": "dome",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 45.88,
+      "y": 0,
+      "w": 2.8,
+      "h": 7.5,
+      "look": "tower",
+      "hp": 0.8
+    },
+    {
+      "m": "wood",
+      "x": 45.88,
+      "y": 7.5,
+      "w": 3.8,
+      "h": 2.0,
+      "look": "pagoda",
+      "hp": 1.0
+    },
+    {
+      "m": "stone",
+      "x": 48.6,
       "y": 0,
       "w": 2.6,
-      "h": 8.5,
+      "h": 10.0,
       "look": "spire",
       "hp": 2
     }
@@ -74,17 +211,49 @@
   "units": [
     {
       "kind": "soldier",
-      "x": 31.5,
-      "y": 7
+      "x": 24.65,
+      "y": 2.9
+    },
+    {
+      "kind": "archer",
+      "x": 30.1,
+      "y": 6.0
+    },
+    {
+      "kind": "legionary",
+      "x": 33.32,
+      "y": 0
+    },
+    {
+      "kind": "engineer",
+      "x": 33.32,
+      "y": 3.0
     },
     {
       "kind": "soldier",
-      "x": 35.02,
-      "y": 3.2
+      "x": 38.02,
+      "y": 3.8
     },
     {
-      "kind": "soldier",
-      "x": 40.56,
+      "kind": "engineer",
+      "x": 42.06,
+      "y": 0
+    },
+    {
+      "kind": "archer",
+      "x": 45.88,
+      "y": 9.5
+    }
+  ],
+  "props": [
+    {
+      "kind": "enemyCatapult",
+      "x": 27.2,
+      "y": 0
+    },
+    {
+      "kind": "powderBarrel",
+      "x": 35.72,
       "y": 0
     }
   ]
